@@ -45,7 +45,19 @@ To use this namespace in a DID Document, include it in the `@context` property:
 ```
 
 ## Contributing
-Contributions are welcome! If you have suggestions for new terms or improvements, please open an issue or submit a pull request.
+We welcome contributions to enhance and expand the OriginVault namespaces. If you have suggestions for new terms, improvements to existing terms, or general feedback, please follow the steps below:
+
+1. **Fork the Repository**: Create a copy of this repository in your GitHub account.
+2. **Make Changes**: Update the JSON-LD files or documentation as needed.
+3. **Submit a Pull Request**: Open a pull request with a clear explanation of your changes.
+4. **Engage in Review**: Be available to discuss and refine your contribution.
+
+### Contribution Guidelines
+- Ensure all changes follow the W3C DID and JSON-LD standards.
+- Provide meaningful descriptions for any new terms.
+- Use version-specific files (`v1`, `v2`, etc.) to maintain backward compatibility.
+
+Thank you for helping improve OriginVault!
 
 ## License
 This repository is licensed under the [MIT License](LICENSE).
