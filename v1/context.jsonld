@@ -1,0 +1,79 @@
+{
+  "@context": {
+    "@version": 1.0,
+    "id": "@id",
+    "type": "@type",
+    "created": "http://schema.org/dateCreated",
+    "updated": "http://schema.org/dateModified",
+    "platformMetadata": {
+      "@id": "https://originvault.io/ns/v1#platformMetadata",
+      "@type": "@json"
+    },
+    "generator": {
+      "@id": "https://originvault.io/ns/v1#generator",
+      "@type": "@json"
+    },
+    "platform": "https://originvault.io/ns/v1#platform",
+    "version": "https://originvault.io/ns/v1#version",
+    "service": "https://originvault.io/ns/v1#service",
+    "generatedBy": "https://originvault.io/ns/v1#generatedBy",
+    "generationDetails": {
+      "@id": "https://originvault.io/ns/v1#generationDetails",
+      "@type": "@json"
+    },
+    "timestamp": "http://schema.org/DateTime",
+    "method": "https://originvault.io/ns/v1#method",
+    "inputs": {
+      "@id": "https://originvault.io/ns/v1#inputs",
+      "@type": "@json"
+    },
+    "namespace": "https://originvault.io/ns/v1#namespace",
+    "authentication": {
+      "@id": "https://w3id.org/security#authenticationMethod",
+      "@container": "@set"
+    },
+    "verificationMethod": {
+      "@id": "https://w3id.org/security#verificationMethod",
+      "@container": "@set"
+    },
+    "keyAgreement": {
+      "@id": "https://w3id.org/security#keyAgreement",
+      "@container": "@set"
+    },
+    "capabilityDelegation": {
+      "@id": "https://w3id.org/security#capabilityDelegation",
+      "@container": "@set"
+    },
+    "capabilityInvocation": {
+      "@id": "https://w3id.org/security#capabilityInvocation",
+      "@container": "@set"
+    },
+    "service": {
+      "@id": "https://w3id.org/security#service",
+      "@container": "@set"
+    },
+    "serviceEndpoint": {
+      "@id": "https://w3id.org/security#serviceEndpoint",
+      "@type": "@json"
+    },
+    "hashes": {
+      "@id": "https://originvault.io/ns/v1#hashes",
+      "@container": "@set"
+    },
+    "hash": "https://originvault.io/ns/v1#hash",
+    "type": "https://originvault.io/ns/v1#type",
+    "position": "https://originvault.io/ns/v1#position",
+    "sequence": {
+      "@id": "https://originvault.io/ns/v1#sequence",
+      "@container": "@list"
+    },
+    "operation": "https://originvault.io/ns/v1#operation",
+    "algorithm": "https://originvault.io/ns/v1#algorithm",
+    "signature": {
+      "@id": "https://w3id.org/security#proof",
+      "@type": "@json"
+    },
+    "value": "https://originvault.io/ns/v1#value",
+    "publicKey": "https://originvault.io/ns/v1#publicKey"
+  }
+}
