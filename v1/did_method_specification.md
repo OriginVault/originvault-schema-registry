@@ -1,8 +1,7 @@
-
 # DID Method Specification for `did:originvault`
 
 ## 1. Abstract
-The `did:originvault` method is designed for decentralized identity and credential management within the OriginVault ecosystem. It enables the creation, resolution, updating, and deactivation of DIDs, leveraging OriginVault namespaces, IPFS, and blockchain technology for secure, scalable, and interoperable identity operations.
+The `did:originvault` method is designed for decentralized identity and credential management within the OriginVault ecosystem. It enables the creation, resolution, updating, and deactivation of DIDs, leveraging OriginVault namespaces, IPFS, Ceramic, and blockchain technology for secure, scalable, and interoperable identity operations.
 
 ---
 
@@ -14,7 +13,8 @@ The `did:originvault` method supports a variety of use cases, including:
 
 Key features include:
 - Support for quantum-safe cryptography.
-- Anchoring of DID documents on IPFS.
+- Anchoring of initial DID creation on IPFS.
+- Dynamic updates managed through Ceramic and blockchain anchoring.
 - Extensible namespaces for domain-specific schema definitions.
 
 ---
@@ -38,16 +38,21 @@ did:originvault:<unique-id>
 
 ### 4.1 Create
 1. A new DID is generated using the OriginVault DID service.
-2. The DID is anchored on Polygon using OriginVault's DID Registry contract
-3. The DID document is constructed and anchored in a Ceramic Document.
+2. A Ceramic document is created, containing the DID document with metadata such as verification methods and service endpoints.
+3. An IPFS record is created to anchor the initial state, containing:
+   - The DID.
+   - The Ceramic document CID.
+   - A cryptographic signature for integrity.
+4. The IPFS CID of this record is stored on the blockchain for immutability and trust.
 
 ### 4.2 Resolve
 - The resolver queries the OriginVault DID registry.
-- If the DID has associated IPFS metadata, it retrieves the latest CID for verification.
+- The initial state is retrieved from the IPFS CID stored on the blockchain for verification.
+- Updates and current metadata are resolved via the Ceramic document.
 
 ### 4.3 Update
-- Updates to a DID document must be signed using the current authentication keys.
-- Changes are anchored in the blockchain and propagate to associated systems (e.g., IPFS, Ceramic).
+- Updates to a DID document are handled through Ceramic and anchored on the blockchain.
+- Changes must be signed using the current authentication keys and follow Ceramic's versioning protocol.
 
 ### 4.4 Deactivate
 - A DID can be deactivated by the controller using the specified key.
@@ -93,15 +98,17 @@ did:originvault:<unique-id>
 ---
 
 ## 6. Security and Privacy Considerations
-- Quantum-safe cryptography is used for authentication.
-- Blockchain anchoring ensures immutability and tamper-proof updates.
-- The DID controller has full access control, including revocation and deactivation.
+- **IPFS Anchoring**: The initial creation state is stored immutably in IPFS, signed by the DID controller.
+- **Dynamic Updates**: Ceramic manages updates with blockchain anchoring to ensure tamper-proof operations.
+- **Quantum-Safe Cryptography**: Ensures authentication and key agreements are resistant to future quantum threats.
+- **Access Control**: The DID controller has full authority over updates, revocation, and deactivation.
 
 ---
 
 ## 7. Infrastructure
-- **Blockchain**: Polygon mainnet anchors all DID operations.
-- **Storage**: Metadata is stored in Ceramic.
+- **IPFS**: Stores the initial DID creation record, including the Ceramic document CID and signature.
+- **Ceramic**: Manages mutable DID document updates with versioning.
+- **Blockchain**: Anchors the IPFS CID and Ceramic updates for auditability.
 - **Namespace Service**: Extends functionality with custom schemas (e.g., `mark`, `token`).
 
 ---
@@ -124,4 +131,15 @@ https://namespaces.originvault.io/v1
 ---
 
 ## 10. Appendix
-Additional resources and examples will be made available in the OriginVault developer documentation.
+
+### Example IPFS Record
+```json
+{
+  "did": "did:originvault:1234abcd",
+  "ceramicCID": "bafy...ceramic",
+  "timestamp": "2024-11-22T12:00:00Z",
+  "signature": "0x123abc...signature"
+}
+```
+
+---
