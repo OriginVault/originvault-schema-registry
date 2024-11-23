@@ -9,9 +9,9 @@
       <img src="https://gray-objective-tiglon-784.mypinata.cloud/ipfs/Qma7EjPPPfomzEKkYcJa2ctEFPUhHaMwiojTR1wTQPg2x8" alt="Description of the Image" width="300" height="300">
 </div>
 
-# [OriginVault](htts://www.originvault.io) JSON-LD Namespaces
+# OriginVault JSON-LD Namespaces
 
-This repository contains JSON-LD context definitions for OriginVault's DID method (`did:originvault`) and its associated custom terms. These namespaces are used to extend the W3C DID Core vocabulary to support OriginVault-specific features, such as generation details, custom metadata, and service definitions.
+This repository contains JSON-LD context definitions for [OriginVault's](htts://www.originvault.io) DID method (`did:originvault`) and its associated custom terms. These namespaces are used to extend the W3C DID Core vocabulary to support OriginVault-specific features, such as generation details, custom metadata, and service definitions.
 
 ## Purpose
 The hosted JSON-LD contexts enable:
@@ -22,7 +22,7 @@ The hosted JSON-LD contexts enable:
 ## Repository Structure
 The repository is organized by namespace version:
 ```
-originvault-ns/
+originvault-namspaces/
 ├── README.md               # Repository overview
 ├── v1/                     # Version 1 of the namespace
 │   ├── context.jsonld      # JSON-LD context for v1
