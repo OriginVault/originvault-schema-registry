@@ -1,5 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://namespaces.originvault.io/v1#vcSchema",
   "title": "OriginVault Verifiable Credential Schema",
   "description": "Schema for verifiable credentials issued within the OriginVault ecosystem.",
   "type": "object",

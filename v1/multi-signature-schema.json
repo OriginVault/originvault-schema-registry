@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://namespaces.originvault.io/v1#multiSignatureSchema",
+  "title": "Multi-Signature Schema",
+  "type": "object",
+  "properties": {
+    "threshold": {
+      "type": "integer",
+      "description": "The minimum weight or number of valid signatures required to authorize an operation.",
+      "minimum": 1
+    },
+    "signatures": {
+      "type": "array",
+      "description": "An array of individual signatures included in the multi-signature operation.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "creator": {
+            "type": "string",
+            "description": "The DID or public key of the signer."
+          },
+          "signatureValue": {
+            "type": "string",
+            "description": "The base64 or hexadecimal representation of the signature."
+          },
+          "role": {
+            "type": "string",
+            "description": "The role of the signer as defined in the Role Schema."
+          },
+          "weight": {
+            "type": "integer",
+            "description": "The weight of this signature in the multi-signature validation.",
+            "minimum": 0
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the signature was created."
+          }
+        },
+        "required": ["creator", "signatureValue", "role", "weight", "timestamp"]
+      }
+    },
+    "operation": {
+      "type": "string",
+      "description": "The operation being authorized (e.g., create, update, delete)."
+    },
+    "algorithm": {
+      "type": "string",
+      "description": "The cryptographic algorithm used for signing (e.g., slh_dsa_256)."
+    },
+    "hashAlgorithm": {
+      "type": "string",
+      "description": "The hashing algorithm used (e.g., BLAKE3)."
+    },
+    "merkleProof": {
+      "type": "object",
+      "description": "Optional Merkle Tree proof for additional validation.",
+      "properties": {
+        "root": {
+          "type": "string",
+          "description": "The Merkle Tree root hash."
+        },
+        "proof": {
+          "type": "array",
+          "description": "An array of sibling hashes for the Merkle proof.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["root", "proof"]
+    }
+  },
+  "required": ["threshold", "signatures", "operation", "algorithm", "hashAlgorithm"],
+  "examples": [
+    {
+      "threshold": 2,
+      "signatures": [
+        {
+          "creator": "did:originvault:example#key-1",
+          "signatureValue": "MEUCIQ...",
+          "role": "owner",
+          "weight": 2,
+          "timestamp": "2024-11-22T12:00:00Z"
+        },
+        {
+          "creator": "did:originvault:example#key-2",
+          "signatureValue": "MEQCIA...",
+          "role": "co-owner",
+          "weight": 1,
+          "timestamp": "2024-11-22T12:01:00Z"
+        }
+      ],
+      "operation": "create",
+      "algorithm": "slh_dsa_256",
+      "hashAlgorithm": "BLAKE3",
+      "merkleProof": {
+        "root": "z6Mk1jABC...",
+        "proof": [
+          "z6Mk1jXYZ...",
+          "z6Mk1jDEF..."
+        ]
+      }
+    }
+  ]
+}

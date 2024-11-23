@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://namespaces.originvault.io/v1#merkleProofSchema",
+  "title": "Merkle Proof Schema",
+  "type": "object",
+  "description": "A schema for validating Merkle Tree proofs.",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of the Merkle proof, such as MerkleTreeProof."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of the Merkle proof schema."
+    },
+    "root": {
+      "type": "string",
+      "description": "The root hash of the Merkle Tree."
+    },
+    "leafNode": {
+      "type": "string",
+      "description": "The specific leaf node being validated in the Merkle Tree."
+    },
+    "proof": {
+      "type": "array",
+      "description": "An array of sibling hashes used to compute the root from the leaf node.",
+      "items": {
+        "type": "string",
+        "description": "A sibling hash in the Merkle proof."
+      }
+    },
+    "direction": {
+      "type": "array",
+      "description": "An array indicating whether each sibling hash is left or right in the proof path.",
+      "items": {
+        "type": "string",
+        "enum": ["left", "right"],
+        "description": "Direction of the sibling hash relative to the current hash in the proof path."
+      }
+    }
+  },
+  "required": ["type", "root", "leafNode", "proof", "direction"],
+  "examples": [
+    {
+      "type": "MerkleTreeProof",
+      "version": "1.0",
+      "root": "0xabcdef1234567890",
+      "leafNode": "0x1234567890abcdef",
+      "proof": [
+        "0x7890abcdef123456",
+        "0x567890abcdef1234"
+      ],
+      "direction": ["left", "right"]
+    }
+  ]
+}

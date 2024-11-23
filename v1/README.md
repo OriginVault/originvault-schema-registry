@@ -18,10 +18,44 @@ The `v1` namespace is the foundation for OriginVault's DID implementation. It pr
 
 ## Documentation
 
-The full DID Method Specification for this version is available here:
-- [DID Method Specification](./did_method_specification.md)
+### Core Specifications
+
+- [DID Method Specification](./did_method_specification.md): Details the processes for creating, resolving, and updating DIDs.
+
+### Supporting Schemas
+
+1. **Multi-Signature Schema** ([View Schema](./multi-signature-schema.json)):
+   - Defines the structure for multi-signature operations, including roles, thresholds, and weights.
+
+2. **Merkle Proof Schema** ([View Schema](./merkle-proof-schema.json)):
+   - Details how to validate cryptographic proofs for Merkle Tree-based operations.
+
+3. **Role Schema** ([View Schema](./role-schema.json)):
+   - Provides a structure for role-based access control, permissions, and weight assignments.
+
+4. **Signature Schema** ([View Schema](./signature-schema.json)):
+   - Describes how cryptographic signatures are generated, validated, and associated with operations.
+
+5. **Token Schema** ([View Schema](./token-schema.json)):
+   - Outlines the format for managing tokens within the OriginVault ecosystem.
+
+6. **Verifiable Credential Schema** ([View Schema](./vc-schema.json)):
+   - Specifies the structure for verifiable credentials, ensuring compliance with W3C standards.
 
 ## Usage
+
+### How to Get Started
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/OriginVault/originvault-namespaces.git
+   ```
+2. Navigate to the `v1` directory:
+   ```bash
+   cd originvault-namespaces/v1
+   ```
+
+### Key Operations
 
 1. **Creating a DID**:
    Follow the steps outlined in the [DID Method Specification](./did_method_specification.md) to generate a new DID.
@@ -32,8 +66,10 @@ The full DID Method Specification for this version is available here:
 3. **Updating a DID**:
    Learn how to securely update DIDs in compliance with the `v1` specification.
 
-## How to Get Started
+## Contributions
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/OriginVault/originvault-namespaces.git
+Contributions to the OriginVault namespace are welcome! Feel free to open issues or submit pull requests for improvements or additional schemas.
+
+---
+
+For more information, visit the [OriginVault website](https://www.originvault.io).

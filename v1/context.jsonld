@@ -48,10 +48,6 @@
       "@id": "https://w3id.org/security#capabilityInvocation",
       "@container": "@set"
     },
-    "service": {
-      "@id": "https://w3id.org/security#service",
-      "@container": "@set"
-    },
     "serviceEndpoint": {
       "@id": "https://w3id.org/security#serviceEndpoint",
       "@type": "@json"
@@ -61,7 +57,6 @@
       "@container": "@set"
     },
     "hash": "https://namespaces.originvault.io/v1#hash",
-    "type": "https://namespaces.originvault.io/v1#type",
     "position": "https://namespaces.originvault.io/v1#position",
     "sequence": {
       "@id": "https://namespaces.originvault.io/v1#sequence",
@@ -74,6 +69,43 @@
       "@type": "@json"
     },
     "value": "https://namespaces.originvault.io/v1#value",
-    "publicKey": "https://namespaces.originvault.io/v1#publicKey"
+    "publicKey": "https://namespaces.originvault.io/v1#publicKey",
+    "multiSignature": {
+      "@id": "https://namespaces.originvault.io/v1#multiSignature",
+      "@type": "@json"
+    },
+    "threshold": "https://namespaces.originvault.io/v1#threshold",
+    "roles": {
+      "@id": "https://namespaces.originvault.io/v1#roles",
+      "@type": "@json"
+    },
+    "role": {
+      "@id": "https://namespaces.originvault.io/v1#role",
+      "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "permissions": {
+      "@id": "https://namespaces.originvault.io/v1#permissions",
+      "@type": "@json"
+    },
+    "weight": {
+      "@id": "https://namespaces.originvault.io/v1#weight",
+      "@type": "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "priority": {
+      "@id": "https://namespaces.originvault.io/v1#priority",
+      "@type": "http://www.w3.org/2001/XMLSchema#integer"
+    },
+    "merkleProof": {
+      "@id": "https://namespaces.originvault.io/v1#merkleProof",
+      "@type": "@json"
+    },
+    "root": {
+      "@id": "https://namespaces.originvault.io/v1#root",
+      "@type": "http://www.w3.org/2001/XMLSchema#string"
+    },
+    "proof": {
+      "@id": "https://namespaces.originvault.io/v1#proof",
+      "@type": "@json"
+    }
   }
 }
