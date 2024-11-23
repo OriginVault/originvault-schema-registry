@@ -1,0 +1,27 @@
+{
+  "@context": [
+    "https://originvault.io/ns/v1",
+    "https://w3id.org/security/v1"
+  ],
+  "id": "did:originvault:identity-service",
+  "type": "IdentityService",
+  "description": "Service for identity verification and DID management.",
+  "serviceEndpoint": {
+    "createDID": {
+      "id": "https://services.originvault.io/create-did",
+      "description": "Endpoint for creating a new DID."
+    },
+    "verifyIdentity": {
+      "id": "https://services.originvault.io/verify-identity",
+      "description": "Endpoint for verifying identity and issuing credentials."
+    },
+    "issueVC": {
+      "id": "https://services.originvault.io/issue-vc",
+      "description": "Endpoint for issuing verifiable credentials to a wallet."
+    }
+  },
+  "supportedSchemas": [
+    "https://originvault.io/schemas/v1/identity-schema.json",
+    "https://originvault.io/schemas/v1/vc-schema.json"
+  ]
+}
