@@ -19,7 +19,7 @@
         "type": "string",
         "enum": [
           "https://www.w3.org/2018/credentials/v1",
-          "https://originvault.io/ns/v1"
+          "https://namespaces.originvault.io/v1"
         ]
       },
       "description": "Contexts relevant to the VC, including the W3C and OriginVault namespaces."

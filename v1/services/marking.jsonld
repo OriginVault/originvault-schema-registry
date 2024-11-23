@@ -1,6 +1,6 @@
 {
   "@context": [
-    "https://originvault.io/ns/v1",
+    "https://namespaces.originvault.io/v1",
     "https://w3id.org/security/v1"
   ],
   "id": "did:originvault:marking-service",
@@ -21,7 +21,7 @@
     }
   },
   "supportedSchemas": [
-    "https://originvault.io/schemas/v1/token-schema.json",
-    "https://originvault.io/schemas/v1/mark-schema.json"
+    "https://namespaces.originvault.io/schemas/v1/token-schema.json",
+    "https://namespaces.originvault.io/schemas/v1/mark-schema.json"
   ]
 }

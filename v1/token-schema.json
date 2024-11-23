@@ -120,7 +120,7 @@
       },
       "validity": {
         "scope": "vault-only",
-        "allowedServices": ["https://originvault.io/mark-content"]
+        "allowedServices": ["https://namespaces.originvault.io/mark-content"]
       }
     }
   ]
