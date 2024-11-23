@@ -61,7 +61,7 @@ did:originvault:<unique-id>
 {
   "@context": [
     "https://www.w3.org/ns/did/v1",
-    "https://originvault.io/ns/v1"
+    "https://www.originvault.io/ns/v1"
   ],
   "id": "did:originvault:1234abcd",
   "authentication": [
