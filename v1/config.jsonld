@@ -1,0 +1,23 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://originvault.io/ns/v1"
+  ],
+  "namespace": "https://namespaces.originvault.io/v1",
+  "method": "did:originvault",
+  "description": "Configuration file for the did:originvault method.",
+  "services": [
+    {
+      "id": "did:originvault:identity-service",
+      "type": "IdentityService",
+      "description": "Service for identity verification and management.",
+      "serviceEndpoint": "https://services.originvault.io/identity-service.jsonld"
+    },
+    {
+      "id": "did:originvault:marking-service",
+      "type": "MarkingService",
+      "description": "Service for content marking and verification.",
+      "serviceEndpoint": "https://services.originvault.io/marking-service.jsonld"
+    }
+  ]
+}
