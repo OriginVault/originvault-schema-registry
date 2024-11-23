@@ -1,4 +1,4 @@
-# OriginVault Namespaces - v1
+# [OriginVault](https://www.originvault.io) Namespaces - v1
 
 Welcome to the `v1` namespace of OriginVault. This namespace defines the initial version of the DID Method Specification for the OriginVault ecosystem, enabling decentralized identifiers (DIDs) for robust and secure interactions.
 
