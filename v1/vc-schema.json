@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OriginVault Verifiable Credential Schema",
+  "description": "Schema for verifiable credentials issued within the OriginVault ecosystem.",
+  "type": "object",
+  "required": [
+    "@context",
+    "id",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "credentialSubject",
+    "proof"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://originvault.io/ns/v1"
+        ]
+      },
+      "description": "Contexts relevant to the VC, including the W3C and OriginVault namespaces."
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "A unique identifier for the credential."
+    },
+    "type": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "VerifiableCredential",
+          "OriginVaultCredential",
+          "IdentityCredential",
+          "WatermarkCredential"
+        ]
+      },
+      "description": "The types of the credential, including specific types defined in OriginVault."
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri",
+      "description": "The DID of the issuer of the credential."
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential was issued."
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential expires, if applicable."
+    },
+    "credentialSubject": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "The DID of the subject of the credential."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the subject, if applicable."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email of the subject, if applicable."
+        },
+        "phone": {
+          "type": "string",
+          "description": "The phone number of the subject, if applicable."
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional metadata about the subject, specific to the OriginVault ecosystem."
+        }
+      },
+      "description": "Information about the subject of the credential."
+    },
+    "proof": {
+      "type": "object",
+      "required": ["type", "created", "proofPurpose", "verificationMethod", "jws"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of proof, such as Ed25519Signature2020."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the proof was created."
+        },
+        "proofPurpose": {
+          "type": "string",
+          "description": "The purpose of the proof, such as 'assertionMethod'."
+        },
+        "verificationMethod": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URI identifying the verification method used to create the proof."
+        },
+        "jws": {
+          "type": "string",
+          "description": "The JSON Web Signature (JWS) representing the proof."
+        }
+      },
+      "description": "The proof used to ensure the integrity and authenticity of the credential."
+    }
+  }
+}
