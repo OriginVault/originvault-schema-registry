@@ -1,4 +1,3 @@
-<div style="background: white">
           ██████╗ ██╗██████╗             ██████╗ ██████╗ ██╗ ██████╗ ██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗   ████████╗
           ██╔══██╗██║██╔══██╗    ██╗    ██╔═══██╗██╔══██╗██║██╔════╝ ██║████╗  ██║██║   ██║██╔══██╗██║   ██║██║   ╚══██╔══╝
           ██║  ██║██║██║  ██║           ██║   ██║██████╔╝██║██║  ███╗██║██╔██╗ ██║██║   ██║███████║██║   ██║██║      ██║   
@@ -6,6 +5,7 @@
           ██████╔╝██║██████╔╝           ╚██████╔╝██║  ██║██║╚██████╔╝██║██║ ╚████║ ╚████╔╝ ██║  ██║╚██████╔╝███████╗ ██║   
           ╚═════╝ ╚═╝╚═════╝             ╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝ ╚═╝   
 
+<div style="background: white">
 <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
       <img src="https://gray-objective-tiglon-784.mypinata.cloud/ipfs/Qma7EjPPPfomzEKkYcJa2ctEFPUhHaMwiojTR1wTQPg2x8" alt="OriginVault logo" width="300" height="300">
 </div>
@@ -15,7 +15,7 @@
     background: linear-gradient(230deg, #212831, #3a6278, #1c2a35, #212831, #000);
   }
 </style>
-
+<markdown>
 # OriginVault JSON-LD Namespaces
 
 This repository contains JSON-LD context definitions for [OriginVault's](https://www.originvault.io) DID method (`did:originvault`) and its associated custom terms. These namespaces are used to extend the W3C DID Core vocabulary to support OriginVault-specific features, such as generation details, custom metadata, and service definitions.
@@ -77,4 +77,5 @@ Thank you for helping improve OriginVault!
 
 ## License
 This repository is licensed under the [MIT License](LICENSE).
+</markdown>
 </div>
