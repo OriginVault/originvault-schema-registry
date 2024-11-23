@@ -24,10 +24,7 @@ originvault-ns/
 The current version of the namespace is `v1`.
 
 ## Hosted URL
-The JSON-LD context for `v1` is publicly accessible at:
-[https://originvault.github.io/originvault-ns/v1/context.jsonld](https://origi.github.io/originvault-ns/v1/context.jsonld)
-or
-[https://originvault.io/ns/v1](https://originvault.io/ns/v1)
+The JSON-LD context for `v1` is publicly accessible at: [https://originvault.io/ns/v1](https://originvault.io/ns/v1)
 
 ## Usage in DID Documents
 To use this namespace in a DID Document, include it in the `@context` property:
@@ -36,7 +33,7 @@ To use this namespace in a DID Document, include it in the `@context` property:
 {
   "@context": [
     "https://www.w3.org/ns/did/v1",
-    "https://originvault.github.io/originvault-ns/v1/context.jsonld" or "https://originvault.io/ns/v1"
+    "https://originvault.io/ns/v1"
   ],
   "id": "did:originvault:123456789abcdefghi",
   "generationDetails": {
