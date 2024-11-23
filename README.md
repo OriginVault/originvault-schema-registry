@@ -1,3 +1,4 @@
+![OriginVault](https://gray-objective-tiglon-784.mypinata.cloud/ipfs/Qma7EjPPPfomzEKkYcJa2ctEFPUhHaMwiojTR1wTQPg2x8)
 
 # OriginVault JSON-LD Namespaces
 
