@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OriginVault Mark Credential Schema",
+  "description": "Schema for marks applied to content, data, or processes for verification, certification, or tracking purposes.",
+  "type": "object",
+  "required": [
+    "@context",
+    "id",
+    "type",
+    "issuer",
+    "issuanceDate",
+    "credentialSubject",
+    "proof"
+  ],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://originvault.io/ns/v1"
+        ]
+      },
+      "description": "Contexts relevant to the VC, including the W3C and OriginVault namespaces."
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "A unique identifier for the credential."
+    },
+    "type": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "VerifiableCredential",
+          "OriginVaultCredential",
+          "MarkCredential"
+        ]
+      },
+      "description": "The types of the credential, including specific types defined in OriginVault."
+    },
+    "issuer": {
+      "type": "string",
+      "format": "uri",
+      "description": "The DID of the issuer of the credential."
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential was issued."
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential expires, if applicable."
+    },
+    "credentialSubject": {
+      "type": "object",
+      "required": ["id", "markType", "details"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "The DID of the subject of the credential."
+        },
+        "markType": {
+          "type": "string",
+          "enum": ["validation", "certification", "tracking", "branding", "authentication"],
+          "description": "The purpose of the mark applied to the content, data, or process."
+        },
+        "details": {
+          "type": "object",
+          "description": "Details about the mark, customized based on the markType.",
+          "properties": {
+            "contentId": {
+              "type": "string",
+              "format": "uri",
+              "description": "The unique identifier for the item being marked (e.g., a document, asset, or process)."
+            },
+            "associatedEntity": {
+              "type": "string",
+              "format": "uri",
+              "description": "The DID of the entity associated with the mark, such as a verifier or certifier."
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "The timestamp when the mark was applied."
+            },
+            "metadata": {
+              "type": "object",
+              "description": "Additional metadata about the mark.",
+              "properties": {
+                "hashAlgorithm": {
+                  "type": "string",
+                  "enum": ["BLAKE3", "SHA256"],
+                  "description": "The hashing algorithm used for content verification."
+                },
+                "verificationHash": {
+                  "type": "string",
+                  "description": "The hash of the marked content for verification."
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "Optional notes about the mark."
+                }
+              }
+            }
+          }
+        }
+      },
+      "description": "Information about the subject of the credential, specifically related to the mark."
+    },
+    "proof": {
+      "type": "object",
+      "required": ["type", "created", "proofPurpose", "verificationMethod", "jws"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of proof, such as Ed25519Signature2020."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the proof was created."
+        },
+        "proofPurpose": {
+          "type": "string",
+          "description": "The purpose of the proof, such as 'assertionMethod'."
+        },
+        "verificationMethod": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URI identifying the verification method used to create the proof."
+        },
+        "jws": {
+          "type": "string",
+          "description": "The JSON Web Signature (JWS) representing the proof."
+        }
+      },
+      "description": "The proof used to ensure the integrity and authenticity of the credential."
+    }
+  }
+}
