@@ -9,6 +9,17 @@
       <img src="https://gray-objective-tiglon-784.mypinata.cloud/ipfs/Qma7EjPPPfomzEKkYcJa2ctEFPUhHaMwiojTR1wTQPg2x8" alt="OriginVault logo" width="300" height="300">
 </div>
 
+<style>
+  body {
+    background-color: #f5f5f5;
+  }
+  .markdown-body {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+</style>
+
 # OriginVault JSON-LD Namespaces
 
 This repository contains JSON-LD context definitions for [OriginVault's](https://www.originvault.io) DID method (`did:originvault`) and its associated custom terms. These namespaces are used to extend the W3C DID Core vocabulary to support OriginVault-specific features, such as generation details, custom metadata, and service definitions.
