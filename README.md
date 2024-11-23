@@ -11,12 +11,7 @@
 
 <style>
   body {
-    background-color: #f5f5f5;
-  }
-  .markdown-body {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
+    background: linear-gradient(230deg, #212831, #3a6278, #1c2a35, #212831, #000);
   }
 </style>
 
