@@ -11,7 +11,7 @@
 
 # OriginVault JSON-LD Namespaces
 
-This repository contains JSON-LD context definitions for [OriginVault's]("htts://www.originvault.io") DID method (`did:originvault`) and its associated custom terms. These namespaces are used to extend the W3C DID Core vocabulary to support OriginVault-specific features, such as generation details, custom metadata, and service definitions.
+This repository contains JSON-LD context definitions for [OriginVault's](https://www.originvault.io) DID method (`did:originvault`) and its associated custom terms. These namespaces are used to extend the W3C DID Core vocabulary to support OriginVault-specific features, such as generation details, custom metadata, and service definitions.
 
 ## Purpose
 The hosted JSON-LD contexts enable:
