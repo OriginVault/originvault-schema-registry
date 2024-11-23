@@ -1,0 +1,27 @@
+{
+  "@context": [
+    "https://originvault.io/ns/v1",
+    "https://w3id.org/security/v1"
+  ],
+  "id": "did:originvault:marking-service",
+  "type": "MarkingService",
+  "description": "Service for content marking and verification.",
+  "serviceEndpoint": {
+    "createMark": {
+      "id": "https://services.originvault.io/create-mark",
+      "description": "Endpoint for creating a mark on content."
+    },
+    "verifyMark": {
+      "id": "https://services.originvault.io/verify-mark",
+      "description": "Endpoint for verifying the authenticity of a mark."
+    },
+    "manageMarkMetadata": {
+      "id": "https://services.originvault.io/manage-mark-metadata",
+      "description": "Endpoint for managing metadata associated with marked content."
+    }
+  },
+  "supportedSchemas": [
+    "https://originvault.io/schemas/v1/token-schema.json",
+    "https://originvault.io/schemas/v1/mark-schema.json"
+  ]
+}
