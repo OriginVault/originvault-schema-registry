@@ -1,73 +1,79 @@
-          ██████╗ ██╗██████╗             ██████╗ ██████╗ ██╗ ██████╗ ██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗   ████████╗
-          ██╔══██╗██║██╔══██╗    ██╗    ██╔═══██╗██╔══██╗██║██╔════╝ ██║████╗  ██║██║   ██║██╔══██╗██║   ██║██║   ╚══██╔══╝
-          ██║  ██║██║██║  ██║           ██║   ██║██████╔╝██║██║  ███╗██║██╔██╗ ██║██║   ██║███████║██║   ██║██║      ██║   
-          ██║  ██║██║██║  ██║    ██╗    ██║   ██║██╔══██╗██║██║   ██║██║██║╚██╗██║╚██╗ ██╔╝██╔══██║██║   ██║██║      ██║   
-          ██████╔╝██║██████╔╝           ╚██████╔╝██║  ██║██║╚██████╔╝██║██║ ╚████║ ╚████╔╝ ██║  ██║╚██████╔╝███████╗ ██║   
-          ╚═════╝ ╚═╝╚═════╝             ╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝ ╚═╝   
+                         ██████╗ ██████╗ ██╗ ██████╗ ██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗ 
+                        ██╔═══██╗██╔══██╗██║██╔════╝ ██║████╗  ██║██║   ██║██╔══██╗██║   ██║██║  ╚══██╔══╝ 
+                        ██║   ██║██████╔╝██║██║  ███╗██║██╔██╗ ██║██║   ██║███████║██║   ██║██║     ██║  
+                        ██║   ██║██╔══██╗██║██║   ██║██║██║╚██╗██║╚██╗ ██╔╝██╔══██║██║   ██║██║     ██║ 
+                        ╚██████╔╝██║  ██║██║╚██████╔╝██║██║ ╚████║ ╚████╔╝ ██║  ██║╚██████╔╝███████╗██║
+                         ╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝   
 
 <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
       <img src="https://gray-objective-tiglon-784.mypinata.cloud/ipfs/Qma7EjPPPfomzEKkYcJa2ctEFPUhHaMwiojTR1wTQPg2x8" alt="OriginVault logo" width="300" height="300">
 </div>
 
-# OriginVault JSON-LD Namespaces
-
-This repository contains JSON-LD context definitions for [OriginVault's](https://www.originvault.io) DID method (`did:originvault`) and its associated custom terms. These namespaces are used to extend the W3C DID Core vocabulary to support OriginVault-specific features, such as generation details, custom metadata, and service definitions.
+This repository serves as the **drafting and collaboration zone** for schemas intended to be incorporated into the **OriginVault Namespace**. It provides a structured environment for defining, reviewing, and refining JSON-LD schemas before they are pushed to the main OriginVault schema registry.
 
 ## Purpose
-The hosted JSON-LD contexts enable:
-- **Extensibility**: Define custom terms for use in DID Documents and related data.
-- **Interoperability**: Allow third-party systems to interpret and interact with OriginVault-specific data.
-- **Versioning**: Maintain backward compatibility with versioned namespaces.
+The schema registry enables:
+- **Collaboration**: Allows developers and contributors to propose and iterate on schema definitions.
+- **Version Control**: Ensures schemas maintain backward compatibility through structured versioning.
+- **Interoperability**: Facilitates schema standardization to support third-party system integrations.
+- **Review & Approval**: Provides a space for governance and validation before schemas are published.
 
 ## Repository Structure
-The repository is organized by namespace version:
+The repository is organized by schema versions:
 ```
-originvault-namspaces/
+originvault-schema-registry/
 ├── README.md               # Repository overview
-├── v1/                     # Version 1 of the namespace
+├── drafts/                 # Working drafts for new schemas
+│   ├── schema-example.json # Example schema draft
+├── v1/                     # Version 1 of approved schemas
 │   ├── context.jsonld      # JSON-LD context for v1
-├── v2/                     # Version 2 of the namespace (future)
+├── v2/                     # Version 2 of approved schemas (future)
 │   ├── context.jsonld      # JSON-LD context for v2
 ```
 
-## Current Version
-The current version of the namespace is `v1`.
+## Current Status
+The latest approved schema version is `v1`. Drafts currently under review can be found in the `drafts/` folder.
 
 ## Hosted URL
-The JSON-LD context for `v1` is publicly accessible at: [https://namespaces.originvault.io/v1](https://namespaces.originvault.io/v1)
+Once a schema is approved and pushed into the OriginVault namespace, it will be publicly accessible at:
+[https://schemas.originvault.io/v1](https://schemas.originvault.io/v1)
 
-## Usage in DID Documents
-To use this namespace in a DID Document, include it in the `@context` property:
+## Usage
+To use an approved schema, include it in the `@context` property of your JSON-LD data:
 
 ```json
 {
   "@context": [
-    "https://www.w3.org/ns/did/v1",
-    "https://namespaces.originvault.io/v1"
+    "https://schemas.originvault.io/v1"
   ],
-  "id": "did:originvault:123456789abcdefghi",
-  "generationDetails": {
-    "timestamp": "2024-11-22T12:34:56.789Z",
-    "method": "blake3-hashing"
+  "type": "CredentialSchema",
+  "schema": {
+    "name": "ContentCredential",
+    "version": "1.0",
+    "attributes": [
+      { "name": "creator", "type": "string" },
+      { "name": "createdAt", "type": "date" },
+      { "name": "signature", "type": "string" }
+    ]
   }
 }
 ```
 
 ## Contributing
-We welcome contributions to enhance and expand the OriginVault namespaces. If you have suggestions for new terms, improvements to existing terms, or general feedback, please follow the steps below:
+We welcome contributions to improve and expand the OriginVault schema registry. If you have suggestions for new schemas, updates to existing ones, or feedback, please follow these steps:
 
-1. **Fork the Repository**: Create a copy of this repository in your GitHub account.
-2. **Make Changes**: Update the JSON-LD files or documentation as needed.
-3. **Submit a Pull Request**: Open a pull request with a clear explanation of your changes.
-4. **Engage in Review**: Be available to discuss and refine your contribution.
+1. **Fork the Repository**: Create a copy in your GitHub account.
+2. **Draft a Schema**: Add your proposed schema to the `drafts/` directory.
+3. **Submit a Pull Request**: Provide a clear explanation of the schema and its intended use.
+4. **Engage in Review**: Be available for discussions and refinements before approval.
 
 ### Contribution Guidelines
-- Ensure all changes follow the W3C DID and JSON-LD standards.
-- Provide meaningful descriptions for any new terms.
-- Use version-specific files (`v1`, `v2`, etc.) to maintain backward compatibility.
+- Follow **JSON-LD standards** and ensure compliance with OriginVault schema structures.
+- Clearly define **attributes, types, and expected behavior** for each schema.
+- Place new schemas in the `drafts/` directory until they are reviewed and approved.
+- Approved schemas will be moved to the appropriate version folder (`v1`, `v2`, etc.).
 
-Thank you for helping improve OriginVault!
+Thank you for contributing to the OriginVault schema ecosystem!
 
 ## License
 This repository is licensed under the [MIT License](LICENSE).
-</div>
