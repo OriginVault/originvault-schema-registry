@@ -32,7 +32,7 @@ originvault-schema-registry/
 ```
 
 ## Current Status
-The latest approved schema version is `v1`. Drafts currently under review can be found in the `drafts/` folder.
+Drafts currently under review can be found in the `drafts/` folder.
 
 ## Hosted URL
 Once a schema is approved and pushed into the OriginVault namespace, it will be publicly accessible at:
