@@ -8,7 +8,7 @@
 <div style="width: 100%; display: flex; justify-content: center; align-items: center;">
       <img src="https://gray-objective-tiglon-784.mypinata.cloud/ipfs/Qma7EjPPPfomzEKkYcJa2ctEFPUhHaMwiojTR1wTQPg2x8" alt="OriginVault logo" width="300" height="300">
 </div>
-
+<br />
 This repository serves as the **drafting and collaboration zone** for schemas intended to be incorporated into the **OriginVault Namespace**. It provides a structured environment for defining, reviewing, and refining JSON-LD schemas before they are pushed to the main OriginVault schema registry.
 
 ## Purpose
