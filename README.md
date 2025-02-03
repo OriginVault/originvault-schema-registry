@@ -36,7 +36,7 @@ Drafts currently under review can be found in the `drafts/` folder.
 
 ## Hosted URL
 Once a schema is approved and pushed into the OriginVault namespace, it will be publicly accessible at:
-[https://schemas.originvault.io/v1](https://schemas.originvault.io/v1)
+[https://schemas.originvault.box/v1](https://schemas.originvault.box/v1)
 
 ## Usage
 To use an approved schema, include it in the `@context` property of your JSON-LD data:
@@ -44,7 +44,7 @@ To use an approved schema, include it in the `@context` property of your JSON-LD
 ```json
 {
   "@context": [
-    "https://schemas.originvault.io/v1"
+    "https://schemas.originvault.box/v1"
   ],
   "type": "CredentialSchema",
   "schema": {
