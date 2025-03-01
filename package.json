@@ -1,6 +1,6 @@
 {
   "name": "@originvault/ov-types",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-alpha.2",
   "description": "A collection of JSON-LD schemas for the OriginVault ecosystem.",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -9,8 +9,9 @@
     "drafts/"
   ],
   "scripts": {
-    "generate-types": "json2ts -i drafts/ -o types/",
-    "build": "npm run generate-types && tsc",
+    "generate-types": "rm -rf types && json2ts -i drafts/ -o types/",
+    "export-types": "node exportTypes.js",
+    "build": "npm run generate-types && npm run export-types",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
