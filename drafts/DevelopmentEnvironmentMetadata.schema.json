@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://schemas.originvault.box/DevelopmentEnvironmentMetadata.schema.json",
+  "title": "Development Environment Metadata",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "description": "The development environment or platform used (e.g., 'Node.js v14.17.0')."
+    },
+    "libraries": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "description": "Version of the library or package used."
+      },
+      "description": "A mapping of libraries or packages used, along with their versions."
+    },
+    "buildTool": {
+      "type": "string",
+      "description": "The tool used for building or compiling the project (e.g., 'webpack v5.38.1')."
+    },
+    "commitHash": {
+      "type": "string",
+      "description": "The Git commit hash corresponding to the codebase at the time of credential issuance."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential was generated."
+    },
+    "operatingSystem": {
+      "type": "string",
+      "description": "The operating system used in the development environment (e.g., 'Ubuntu 20.04')."
+    },
+    "hostname": {
+      "type": "string",
+      "description": "The hostname of the machine running the development environment."
+    },
+    "ipAddress": {
+      "type": "string",
+      "description": "The IP address of the machine running the development environment."
+    }
+  },
+  "required": ["environment", "libraries", "timestamp"]
+}

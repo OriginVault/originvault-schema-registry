@@ -17,38 +17,22 @@ export interface DIDAssertionCredential {
   /**
    * The entity that issued the credential.
    */
-  issuer: string;
-  /**
-   * The date and time the credential was issued.
-   */
-  issuanceDate: string;
-  credentialSubject: DIDAssertionCredentialSubject;
-  /**
-   * The proof used to verify the credential.
-   */
-  proof: {
+  issuer: {
     /**
-     * The type of proof, e.g., 'Ed25519Signature2018'.
+     * The unique identifier for the issuer.
      */
-    type: string;
-    /**
-     * The date and time the proof was created.
-     */
-    created: string;
-    /**
-     * The purpose of the proof, e.g., 'assertionMethod'.
-     */
-    proofPurpose: string;
-    /**
-     * The method used to verify the proof.
-     */
-    verificationMethod: string;
-    /**
-     * The JSON Web Signature of the proof.
-     */
-    jws: string;
+    id: string;
     [k: string]: unknown;
   };
+  credentialSubject: DIDAssertionCredentialSubject;
+  /**
+   * The context of the credential.
+   */
+  "@context": string[];
+  /**
+   * The expiration date of the credential.
+   */
+  expirationDate: string;
   [k: string]: unknown;
 }
 /**
