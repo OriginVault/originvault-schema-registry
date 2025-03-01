@@ -10,10 +10,44 @@ export interface DevelopmentEnvironmentMetadata {
    * The development environment or platform used (e.g., 'Node.js v14.17.0').
    */
   environment: string;
+  packageJson: {
+    name: string;
+    version: string;
+    organization: string;
+    description?: string;
+    main?: string;
+    type?: string;
+    files?: string[];
+    scripts?: {
+      [k: string]: string;
+    };
+    repository?: {
+      type: string;
+      url: string;
+      [k: string]: unknown;
+    };
+    license?: string;
+    engines?: {
+      [k: string]: string;
+    };
+    keywords?: string[];
+    homepage?: string;
+    dependencies?: {
+      [k: string]: string;
+    };
+    devDependencies?: {
+      [k: string]: string;
+    };
+    "lint-staged"?: {
+      [k: string]: string;
+    };
+    _id?: string;
+    [k: string]: unknown;
+  };
   /**
    * A mapping of libraries or packages used, along with their versions.
    */
-  libraries: {
+  libraries?: {
     /**
      * Version of the library or package used.
      */

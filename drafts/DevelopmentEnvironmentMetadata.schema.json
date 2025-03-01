@@ -8,6 +8,57 @@
       "type": "string",
       "description": "The development environment or platform used (e.g., 'Node.js v14.17.0')."
     },
+    "packageJson": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "organization": { "type": "string" },
+        "description": { "type": "string" },
+        "main": { "type": "string" },
+        "type": { "type": "string" },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scripts": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "repository": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "url": { "type": "string" }
+          },
+          "required": ["type", "url"]
+        },
+        "license": { "type": "string" },
+        "engines": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "homepage": { "type": "string" },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "devDependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "lint-staged": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "_id": { "type": "string" }
+      },
+      "required": ["name", "version", "organization"]
+    },
     "libraries": {
       "type": "object",
       "additionalProperties": {
@@ -42,5 +93,5 @@
       "description": "The hashed IP address of the machine running the development environment."
     }
   },
-  "required": ["environment", "libraries", "timestamp"]
+  "required": ["environment", "packageJson", "timestamp"]
 }
