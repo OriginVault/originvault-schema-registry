@@ -9,7 +9,14 @@
       <img src="https://gray-objective-tiglon-784.mypinata.cloud/ipfs/Qma7EjPPPfomzEKkYcJa2ctEFPUhHaMwiojTR1wTQPg2x8" alt="OriginVault logo" width="300" height="300">
 </div>
 <br />
-This repository serves as the **drafting and collaboration zone** for schemas intended to be incorporated into the **OriginVault Namespace**. It provides a structured environment for defining, reviewing, and refining JSON-LD schemas before they are pushed to the main OriginVault schema registry.
+This repository serves as the **drafting and collaboration zone** for schemas intended to be incorporated into the **OriginVault Namespace**. It provides a structured environment for defining, reviewing, and refining JSON-LD schemas before they are pushed to the main OriginVault schema registry. The purpose is to provide a framework for open verifiable types that can be used beyond the OriginVault ecosystem.
+
+## 📦 Installation
+
+```bash
+npm install @originvault/ov-types
+```
+
 
 ## Purpose
 The schema registry enables:
