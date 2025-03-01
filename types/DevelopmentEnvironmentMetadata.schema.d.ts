@@ -32,15 +32,15 @@ export interface DevelopmentEnvironmentMetadata {
    */
   timestamp: string;
   /**
-   * The operating system used in the development environment (e.g., 'Ubuntu 20.04').
+   * A generic description of the operating system used in the development environment (e.g., 'Linux-based OS').
    */
   operatingSystem?: string;
   /**
-   * The hostname of the machine running the development environment.
+   * The hashed hostname of the machine running the development environment.
    */
   hostname?: string;
   /**
-   * The IP address of the machine running the development environment.
+   * The hashed IP address of the machine running the development environment.
    */
   ipAddress?: string;
   [k: string]: unknown;

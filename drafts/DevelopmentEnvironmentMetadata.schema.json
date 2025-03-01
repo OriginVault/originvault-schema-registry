@@ -31,15 +31,15 @@
     },
     "operatingSystem": {
       "type": "string",
-      "description": "The operating system used in the development environment (e.g., 'Ubuntu 20.04')."
+      "description": "A generic description of the operating system used in the development environment (e.g., 'Linux-based OS')."
     },
     "hostname": {
       "type": "string",
-      "description": "The hostname of the machine running the development environment."
+      "description": "The hashed hostname of the machine running the development environment."
     },
     "ipAddress": {
       "type": "string",
-      "description": "The IP address of the machine running the development environment."
+      "description": "The hashed IP address of the machine running the development environment."
     }
   },
   "required": ["environment", "libraries", "timestamp"]
