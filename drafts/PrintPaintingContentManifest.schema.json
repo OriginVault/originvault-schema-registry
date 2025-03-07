@@ -1,0 +1,192 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Print/Painting Content Manifest",
+  "type": "object",
+  "properties": {
+    "mediaType": {
+      "type": "string",
+      "title": "Media Type",
+      "default": "image/jpeg",
+      "readOnly": true
+    },
+    "fileSize": {
+      "type": "integer",
+      "title": "File Size (bytes)",
+      "readOnly": true
+    },
+    "creator": {
+      "type": "string",
+      "title": "Artist Name"
+    },
+    "digitizationDetails": {
+      "type": "object",
+      "title": "Digitization Details",
+      "properties": {
+        "originalMedium": {
+          "type": "string",
+          "title": "Original Medium (e.g., oil painting, watercolor)"
+        },
+        "scanResolution": {
+          "type": "string",
+          "title": "Scan Resolution (e.g., 300 dpi)"
+        },
+        "digitizedDate": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Digitization Date"
+        }
+      },
+      "required": ["originalMedium", "scanResolution"]
+    },
+    "identityAssertions": {
+      "type": "array",
+      "title": "Identity Assertions",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["Twitter", "LinkedIn", "Website"],
+            "title": "Identity Type"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "title": "Profile URL or Identifier"
+          }
+        },
+        "required": ["type", "url"]
+      }
+    },
+    "creativeWork": {
+      "type": "object",
+      "title": "Creative Work Assertion",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "default": "https://schema.org",
+          "readOnly": true
+        },
+        "@type": {
+          "type": "string",
+          "default": "CreativeWork",
+          "readOnly": true
+        },
+        "creator": {
+          "type": "string",
+          "title": "Artist Name"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Creation Date"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description of Artwork"
+        }
+      },
+      "required": ["creator", "dateCreated"]
+    },
+    "metadata": {
+      "type": "object",
+      "title": "Metadata & Licensing",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "title": "Tags/Keywords",
+          "items": { "type": "string" }
+        },
+        "license": {
+          "type": "string",
+          "enum": ["Copyright", "CC BY", "CC BY-NC", "Public Domain"],
+          "title": "License Type"
+        },
+        "externalLicenseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "License URL"
+        },
+        "usageRestrictions": {
+          "type": "string",
+          "title": "Usage Restrictions"
+        },
+        "attribution": {
+          "type": "string",
+          "title": "Additional Attribution or Credits"
+        }
+      },
+      "required": ["license"]
+    },
+    "aiPermissions": {
+      "type": "object",
+      "title": "AI/ML Permissions",
+      "properties": {
+        "dataMining": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "Data Mining"
+        },
+        "aiInference": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Inference"
+        },
+        "aiTraining": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Training (Generative)"
+        },
+        "aiTrainingNonGenerative": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Training (Non-generative)"
+        },
+        "constraintsInfo": {
+          "type": "string",
+          "title": "Additional Constraints",
+          "description": "Provide additional constraints if any permission is set to constrained"
+        }
+      },
+      "required": ["dataMining", "aiInference", "aiTraining", "aiTrainingNonGenerative"]
+    },
+    "contentVersion": {
+      "type": "string",
+      "title": "Content Version",
+      "default": "v1.0"
+    },
+    "externalReferences": {
+      "type": "array",
+      "title": "External References",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "title": "URL"
+          }
+        },
+        "required": ["url"]
+      }
+    }
+  },
+  "required": [
+    "mediaType",
+    "fileSize",
+    "creator",
+    "digitizationDetails",
+    "creativeWork",
+    "metadata",
+    "aiPermissions",
+    "contentVersion"
+  ]
+} 

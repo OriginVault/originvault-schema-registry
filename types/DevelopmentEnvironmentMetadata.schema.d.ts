@@ -45,15 +45,6 @@ export interface DevelopmentEnvironmentMetadata {
     [k: string]: unknown;
   };
   /**
-   * A mapping of libraries or packages used, along with their versions.
-   */
-  libraries?: {
-    /**
-     * Version of the library or package used.
-     */
-    [k: string]: string;
-  };
-  /**
    * The tool used for building or compiling the project (e.g., 'webpack v5.38.1').
    */
   buildTool?: string;

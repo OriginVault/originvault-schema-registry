@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Digital Sculpture / 3D Art Content Manifest",
+  "type": "object",
+  "properties": {
+    "mediaType": {
+      "type": "string",
+      "title": "Media Type",
+      "default": "model/gltf+json",
+      "readOnly": true
+    },
+    "fileSize": {
+      "type": "integer",
+      "title": "File Size (bytes)",
+      "readOnly": true
+    },
+    "creator": {
+      "type": "string",
+      "title": "Artist Name"
+    },
+    "fileFormat": {
+      "type": "string",
+      "title": "3D File Format",
+      "enum": ["glTF", "OBJ", "FBX", "STL"]
+    },
+    "softwareUsed": {
+      "type": "string",
+      "title": "Software or Rendering Engine"
+    },
+    "creativeWork": {
+      "type": "object",
+      "title": "Creative Work Assertion",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "default": "https://schema.org",
+          "readOnly": true
+        },
+        "@type": {
+          "type": "string",
+          "default": "CreativeWork",
+          "readOnly": true
+        },
+        "creator": {
+          "type": "string",
+          "title": "Artist Name"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Creation Date"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description"
+        }
+      },
+      "required": ["creator", "dateCreated"]
+    },
+    "metadata": {
+      "type": "object",
+      "title": "Metadata & Licensing",
+      "properties": {
+        "license": {
+          "type": "string",
+          "enum": ["Copyright", "CC BY", "CC BY-NC", "Public Domain"],
+          "title": "License Type"
+        },
+        "externalLicenseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "License URL"
+        },
+        "usageRestrictions": {
+          "type": "string",
+          "title": "Usage Restrictions"
+        }
+      },
+      "required": ["license"]
+    },
+    "aiPermissions": {
+      "type": "object",
+      "title": "AI/ML Permissions",
+      "properties": {
+        "dataMining": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "Data Mining"
+        },
+        "aiInference": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Inference"
+        },
+        "aiTraining": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Training (Generative)"
+        },
+        "aiTrainingNonGenerative": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Training (Non-generative)"
+        },
+        "constraintsInfo": {
+          "type": "string",
+          "title": "Additional Constraints",
+          "description": "Provide additional constraints if any permission is set to constrained"
+        }
+      },
+      "required": ["dataMining", "aiInference", "aiTraining", "aiTrainingNonGenerative"]
+    },
+    "contentVersion": {
+      "type": "string",
+      "title": "Content Version",
+      "default": "v1.0"
+    },
+    "externalReferences": {
+      "type": "array",
+      "title": "External References",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "title": "URL"
+          }
+        },
+        "required": ["url"]
+      }
+    }
+  },
+  "required": [
+    "mediaType",
+    "fileSize",
+    "creator",
+    "fileFormat",
+    "softwareUsed",
+    "creativeWork",
+    "metadata",
+    "aiPermissions",
+    "contentVersion"
+  ]
+} 

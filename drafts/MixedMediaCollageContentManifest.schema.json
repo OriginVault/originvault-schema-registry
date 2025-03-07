@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Mixed Media / Collage Content Manifest",
+  "type": "object",
+  "properties": {
+    "creator": {
+      "type": "string",
+      "title": "Artist Name"
+    },
+    "contentElements": {
+      "type": "array",
+      "title": "Content Elements",
+      "items": {
+        "type": "object",
+        "properties": {
+          "elementType": {
+            "type": "string",
+            "enum": ["Image", "Video", "Audio", "Text"],
+            "title": "Element Type"
+          },
+          "mediaType": {
+            "type": "string",
+            "title": "Media Type"
+          },
+          "fileSize": {
+            "type": "integer",
+            "title": "File Size (bytes)"
+          },
+          "creativeWork": {
+            "type": "object",
+            "title": "Creative Work Assertion",
+            "properties": {
+              "@context": {
+                "type": "string",
+                "default": "https://schema.org",
+                "readOnly": true
+              },
+              "@type": {
+                "type": "string",
+                "default": "CreativeWork",
+                "readOnly": true
+              },
+              "description": {
+                "type": "string",
+                "title": "Description"
+              },
+              "dateCreated": {
+                "type": "string",
+                "format": "date-time",
+                "title": "Creation Date"
+              }
+            },
+            "required": ["description", "dateCreated"]
+          }
+        },
+        "required": ["elementType", "mediaType", "fileSize", "creativeWork"]
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "title": "Metadata & Licensing",
+      "properties": {
+        "license": {
+          "type": "string",
+          "enum": ["Copyright", "CC BY", "CC BY-NC", "Public Domain"],
+          "title": "License Type"
+        },
+        "externalLicenseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "License URL"
+        }
+      },
+      "required": ["license"]
+    },
+    "aiPermissions": {
+      "type": "object",
+      "title": "AI/ML Permissions",
+      "properties": {
+        "dataMining": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "Data Mining"
+        },
+        "aiInference": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Inference"
+        }
+      },
+      "required": ["dataMining", "aiInference"]
+    },
+    "contentVersion": {
+      "type": "string",
+      "title": "Content Version",
+      "default": "v1.0"
+    }
+  },
+  "required": ["creator", "contentElements", "metadata", "aiPermissions", "contentVersion"]
+} 

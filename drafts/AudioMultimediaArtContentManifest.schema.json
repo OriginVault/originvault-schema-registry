@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Audio/Multimedia Art Content Manifest",
+  "type": "object",
+  "properties": {
+    "mediaType": {
+      "type": "string",
+      "title": "Media Type",
+      "default": "audio/mpeg",
+      "readOnly": true
+    },
+    "fileSize": {
+      "type": "integer",
+      "title": "File Size (bytes)",
+      "readOnly": true
+    },
+    "creator": {
+      "type": "string",
+      "title": "Artist/Composer Name"
+    },
+    "audioMetadata": {
+      "type": "object",
+      "title": "Audio Metadata",
+      "properties": {
+        "duration": {
+          "type": "string",
+          "title": "Duration (e.g., 00:03:45)"
+        },
+        "bitRate": {
+          "type": "number",
+          "title": "Bit Rate (kbps)"
+        },
+        "sampleRate": {
+          "type": "number",
+          "title": "Sample Rate (Hz)"
+        }
+      },
+      "required": ["duration", "bitRate"]
+    },
+    "creativeWork": {
+      "type": "object",
+      "title": "Creative Work Assertion",
+      "properties": {
+        "@context": {
+          "type": "string",
+          "default": "https://schema.org",
+          "readOnly": true
+        },
+        "@type": {
+          "type": "string",
+          "default": "CreativeWork",
+          "readOnly": true
+        },
+        "creator": {
+          "type": "string",
+          "title": "Artist/Composer Name"
+        },
+        "dateCreated": {
+          "type": "string",
+          "format": "date-time",
+          "title": "Creation Date"
+        },
+        "description": {
+          "type": "string",
+          "title": "Description"
+        }
+      },
+      "required": ["creator", "dateCreated"]
+    },
+    "metadata": {
+      "type": "object",
+      "title": "Metadata & Licensing",
+      "properties": {
+        "license": {
+          "type": "string",
+          "enum": ["Copyright", "CC BY", "CC BY-NC", "Public Domain"],
+          "title": "License Type"
+        },
+        "externalLicenseUrl": {
+          "type": "string",
+          "format": "uri",
+          "title": "License URL"
+        },
+        "usageRestrictions": {
+          "type": "string",
+          "title": "Usage Restrictions"
+        }
+      },
+      "required": ["license"]
+    },
+    "aiPermissions": {
+      "type": "object",
+      "title": "AI/ML Permissions",
+      "properties": {
+        "dataMining": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "Data Mining"
+        },
+        "aiInference": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Inference"
+        },
+        "aiTraining": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Training (Generative)"
+        },
+        "aiTrainingNonGenerative": {
+          "type": "string",
+          "enum": ["allowed", "notAllowed", "constrained"],
+          "default": "notAllowed",
+          "title": "AI Training (Non-generative)"
+        },
+        "constraintsInfo": {
+          "type": "string",
+          "title": "Additional Constraints",
+          "description": "Provide additional constraints if any permission is set to constrained"
+        }
+      },
+      "required": ["dataMining", "aiInference", "aiTraining", "aiTrainingNonGenerative"]
+    },
+    "contentVersion": {
+      "type": "string",
+      "title": "Content Version",
+      "default": "v1.0"
+    },
+    "externalReferences": {
+      "type": "array",
+      "title": "External References",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "title": "URL"
+          }
+        },
+        "required": ["url"]
+      }
+    }
+  },
+  "required": [
+    "mediaType",
+    "fileSize",
+    "creator",
+    "audioMetadata",
+    "creativeWork",
+    "metadata",
+    "aiPermissions",
+    "contentVersion"
+  ]
+} 
