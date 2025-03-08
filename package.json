@@ -1,6 +1,6 @@
 {
   "name": "@originvault/ov-types",
-  "version": "0.0.1-alpha.11",
+  "version": "0.0.1-alpha.13",
   "description": "A collection of JSON-LD schemas for the OriginVault ecosystem.",
   "main": "index.js",
   "types": "types/index.d.ts",

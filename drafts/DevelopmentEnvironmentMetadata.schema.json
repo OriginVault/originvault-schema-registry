@@ -59,14 +59,6 @@
       },
       "required": ["name", "version", "organization"]
     },
-    "libraries": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string",
-        "description": "Version of the library or package used."
-      },
-      "description": "A mapping of libraries or packages used, along with their versions."
-    },
     "buildTool": {
       "type": "string",
       "description": "The tool used for building or compiling the project (e.g., 'webpack v5.38.1')."
