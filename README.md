@@ -17,6 +17,11 @@ This repository serves as the **drafting and collaboration zone** for schemas in
 npm install @originvault/ov-types
 ```
 
+## Usage
+
+```ts
+import { DIDDocument, OneVeridaProfile, VerifiableCredential, VerifiablePresentation } from "@originvault/ov-types";
+```
 
 ## Purpose
 The schema registry enables:

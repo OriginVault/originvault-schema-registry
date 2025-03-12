@@ -1,18 +1,23 @@
 {
   "name": "@originvault/ov-types",
-  "version": "0.0.1-alpha.13",
+  "version": "0.0.5",
   "description": "A collection of JSON-LD schemas for the OriginVault ecosystem.",
-  "main": "index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "homepage": "https://schemas.originvault.box",
   "files": [
-    "types/",
-    "drafts/"
+    "dist",
+    "index.d.ts",
+    "schemas/**/*"
   ],
   "scripts": {
-    "generate-types": "rm -rf types && json2ts -i drafts/ -o types/",
-    "export-types": "node exportTypes.js",
-    "build": "npm run generate-types && npm run export-types",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf dist",
+    "export-types": "npx tsx exportTypes.ts",
+    "build": "tsc -p .",
+    "prebuild": "npm run clean",
+    "postbuild": "npm run export-types",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -33,6 +38,10 @@
   },
   "devDependencies": {
     "json-schema-to-typescript": "^15.0.4",
-    "typescript": "^4.5.4"
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@openverifiable/open-verifiable-types": "^0.0.7"
   }
 }

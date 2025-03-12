@@ -1,0 +1,181 @@
+<<<<<<< HEAD
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://schemas.originvault.box/DevelopmentEnvironmentMetadata.schema.json",
+  "title": "Development Environment Metadata",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "description": "The development environment or platform used (e.g., 'Node.js v14.17.0')."
+    },
+    "packageJson": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "organization": { "type": "string" },
+        "description": { "type": "string" },
+        "main": { "type": "string" },
+        "type": { "type": "string" },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scripts": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "repository": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "url": { "type": "string" }
+          },
+          "required": ["type", "url"]
+        },
+        "license": { "type": "string" },
+        "engines": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "homepage": { "type": "string" },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "devDependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "lint-staged": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "_id": { "type": "string" }
+      },
+      "required": ["name", "version", "organization"]
+    },
+    "buildTool": {
+      "type": "string",
+      "description": "The tool used for building or compiling the project (e.g., 'webpack v5.38.1')."
+    },
+    "commitHash": {
+      "type": "string",
+      "description": "The Git commit hash corresponding to the codebase at the time of credential issuance."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential was generated."
+    },
+    "operatingSystem": {
+      "type": "string",
+      "description": "A generic description of the operating system used in the development environment (e.g., 'Linux-based OS')."
+    },
+    "hostname": {
+      "type": "string",
+      "description": "The hashed hostname of the machine running the development environment."
+    },
+    "ipAddress": {
+      "type": "string",
+      "description": "The hashed IP address of the machine running the development environment."
+    }
+  },
+  "required": ["environment", "packageJson", "timestamp"]
+}
+=======
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://schemas.originvault.box/DevelopmentEnvironmentMetadata.schema.json",
+  "title": "Development Environment Metadata",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "description": "The development environment or platform used (e.g., 'Node.js v14.17.0')."
+    },
+    "packageJson": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "organization": { "type": "string" },
+        "description": { "type": "string" },
+        "main": { "type": "string" },
+        "type": { "type": "string" },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scripts": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "repository": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "url": { "type": "string" }
+          },
+          "required": ["type", "url"]
+        },
+        "license": { "type": "string" },
+        "engines": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "homepage": { "type": "string" },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "devDependencies": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "lint-staged": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "_id": { "type": "string" }
+      },
+      "required": ["name", "version", "organization"]
+    },
+    "buildTool": {
+      "type": "string",
+      "description": "The tool used for building or compiling the project (e.g., 'webpack v5.38.1')."
+    },
+    "commitHash": {
+      "type": "string",
+      "description": "The Git commit hash corresponding to the codebase at the time of credential issuance."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential was generated."
+    },
+    "operatingSystem": {
+      "type": "string",
+      "description": "A generic description of the operating system used in the development environment (e.g., 'Linux-based OS')."
+    },
+    "hostname": {
+      "type": "string",
+      "description": "The hashed hostname of the machine running the development environment."
+    },
+    "ipAddress": {
+      "type": "string",
+      "description": "The hashed IP address of the machine running the development environment."
+    }
+  },
+  "required": ["environment", "packageJson", "timestamp"]
+}
+>>>>>>> 4d40d01 (Art schemas)
