@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/Voting",
+  "title": "Governance Voting Schema",
+  "description": "Tracks voting activity on governance proposals.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the voting record." },
+    "proposal": { "type": "string", "description": "DID of the proposal being voted on." },
+    "voter": { "type": "string", "description": "DID of the voter." },
+    "vote": {
+      "type": "string",
+      "enum": ["Yes", "No", "Abstain"],
+      "description": "Vote cast by the participant."
+    },
+    "weight": { "type": "number", "description": "Weight of the voter's vote (e.g., based on staked tokens)." },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of the vote submission." }
+  },
+  "required": ["id", "proposal", "voter", "vote", "weight", "timestamp"]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/VerificationNodeDeclaration",
+  "title": "Verification Node Declaration",
+  "description": "Defines a Verification Node in an OV Cluster.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the Verification Node." },
+    "type": { "const": "VerificationNode", "description": "Node type." },
+    "cluster": { "type": "string", "description": "The DID of the cluster this node belongs to." },
+    "operator": { "type": "string", "description": "DID of the entity operating this node." },
+    "verificationTasks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of supported verification tasks (e.g., DID Validation, Signature Verification, Compliance Checks)."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The DID of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., Data, Metadata, ContentManifest)." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." }
+        },
+        "required": ["id", "type", "name", "description", "uri"]
+      },
+      "description": "References to stored resources."
+    },
+    "trustLevel": {
+      "type": "string",
+      "enum": ["Low", "Medium", "High"],
+      "description": "Trust level assigned to this node based on verification authority."
+    },
+    "verificationLogs": {
+      "type": "string",
+      "description": "Reference to a log of verification checks performed."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "revoked"],
+      "description": "Operational status of the node."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of node declaration." }
+  },
+  "required": ["id", "cluster", "operator", "verificationTasks", "trustLevel", "status", "timestamp"]
+}

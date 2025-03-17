@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/DIDDeclaration",
+  "title": "DID Declaration",
+  "description": "Defines the role and permissions of a DID in an OV Cluster.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the entity declaring itself."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["NamespaceDeclaration", "NodeClusterDeclaration", "NodeDeclaration", "VaultDeclaration"],
+      "description": "The type of DID declaration."
+    },
+    "parent": {
+      "type": "string",
+      "description": "The DID of the parent entity (e.g., a Cluster under a Namespace, or a Node under a Cluster)."
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The roles assigned to this DID (e.g., IdentityNode, StorageNode, VaultOwner)."
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "managedBy": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of DIDs that govern this entity."
+        },
+        "rules": {
+          "type": "string",
+          "description": "A reference to governance policies (e.g., Ceramic document)."
+        }
+      },
+      "description": "Governance settings for this DID."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The id of the linked resource." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., governance, metadata, event log)." }
+        },
+        "required": ["id", "type"]
+      },
+      "description": "Linked resources associated with this cluster."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this DID declaration was issued."
+    }
+  },
+  "required": ["id", "type", "timestamp"]
+}

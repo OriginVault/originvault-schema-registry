@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/NodeDeclaration",
+  "title": "Node Declaration",
+  "description": "Defines an OV Node within a cluster.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the node."
+    },
+    "type": {
+      "const": "NodeDeclaration",
+      "description": "Indicates this is a Node DID declaration."
+    },
+    "cluster": {
+      "type": "string",
+      "description": "The Cluster DID this node belongs to."
+    },
+    "role": {
+      "type": "string",
+      "enum": ["IdentityNode", "StorageNode", "ComputeNode", "VerificationNode"],
+      "description": "The functional role of this node."
+    },
+    "operator": {
+      "type": "string",
+      "description": "The DID of the entity that operates this node."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "revoked"],
+      "description": "The operational status of the node."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The DID of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., GovernancePolicy, VerificationLog)." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." }
+        },
+        "required": ["id", "type", "name", "description", "uri"]
+      },
+      "description": "Linked resources associated with this node."
+    },
+    "verificationPolicies": {
+      "type": "object",
+      "properties": {
+        "assignedBy": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of validators who approved this node."
+        },
+        "verificationRules": {
+          "type": "string",
+          "description": "Reference to verification policies in Ceramic."
+        }
+      },
+      "description": "Verification details for this node."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this node declaration was issued."
+    }
+  },
+  "required": ["id", "type", "cluster", "role", "operator", "status", "timestamp"]
+}

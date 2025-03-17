@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/Revocation",
+  "title": "Revocation Schema",
+  "description": "Defines the revocation process for nodes, clusters, or users.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the revocation record." },
+    "entity": { "type": "string", "description": "The DID of the revoked entity (Node, Cluster, User)." },
+    "revokedBy": { "type": "string", "description": "The DID of the authority that revoked the entity." },
+    "reason": { "type": "string", "description": "Explanation for the revocation." },
+    "linkedEvidence": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to evidence supporting revocation (e.g., governance vote logs)."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of the revocation." }
+  },
+  "required": ["id", "entity", "revokedBy", "reason", "timestamp"]
+}

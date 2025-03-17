@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.io/ComputeNodeDeclaration",
+  "title": "Compute Node Declaration",
+  "description": "Defines a Compute Node in an OV Cluster.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the Compute Node." },
+    "type": { "const": "ComputeNode", "description": "Node type." },
+    "cluster": { "type": "string", "description": "The DID of the cluster this node belongs to." },
+    "operator": { "type": "string", "description": "DID of the entity operating this node." },
+    "computeResources": {
+      "type": "object",
+      "properties": {
+        "cpu": { "type": "string", "description": "CPU specifications (e.g., 8 cores, 3.2GHz)." },
+        "ram": { "type": "string", "description": "RAM available (e.g., 32GB, 64GB)." },
+        "gpu": { "type": "string", "description": "GPU specifications (if applicable)." }
+      },
+      "description": "Hardware specifications of the compute node."
+    },
+    "supportedTasks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of supported compute tasks (e.g., AI Training, Data Transformation, Encryption)."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The DID of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., Data, ProcessingLogs, ModelOutputs)." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." }
+        },
+        "required": ["id", "type", "name", "description", "uri"]
+      },
+      "description": "References to compute tasks and results."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "revoked"],
+      "description": "Operational status of the node."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of node declaration." }
+  },
+  "required": ["id", "cluster", "operator", "computeResources", "supportedTasks", "status", "timestamp"]
+}

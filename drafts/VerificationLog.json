@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/VerificationLog",
+  "title": "Verification Log Schema",
+  "description": "Tracks verifications, compliance audits, and trust decisions.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the verification log." },
+    "entity": { "type": "string", "description": "The DID of the verified entity." },
+    "verifiedBy": { "type": "string", "description": "The DID of the authority performing verification." },
+    "verificationType": {
+      "type": "string",
+      "enum": ["IdentityCheck", "SecurityAudit", "PerformanceTest"],
+      "description": "Type of verification performed."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Passed", "Failed", "Pending"],
+      "description": "Outcome of the verification."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of verification." }
+  },
+  "required": ["id", "entity", "verifiedBy", "verificationType", "status", "timestamp"]
+}

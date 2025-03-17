@@ -200,6 +200,464 @@ export interface Attachment {
   [k: string]: unknown;
 }
 
+/**
+ * Defines governance rules for an OV Cluster.
+ */
+export interface ClusterGovernanceSchema {
+  /**
+   * The DID of the cluster governance document.
+   */
+  id: string;
+  /**
+   * The DID of the cluster this governance applies to.
+   */
+  cluster: string;
+  /**
+   * Rules for adding and removing nodes in the cluster.
+   */
+  nodeManagement: {
+    /**
+     * The method used to verify new nodes joining the cluster.
+     */
+    verificationMethod?: "Open" | "Permissioned" | "Staked";
+    /**
+     * Conditions under which nodes can be removed from the cluster.
+     */
+    removalPolicy?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Governance rules for services running in the cluster.
+   */
+  serviceManagement: {
+    /**
+     * List of service types permitted in this cluster (e.g., Storage, Verification, Payment).
+     */
+    allowedServices?: string[];
+    /**
+     * Reference to a DID-Linked Resource explaining service verification requirements.
+     */
+    serviceVerification?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Security and compliance policies for the cluster.
+   */
+  securityPolicies: {
+    /**
+     * How frequently the cluster undergoes audits.
+     */
+    auditFrequency?: "Daily" | "Weekly" | "Monthly";
+    /**
+     * Reference to a DID-Linked Resource detailing compliance requirements.
+     */
+    complianceChecks?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * The governance model used to manage this cluster.
+   */
+  governanceModel?: "AdminControlled" | "MultiSig" | "TokenVoting";
+  /**
+   * Timestamp of when this governance document was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines a Compute Node in an OV Cluster.
+ */
+export interface ComputeNodeDeclaration {
+  /**
+   * The DID of the Compute Node.
+   */
+  id: string;
+  /**
+   * Node type.
+   */
+  type?: "ComputeNode";
+  /**
+   * The DID of the cluster this node belongs to.
+   */
+  cluster: string;
+  /**
+   * DID of the entity operating this node.
+   */
+  operator: string;
+  /**
+   * Hardware specifications of the compute node.
+   */
+  computeResources: {
+    /**
+     * CPU specifications (e.g., 8 cores, 3.2GHz).
+     */
+    cpu?: string;
+    /**
+     * RAM available (e.g., 32GB, 64GB).
+     */
+    ram?: string;
+    /**
+     * GPU specifications (if applicable).
+     */
+    gpu?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * List of supported compute tasks (e.g., AI Training, Data Transformation, Encryption).
+   */
+  supportedTasks: string[];
+  /**
+   * References to compute tasks and results.
+   */
+  linkedResources?: {
+    /**
+     * The DID of the linked resource.
+     */
+    id: string;
+    /**
+     * The type of resource (e.g., Data, ProcessingLogs, ModelOutputs).
+     */
+    type: string;
+    /**
+     * The name of the linked resource.
+     */
+    name: string;
+    /**
+     * The description of the linked resource.
+     */
+    description: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Operational status of the node.
+   */
+  status: "active" | "suspended" | "revoked";
+  /**
+   * Timestamp of node declaration.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+export type AllowDataMining = boolean;
+export type AllowAIMLTraining = boolean;
+export type AllowAIMLInference = boolean;
+
+/**
+ * Verifiable Credential containing AI usage and permissions.
+ */
+export interface ContentAIPermissionAssertionCredential {
+  /**
+   * DID of the VC instance.
+   */
+  id: string;
+  /**
+   * DID of the issuing entity (e.g., OriginVault).
+   */
+  issuer: string;
+  /**
+   * DID of the content owner.
+   */
+  issuedTo: string;
+  /**
+   * Timestamp of issuance.
+   */
+  issuedAt: string;
+  data: {
+    allowDataMining?: AllowDataMining;
+    allowAITraining?: AllowAIMLTraining;
+    allowAIInference?: AllowAIMLInference;
+    [k: string]: unknown;
+  };
+  /**
+   * Cryptographic proof for the credential.
+   */
+  proof: {
+    /**
+     * Proof type.
+     */
+    type?: string;
+    /**
+     * Timestamp of proof creation.
+     */
+    created?: string;
+    /**
+     * DID or method used to verify this proof.
+     */
+    verificationMethod?: string;
+    /**
+     * Base64 or hex-encoded signature.
+     */
+    signatureValue?: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
+/**
+ * A Verifiable Credential that aggregates multiple content-related credentials into a single authenticity record.
+ */
+export interface ContentAuthenticityAssertionCredential {
+  /**
+   * DID of the aggregated VC instance.
+   */
+  id: string;
+  /**
+   * DID of the entity issuing the aggregated credential.
+   */
+  issuer: string;
+  /**
+   * DID of the content owner.
+   */
+  issuedTo: string;
+  /**
+   * Timestamp of issuance.
+   */
+  issuedAt: string;
+  /**
+   * Unique ID of the associated content.
+   */
+  contentId: string;
+  /**
+   * DID references to modular Verifiable Credentials included in this authenticity record.
+   */
+  includedCredentials: {
+    /**
+     * DID DLR URI of the Content Details VC.
+     */
+    contentDetails: string;
+    /**
+     * DID DLR URI of the Identity Claims VC.
+     */
+    identityClaims: string;
+    /**
+     * DID DLR URI of the Extended Metadata VC.
+     */
+    extendedMetadata: string;
+    /**
+     * DID DLR URI of the AI Permissions VC.
+     */
+    aiPermissions: string;
+    /**
+     * DID DLR URI of the Content Signing VC.
+     */
+    contentSigning: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Current verification status of the aggregated credential.
+   */
+  verificationStatus: "valid" | "revoked" | "pending";
+  /**
+   * Cryptographic proof for the aggregated credential.
+   */
+  proof: {
+    /**
+     * Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof).
+     */
+    type: string;
+    /**
+     * Timestamp of proof creation.
+     */
+    created: string;
+    /**
+     * DID or method used to verify this proof.
+     */
+    verificationMethod: string;
+    /**
+     * Base64 or hex-encoded signature.
+     */
+    signatureValue: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
+export type FileName = string;
+export type FileSizeBytes = number;
+export type FileFormat = string;
+export type OriginalCreationDate = string;
+export type ContentVersion = string;
+
+/**
+ * Verifiable Credential containing metadata about the digital content.
+ */
+export interface ContentDetailsAssertionCredential {
+  /**
+   * DID of the VC instance.
+   */
+  id: string;
+  /**
+   * DID of the issuing entity (e.g., OriginVault).
+   */
+  issuer: string;
+  /**
+   * DID of the content owner.
+   */
+  issuedTo: string;
+  /**
+   * Timestamp of issuance.
+   */
+  issuedAt: string;
+  data: {
+    name?: FileName;
+    size?: FileSizeBytes;
+    format?: FileFormat;
+    creationDate?: OriginalCreationDate;
+    version?: ContentVersion;
+    [k: string]: unknown;
+  };
+  /**
+   * Cryptographic proof for the credential.
+   */
+  proof: {
+    /**
+     * Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof).
+     */
+    type?: string;
+    /**
+     * Timestamp of proof creation.
+     */
+    created?: string;
+    /**
+     * DID or method used to verify this proof.
+     */
+    verificationMethod?: string;
+    /**
+     * Base64 or hex-encoded signature.
+     */
+    signatureValue?: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
+export type TagsCommaSeparated = string;
+export type LicenseType = "All Rights Reserved" | "Creative Commons" | "Public Domain";
+export type UsageRestrictions = ("No AI Training" | "No Redistribution" | "No Commercial Use")[];
+
+/**
+ * Verifiable Credential containing metadata such as licensing and usage restrictions.
+ */
+export interface ContentExtendedMetadataAssertionCredential {
+  /**
+   * DID of the VC instance.
+   */
+  id: string;
+  /**
+   * DID of the issuing entity (e.g., OriginVault).
+   */
+  issuer: string;
+  /**
+   * DID of the content owner.
+   */
+  issuedTo: string;
+  /**
+   * Timestamp of issuance.
+   */
+  issuedAt: string;
+  data: {
+    tags?: TagsCommaSeparated;
+    licensing?: LicenseType;
+    usageRestrictions?: UsageRestrictions;
+    [k: string]: unknown;
+  };
+  /**
+   * Cryptographic proof for the credential.
+   */
+  proof: {
+    /**
+     * Proof type.
+     */
+    type?: string;
+    /**
+     * Timestamp of proof creation.
+     */
+    created?: string;
+    /**
+     * DID or method used to verify this proof.
+     */
+    verificationMethod?: string;
+    /**
+     * Base64 or hex-encoded signature.
+     */
+    signatureValue?: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
+/**
+ * Cryptographic hash of the content.
+ */
+export type SHA256ContentHash = string;
+/**
+ * Perceptual hash for similarity detection.
+ */
+export type PerceptualHash = string;
+export type UploadDate = string;
+/**
+ * Entity that generated the signature (e.g., OriginVault).
+ */
+export type IssuedBy = string;
+
+/**
+ * Verifiable Credential containing cryptographic signing details for digital content.
+ */
+export interface ContentSigningAssertionCredential {
+  /**
+   * DID of the VC instance.
+   */
+  id: string;
+  /**
+   * DID of the issuing entity (e.g., OriginVault).
+   */
+  issuer: string;
+  /**
+   * DID of the content owner.
+   */
+  issuedTo: string;
+  /**
+   * Timestamp of issuance.
+   */
+  issuedAt: string;
+  data: {
+    contentHash?: SHA256ContentHash;
+    perceptualHash?: PerceptualHash;
+    uploadDate?: UploadDate;
+    issuedBy?: IssuedBy;
+    [k: string]: unknown;
+  };
+  /**
+   * Cryptographic proof for the credential.
+   */
+  proof: {
+    /**
+     * Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof).
+     */
+    type?: string;
+    /**
+     * Timestamp of proof creation.
+     */
+    created?: string;
+    /**
+     * DID or method used to verify this proof.
+     */
+    verificationMethod?: string;
+    /**
+     * Base64 or hex-encoded signature.
+     */
+    signatureValue?: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
 export interface DIDAssertionCredential {
   /**
    * The unique identifier for the credential.
@@ -256,6 +714,73 @@ export interface DIDAssertionCredential {
    * The expiration date of the credential.
    */
   expirationDate: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines the role and permissions of a DID in an OV Cluster.
+ */
+export interface DIDDeclaration {
+  /**
+   * The DID of the entity declaring itself.
+   */
+  id: string;
+  /**
+   * The type of DID declaration.
+   */
+  type: "NamespaceDeclaration" | "NodeClusterDeclaration" | "NodeDeclaration" | "VaultDeclaration";
+  /**
+   * The DID of the parent entity (e.g., a Cluster under a Namespace, or a Node under a Cluster).
+   */
+  parent?: string;
+  /**
+   * The roles assigned to this DID (e.g., IdentityNode, StorageNode, VaultOwner).
+   */
+  roles?: string[];
+  /**
+   * Governance settings for this DID.
+   */
+  governance?: {
+    /**
+     * List of DIDs that govern this entity.
+     */
+    managedBy?: string[];
+    /**
+     * A reference to governance policies (e.g., Ceramic document).
+     */
+    rules?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Linked resources associated with this cluster.
+   */
+  linkedResources?: {
+    /**
+     * The id of the linked resource.
+     */
+    id: string;
+    /**
+     * The name of the linked resource.
+     */
+    name?: string;
+    /**
+     * The description of the linked resource.
+     */
+    description?: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri?: string;
+    /**
+     * The type of resource (e.g., governance, metadata, event log).
+     */
+    type: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Timestamp of when this DID declaration was issued.
+   */
+  timestamp: string;
   [k: string]: unknown;
 }
 
@@ -668,6 +1193,32 @@ export type JSONSchemaForNPMPackageJsonFiles = {
    * Specify that your code only runs on certain cpu architectures.
    */
   cpu?: string[];
+  /**
+   * Define the runtime and package manager for developing the current project.
+   */
+  devEngines?: {
+    /**
+     * Specifies which operating systems are supported for development
+     */
+    os?: DevEngineDependency | DevEngineDependency[];
+    /**
+     * Specifies which CPU architectures are supported for development
+     */
+    cpu?: DevEngineDependency | DevEngineDependency[];
+    /**
+     * Specifies which C standard libraries are supported for development
+     */
+    libc?: DevEngineDependency | DevEngineDependency[];
+    /**
+     * Specifies which JavaScript runtimes (like Node.js, Deno, Bun) are supported for development. Values should use WinterCG Runtime Keys (see https://runtime-keys.proposal.wintercg.org/)
+     */
+    runtime?: DevEngineDependency | DevEngineDependency[];
+    /**
+     * Specifies which package managers are supported for development
+     */
+    packageManager?: DevEngineDependency | DevEngineDependency[];
+    [k: string]: unknown;
+  };
   /**
    * DEPRECATED: This option used to trigger an npm warning, but it will no longer warn. It is purely there for informational purposes. It is now recommended that you install any binaries as local devDependencies wherever possible.
    */
@@ -27145,6 +27696,24 @@ export interface PeerDependencyMeta {
     [k: string]: unknown;
   };
 }
+/**
+ * Specifies requirements for development environment components such as operating systems, runtimes, or package managers. Used to ensure consistent development environments across the team.
+ */
+export interface DevEngineDependency {
+  /**
+   * The name of the dependency, with allowed values depending on the parent field
+   */
+  name: string;
+  /**
+   * The version range for the dependency
+   */
+  version?: string;
+  /**
+   * What action to take if validation fails
+   */
+  onFail?: "ignore" | "warn" | "error" | "download";
+  [k: string]: unknown;
+}
 export interface JSONSchemaForESLintConfigurationFiles {
   ecmaFeatures?: EcmaFeatures;
   env?: Env;
@@ -40774,6 +41343,49 @@ export interface GlobalPrivacyControl {
 }
 
 /**
+ * Defines a governance proposal for namespaces and clusters.
+ */
+export interface GovernanceProposalSchema {
+  /**
+   * The DID of the proposal.
+   */
+  id: string;
+  /**
+   * DID of the entity submitting the proposal.
+   */
+  proposer: string;
+  /**
+   * DID of the namespace affected (if applicable).
+   */
+  namespace?: string;
+  /**
+   * DID of the cluster affected (if applicable).
+   */
+  cluster?: string;
+  /**
+   * Type of governance action requested.
+   */
+  proposalType: "AddNode" | "RemoveNode" | "UpdateGovernance" | "MonetizationPolicyChange";
+  /**
+   * A description of the proposal, including motivations and expected impact.
+   */
+  details: string;
+  /**
+   * References to supporting documents or governance rules.
+   */
+  linkedResources?: string[];
+  /**
+   * Current status of the proposal.
+   */
+  status: "Pending" | "Active" | "Accepted" | "Rejected" | "Executed";
+  /**
+   * Timestamp of proposal submission.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
  * A non-empty URI string
  */
 export type NonEmptyUri = string;
@@ -40907,6 +41519,71 @@ export interface IdentifiableObject {
 }
 
 /**
+ * Defines an Identity Node in an OV Cluster.
+ */
+export interface IdentityNodeDeclaration {
+  /**
+   * The DID of the Identity Node.
+   */
+  id: string;
+  /**
+   * Node type.
+   */
+  type?: "IdentityNode";
+  /**
+   * The DID of the cluster this node belongs to.
+   */
+  cluster: string;
+  /**
+   * DID of the entity operating this node.
+   */
+  operator: string;
+  /**
+   * List of services managed by this Identity Node (e.g., DID Resolution, Verification).
+   */
+  services: string[];
+  /**
+   * Reference to identity verification policies.
+   */
+  verificationPolicies?: string;
+  /**
+   * References to identity verification policies.
+   */
+  linkedResources?: {
+    /**
+     * The DID of the linked resource.
+     */
+    id: string;
+    /**
+     * The type of resource (e.g., GovernancePolicy, VerificationLog).
+     */
+    type: string;
+    /**
+     * The name of the linked resource.
+     */
+    name: string;
+    /**
+     * The description of the linked resource.
+     */
+    description: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Operational status of the node.
+   */
+  status: "active" | "suspended" | "revoked";
+  /**
+   * Timestamp of node declaration.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
  * The block comment character pair, like `/* block comment *&#47;`
  *
  * @minItems 2
@@ -41026,7 +41703,554 @@ export interface Regexp {
   [k: string]: unknown;
 }
 
-export type JSONSchemaForNPMPackageJsonFiles = {
+/**
+ * Defines an OV Namespace and its governance rules.
+ */
+export interface NamespaceDeclaration {
+  /**
+   * The DID of the namespace.
+   */
+  id: string;
+  /**
+   * Indicates this is a Namespace DID declaration.
+   */
+  type?: "NamespaceDeclaration";
+  /**
+   * Governance policies for the namespace.
+   */
+  governance?: {
+    /**
+     * List of DIDs responsible for managing this namespace.
+     */
+    managedBy?: string[];
+    /**
+     * A reference to governance rules stored in Ceramic or DID-Linked Resources.
+     */
+    rules?: string;
+    /**
+     * A DID reference to a dispute resolution service.
+     */
+    disputeResolution?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * List of Cluster DIDs under this namespace.
+   */
+  clusters: string[];
+  /**
+   * Verification and security policies for the namespace.
+   */
+  verificationPolicies: {
+    /**
+     * Defines how new clusters are verified.
+     */
+    clusterVerification?: "Open" | "Permissioned" | "Staked";
+    /**
+     * Conditions under which a cluster can be revoked from the namespace.
+     */
+    revocationPolicy?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Linked resources associated with this namespace.
+   */
+  linkedResources?: {
+    /**
+     * The DID of the linked resource.
+     */
+    id: string;
+    /**
+     * The type of resource (e.g., governance, metadata, event log).
+     */
+    type: string;
+    /**
+     * The name of the linked resource.
+     */
+    name: string;
+    /**
+     * The description of the linked resource.
+     */
+    description: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Timestamp of when this namespace declaration was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines governance rules for an OV Namespace.
+ */
+export interface NamespaceGovernance {
+  /**
+   * The DID of the namespace governance document.
+   */
+  id: string;
+  /**
+   * The DID of the namespace this governance applies to.
+   */
+  namespace: string;
+  /**
+   * The governance model used to manage this namespace.
+   */
+  governanceModel: "AdminControlled" | "TokenVoting" | "MultiSig";
+  /**
+   * List of governing entities managing this namespace.
+   */
+  governanceBodies: {
+    /**
+     * DID of a governance body (e.g., DAO, committee, council).
+     */
+    id?: string;
+    /**
+     * The role of this body (e.g., Validator, Arbiter).
+     */
+    role?: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Rules for decision-making in the namespace.
+   */
+  decisionMaking?: {
+    /**
+     * Percentage required for approval in voting-based governance.
+     */
+    votingThreshold?: number;
+    /**
+     * Reference to a Ceramic document explaining the proposal submission process.
+     */
+    proposalProcess?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * How governance disputes are resolved.
+   */
+  disputeResolution?: {
+    /**
+     * Method used to resolve disputes.
+     */
+    resolutionMethod?: "Arbitration" | "GovernanceVote" | "SmartContract";
+    /**
+     * The DID of a dispute resolution service or contract.
+     */
+    resolutionService?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Timestamp of when this governance document was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Declares a plugin registered under a namespace.
+ */
+export interface NamespacePluginDeclaration {
+  /**
+   * The DID of the namespace plugin.
+   */
+  id: string;
+  /**
+   * The DID of the namespace that owns this plugin.
+   */
+  namespace: string;
+  /**
+   * Name of the plugin.
+   */
+  name: string;
+  /**
+   * Semantic versioning (e.g., 1.0.0).
+   */
+  version: string;
+  /**
+   * DID of the entity or user who created the plugin.
+   */
+  author: string;
+  /**
+   * The node types this plugin is designed to run on.
+   */
+  compatibleNodes: string[];
+  /**
+   * References to plugin documentation, code, or policies.
+   */
+  linkedResources?: {
+    /**
+     * The id of the linked resource.
+     */
+    id: string;
+    /**
+     * The name of the linked resource.
+     */
+    name?: string;
+    /**
+     * The description of the linked resource.
+     */
+    description?: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri?: string;
+    /**
+     * The type of resource (e.g., governance, metadata, event log).
+     */
+    type: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Governance and compliance information for the plugin.
+   */
+  governance?: {
+    /**
+     * List of governance bodies or validators that approved the plugin.
+     */
+    approvedBy?: string[];
+    /**
+     * Reference to compliance policies stored in Ceramic.
+     */
+    complianceRules?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Current status of the plugin.
+   */
+  status: "active" | "deprecated" | "revoked";
+  /**
+   * Timestamp of when this plugin declaration was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * A verifiable certificate that recognizes an entity’s role or contribution within a namespace.
+ */
+export interface NamespaceRecognitionCertificate {
+  /**
+   * DID of the Recognition Certificate.
+   */
+  id: string;
+  /**
+   * DID of the namespace issuing the certificate.
+   */
+  namespace: string;
+  /**
+   * DID of the recognized entity.
+   */
+  recipient: string;
+  /**
+   * Type of recognition granted.
+   */
+  recognitionType: "trusted-verifier" | "major-contributor" | "governance-member" | "partner";
+  /**
+   * Additional details on why this recognition was granted.
+   */
+  description?: string;
+  /**
+   * Optional expiration date of the recognition certificate.
+   */
+  validUntil?: string;
+  /**
+   * Cryptographic proof for the certificate.
+   */
+  proof: {
+    /**
+     * Proof type.
+     */
+    type?: string;
+    /**
+     * Timestamp of proof creation.
+     */
+    created?: string;
+    /**
+     * DID or method used to verify this proof.
+     */
+    verificationMethod?: string;
+    /**
+     * Base64 or hex-encoded signature.
+     */
+    signatureValue?: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
+/**
+ * Verifiable record of an entity's reputation within a namespace, including trust scores and endorsements.
+ */
+export interface NamespaceReputationRecord {
+  /**
+   * DID of the Reputation Record.
+   */
+  id: string;
+  /**
+   * DID of the namespace issuing the reputation record.
+   */
+  namespace: string;
+  /**
+   * DID of the entity whose reputation is being recorded.
+   */
+  entity: string;
+  /**
+   * Numerical representation of the entity’s reputation within the namespace.
+   */
+  trustScore: number;
+  /**
+   * List of contributions made by the entity.
+   */
+  contributions: {
+    /**
+     * Nature of contribution (e.g., governance vote, data contribution, content verification).
+     */
+    type: string;
+    /**
+     * Date of contribution.
+     */
+    date: string;
+    /**
+     * DID of entity that verified this contribution.
+     */
+    verifiedBy: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Endorsements received from other trusted entities.
+   */
+  endorsements: {
+    /**
+     * DID of the entity giving the endorsement.
+     */
+    from: string;
+    /**
+     * Optional endorsement message.
+     */
+    message?: string;
+    /**
+     * Date of endorsement.
+     */
+    date: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Cryptographic proof for this reputation record.
+   */
+  proof: {
+    /**
+     * Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof).
+     */
+    type: string;
+    /**
+     * Timestamp of proof creation.
+     */
+    created: string;
+    /**
+     * DID or method used to verify this proof.
+     */
+    verificationMethod: string;
+    /**
+     * Base64 or hex-encoded signature.
+     */
+    signatureValue: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
+/**
+ * Defines an OV Cluster's structure, governance, and node configuration.
+ */
+export interface NodeClusterDeclaration {
+  /**
+   * The DID of the OV Cluster.
+   */
+  id: string;
+  /**
+   * Indicates that this is a Cluster DID declaration.
+   */
+  type?: "ClusterDeclaration";
+  /**
+   * The DID of the namespace this cluster belongs to.
+   */
+  namespace: string;
+  /**
+   * Governance policies for this cluster.
+   */
+  governance?: {
+    /**
+     * DIDs of entities responsible for managing this cluster.
+     */
+    managedBy?: string[];
+    /**
+     * A reference to governance rules stored in Ceramic or DID-Linked Resources.
+     */
+    rules?: string;
+    /**
+     * A DID reference to a dispute resolution service.
+     */
+    disputeResolution?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * List of nodes in this cluster.
+   */
+  nodes: {
+    /**
+     * The Node DID.
+     */
+    id: string;
+    /**
+     * The functional role of this node.
+     */
+    role: "NamespaceNode" | "IdentityNode" | "StorageNode" | "ComputeNode" | "VerificationNode";
+    [k: string]: unknown;
+  }[];
+  /**
+   * Services available in this cluster.
+   */
+  services: {
+    /**
+     * The DID of the verification service.
+     */
+    verification?: string;
+    /**
+     * The DID of the storage service.
+     */
+    storage?: string;
+    /**
+     * The DID of the payment processing service.
+     */
+    payment?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Linked resources associated with this cluster.
+   */
+  linkedResources?: {
+    /**
+     * The id of the linked resource.
+     */
+    id: string;
+    /**
+     * The name of the linked resource.
+     */
+    name?: string;
+    /**
+     * The description of the linked resource.
+     */
+    description?: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri?: string;
+    /**
+     * The type of resource (e.g., governance, metadata, event log).
+     */
+    type: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Verification and security policies for the cluster.
+   */
+  verificationPolicies: {
+    /**
+     * Defines how new nodes are verified.
+     */
+    nodeVerification?: "Open" | "Permissioned" | "Staked";
+    /**
+     * Conditions under which a node or vault can be revoked from the cluster.
+     */
+    revocationPolicy?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Timestamp of when this cluster declaration was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines an OV Node within a cluster.
+ */
+export interface NodeDeclaration {
+  /**
+   * The DID of the node.
+   */
+  id: string;
+  /**
+   * Indicates this is a Node DID declaration.
+   */
+  type: "NodeDeclaration";
+  /**
+   * The Cluster DID this node belongs to.
+   */
+  cluster: string;
+  /**
+   * The functional role of this node.
+   */
+  role: "IdentityNode" | "StorageNode" | "ComputeNode" | "VerificationNode";
+  /**
+   * The DID of the entity that operates this node.
+   */
+  operator: string;
+  /**
+   * The operational status of the node.
+   */
+  status: "active" | "suspended" | "revoked";
+  /**
+   * Linked resources associated with this node.
+   */
+  linkedResources?: {
+    /**
+     * The DID of the linked resource.
+     */
+    id: string;
+    /**
+     * The type of resource (e.g., GovernancePolicy, VerificationLog).
+     */
+    type: string;
+    /**
+     * The name of the linked resource.
+     */
+    name: string;
+    /**
+     * The description of the linked resource.
+     */
+    description: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Verification details for this node.
+   */
+  verificationPolicies?: {
+    /**
+     * List of validators who approved this node.
+     */
+    assignedBy?: string[];
+    /**
+     * Reference to verification policies in Ceramic.
+     */
+    verificationRules?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Timestamp of when this node declaration was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+export type PackageJson = {
   [k: string]: unknown;
 } & {
   /**
@@ -41404,7 +42628,7 @@ export type JSONSchemaForNPMPackageJsonFiles = {
         nohoist?: string[];
         [k: string]: unknown;
       };
-  jspm?: JSONSchemaForNPMPackageJsonFiles;
+  jspm?: PackageJson;
   eslintConfig?: JSONSchemaForESLintConfigurationFiles;
   prettier?: SchemaForPrettierrc;
   stylelint?: JSONSchemaForTheStylelintConfigurationFiles;
@@ -81475,6 +82699,226 @@ export interface HttpsJsonSchemastoreOrgJscpdJson {
   exitCode?: number;
 }
 
+/**
+ * Defines a plugin registered in an OV Namespace, including governance, versioning, and compatibility.
+ */
+export interface PluginDeclaration {
+  /**
+   * The DID of the plugin.
+   */
+  id: string;
+  /**
+   * The DID of the vault that owns this plugin.
+   */
+  vault?: string;
+  /**
+   * Name of the plugin.
+   */
+  name: string;
+  /**
+   * Detailed description of the plugin’s functionality.
+   */
+  description?: string;
+  /**
+   * Semantic versioning (e.g., 1.0.0).
+   */
+  version: string;
+  /**
+   * DID of the entity or user who created the plugin.
+   */
+  author: string;
+  /**
+   * The node types this plugin is designed to run on.
+   */
+  compatibleNodes: string[];
+  /**
+   * References to plugin documentation, code, or policies.
+   */
+  linkedResources?: {
+    /**
+     * The id of the linked resource.
+     */
+    id: string;
+    /**
+     * The name of the linked resource.
+     */
+    name?: string;
+    /**
+     * The description of the linked resource.
+     */
+    description?: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri?: string;
+    /**
+     * The type of resource (e.g., governance, metadata, event log).
+     */
+    type: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Governance and compliance information for the plugin.
+   */
+  governance?: {
+    /**
+     * List of governance bodies or validators that approved the plugin.
+     */
+    approvedBy?: string[];
+    /**
+     * Reference to compliance policies stored in Ceramic.
+     */
+    complianceRules?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * The current status of the plugin.
+   */
+  status: "active" | "deprecated" | "revoked";
+  /**
+   * Timestamp of when this plugin declaration was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines a request from a plugin running in a vault to interact with an OV node.
+ */
+export interface PluginExecutionRequest {
+  /**
+   * The DID of the execution request.
+   */
+  id: string;
+  /**
+   * The DID of the vault running the plugin.
+   */
+  vault: string;
+  /**
+   * The DID of the plugin making the request.
+   */
+  plugin: string;
+  /**
+   * The DID of the node handling the request.
+   */
+  node: string;
+  /**
+   * Type of request being made.
+   */
+  requestType: "ComputeTask" | "DataRead" | "DataWrite" | "IdentityLookup" | "VerificationCheck";
+  /**
+   * Additional parameters required for processing the request.
+   */
+  parameters?: {
+    [k: string]: unknown;
+  };
+  /**
+   * Current status of the request.
+   */
+  status: "pending" | "processing" | "completed" | "failed";
+  /**
+   * Timestamp of request submission.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines the revocation process for nodes, clusters, or users.
+ */
+export interface RevocationSchema {
+  /**
+   * The DID of the revocation record.
+   */
+  id: string;
+  /**
+   * The DID of the revoked entity (Node, Cluster, User).
+   */
+  entity: string;
+  /**
+   * The DID of the authority that revoked the entity.
+   */
+  revokedBy: string;
+  /**
+   * Explanation for the revocation.
+   */
+  reason: string;
+  /**
+   * References to evidence supporting revocation (e.g., governance vote logs).
+   */
+  linkedEvidence?: string[];
+  /**
+   * Timestamp of the revocation.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines a Storage Node in an OV Cluster.
+ */
+export interface StorageNodeDeclaration {
+  /**
+   * The DID of the Storage Node.
+   */
+  id: string;
+  /**
+   * Node type.
+   */
+  type?: "StorageNode";
+  /**
+   * The DID of the cluster this node belongs to.
+   */
+  cluster: string;
+  /**
+   * DID of the entity operating this node.
+   */
+  operator: string;
+  /**
+   * Type of storage system used.
+   */
+  storageType: "MinIO" | "IPFS" | "Arweave" | "Verida";
+  /**
+   * Storage capacity available (e.g., 1TB, 100GB).
+   */
+  storageCapacity: string;
+  /**
+   * References to stored resources.
+   */
+  linkedResources?: {
+    /**
+     * The DID of the linked resource.
+     */
+    id: string;
+    /**
+     * The type of resource (e.g., Data, Metadata, ContentManifest).
+     */
+    type: string;
+    /**
+     * The name of the linked resource.
+     */
+    name: string;
+    /**
+     * The description of the linked resource.
+     */
+    description: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Operational status of the node.
+   */
+  status: "active" | "suspended" | "revoked";
+  /**
+   * Timestamp of node declaration.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
 export type JSONSchemaForTheTypeScriptCompilerSConfigurationFile = CompilerOptionsDefinition &
   CompileOnSaveDefinition &
   TypeAcquisitionDefinition &
@@ -83728,6 +85172,261 @@ export interface ReferencesDefinition {
         [k: string]: unknown;
       } | null)[]
     | null;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines an OV Vault's ownership, governance, and access policies.
+ */
+export interface VaultDIDDeclaration {
+  /**
+   * The DID of the vault.
+   */
+  id: string;
+  /**
+   * Indicates this is a Vault DID declaration.
+   */
+  type?: "VaultDID";
+  /**
+   * The DID of the user or organization that owns this vault.
+   */
+  owner: string;
+  /**
+   * The DID of the OV cluster managing this vault.
+   */
+  cluster: string;
+  /**
+   * List of Storage Node DIDs storing this vault's data.
+   */
+  storageNodes: string[];
+  /**
+   * References to vault metadata, manifests, and access logs.
+   */
+  linkedResources?: {
+    /**
+     * The DID of the linked resource.
+     */
+    id: string;
+    /**
+     * The type of resource (e.g., Metadata, AccessLog, ContentManifest).
+     */
+    type: string;
+    /**
+     * The name of the linked resource.
+     */
+    name: string;
+    /**
+     * The description of the linked resource.
+     */
+    description: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Defines who can access and modify the vault.
+   */
+  accessPolicies?: {
+    /**
+     * List of DIDs that can read from this vault.
+     */
+    readAccess?: string[];
+    /**
+     * List of DIDs that can write to this vault.
+     */
+    writeAccess?: string[];
+    /**
+     * Whether the vault is publicly accessible.
+     */
+    publicAccess?: boolean;
+    [k: string]: unknown;
+  };
+  /**
+   * Governance and compliance policies for the vault.
+   */
+  governance?: {
+    /**
+     * DID of the governance body managing vault policies (e.g., a DAO or admin).
+     */
+    governedBy?: string;
+    /**
+     * DID reference to a dispute resolution service.
+     */
+    disputeResolution?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Timestamp of when this vault declaration was issued.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Tracks the installation of plugins within an OV Vault, ensuring compliance with cluster policies.
+ */
+export interface PluginInstallationLog {
+  /**
+   * The DID of the vault plugin installation.
+   */
+  id: string;
+  /**
+   * The DID of the vault where the plugin is installed.
+   */
+  vault: string;
+  /**
+   * The DID of the installed plugin.
+   */
+  plugin: string;
+  /**
+   * The DID of the cluster the vault belongs to.
+   */
+  cluster: string;
+  /**
+   * DID of the entity that installed the plugin.
+   */
+  installedBy: string;
+  /**
+   * The status of the plugin installation.
+   */
+  status: "installed" | "active" | "suspended" | "removed";
+  /**
+   * Timestamp of installation.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Tracks verifications, compliance audits, and trust decisions.
+ */
+export interface VerificationLogSchema {
+  /**
+   * The DID of the verification log.
+   */
+  id: string;
+  /**
+   * The DID of the verified entity.
+   */
+  entity: string;
+  /**
+   * The DID of the authority performing verification.
+   */
+  verifiedBy: string;
+  /**
+   * Type of verification performed.
+   */
+  verificationType: "IdentityCheck" | "SecurityAudit" | "PerformanceTest";
+  /**
+   * Outcome of the verification.
+   */
+  status: "Passed" | "Failed" | "Pending";
+  /**
+   * Timestamp of verification.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines a Verification Node in an OV Cluster.
+ */
+export interface VerificationNodeDeclaration {
+  /**
+   * The DID of the Verification Node.
+   */
+  id: string;
+  /**
+   * Node type.
+   */
+  type?: "VerificationNode";
+  /**
+   * The DID of the cluster this node belongs to.
+   */
+  cluster: string;
+  /**
+   * DID of the entity operating this node.
+   */
+  operator: string;
+  /**
+   * List of supported verification tasks (e.g., DID Validation, Signature Verification, Compliance Checks).
+   */
+  verificationTasks: string[];
+  /**
+   * References to stored resources.
+   */
+  linkedResources?: {
+    /**
+     * The DID of the linked resource.
+     */
+    id: string;
+    /**
+     * The type of resource (e.g., Data, Metadata, ContentManifest).
+     */
+    type: string;
+    /**
+     * The name of the linked resource.
+     */
+    name: string;
+    /**
+     * The description of the linked resource.
+     */
+    description: string;
+    /**
+     * The uri of the linked resource.
+     */
+    uri: string;
+    [k: string]: unknown;
+  }[];
+  /**
+   * Trust level assigned to this node based on verification authority.
+   */
+  trustLevel: "Low" | "Medium" | "High";
+  /**
+   * Reference to a log of verification checks performed.
+   */
+  verificationLogs?: string;
+  /**
+   * Operational status of the node.
+   */
+  status: "active" | "suspended" | "revoked";
+  /**
+   * Timestamp of node declaration.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Tracks voting activity on governance proposals.
+ */
+export interface GovernanceVotingSchema {
+  /**
+   * The DID of the voting record.
+   */
+  id: string;
+  /**
+   * DID of the proposal being voted on.
+   */
+  proposal: string;
+  /**
+   * DID of the voter.
+   */
+  voter: string;
+  /**
+   * Vote cast by the participant.
+   */
+  vote: "Yes" | "No" | "Abstain";
+  /**
+   * Weight of the voter's vote (e.g., based on staked tokens).
+   */
+  weight: number;
+  /**
+   * Timestamp of the vote submission.
+   */
+  timestamp: string;
   [k: string]: unknown;
 }
 

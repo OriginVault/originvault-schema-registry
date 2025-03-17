@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.io/VaultDeclaration",
+  "title": "Vault DID Declaration",
+  "description": "Defines an OV Vault's ownership, governance, and access policies.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the vault."
+    },
+    "type": {
+      "const": "VaultDID",
+      "description": "Indicates this is a Vault DID declaration."
+    },
+    "owner": {
+      "type": "string",
+      "description": "The DID of the user or organization that owns this vault."
+    },
+    "cluster": {
+      "type": "string",
+      "description": "The DID of the OV cluster managing this vault."
+    },
+    "storageNodes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of Storage Node DIDs storing this vault's data."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The DID of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., Metadata, AccessLog, ContentManifest)." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." }
+        },
+        "required": ["id", "type", "name", "description", "uri"]
+      },
+      "description": "References to vault metadata, manifests, and access logs."
+    },
+    "accessPolicies": {
+      "type": "object",
+      "properties": {
+        "readAccess": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of DIDs that can read from this vault."
+        },
+        "writeAccess": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of DIDs that can write to this vault."
+        },
+        "publicAccess": {
+          "type": "boolean",
+          "description": "Whether the vault is publicly accessible."
+        }
+      },
+      "description": "Defines who can access and modify the vault."
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "governedBy": {
+          "type": "string",
+          "description": "DID of the governance body managing vault policies (e.g., a DAO or admin)."
+        },
+        "disputeResolution": {
+          "type": "string",
+          "description": "DID reference to a dispute resolution service."
+        }
+      },
+      "description": "Governance and compliance policies for the vault."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this vault declaration was issued."
+    }
+  },
+  "required": ["id", "owner", "cluster", "storageNodes", "timestamp"]
+}

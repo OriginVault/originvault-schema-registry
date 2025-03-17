@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/NamespaceDeclaration",
+  "title": "Namespace Declaration",
+  "description": "Defines an OV Namespace and its governance rules.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the namespace."
+    },
+    "type": {
+      "const": "NamespaceDeclaration",
+      "description": "Indicates this is a Namespace DID declaration."
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "managedBy": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of DIDs responsible for managing this namespace."
+        },
+        "rules": {
+          "type": "string",
+          "description": "A reference to governance rules stored in Ceramic or DID-Linked Resources."
+        },
+        "disputeResolution": {
+          "type": "string",
+          "description": "A DID reference to a dispute resolution service."
+        }
+      },
+      "description": "Governance policies for the namespace."
+    },
+    "clusters": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of Cluster DIDs under this namespace."
+    },
+    "verificationPolicies": {
+      "type": "object",
+      "properties": {
+        "clusterVerification": {
+          "type": "string",
+          "enum": ["Open", "Permissioned", "Staked"],
+          "description": "Defines how new clusters are verified."
+        },
+        "revocationPolicy": {
+          "type": "string",
+          "description": "Conditions under which a cluster can be revoked from the namespace."
+        }
+      },
+      "description": "Verification and security policies for the namespace."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The DID of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., governance, metadata, event log)." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." }
+        },
+        "required": ["id", "type", "name", "description", "uri"]
+      },
+      "description": "Linked resources associated with this namespace."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this namespace declaration was issued."
+    }
+  },
+  "required": ["id", "clusters", "verificationPolicies", "timestamp"]
+}

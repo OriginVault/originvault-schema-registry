@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/PluginExecutionRequest",
+  "title": "Plugin Execution Request",
+  "description": "Defines a request from a plugin running in a vault to interact with an OV node.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the execution request." },
+    "vault": { "type": "string", "description": "The DID of the vault running the plugin." },
+    "plugin": { "type": "string", "description": "The DID of the plugin making the request." },
+    "node": { "type": "string", "description": "The DID of the node handling the request." },
+    "requestType": {
+      "type": "string",
+      "enum": ["ComputeTask", "DataRead", "DataWrite", "IdentityLookup", "VerificationCheck"],
+      "description": "Type of request being made."
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Additional parameters required for processing the request."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "processing", "completed", "failed"],
+      "description": "Current status of the request."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of request submission." }
+  },
+  "required": ["id", "vault", "plugin", "node", "requestType", "status", "timestamp"]
+}

@@ -1,3 +1,15 @@
+## 0.0.7
+
+- Added `NamespaceRecognitionCertificate` schema to the package.
+- Added `GovernanceProposal` schema to the package.
+- Added `ContentAuthenticityAssertionCredential` schema to the package.
+- Added `ContentDetailsAssertionCredential` schema to the package.
+- Added `ContentSigningCredential` schema to the package.
+- Added `ExtendedMetadataCredential` schema to the package.
+- Added `PluginDeclaration` schema to the package.
+- Added `VaultDeclaration` schema to the package.
+- and more...
+
 ## 0.0.6
 
 - Update `@openverifiable/open-verifiable-types` to `0.0.7`.

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/StorageNodeDeclaration",
+  "title": "Storage Node Declaration",
+  "description": "Defines a Storage Node in an OV Cluster.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the Storage Node." },
+    "type": { "const": "StorageNode", "description": "Node type." },
+    "cluster": { "type": "string", "description": "The DID of the cluster this node belongs to." },
+    "operator": { "type": "string", "description": "DID of the entity operating this node." },
+    "storageType": {
+      "type": "string",
+      "enum": ["MinIO", "IPFS", "Arweave", "Verida"],
+      "description": "Type of storage system used."
+    },
+    "storageCapacity": {
+      "type": "string",
+      "description": "Storage capacity available (e.g., 1TB, 100GB)."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The DID of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., Data, Metadata, ContentManifest)." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." }
+        },
+        "required": ["id", "type", "name", "description", "uri"]
+      },
+      "description": "References to stored resources."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "revoked"],
+      "description": "Operational status of the node."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of node declaration." }
+  },
+  "required": ["id", "cluster", "operator", "storageType", "storageCapacity", "status", "timestamp"]
+}

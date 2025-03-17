@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/ContentExtendedMetadataAssertionCredential",
+  "title": "Content Extended Metadata Assertion Credential",
+  "description": "Verifiable Credential containing metadata such as licensing and usage restrictions.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "DID of the VC instance." },
+    "issuer": { "type": "string", "description": "DID of the issuing entity (e.g., OriginVault)." },
+    "issuedTo": { "type": "string", "description": "DID of the content owner." },
+    "issuedAt": { "type": "string", "format": "date-time", "description": "Timestamp of issuance." },
+    "data": {
+      "type": "object",
+      "properties": {
+        "tags": { "type": "string", "title": "Tags (Comma-Separated)" },
+        "licensing": { 
+          "type": "string", 
+          "title": "License Type",
+          "enum": ["All Rights Reserved", "Creative Commons", "Public Domain"]
+        },
+        "usageRestrictions": {
+          "type": "array",
+          "title": "Usage Restrictions",
+          "items": { "type": "string", "enum": ["No AI Training", "No Redistribution", "No Commercial Use"] }
+        }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "description": "Cryptographic proof for the credential.",
+      "properties": {
+        "type": { "type": "string", "description": "Proof type." },
+        "created": { "type": "string", "format": "date-time", "description": "Timestamp of proof creation." },
+        "verificationMethod": { "type": "string", "description": "DID or method used to verify this proof." },
+        "signatureValue": { "type": "string", "description": "Base64 or hex-encoded signature." }
+      }
+    }
+  },
+  "required": ["id", "issuer", "issuedTo", "issuedAt", "data", "proof"]
+}

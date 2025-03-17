@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/NamespaceGovernance",
+  "title": "Namespace Governance",
+  "description": "Defines governance rules for an OV Namespace.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the namespace governance document."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The DID of the namespace this governance applies to."
+    },
+    "governanceModel": {
+      "type": "string",
+      "enum": ["AdminControlled", "TokenVoting", "MultiSig"],
+      "description": "The governance model used to manage this namespace."
+    },
+    "governanceBodies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "DID of a governance body (e.g., DAO, committee, council)." },
+          "role": { "type": "string", "description": "The role of this body (e.g., Validator, Arbiter)." }
+        }
+      },
+      "description": "List of governing entities managing this namespace."
+    },
+    "decisionMaking": {
+      "type": "object",
+      "properties": {
+        "votingThreshold": {
+          "type": "number",
+          "description": "Percentage required for approval in voting-based governance."
+        },
+        "proposalProcess": {
+          "type": "string",
+          "description": "Reference to a Ceramic document explaining the proposal submission process."
+        }
+      },
+      "description": "Rules for decision-making in the namespace."
+    },
+    "disputeResolution": {
+      "type": "object",
+      "properties": {
+        "resolutionMethod": {
+          "type": "string",
+          "enum": ["Arbitration", "GovernanceVote", "SmartContract"],
+          "description": "Method used to resolve disputes."
+        },
+        "resolutionService": {
+          "type": "string",
+          "description": "The DID of a dispute resolution service or contract."
+        }
+      },
+      "description": "How governance disputes are resolved."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this governance document was issued."
+    }
+  },
+  "required": ["id", "namespace", "governanceModel", "governanceBodies", "timestamp"]
+}

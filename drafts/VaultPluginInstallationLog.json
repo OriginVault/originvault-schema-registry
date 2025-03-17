@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/PluginInstallationLog",
+  "title": "Plugin Installation Log",
+  "description": "Tracks the installation of plugins within an OV Vault, ensuring compliance with cluster policies.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the vault plugin installation." },
+    "vault": { "type": "string", "description": "The DID of the vault where the plugin is installed." },
+    "plugin": { "type": "string", "description": "The DID of the installed plugin." },
+    "cluster": { "type": "string", "description": "The DID of the cluster the vault belongs to." },
+    "installedBy": { "type": "string", "description": "DID of the entity that installed the plugin." },
+    "status": {
+      "type": "string",
+      "enum": ["installed", "active", "suspended", "removed"],
+      "description": "The status of the plugin installation."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of installation." }
+  },
+  "required": ["id", "vault", "plugin", "cluster", "installedBy", "status", "timestamp"]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/IdentityNodeDeclaration",
+  "title": "Identity Node Declaration",
+  "description": "Defines an Identity Node in an OV Cluster.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "The DID of the Identity Node." },
+    "type": { "const": "IdentityNode", "description": "Node type." },
+    "cluster": { "type": "string", "description": "The DID of the cluster this node belongs to." },
+    "operator": { "type": "string", "description": "DID of the entity operating this node." },
+    "services": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of services managed by this Identity Node (e.g., DID Resolution, Verification)."
+    },
+    "verificationPolicies": {
+      "type": "string",
+      "description": "Reference to identity verification policies."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "The DID of the linked resource." },
+          "type": { "type": "string", "description": "The type of resource (e.g., GovernancePolicy, VerificationLog)." },
+          "name": { "type": "string", "description": "The name of the linked resource." },
+          "description": { "type": "string", "description": "The description of the linked resource." },
+          "uri": { "type": "string", "description": "The uri of the linked resource." }
+        },
+        "required": ["id", "type", "name", "description", "uri"]
+      },
+      "description": "References to identity verification policies."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "suspended", "revoked"],
+      "description": "Operational status of the node."
+    },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of node declaration." }
+  },
+  "required": ["id", "cluster", "operator", "services", "status", "timestamp"]
+}
