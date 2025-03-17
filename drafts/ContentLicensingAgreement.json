@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": ["https://schema.org", "https://schemas.originvault.io"],
+  "$id": "https://schemas.originvault.box/ContentLicensingAgreement",
+  "title": "Content Licensing Agreement",
+  "description": "Defines licensing terms for content distributed through OriginVault.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": ["License", "CreativeWork"],
+      "description": "Schema.org type"
+    },
+    "agreementId": { "type": "string", "description": "DID of the agreement." },
+    "contentId": { "type": "string", "description": "DID of the licensed content." },
+    "creatorId": { "type": "string", "description": "DID of the content creator." },
+    "licenseeId": { "type": "string", "description": "DID of the entity purchasing the license." },
+
+    "agreeAction": {
+      "type": "object",
+      "description": "Represents the act of accepting this license.",
+      "properties": {
+        "@type": { "type": "string", "enum": ["AgreeAction"], "description": "Schema.org type" },
+        "agent": { "type": "string", "description": "DID of the licensee accepting the agreement." },
+        "object": { "type": "string", "description": "DID of this licensing agreement." },
+        "participant": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "DIDs of all involved parties (creator, licensee, etc.)."
+        },
+        "actionStatus": { "type": "string", "enum": ["CompletedActionStatus"], "description": "Agreement completion status." },
+        "startTime": { "type": "string", "format": "date-time", "description": "Timestamp when the agreement was signed." },
+        "endTime": { "type": "string", "format": "date-time", "description": "Expiration timestamp of the agreement." }
+      }
+    },
+
+    "claim": {
+      "type": "object",
+      "description": "Represents a claim related to the agreement (e.g., ownership, dispute).",
+      "properties": {
+        "@type": { "type": "string", "enum": ["Claim"], "description": "Schema.org type" },
+        "claimReviewed": { "type": "string", "description": "Claim being made (e.g., 'Properly Licensed')." },
+        "author": { "type": "string", "description": "DID of the entity making the claim." },
+        "claimInterpreter": { "type": "string", "description": "DID of the validating entity (e.g., OV verification node)." },
+        "reviewAspect": { "type": "string", "description": "Which aspect of the license is under review (e.g., royalty terms)." },
+        "firstAppearance": { "type": "string", "format": "date-time", "description": "Timestamp of the first assertion of the claim." },
+        "appearance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timestamp": { "type": "string", "format": "date-time", "description": "Revalidation timestamp." },
+              "reviewStatus": { "type": "string", "enum": ["Verified", "Disputed", "Revoked"], "description": "Status of the claim." }
+            }
+          }
+        }
+      }
+    },
+
+    "licenseType": {
+      "type": "string",
+      "enum": ["Exclusive", "Non-Exclusive", "Time-Limited", "One-Time Use"],
+      "description": "Defines whether the license is exclusive to the licensee or shared."
+    },
+
+    "permittedUses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Personal Use", "Commercial Use", "AI Training", "Resale", "Public Display"]
+      },
+      "description": "Defines the specific use cases allowed for the licensee."
+    },
+
+    "paymentTerms": {
+      "type": "object",
+      "properties": {
+        "licenseFee": { "type": "number", "description": "Fixed price of the license in USD or crypto equivalent." },
+        "recurringFee": { "type": "boolean", "description": "Whether the license requires ongoing payments." },
+        "paymentSchedule": { "type": "string", "description": "Schedule for payments (e.g., one-time, monthly, annually)." }
+      }
+    },
+
+    "royaltyTerms": {
+      "type": "object",
+      "properties": {
+        "royaltyPercentage": { "type": "number", "description": "Percentage of revenue owed to the creator." },
+        "paymentSchedule": { "type": "string", "description": "How frequently royalties are paid." }
+      }
+    },
+
+    "revocationPolicy": {
+      "type": "object",
+      "properties": {
+        "misuseConditions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Conditions under which the license is revoked."
+        },
+        "nonPaymentPenalty": {
+          "type": "boolean",
+          "description": "Whether failure to pay results in automatic revocation."
+        }
+      }
+    },
+
+    "auditAndCompliance": {
+      "type": "object",
+      "properties": {
+        "trackingMechanism": {
+          "type": "string",
+          "enum": ["DID-Linked Resource", "Verifiable Credential", "On-Chain"],
+          "description": "How license compliance is tracked."
+        }
+      }
+    },
+
+    "agreementSigned": { "type": "boolean", "description": "Whether both parties have accepted the agreement." },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Time of agreement acceptance." }
+  },
+  "required": [
+    "agreementId",
+    "contentId",
+    "creatorId",
+    "licenseeId",
+    "agreeAction",
+    "licenseType",
+    "permittedUses",
+    "paymentTerms",
+    "royaltyTerms",
+    "revocationPolicy",
+    "auditAndCompliance",
+    "agreementSigned",
+    "timestamp"
+  ]
+}

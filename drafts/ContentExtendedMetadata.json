@@ -5,13 +5,54 @@
   "description": "Verifiable Credential containing metadata such as licensing and usage restrictions.",
   "type": "object",
   "properties": {
-    "id": { "type": "string", "description": "DID of the VC instance." },
-    "issuer": { "type": "string", "description": "DID of the issuing entity (e.g., OriginVault)." },
-    "issuedTo": { "type": "string", "description": "DID of the content owner." },
-    "issuedAt": { "type": "string", "format": "date-time", "description": "Timestamp of issuance." },
-    "data": {
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "The unique identifier for the credential."
+    },
+    "type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The type of the credential, typically including 'VerifiableCredential'."
+    },
+    "issuer": {
+      "type": "object",
+      "description": "The entity that issued the credential.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "The unique identifier for the issuer."
+        }
+      },
+      "required": ["id"]
+    },
+    "@context": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The context of the credential."
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The expiration date of the credential."
+    },
+    "credentialSubject": {
       "type": "object",
       "properties": {
+        "contentReference": {
+          "type": "object",
+          "description": "References to the content’s integrity details.",
+          "properties": {
+            "identifier": { "type": "string", "description": "DID of the content being referenced." },
+            "contentHash": { "type": "string", "description": "SHA-256 or IPFS CID hash of the content." },
+            "perceptualHash": { "type": "string", "description": "Perceptual hash for similarity detection." }
+          }
+        },
         "tags": { "type": "string", "title": "Tags (Comma-Separated)" },
         "licensing": { 
           "type": "string", 
@@ -23,18 +64,9 @@
           "title": "Usage Restrictions",
           "items": { "type": "string", "enum": ["No AI Training", "No Redistribution", "No Commercial Use"] }
         }
-      }
-    },
-    "proof": {
-      "type": "object",
-      "description": "Cryptographic proof for the credential.",
-      "properties": {
-        "type": { "type": "string", "description": "Proof type." },
-        "created": { "type": "string", "format": "date-time", "description": "Timestamp of proof creation." },
-        "verificationMethod": { "type": "string", "description": "DID or method used to verify this proof." },
-        "signatureValue": { "type": "string", "description": "Base64 or hex-encoded signature." }
-      }
+      },
+      "required": ["contentReference", "tags", "licensing", "usageRestrictions"]
     }
   },
-  "required": ["id", "issuer", "issuedTo", "issuedAt", "data", "proof"]
+  "required": ["id", "issuer", "credentialSubject", "expirationDate"]
 }

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.io/NodeVotingConsensusAgreement",
+  "title": "Node Voting & Consensus Agreement",
+  "description": "Defines voting mechanisms for governance decisions in OriginVault clusters.",
+  "type": "object",
+  "properties": {
+    "agreementId": { "type": "string", "description": "DID of the agreement." },
+    "clusterId": { "type": "string", "description": "DID of the Cluster where voting occurs." },
+    "nodeId": { "type": "string", "description": "DID of the participating node." },
+    "voteType": {
+      "type": "string",
+      "enum": ["Governance Policy", "New Namespace Approval", "Node Sanctions"],
+      "description": "The type of vote being cast."
+    },
+    "votingMethod": {
+      "type": "string",
+      "enum": ["One Node, One Vote", "Stake-Weighted", "Reputation-Based"],
+      "description": "Defines how voting power is determined."
+    },
+    "minimumQuorum": { "type": "number", "description": "The minimum percentage of nodes required for the vote to be valid." },
+    "decisionThreshold": { "type": "number", "description": "The percentage required to approve a decision." },
+    "revocationPolicy": { "type": "string", "description": "Under what conditions a vote result can be invalidated." },
+    "agreementSigned": { "type": "boolean", "description": "Whether the node has agreed to the governance process." }
+  },
+  "required": ["agreementId", "clusterId", "nodeId", "voteType", "votingMethod", "minimumQuorum", "decisionThreshold", "revocationPolicy", "agreementSigned"]
+}

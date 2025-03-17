@@ -1,3 +1,13 @@
+## 0.0.8
+
+- Added `ContentAIPermissionAssertionCredential` schema to the package.
+- Added `ContentExtendedMetadata` schema to the package.
+- Added `ContentLicensingTerms` schema to the package.
+- Added `ContentLicensingAgreement` schema to the package.
+- Added `ContentLegalAccountability` schema to the package.
+- Added `ContentDetailsAssertionCredential` schema to the package.
+
+
 ## 0.0.7
 
 - Added `NamespaceRecognitionCertificate` schema to the package.

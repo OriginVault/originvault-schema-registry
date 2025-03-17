@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": ["https://schema.org", "https://schemas.originvault.box"],
+  "$id": "https://schemas.originvault.box/DigitalDocument",
+  "title": "Digital Document",
+  "description": "Verifiable digital document metadata for OriginVault content.",
+  "type": "object",
+  "properties": {
+    "identifier": { "type": "string", "description": "DID of the content." },
+    "name": { "type": "string", "description": "Name or title of the document." },
+    "author": { "type": "string", "description": "DID of the creator or owner." },
+    "encodingFormat": { "type": "string", "description": "MIME type of the file (e.g., image/png, video/mp4)." },
+    "publisher": { "type": "string", "description": "DID of the publisher." },
+    "publication": { "type": "string", "description": "Verifiable Credential URI of the publication." },
+    "contentSize": { "type": "number", "description": "Size of the document in bytes." },
+    "isBasedOn": { "type": "string", "description": "DID of the source if derived from another work." },
+    "dateCreated": { "type": "string", "format": "date-time", "description": "Timestamp when the document was created." },
+    "dateModified": { "type": "string", "format": "date-time", "description": "Timestamp of the last modification." },
+    "license": { "type": "string", "description": "DID reference to the licensing agreement." },
+    "acquireLicensePage": { "type": "string", "format": "uri", "description": "URL where licenses can be purchased." },
+    "usageRestrictions": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["No AI Training", "No Redistribution", "No Commercial Use"] },
+      "description": "Usage restrictions for the document."
+    },
+    "C2PAManifest": {
+      "type": "object",
+      "description": "C2PA content authenticity proof.",
+      "properties": {
+        "identifier": { "type": "string", "description": "Verifiable Credential URI of the C2PA manifest." },
+        "contentSigner": { "type": "string", "description": "DID of the signing entity." },
+        "signatureValue": { "type": "string", "description": "Cryptographic signature of the content." }
+      }
+    },
+    "thumbnailUrl": { "type": "string", "format": "uri", "description": "URL to a thumbnail preview of the document." },
+    "associatedMedia": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" },
+      "description": "Media files linked to this document (e.g., video sources, image formats)."
+    },
+    "sameAs": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" },
+      "description": "External references (e.g., OpenSea, IPFS, Arweave)."
+    }
+  },
+  "required": ["identifier", "name", "author", "encodingFormat", "contentSize", "dateCreated", "license"]
+}

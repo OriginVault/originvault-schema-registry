@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.io/ServiceLevelAgreement",
+  "title": "Service-Level Agreement (SLA) for OV Nodes",
+  "description": "Defines minimum performance guarantees for nodes in the OV ecosystem.",
+  "type": "object",
+  "properties": {
+    "agreementId": { "type": "string", "description": "DID of the agreement." },
+    "nodeId": { "type": "string", "description": "DID of the Node." },
+    "namespaceId": { "type": "string", "description": "DID of the Namespace the node belongs to." },
+    "nodeType": {
+      "type": "string",
+      "enum": ["Identity", "Storage", "Compute", "Verification"],
+      "description": "The type of node operating under this SLA."
+    },
+    "expectedUptime": {
+      "type": "object",
+      "properties": {
+        "minPercentage": { "type": "number", "description": "Minimum required uptime percentage (e.g., 99.9%)." },
+        "measurementPeriod": { "type": "string", "description": "Time period over which uptime is measured (e.g., 30 days)." }
+      }
+    },
+    "latencyThresholds": {
+      "type": "object",
+      "properties": {
+        "maxResponseTime": { "type": "number", "description": "Maximum allowed response time (in milliseconds)." },
+        "maxProcessingTime": { "type": "number", "description": "Maximum allowed compute processing time (in milliseconds)." }
+      }
+    },
+    "failureCompensation": {
+      "type": "object",
+      "properties": {
+        "financialPenalty": { "type": "string", "description": "Penalty applied if the Node fails SLA requirements (e.g., reduced staking rewards, service fees)." },
+        "trustScoreImpact": { "type": "number", "description": "Negative impact on the Node’s trust score if SLA terms are violated." },
+        "downgradeStatus": { "type": "boolean", "description": "Whether the Node can be downgraded to a lower-tier role upon SLA violations." }
+      },
+      "description": "Defines penalties and consequences for failing to meet SLA obligations."
+    },
+    "compensationIncentives": {
+      "type": "object",
+      "properties": {
+        "bonusForHighUptime": { "type": "boolean", "description": "Whether nodes get rewards for exceeding SLA targets." },
+        "feeReductions": { "type": "boolean", "description": "Whether nodes can receive reduced operational fees for high performance." }
+      },
+      "description": "Defines incentive mechanisms for high-performance Nodes."
+    },
+    "complianceMonitoring": {
+      "type": "object",
+      "properties": {
+        "monitoringEntity": { "type": "string", "description": "DID of the entity monitoring SLA compliance." },
+        "auditFrequency": { "type": "string", "description": "How often the node is audited for SLA compliance (e.g., monthly, quarterly)." },
+        "onChainLogging": { "type": "boolean", "description": "Whether compliance logs are recorded on-chain for transparency." }
+      },
+      "description": "Specifies how SLA compliance is monitored and enforced."
+    },
+    "stakingRequirements": {
+      "type": "object",
+      "properties": {
+        "requiredStakeAmount": { "type": "number", "description": "Minimum amount of tokens staked to participate as a Node." },
+        "slashingConditions": { "type": "array", "items": { "type": "string" }, "description": "Conditions under which staked tokens can be slashed (e.g., repeated SLA violations)." }
+      },
+      "description": "Defines staking and collateral mechanisms for Nodes."
+    },
+    "revocationPolicy": {
+      "type": "object",
+      "properties": {
+        "conditionsForRemoval": { "type": "string", "description": "Conditions under which a Node is removed from the Cluster." },
+        "gracePeriod": { "type": "number", "description": "Amount of time the Node has to fix compliance issues before removal." },
+        "appealProcess": { "type": "string", "description": "Procedure for a Node to challenge its removal from the Cluster." }
+      },
+      "description": "Defines rules for Node removal due to SLA non-compliance."
+    },
+    "agreementSigned": { "type": "boolean", "description": "Whether the Node operator has accepted the SLA." },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Time of agreement acceptance." }
+  },
+  "required": [
+    "agreementId",
+    "nodeId",
+    "namespaceId",
+    "nodeType",
+    "expectedUptime",
+    "latencyThresholds",
+    "failureCompensation",
+    "complianceMonitoring",
+    "stakingRequirements",
+    "revocationPolicy",
+    "agreementSigned",
+    "timestamp"
+  ]
+}

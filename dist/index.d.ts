@@ -200,6 +200,29 @@ export interface Attachment {
   [k: string]: unknown;
 }
 
+export interface ClaimVerification {
+  /**
+   * DID of the claim.
+   */
+  identifier: string;
+  /**
+   * The assertion made by this content (e.g., 'This image was created by AI').
+   */
+  interpretedAsClaim: string;
+  claimInterpreter: {
+    /**
+     * DID of the verifying entity.
+     */
+    identifier?: string;
+    /**
+     * Name of the interpreter (e.g., OriginVault AI Trust Validator).
+     */
+    name?: string;
+    [k: string]: unknown;
+  };
+  [k: string]: unknown;
+}
+
 /**
  * Defines governance rules for an OV Cluster.
  */
@@ -347,53 +370,131 @@ export interface ComputeNodeDeclaration {
 export type AllowDataMining = boolean;
 export type AllowAIMLTraining = boolean;
 export type AllowAIMLInference = boolean;
+export type AllowGenerativeAIImageVideoTextGeneration = boolean;
 
 /**
- * Verifiable Credential containing AI usage and permissions.
+ * Verifiable Credential asserting AI usage permissions and restrictions for digital content.
  */
 export interface ContentAIPermissionAssertionCredential {
   /**
-   * DID of the VC instance.
+   * The unique identifier for the credential.
    */
   id: string;
   /**
-   * DID of the issuing entity (e.g., OriginVault).
+   * The type of the credential, typically including 'VerifiableCredential'.
    */
-  issuer: string;
+  type?: string[];
   /**
-   * DID of the content owner.
+   * The entity that issued the credential.
    */
-  issuedTo: string;
-  /**
-   * Timestamp of issuance.
-   */
-  issuedAt: string;
-  data: {
-    allowDataMining?: AllowDataMining;
-    allowAITraining?: AllowAIMLTraining;
-    allowAIInference?: AllowAIMLInference;
+  issuer: {
+    /**
+     * The unique identifier for the issuer.
+     */
+    id: string;
     [k: string]: unknown;
   };
   /**
-   * Cryptographic proof for the credential.
+   * The context of the credential.
    */
-  proof: {
+  "@context"?: string[];
+  /**
+   * The expiration date of the credential.
+   */
+  expirationDate?: string;
+  credentialSubject: {
     /**
-     * Proof type.
+     * Schema.org type
      */
-    type?: string;
+    "@type"?: "DigitalDocument" | "License";
     /**
-     * Timestamp of proof creation.
+     * The unique identifier for the content.
      */
-    created?: string;
+    id?: string;
+    license?: {
+      /**
+       * DID of the content associated with this AI permission credential.
+       */
+      contentId: string;
+      owner: {
+        /**
+         * DID of the content owner.
+         */
+        id?: string;
+        /**
+         * Owners name or organization.
+         */
+        name?: string;
+        [k: string]: unknown;
+      };
+      permissions: {
+        allowDataMining?: AllowDataMining;
+        allowAITraining?: AllowAIMLTraining;
+        allowAIInference?: AllowAIMLInference;
+        allowGenerativeAI?: AllowGenerativeAIImageVideoTextGeneration;
+        [k: string]: unknown;
+      };
+      prohibitedUses?: ("Resale" | "Commercial AI Training" | "Facial Recognition" | "Military Use")[];
+      [k: string]: unknown;
+    };
     /**
-     * DID or method used to verify this proof.
+     * Defines AI licensing and monetization terms.
      */
-    verificationMethod?: string;
+    monetization?: {
+      /**
+       * Whether AI-related use requires a license.
+       */
+      licensingRequired?: boolean;
+      /**
+       * The payment model for AI permissions.
+       */
+      paymentModel?: "One-Time Fee" | "Subscription" | "Per API Call";
+      /**
+       * Price in USD or equivalent crypto.
+       */
+      price?: number;
+      /**
+       * Percentage of revenue owed to the content owner if used in AI applications.
+       */
+      royaltyPercentage?: number;
+      [k: string]: unknown;
+    };
     /**
-     * Base64 or hex-encoded signature.
+     * Defines AI licensing enforcement and compliance tracking.
      */
-    signatureValue?: string;
+    verification?: {
+      /**
+       * Method used to track AI compliance.
+       */
+      complianceTracking?: "DID-Linked Resource" | "On-Chain Record" | "Verifiable Credential";
+      /**
+       * How often compliance is reviewed (e.g., monthly, annually).
+       */
+      auditFrequency?: string;
+      [k: string]: unknown;
+    };
+    /**
+     * Defines when and why AI permissions may be revoked.
+     */
+    revocationPolicy?: {
+      /**
+       * Conditions under which the AI permission is revoked.
+       */
+      misuseConditions?: string[];
+      /**
+       * The date when AI permissions expire.
+       */
+      expirationDate?: string;
+      [k: string]: unknown;
+    };
+    /**
+     * Whether both parties have accepted the AI permission terms.
+     */
+    agreementSigned?: boolean;
+    /**
+     * Timestamp of issuance.
+     */
+    issuedAt?: string;
     [k: string]: unknown;
   };
   [k: string]: unknown;
@@ -404,134 +505,62 @@ export interface ContentAIPermissionAssertionCredential {
  */
 export interface ContentAuthenticityAssertionCredential {
   /**
-   * DID of the aggregated VC instance.
+   * The unique identifier for the credential.
    */
   id: string;
   /**
-   * DID of the entity issuing the aggregated credential.
+   * The type of the credential, typically including 'VerifiableCredential'.
    */
-  issuer: string;
+  type?: string[];
   /**
-   * DID of the content owner.
+   * The entity that issued the credential.
    */
-  issuedTo: string;
-  /**
-   * Timestamp of issuance.
-   */
-  issuedAt: string;
-  /**
-   * Unique ID of the associated content.
-   */
-  contentId: string;
-  /**
-   * DID references to modular Verifiable Credentials included in this authenticity record.
-   */
-  includedCredentials: {
+  issuer: {
     /**
-     * DID DLR URI of the Content Details VC.
+     * The unique identifier for the issuer.
      */
-    contentDetails: string;
-    /**
-     * DID DLR URI of the Identity Claims VC.
-     */
-    identityClaims: string;
-    /**
-     * DID DLR URI of the Extended Metadata VC.
-     */
-    extendedMetadata: string;
-    /**
-     * DID DLR URI of the AI Permissions VC.
-     */
-    aiPermissions: string;
-    /**
-     * DID DLR URI of the Content Signing VC.
-     */
-    contentSigning: string;
+    id: string;
     [k: string]: unknown;
   };
   /**
-   * Current verification status of the aggregated credential.
+   * The context of the credential.
    */
-  verificationStatus: "valid" | "revoked" | "pending";
+  "@context"?: string[];
   /**
-   * Cryptographic proof for the aggregated credential.
+   * The expiration date of the credential.
    */
-  proof: {
+  expirationDate: string;
+  credentialSubject: {
     /**
-     * Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof).
+     * Unique ID of the associated content.
      */
-    type: string;
+    contentId?: string;
     /**
-     * Timestamp of proof creation.
+     * DID references to modular Verifiable Credentials included in this authenticity record.
      */
-    created: string;
-    /**
-     * DID or method used to verify this proof.
-     */
-    verificationMethod: string;
-    /**
-     * Base64 or hex-encoded signature.
-     */
-    signatureValue: string;
-    [k: string]: unknown;
-  };
-  [k: string]: unknown;
-}
-
-export type FileName = string;
-export type FileSizeBytes = number;
-export type FileFormat = string;
-export type OriginalCreationDate = string;
-export type ContentVersion = string;
-
-/**
- * Verifiable Credential containing metadata about the digital content.
- */
-export interface ContentDetailsAssertionCredential {
-  /**
-   * DID of the VC instance.
-   */
-  id: string;
-  /**
-   * DID of the issuing entity (e.g., OriginVault).
-   */
-  issuer: string;
-  /**
-   * DID of the content owner.
-   */
-  issuedTo: string;
-  /**
-   * Timestamp of issuance.
-   */
-  issuedAt: string;
-  data: {
-    name?: FileName;
-    size?: FileSizeBytes;
-    format?: FileFormat;
-    creationDate?: OriginalCreationDate;
-    version?: ContentVersion;
-    [k: string]: unknown;
-  };
-  /**
-   * Cryptographic proof for the credential.
-   */
-  proof: {
-    /**
-     * Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof).
-     */
-    type?: string;
-    /**
-     * Timestamp of proof creation.
-     */
-    created?: string;
-    /**
-     * DID or method used to verify this proof.
-     */
-    verificationMethod?: string;
-    /**
-     * Base64 or hex-encoded signature.
-     */
-    signatureValue?: string;
+    includedCredentials?: {
+      /**
+       * DID DLR URI of the Content Details VC.
+       */
+      contentDetails?: string;
+      /**
+       * DID DLR URI of the Identity Claims VC.
+       */
+      identityClaims?: string;
+      /**
+       * DID DLR URI of the Extended Metadata VC.
+       */
+      extendedMetadata?: string;
+      /**
+       * DID DLR URI of the AI Permissions VC.
+       */
+      aiPermissions?: string;
+      /**
+       * DID DLR URI of the Content Signing VC.
+       */
+      contentSigning?: string;
+      [k: string]: unknown;
+    };
     [k: string]: unknown;
   };
   [k: string]: unknown;
@@ -546,115 +575,423 @@ export type UsageRestrictions = ("No AI Training" | "No Redistribution" | "No Co
  */
 export interface ContentExtendedMetadataAssertionCredential {
   /**
-   * DID of the VC instance.
+   * The unique identifier for the credential.
    */
   id: string;
   /**
-   * DID of the issuing entity (e.g., OriginVault).
+   * The type of the credential, typically including 'VerifiableCredential'.
    */
-  issuer: string;
+  type?: string[];
   /**
-   * DID of the content owner.
+   * The entity that issued the credential.
    */
-  issuedTo: string;
-  /**
-   * Timestamp of issuance.
-   */
-  issuedAt: string;
-  data: {
-    tags?: TagsCommaSeparated;
-    licensing?: LicenseType;
-    usageRestrictions?: UsageRestrictions;
+  issuer: {
+    /**
+     * The unique identifier for the issuer.
+     */
+    id: string;
     [k: string]: unknown;
   };
   /**
-   * Cryptographic proof for the credential.
+   * The context of the credential.
    */
-  proof: {
+  "@context"?: string[];
+  /**
+   * The expiration date of the credential.
+   */
+  expirationDate: string;
+  credentialSubject: {
     /**
-     * Proof type.
+     * References to the content’s integrity details.
      */
-    type?: string;
-    /**
-     * Timestamp of proof creation.
-     */
-    created?: string;
-    /**
-     * DID or method used to verify this proof.
-     */
-    verificationMethod?: string;
-    /**
-     * Base64 or hex-encoded signature.
-     */
-    signatureValue?: string;
+    contentReference: {
+      /**
+       * DID of the content being referenced.
+       */
+      identifier?: string;
+      /**
+       * SHA-256 or IPFS CID hash of the content.
+       */
+      contentHash?: string;
+      /**
+       * Perceptual hash for similarity detection.
+       */
+      perceptualHash?: string;
+      [k: string]: unknown;
+    };
+    tags: TagsCommaSeparated;
+    licensing: LicenseType;
+    usageRestrictions: UsageRestrictions;
     [k: string]: unknown;
   };
   [k: string]: unknown;
 }
 
-/**
- * Cryptographic hash of the content.
- */
-export type SHA256ContentHash = string;
-/**
- * Perceptual hash for similarity detection.
- */
-export type PerceptualHash = string;
-export type UploadDate = string;
-/**
- * Entity that generated the signature (e.g., OriginVault).
- */
-export type IssuedBy = string;
+export interface ContentLegalAccountability {
+  /**
+   * DID of the content.
+   */
+  identifier: string;
+  accountablePerson: {
+    /**
+     * DID of the responsible entity.
+     */
+    identifier?: string;
+    /**
+     * Name of the accountable entity.
+     */
+    name?: string;
+    [k: string]: unknown;
+  };
+  publisher?: {
+    /**
+     * DID of the publisher.
+     */
+    identifier?: string;
+    /**
+     * Publisher name.
+     */
+    name?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Defines which legal system applies to the content.
+   */
+  legalJurisdiction: string;
+  /**
+   * URL or DID for dispute resolution policies.
+   */
+  disputeResolution?: string;
+  [k: string]: unknown;
+}
 
 /**
- * Verifiable Credential containing cryptographic signing details for digital content.
+ * Defines licensing terms for content distributed through OriginVault.
  */
-export interface ContentSigningAssertionCredential {
+export interface ContentLicensingAgreement {
   /**
-   * DID of the VC instance.
+   * Schema.org type
    */
-  id: string;
+  "@type"?: "License" | "CreativeWork";
   /**
-   * DID of the issuing entity (e.g., OriginVault).
+   * DID of the agreement.
    */
-  issuer: string;
+  agreementId: string;
   /**
-   * DID of the content owner.
+   * DID of the licensed content.
    */
-  issuedTo: string;
+  contentId: string;
   /**
-   * Timestamp of issuance.
+   * DID of the content creator.
    */
-  issuedAt: string;
-  data: {
-    contentHash?: SHA256ContentHash;
-    perceptualHash?: PerceptualHash;
-    uploadDate?: UploadDate;
-    issuedBy?: IssuedBy;
+  creatorId: string;
+  /**
+   * DID of the entity purchasing the license.
+   */
+  licenseeId: string;
+  /**
+   * Represents the act of accepting this license.
+   */
+  agreeAction: {
+    /**
+     * Schema.org type
+     */
+    "@type"?: "AgreeAction";
+    /**
+     * DID of the licensee accepting the agreement.
+     */
+    agent?: string;
+    /**
+     * DID of this licensing agreement.
+     */
+    object?: string;
+    /**
+     * DIDs of all involved parties (creator, licensee, etc.).
+     */
+    participant?: string[];
+    /**
+     * Agreement completion status.
+     */
+    actionStatus?: "CompletedActionStatus";
+    /**
+     * Timestamp when the agreement was signed.
+     */
+    startTime?: string;
+    /**
+     * Expiration timestamp of the agreement.
+     */
+    endTime?: string;
     [k: string]: unknown;
   };
   /**
-   * Cryptographic proof for the credential.
+   * Represents a claim related to the agreement (e.g., ownership, dispute).
    */
-  proof: {
+  claim?: {
     /**
-     * Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof).
+     * Schema.org type
      */
-    type?: string;
+    "@type"?: "Claim";
     /**
-     * Timestamp of proof creation.
+     * Claim being made (e.g., 'Properly Licensed').
      */
-    created?: string;
+    claimReviewed?: string;
     /**
-     * DID or method used to verify this proof.
+     * DID of the entity making the claim.
      */
-    verificationMethod?: string;
+    author?: string;
     /**
-     * Base64 or hex-encoded signature.
+     * DID of the validating entity (e.g., OV verification node).
      */
-    signatureValue?: string;
+    claimInterpreter?: string;
+    /**
+     * Which aspect of the license is under review (e.g., royalty terms).
+     */
+    reviewAspect?: string;
+    /**
+     * Timestamp of the first assertion of the claim.
+     */
+    firstAppearance?: string;
+    appearance?: {
+      /**
+       * Revalidation timestamp.
+       */
+      timestamp?: string;
+      /**
+       * Status of the claim.
+       */
+      reviewStatus?: "Verified" | "Disputed" | "Revoked";
+      [k: string]: unknown;
+    }[];
     [k: string]: unknown;
   };
+  /**
+   * Defines whether the license is exclusive to the licensee or shared.
+   */
+  licenseType: "Exclusive" | "Non-Exclusive" | "Time-Limited" | "One-Time Use";
+  /**
+   * Defines the specific use cases allowed for the licensee.
+   */
+  permittedUses: ("Personal Use" | "Commercial Use" | "AI Training" | "Resale" | "Public Display")[];
+  paymentTerms: {
+    /**
+     * Fixed price of the license in USD or crypto equivalent.
+     */
+    licenseFee?: number;
+    /**
+     * Whether the license requires ongoing payments.
+     */
+    recurringFee?: boolean;
+    /**
+     * Schedule for payments (e.g., one-time, monthly, annually).
+     */
+    paymentSchedule?: string;
+    [k: string]: unknown;
+  };
+  royaltyTerms: {
+    /**
+     * Percentage of revenue owed to the creator.
+     */
+    royaltyPercentage?: number;
+    /**
+     * How frequently royalties are paid.
+     */
+    paymentSchedule?: string;
+    [k: string]: unknown;
+  };
+  revocationPolicy: {
+    /**
+     * Conditions under which the license is revoked.
+     */
+    misuseConditions?: string[];
+    /**
+     * Whether failure to pay results in automatic revocation.
+     */
+    nonPaymentPenalty?: boolean;
+    [k: string]: unknown;
+  };
+  auditAndCompliance: {
+    /**
+     * How license compliance is tracked.
+     */
+    trackingMechanism?: "DID-Linked Resource" | "Verifiable Credential" | "On-Chain";
+    [k: string]: unknown;
+  };
+  /**
+   * Whether both parties have accepted the agreement.
+   */
+  agreementSigned: boolean;
+  /**
+   * Time of agreement acceptance.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines licensing conditions and monetization models for digital content in OriginVault.
+ */
+export interface ContentLicensingTerms {
+  /**
+   * Schema.org type
+   */
+  "@type"?: "License" | "CreativeWork";
+  /**
+   * DID of the licensed content.
+   */
+  identifier: string;
+  creator: {
+    /**
+     * DID of the creator.
+     */
+    identifier: string;
+    /**
+     * Creator name.
+     */
+    name?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * URL where the license can be obtained (e.g., smart contract, marketplace link).
+   */
+  acquireLicensePage?: string;
+  /**
+   * Defines if the license is shared or restricted.
+   */
+  licenseType: "Exclusive" | "Non-Exclusive" | "Time-Limited" | "One-Time Use";
+  licenseScope: {
+    /**
+     * Where the licensee is permitted to use the content.
+     */
+    geographicRestrictions?: "Global" | "Region-Specific" | "Country-Specific";
+    /**
+     * Whether the licensee can modify or adapt the content.
+     */
+    modificationRights?: boolean;
+    /**
+     * Whether the licensee can sublicense the content.
+     */
+    sublicensingAllowed?: boolean;
+    /**
+     * License duration (e.g., perpetual, 1 year, until 2030).
+     */
+    duration?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * URL linking to license terms & permitted uses.
+   */
+  usageInfo?: string;
+  /**
+   * Defines permitted usage rights.
+   */
+  permittedUses: ("Personal Use" | "Commercial Use" | "AI Training" | "Resale" | "Public Display")[];
+  /**
+   * Explicitly states forbidden use cases.
+   */
+  prohibitedUses?: ("No AI Training" | "No Redistribution" | "No Commercial Use")[];
+  /**
+   * Defines how the license is monetized.
+   */
+  monetizationModel: {
+    /**
+     * Price in USD or crypto equivalent.
+     */
+    price?: number;
+    paymentMethod?: "Stripe" | "Crypto" | "NFT";
+    /**
+     * Whether ongoing payments are required.
+     */
+    recurringFee?: boolean;
+    /**
+     * Schedule for payments (one-time, monthly, annually).
+     */
+    paymentSchedule?: string;
+    royaltyTerms?: {
+      /**
+       * Percentage paid to the creator.
+       */
+      royaltyPercentage?: number;
+      /**
+       * Schedule for royalty payments.
+       */
+      paymentSchedule?: string;
+      /**
+       * How royalties are distributed.
+       */
+      distributionMethod?: "Stripe Connect" | "Crypto Split" | "Manual Payout";
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Defines how licensing compliance is tracked and enforced.
+   */
+  verification: {
+    /**
+     * Method used to track compliance with licensing terms.
+     */
+    complianceTracking?: "DID-Linked Resource" | "On-Chain Record" | "Verifiable Credential";
+    /**
+     * DID of the entity responsible for verifying compliance.
+     */
+    verificationAuthority?: string;
+    /**
+     * How often compliance checks are conducted (e.g., quarterly, annually).
+     */
+    auditFrequency?: string;
+    [k: string]: unknown;
+  };
+  verifiableCredential?: {
+    /**
+     * URI to the VC.
+     */
+    identifier?: string;
+    issuer?: {
+      /**
+       * DID of the issuer.
+       */
+      identifier?: string;
+      /**
+       * Issuer name.
+       */
+      name?: string;
+      [k: string]: unknown;
+    };
+    [k: string]: unknown;
+  };
+  revocationPolicy?: {
+    /**
+     * Conditions under which the license is revoked.
+     */
+    misuseConditions?: string[];
+    /**
+     * Whether failure to pay results in automatic revocation.
+     */
+    nonPaymentPenalty?: boolean;
+    [k: string]: unknown;
+  };
+  /**
+   * Defines mechanisms for resolving disputes related to the agreement.
+   */
+  disputeResolution?: {
+    /**
+     * How disputes over the license are handled.
+     */
+    arbitrationMethod?: "DAO Voting" | "Legal Arbitration" | "Multi-Sig Review";
+    /**
+     * How a licensee can challenge revocation or penalty.
+     */
+    appealProcess?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Whether both parties have accepted the agreement.
+   */
+  agreementSigned: boolean;
+  /**
+   * Time of agreement acceptance.
+   */
+  timestamp: string;
   [k: string]: unknown;
 }
 
@@ -686,22 +1023,37 @@ export interface DIDAssertionCredential {
      */
     id?: string;
     /**
-     * The type of assertion this credential makes about the DID.
+     * The specific claim made about this DID (e.g., 'Trusted Creator').
      */
-    assertionType?: string;
+    claimReviewed?: string;
     /**
-     * Flexible metadata about the assertion, allowing any key-value pairs for extensibility.
+     * DID of the entity making this claim (same as issuer).
      */
-    assertionDetails?: {
-      [k: string]: unknown;
-    };
-    verificationSteps?: {
+    author?: string;
+    /**
+     * The entity validating the claim (e.g., an OV verification node).
+     */
+    claimInterpreter?: string;
+    /**
+     * Specific characteristic being reviewed (e.g., 'Content Authenticity').
+     */
+    reviewAspect?: string;
+    /**
+     * Timestamp when this claim was first issued.
+     */
+    firstAppearance?: string;
+    /**
+     * History of appearances or updates to the claim.
+     */
+    appearance?: {
       /**
-       * The verification step performed.
+       * Revalidation timestamp.
        */
-      step: string;
-      result: "Passed" | "Failed";
-      timestamp: string;
+      timestamp?: string;
+      /**
+       * Status of the claim.
+       */
+      reviewStatus?: "Verified" | "Disputed" | "Revoked";
       [k: string]: unknown;
     }[];
     [k: string]: unknown;
@@ -41323,6 +41675,95 @@ export interface HttpsJsonSchemastoreOrgJscpdJson {
 }
 
 /**
+ * Verifiable digital document metadata for OriginVault content.
+ */
+export interface DigitalDocument {
+  /**
+   * DID of the content.
+   */
+  identifier: string;
+  /**
+   * Name or title of the document.
+   */
+  name: string;
+  /**
+   * DID of the creator or owner.
+   */
+  author: string;
+  /**
+   * MIME type of the file (e.g., image/png, video/mp4).
+   */
+  encodingFormat: string;
+  /**
+   * DID of the publisher.
+   */
+  publisher?: string;
+  /**
+   * Verifiable Credential URI of the publication.
+   */
+  publication?: string;
+  /**
+   * Size of the document in bytes.
+   */
+  contentSize: number;
+  /**
+   * DID of the source if derived from another work.
+   */
+  isBasedOn?: string;
+  /**
+   * Timestamp when the document was created.
+   */
+  dateCreated: string;
+  /**
+   * Timestamp of the last modification.
+   */
+  dateModified?: string;
+  /**
+   * DID reference to the licensing agreement.
+   */
+  license: string;
+  /**
+   * URL where licenses can be purchased.
+   */
+  acquireLicensePage?: string;
+  /**
+   * Usage restrictions for the document.
+   */
+  usageRestrictions?: ("No AI Training" | "No Redistribution" | "No Commercial Use")[];
+  /**
+   * C2PA content authenticity proof.
+   */
+  C2PAManifest?: {
+    /**
+     * Verifiable Credential URI of the C2PA manifest.
+     */
+    identifier?: string;
+    /**
+     * DID of the signing entity.
+     */
+    contentSigner?: string;
+    /**
+     * Cryptographic signature of the content.
+     */
+    signatureValue?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * URL to a thumbnail preview of the document.
+   */
+  thumbnailUrl?: string;
+  /**
+   * Media files linked to this document (e.g., video sources, image formats).
+   */
+  associatedMedia?: string[];
+  /**
+   * External references (e.g., OpenSea, IPFS, Arweave).
+   */
+  sameAs?: string[];
+  [k: string]: unknown;
+}
+
+/**
  * Indicates that the server intends to abide by GPC requests.
  */
 export type GlobalPrivacyControl1 = boolean;
@@ -42247,6 +42688,49 @@ export interface NodeDeclaration {
    * Timestamp of when this node declaration was issued.
    */
   timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines voting mechanisms for governance decisions in OriginVault clusters.
+ */
+export interface NodeVotingConsensusAgreement {
+  /**
+   * DID of the agreement.
+   */
+  agreementId: string;
+  /**
+   * DID of the Cluster where voting occurs.
+   */
+  clusterId: string;
+  /**
+   * DID of the participating node.
+   */
+  nodeId: string;
+  /**
+   * The type of vote being cast.
+   */
+  voteType: "Governance Policy" | "New Namespace Approval" | "Node Sanctions";
+  /**
+   * Defines how voting power is determined.
+   */
+  votingMethod: "One Node, One Vote" | "Stake-Weighted" | "Reputation-Based";
+  /**
+   * The minimum percentage of nodes required for the vote to be valid.
+   */
+  minimumQuorum: number;
+  /**
+   * The percentage required to approve a decision.
+   */
+  decisionThreshold: number;
+  /**
+   * Under what conditions a vote result can be invalidated.
+   */
+  revocationPolicy: string;
+  /**
+   * Whether the node has agreed to the governance process.
+   */
+  agreementSigned: boolean;
   [k: string]: unknown;
 }
 
@@ -82849,6 +83333,141 @@ export interface RevocationSchema {
   linkedEvidence?: string[];
   /**
    * Timestamp of the revocation.
+   */
+  timestamp: string;
+  [k: string]: unknown;
+}
+
+/**
+ * Defines minimum performance guarantees for nodes in the OV ecosystem.
+ */
+export interface ServiceLevelAgreementSLAForOVNodes {
+  /**
+   * DID of the agreement.
+   */
+  agreementId: string;
+  /**
+   * DID of the Node.
+   */
+  nodeId: string;
+  /**
+   * DID of the Namespace the node belongs to.
+   */
+  namespaceId: string;
+  /**
+   * The type of node operating under this SLA.
+   */
+  nodeType: "Identity" | "Storage" | "Compute" | "Verification";
+  expectedUptime: {
+    /**
+     * Minimum required uptime percentage (e.g., 99.9%).
+     */
+    minPercentage?: number;
+    /**
+     * Time period over which uptime is measured (e.g., 30 days).
+     */
+    measurementPeriod?: string;
+    [k: string]: unknown;
+  };
+  latencyThresholds: {
+    /**
+     * Maximum allowed response time (in milliseconds).
+     */
+    maxResponseTime?: number;
+    /**
+     * Maximum allowed compute processing time (in milliseconds).
+     */
+    maxProcessingTime?: number;
+    [k: string]: unknown;
+  };
+  /**
+   * Defines penalties and consequences for failing to meet SLA obligations.
+   */
+  failureCompensation: {
+    /**
+     * Penalty applied if the Node fails SLA requirements (e.g., reduced staking rewards, service fees).
+     */
+    financialPenalty?: string;
+    /**
+     * Negative impact on the Node’s trust score if SLA terms are violated.
+     */
+    trustScoreImpact?: number;
+    /**
+     * Whether the Node can be downgraded to a lower-tier role upon SLA violations.
+     */
+    downgradeStatus?: boolean;
+    [k: string]: unknown;
+  };
+  /**
+   * Defines incentive mechanisms for high-performance Nodes.
+   */
+  compensationIncentives?: {
+    /**
+     * Whether nodes get rewards for exceeding SLA targets.
+     */
+    bonusForHighUptime?: boolean;
+    /**
+     * Whether nodes can receive reduced operational fees for high performance.
+     */
+    feeReductions?: boolean;
+    [k: string]: unknown;
+  };
+  /**
+   * Specifies how SLA compliance is monitored and enforced.
+   */
+  complianceMonitoring: {
+    /**
+     * DID of the entity monitoring SLA compliance.
+     */
+    monitoringEntity?: string;
+    /**
+     * How often the node is audited for SLA compliance (e.g., monthly, quarterly).
+     */
+    auditFrequency?: string;
+    /**
+     * Whether compliance logs are recorded on-chain for transparency.
+     */
+    onChainLogging?: boolean;
+    [k: string]: unknown;
+  };
+  /**
+   * Defines staking and collateral mechanisms for Nodes.
+   */
+  stakingRequirements: {
+    /**
+     * Minimum amount of tokens staked to participate as a Node.
+     */
+    requiredStakeAmount?: number;
+    /**
+     * Conditions under which staked tokens can be slashed (e.g., repeated SLA violations).
+     */
+    slashingConditions?: string[];
+    [k: string]: unknown;
+  };
+  /**
+   * Defines rules for Node removal due to SLA non-compliance.
+   */
+  revocationPolicy: {
+    /**
+     * Conditions under which a Node is removed from the Cluster.
+     */
+    conditionsForRemoval?: string;
+    /**
+     * Amount of time the Node has to fix compliance issues before removal.
+     */
+    gracePeriod?: number;
+    /**
+     * Procedure for a Node to challenge its removal from the Cluster.
+     */
+    appealProcess?: string;
+    [k: string]: unknown;
+  };
+  /**
+   * Whether the Node operator has accepted the SLA.
+   */
+  agreementSigned: boolean;
+  /**
+   * Time of agreement acceptance.
    */
   timestamp: string;
   [k: string]: unknown;
