@@ -8,8 +8,15 @@
   "properties": {
     "@type": {
       "type": "string",
-      "enum": ["License", "CreativeWork"],
-      "description": "Schema.org type"
+      "enum": [
+        "CreativeWork",
+        "MediaObject",
+        "DigitalDocument",
+        "SoftwareApplication",
+        "License",
+        "Agreement"
+      ],
+      "description": "Defines the type of digital asset or contract."
     },
     "identifier": { "type": "string", "description": "DID of the licensed content." },
     

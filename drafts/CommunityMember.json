@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/CommunityMemberPersona",
+  "title": "Community Member Persona",
+  "description": "Defines a general community member in the OriginVault ecosystem.",
+  "type": "object",
+  "properties": {
+    "participationHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activity": { "type": "string", "description": "Type of participation (e.g., event, discussion, content rating)." },
+          "timestamp": { "type": "string", "format": "date-time", "description": "Date of participation." }
+        }
+      },
+      "description": "Tracks engagement in OV-related activities."
+    },
+    "referredUsers": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of users referred to OV." }
+    }
+  },
+  "required": ["participationHistory"]
+}

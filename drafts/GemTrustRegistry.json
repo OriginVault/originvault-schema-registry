@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/GemTrustRegistry",
+  "title": "Gem Trust Registry",
+  "description": "Tracks trust and reputation levels based on earned Gems.",
+  "type": "object",
+  "properties": {
+    "holder": { "type": "string", "description": "DID of the Gem holder." },
+    "gemTypes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of Gems that the user holds."
+    },
+    "trustScore": {
+      "type": "object",
+      "properties": {
+        "verificationScore": { "type": "number", "minimum": 0, "description": "Score based on verification actions." },
+        "governanceScore": { "type": "number", "minimum": 0, "description": "Score based on governance participation." },
+        "contributionScore": { "type": "number", "minimum": 0, "description": "Score based on active contributions." },
+        "communityScore": { "type": "number", "minimum": 0, "description": "Score based on social/community engagement." }
+      },
+      "description": "Trust score based on various aspects of participation."
+    },
+    "linkedCredentials": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Verifiable Credentials contributing to this reputation."
+    },
+    "lastUpdated": { "type": "string", "format": "date-time", "description": "Last update timestamp." }
+  },
+  "required": ["holder", "gemTypes", "trustScore", "linkedCredentials", "lastUpdated"]
+}

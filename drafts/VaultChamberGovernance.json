@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/VaultChamberGovernance",
+  "title": "Vault Chamber Governance",
+  "description": "Defines governance processes for a Governance Chamber, including proposals and voting.",
+  "type": "object",
+  "properties": {
+    "chamberId": { "type": "string", "description": "DID of the Governance Chamber." },
+    "governanceType": {
+      "type": "string",
+      "enum": ["vote", "multi-sig", "admin"],
+      "description": "How governance decisions are made."
+    },
+    "allowedParticipants": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of DIDs allowed to participate in governance."
+    },
+    "proposalProcess": {
+      "type": "object",
+      "properties": {
+        "minTrustScore": { "type": "number", "description": "Minimum trust score to submit proposals." },
+        "proposalApproval": { "type": "string", "enum": ["simple-majority", "supermajority", "consensus"], "description": "Approval threshold." }
+      }
+    },
+    "votingProcess": {
+      "type": "object",
+      "properties": {
+        "votingPeriod": { "type": "string", "description": "Duration of voting." },
+        "requiredParticipation": { "type": "number", "description": "Minimum % of eligible voters to pass." }
+      }
+    }
+  },
+  "required": ["chamberId", "governanceType", "allowedParticipants", "proposalProcess", "votingProcess"]
+}

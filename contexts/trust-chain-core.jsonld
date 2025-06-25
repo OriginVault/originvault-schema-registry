@@ -1,0 +1,338 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    
+    "schema": "https://schema.org/",
+    "sec": "https://w3id.org/security#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "dc": "http://purl.org/dc/terms/",
+    "did": "https://www.w3.org/ns/did#",
+    "vc": "https://www.w3.org/2018/credentials#",
+    "ov": "https://schemas.originvault.box/",
+    "cheqd": "https://docs.cheqd.io/",
+    
+    "id": "@id",
+    "type": "@type",
+    
+    "RootAuthority": {
+      "@id": "ov:RootAuthority",
+      "@context": {
+        "rootType": {
+          "@id": "ov:rootType",
+          "@type": "@vocab"
+        },
+        "scope": {
+          "@id": "schema:scope"
+        },
+        "trustChainPurpose": {
+          "@id": "ov:trustChainPurpose"
+        },
+        "governanceModel": {
+          "@id": "ov:governanceModel",
+          "@context": {
+            "type": {
+              "@id": "ov:governanceType",
+              "@type": "@vocab"
+            },
+            "participants": {
+              "@id": "schema:participant",
+              "@type": "@id"
+            },
+            "policyDocument": {
+              "@id": "schema:termsOfService"
+            }
+          }
+        },
+        "delegationPolicy": {
+          "@id": "ov:delegationPolicy",
+          "@context": {
+            "allowsSubRoots": {
+              "@id": "ov:allowsSubRoots",
+              "@type": "xsd:boolean"
+            },
+            "maxChainDepth": {
+              "@id": "ov:maxChainDepth",
+              "@type": "xsd:integer"
+            }
+          }
+        },
+        "accreditationStandards": {
+          "@id": "ov:accreditationStandards",
+          "@context": {
+            "standardId": {
+              "@id": "schema:identifier"
+            },
+            "schemaTypes": {
+              "@id": "ov:schemaTypes"
+            },
+            "trustLevels": {
+              "@id": "ov:trustLevels"
+            }
+          }
+        },
+        "interoperability": {
+          "@id": "ov:interoperability",
+          "@context": {
+            "recognizedRoots": {
+              "@id": "ov:recognizedRoots",
+              "@type": "@id"
+            },
+            "crossChainValidation": {
+              "@id": "ov:crossChainValidation",
+              "@type": "xsd:boolean"
+            },
+            "federationMember": {
+              "@id": "schema:memberOf"
+            }
+          }
+        },
+        "blockchainAnchoring": {
+          "@id": "ov:blockchainAnchoring",
+          "@context": {
+            "blockchainNetwork": {
+              "@id": "ov:blockchainNetwork"
+            },
+            "resourceId": {
+              "@id": "schema:identifier"
+            },
+            "registrationProof": {
+              "@id": "sec:proof"
+            }
+          }
+        }
+      }
+    },
+    
+    "TrustedIssuer": {
+      "@id": "ov:TrustedIssuer",
+      "@context": {
+        "accreditedBy": {
+          "@id": "ov:accreditedBy",
+          "@type": "@id"
+        },
+        "accreditationLevel": {
+          "@id": "ov:accreditationLevel",
+          "@type": "xsd:integer"
+        },
+        "accreditationScope": {
+          "@id": "ov:accreditationScope"
+        },
+        "chainPosition": {
+          "@id": "ov:chainPosition",
+          "@context": {
+            "rootAuthority": {
+              "@id": "ov:rootAuthority",
+              "@type": "@id"
+            },
+            "parentAuthority": {
+              "@id": "ov:parentAuthority", 
+              "@type": "@id"
+            },
+            "chainDepth": {
+              "@id": "ov:chainDepth",
+              "@type": "xsd:integer"
+            }
+          }
+        },
+        "issuanceCapabilities": {
+          "@id": "ov:issuanceCapabilities",
+          "@context": {
+            "credentialTypes": {
+              "@id": "ov:credentialTypes"
+            },
+            "maxIssuanceRate": {
+              "@id": "ov:maxIssuanceRate",
+              "@type": "xsd:integer"
+            },
+            "geographicScope": {
+              "@id": "schema:areaServed"
+            }
+          }
+        },
+        "trustMetrics": {
+          "@id": "ov:trustMetrics",
+          "@context": {
+            "trustScore": {
+              "@id": "ov:trustScore",
+              "@type": "xsd:decimal"
+            },
+            "reputationScore": {
+              "@id": "schema:ratingValue",
+              "@type": "xsd:decimal"
+            },
+            "credentialsIssued": {
+              "@id": "ov:credentialsIssued",
+              "@type": "xsd:integer"
+            },
+            "verificationCount": {
+              "@id": "ov:verificationCount", 
+              "@type": "xsd:integer"
+            }
+          }
+        },
+        "operationalStatus": {
+          "@id": "ov:operationalStatus",
+          "@context": {
+            "status": {
+              "@id": "schema:availability",
+              "@type": "@vocab"
+            },
+            "statusReason": {
+              "@id": "schema:description"
+            },
+            "lastStatusUpdate": {
+              "@id": "schema:dateModified",
+              "@type": "xsd:dateTime"
+            }
+          }
+        }
+      }
+    },
+    
+    "TrustChainDelegation": {
+      "@id": "ov:TrustChainDelegation",
+      "@context": {
+        "delegationType": {
+          "@id": "ov:delegationType",
+          "@type": "@vocab"
+        },
+        "trustChainContext": {
+          "@id": "ov:trustChainContext",
+          "@context": {
+            "rootAuthority": {
+              "@id": "ov:rootAuthority",
+              "@type": "@id"
+            },
+            "parentAuthority": {
+              "@id": "ov:parentAuthority",
+              "@type": "@id"
+            },
+            "chainDepth": {
+              "@id": "ov:chainDepth",
+              "@type": "xsd:integer"
+            },
+            "namespace": {
+              "@id": "ov:namespace"
+            }
+          }
+        },
+        "delegatedAuthorities": {
+          "@id": "ov:delegatedAuthorities",
+          "@context": {
+            "authority": {
+              "@id": "ov:authority",
+              "@type": "@vocab"
+            },
+            "scope": {
+              "@id": "schema:scope"
+            },
+            "conditions": {
+              "@id": "schema:termsOfService"
+            }
+          }
+        },
+        "constraints": {
+          "@id": "ov:constraints",
+          "@context": {
+            "maxSubDelegations": {
+              "@id": "ov:maxSubDelegations",
+              "@type": "xsd:integer"
+            },
+            "geographicScope": {
+              "@id": "schema:areaServed"
+            },
+            "industryScope": {
+              "@id": "schema:industry"
+            }
+          }
+        }
+      }
+    },
+    
+    "NamespaceDeclaration": {
+      "@id": "ov:NamespaceDeclaration",
+      "@context": {
+        "namespaceScope": {
+          "@id": "schema:scope"
+        },
+        "rootAuthority": {
+          "@id": "ov:rootAuthority"
+        },
+        "governance": {
+          "@id": "ov:governance",
+          "@context": {
+            "governanceModel": {
+              "@id": "ov:governanceModel",
+              "@type": "@vocab"
+            },
+            "governingParties": {
+              "@id": "schema:participant",
+              "@type": "@id"
+            },
+            "policyFramework": {
+              "@id": "schema:termsOfService"
+            }
+          }
+        },
+        "interoperability": {
+          "@id": "ov:interoperability",
+          "@context": {
+            "recognizedNamespaces": {
+              "@id": "ov:recognizedNamespaces",
+              "@type": "@id"
+            },
+            "crossNamespaceValidation": {
+              "@id": "ov:crossNamespaceValidation",
+              "@type": "xsd:boolean"
+            },
+            "federationMember": {
+              "@id": "schema:memberOf"
+            }
+          }
+        }
+      }
+    },
+    
+    "Person": "schema:Person",
+    "Organization": "schema:Organization",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": "schema:url",
+    "email": "schema:email",
+    "telephone": "schema:telephone",
+    "address": "schema:address",
+    "dateCreated": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "dateModified": {
+      "@id": "schema:dateModified", 
+      "@type": "xsd:dateTime"
+    },
+    "issuanceDate": {
+      "@id": "vc:issuanceDate",
+      "@type": "xsd:dateTime"
+    },
+    "expirationDate": {
+      "@id": "vc:expirationDate", 
+      "@type": "xsd:dateTime"
+    },
+    "issuer": {
+      "@id": "vc:issuer",
+      "@type": "@id"
+    },
+    "credentialSubject": {
+      "@id": "vc:credentialSubject",
+      "@type": "@id"
+    },
+    "proof": {
+      "@id": "sec:proof",
+      "@type": "@id"
+    },
+    "termsOfUse": {
+      "@id": "vc:termsOfUse"
+    }
+  }
+} 

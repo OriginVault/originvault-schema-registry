@@ -1,16 +1,30 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": ["https://schema.org", "https://schemas.originvault.io"],
   "$id": "https://schemas.originvault.io/PluginDeclaration",
   "title": "Plugin Declaration",
   "description": "Defines a plugin registered in an OV Namespace, including governance, versioning, and compatibility.",
   "type": "object",
   "properties": {
+    "@type": {
+      "type": "string",
+      "enum": ["SoftwareApplication", "WebApplication", "Extension", "Protocol"],
+      "description": "Schema.org type defining the plugin category."
+    },
     "id": { "type": "string", "description": "The DID of the plugin." },
+    "namespace": { "type": "string", "description": "The DID of the namespace this plugin belongs to." },
     "vault": { "type": "string", "description": "The DID of the vault that owns this plugin." },
     "name": { "type": "string", "description": "Name of the plugin." },
     "description": { "type": "string", "description": "Detailed description of the plugin’s functionality." },
     "version": { "type": "string", "description": "Semantic versioning (e.g., 1.0.0)." },
-    "author": { "type": "string", "description": "DID of the entity or user who created the plugin." },
+    "author": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "DID of the entity or user who created the plugin." },
+        "name": { "type": "string", "description": "Author's name or organization." },
+        "url": { "type": "string", "format": "uri", "description": "Website or documentation link." }
+      }
+    },
     "compatibleNodes": {
       "type": "array",
       "items": { "type": "string" },
@@ -25,7 +39,7 @@
           "id": { "type": "string", "description": "The id of the linked resource." },
           "name": { "type": "string", "description": "The name of the linked resource." },
           "description": { "type": "string", "description": "The description of the linked resource." },
-          "uri": { "type": "string", "description": "The uri of the linked resource." },
+          "uri": { "type": "string", "format": "uri", "description": "The URI of the linked resource." },
           "type": { "type": "string", "description": "The type of resource (e.g., governance, metadata, event log)." }
         },
         "required": ["id", "type"]
@@ -44,6 +58,27 @@
       },
       "description": "Governance and compliance information for the plugin."
     },
+    "installation": {
+      "type": "object",
+      "properties": {
+        "installMethod": {
+          "type": "string",
+          "enum": ["VaultInstallation", "NodeInstallation", "GlobalInstallation"],
+          "description": "Defines where the plugin can be installed."
+        },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of other required plugins or services."
+        },
+        "configurationSchema": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to a schema defining plugin-specific configuration options."
+        }
+      },
+      "description": "Defines how the plugin is installed and configured."
+    },
     "status": {
       "type": "string",
       "enum": ["active", "deprecated", "revoked"],
@@ -51,5 +86,5 @@
     },
     "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of when this plugin declaration was issued." }
   },
-  "required": ["id", "namespace", "name", "version", "author", "compatibleNodes", "status", "timestamp"]
+  "required": ["@type", "id", "namespace", "name", "version", "author", "compatibleNodes", "status", "timestamp"]
 }

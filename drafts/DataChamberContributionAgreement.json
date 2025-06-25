@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/DataChamberContributorAgreement",
+  "title": "Data Chamber Contributor Agreement",
+  "description": "Defines the terms under which a user contributes data to a Vault Chamber for potential monetization.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": ["License", "CreativeWork"],
+      "description": "Schema.org type"
+    },
+    "agreementId": { "type": "string", "description": "DID of the agreement." },
+    "chamberId": { "type": "string", "description": "DID of the Data Chamber." },
+    "userId": { "type": "string", "description": "DID of the contributor." },
+    "dataUsageTerms": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["AI Training", "Research", "Commercial Use", "Limited Redistribution"],
+        "description": "List of allowed uses for contributed data."
+      }
+    },
+    "optOutPolicy": {
+      "type": "object",
+      "properties": {
+        "optOutAllowed": { "type": "boolean", "description": "Whether users can opt out after contribution." },
+        "dataRetentionPeriod": { "type": "string", "description": "How long data is stored after opt-out." }
+      }
+    },
+    "compensationModel": {
+      "type": "object",
+      "properties": {
+        "revenueShare": { "type": "number", "description": "Percentage of revenue given to contributors." },
+        "rewardMechanism": { 
+          "type": "string",
+          "enum": ["Fiat Payout", "Gems", "Tokens"],
+          "description": "How users are rewarded for their data."
+        }
+      }
+    },
+    "agreementSigned": { "type": "boolean", "description": "Whether the user has accepted the agreement." },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Time of agreement acceptance." }
+  },
+  "required": ["agreementId", "chamberId", "userId", "dataUsageTerms", "optOutPolicy", "compensationModel", "agreementSigned", "timestamp"]
+}

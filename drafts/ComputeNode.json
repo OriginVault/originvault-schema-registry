@@ -1,49 +1,487 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://schemas.originvault.io/ComputeNodeDeclaration",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://w3id.org/security/multikey/v1",
+    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+  ],
+  "$id": "https://schemas.originvault.box/ComputeNodeDeclaration",
   "title": "Compute Node Declaration",
-  "description": "Defines a Compute Node in an OV Cluster.",
+  "description": "Defines a Compute Node in an OV Cluster within a multi-root trust architecture for distributed computation and AI processing.",
   "type": "object",
+  "examples": [
+    {
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "id": "did:cheqd:mainnet:compute-node-gpu-001",
+      "type": "ComputeNode",
+      "cluster": "did:cheqd:mainnet:ai-processing-cluster-alpha",
+      "operator": "did:cheqd:mainnet:compute-operator-company-123",
+      "computeResources": {
+        "cpu": "AMD EPYC 7742, 64 cores, 2.25-3.4GHz",
+        "ram": "256GB DDR4 ECC",
+        "gpu": "8x NVIDIA A100 80GB SXM4",
+        "storage": "2TB NVMe SSD",
+        "network": "100Gbps InfiniBand"
+      },
+      "supportedTasks": [
+        "AI Training",
+        "Large Language Model Inference", 
+        "Computer Vision Processing",
+        "Data Transformation",
+        "Cryptographic Operations",
+        "Homomorphic Encryption"
+      ],
+      "linkedResources": [
+        {
+          "id": "did:cheqd:mainnet:ai-training-dataset-456",
+          "type": "TrainingData",
+          "name": "Content Authenticity Training Dataset",
+          "description": "Curated dataset for training content authenticity detection models",
+          "uri": "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4"
+        },
+        {
+          "id": "did:cheqd:mainnet:model-output-789",
+          "type": "ModelOutputs",
+          "name": "C2PA Detection Model v2.1",
+          "description": "Trained model for detecting C2PA assertions in media files",
+          "uri": "ipfs://QmR7eF3mN8pL1qS9tV5wX2yC4nM6pR9sA7fB8gD5eH3jK9"
+        }
+      ],
+      "status": "active",
+      "timestamp": "2025-01-14T18:00:00Z",
+      "rootType": "delegated",
+      "governanceModel": {
+        "type": "hierarchical",
+        "participants": ["did:cheqd:mainnet:compute-operator-company-123", "did:cheqd:mainnet:ai-processing-cluster-alpha"]
+      },
+      "delegationChain": [
+        "did:cheqd:mainnet:originvault-namespace-root",
+        "did:cheqd:mainnet:ai-processing-cluster-alpha",
+        "did:cheqd:mainnet:compute-node-gpu-001"
+      ],
+      "trustChainContext": "GPU compute node operating under cluster governance for AI training and inference tasks in content authenticity domain",
+      "metadata": {
+        "version": "1.0.0",
+        "schemaType": "ComputeNode",
+        "bffIntegration": true
+      },
+      "createdAt": "2025-01-14T18:00:00Z",
+      "updatedAt": "2025-01-14T18:00:00Z",
+      "blockchainSync": {
+        "transactionHash": "0x456def789abc...",
+        "blockNumber": 12345681,
+        "networkId": "cheqd:mainnet",
+        "lastSynced": "2025-01-14T18:01:00Z"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "id": "did:key:z6MkComputeNodeEdgeDevice789",
+      "type": "ComputeNode",
+      "operator": "did:key:z6MkEdgeDeviceOwner456",
+      "computeResources": {
+        "cpu": "Apple M2 Pro, 10 cores",
+        "ram": "32GB",
+        "gpu": "Apple M2 Pro integrated GPU"
+      },
+      "supportedTasks": ["Edge AI Inference", "Local Content Verification"],
+      "status": "active",
+      "timestamp": "2025-01-14T19:30:00Z",
+      "rootType": "self-sovereign",
+      "governanceModel": {
+        "type": "self-governed",
+        "participants": ["did:key:z6MkEdgeDeviceOwner456"]
+      },
+      "delegationChain": ["did:key:z6MkComputeNodeEdgeDevice789"],
+      "trustChainContext": "Self-sovereign edge compute node for local AI inference and content verification"
+    }
+  ],
   "properties": {
-    "id": { "type": "string", "description": "The DID of the Compute Node." },
-    "type": { "const": "ComputeNode", "description": "Node type." },
-    "cluster": { "type": "string", "description": "The DID of the cluster this node belongs to." },
-    "operator": { "type": "string", "description": "DID of the entity operating this node." },
+    "@context": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+      "examples": [
+        ["https://www.w3.org/ns/credentials/v2", "https://schema.org"],
+        ["https://www.w3.org/ns/credentials/v2", "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"]
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+      "minLength": 20,
+      "maxLength": 200,
+      "description": "The DID of the Compute Node",
+      "examples": [
+        "did:cheqd:mainnet:compute-node-gpu-001",
+        "did:key:z6MkComputeNodeEdgeDevice789",
+        "did:web:compute.platform.com:node-123",
+        "did:ethr:0xComputeNode456"
+      ]
+    },
+    "type": {
+      "const": "ComputeNode",
+      "description": "Node type identifier for compute infrastructure"
+    },
+    "cluster": {
+      "type": "string",
+      "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+      "minLength": 20,
+      "maxLength": 200,
+      "description": "The DID of the cluster this node belongs to (optional for self-sovereign nodes)",
+      "examples": [
+        "did:cheqd:mainnet:ai-processing-cluster-alpha",
+        "did:web:enterprise-cluster.company.com",
+        "did:ethr:0xComputeClusterBeta"
+      ]
+    },
+    "operator": {
+      "type": "string",
+      "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+      "minLength": 20,
+      "maxLength": 200,
+      "description": "DID of the entity operating this node",
+      "examples": [
+        "did:cheqd:mainnet:compute-operator-company-123",
+        "did:key:z6MkEdgeDeviceOwner456",
+        "did:web:operator.cloudprovider.com",
+        "did:ethr:0xNodeOperator789"
+      ]
+    },
     "computeResources": {
       "type": "object",
       "properties": {
-        "cpu": { "type": "string", "description": "CPU specifications (e.g., 8 cores, 3.2GHz)." },
-        "ram": { "type": "string", "description": "RAM available (e.g., 32GB, 64GB)." },
-        "gpu": { "type": "string", "description": "GPU specifications (if applicable)." }
+        "cpu": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200,
+          "description": "CPU specifications including model, cores, and frequency",
+          "examples": [
+            "AMD EPYC 7742, 64 cores, 2.25-3.4GHz",
+            "Intel Xeon Platinum 8280, 28 cores, 2.7GHz",
+            "Apple M2 Pro, 10 cores",
+            "ARM Neoverse N1, 80 cores, 2.6GHz"
+          ]
+        },
+        "ram": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "description": "RAM capacity and type",
+          "examples": [
+            "256GB DDR4 ECC",
+            "32GB",
+            "128GB DDR5",
+            "1TB HBM2"
+          ]
+        },
+        "gpu": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200,
+          "description": "GPU specifications if applicable for AI/ML workloads",
+          "examples": [
+            "8x NVIDIA A100 80GB SXM4",
+            "4x NVIDIA RTX 4090 24GB",
+            "Apple M2 Pro integrated GPU",
+            "AMD Instinct MI250X 128GB"
+          ]
+        },
+        "storage": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200,
+          "description": "Storage capacity and type",
+          "examples": [
+            "2TB NVMe SSD",
+            "10TB NVMe + 100TB HDD",
+            "500GB SSD",
+            "50TB All-Flash Array"
+          ]
+        },
+        "network": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 100,
+          "description": "Network connectivity specifications",
+          "examples": [
+            "100Gbps InfiniBand",
+            "25Gbps Ethernet",
+            "1Gbps Ethernet",
+            "200Gbps RDMA"
+          ]
+        }
       },
-      "description": "Hardware specifications of the compute node."
+      "required": ["cpu", "ram"],
+      "additionalProperties": false,
+      "description": "Hardware specifications of the compute node"
     },
     "supportedTasks": {
       "type": "array",
-      "items": { "type": "string" },
-      "description": "List of supported compute tasks (e.g., AI Training, Data Transformation, Encryption)."
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "string",
+        "enum": [
+          "AI Training",
+          "AI Inference",
+          "Large Language Model Inference",
+          "Computer Vision Processing",
+          "Data Transformation",
+          "Cryptographic Operations",
+          "Homomorphic Encryption",
+          "Zero Knowledge Proofs",
+          "Blockchain Validation",
+          "Content Analysis",
+          "Media Processing",
+          "Edge AI Inference",
+          "Local Content Verification",
+          "Distributed Computing",
+          "Scientific Computing"
+        ]
+      },
+      "description": "List of supported compute tasks and capabilities",
+      "examples": [
+        ["AI Training", "Large Language Model Inference", "Computer Vision Processing"],
+        ["Edge AI Inference", "Local Content Verification"],
+        ["Cryptographic Operations", "Zero Knowledge Proofs", "Blockchain Validation"]
+      ]
     },
     "linkedResources": {
       "type": "array",
+      "maxItems": 50,
       "items": {
         "type": "object",
         "properties": {
-          "id": { "type": "string", "description": "The DID of the linked resource." },
-          "type": { "type": "string", "description": "The type of resource (e.g., Data, ProcessingLogs, ModelOutputs)." },
-          "name": { "type": "string", "description": "The name of the linked resource." },
-          "description": { "type": "string", "description": "The description of the linked resource." },
-          "uri": { "type": "string", "description": "The uri of the linked resource." }
+          "id": {
+            "type": "string",
+            "pattern": "^(did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+|ipfs://[a-zA-Z0-9]+)$",
+            "minLength": 10,
+            "maxLength": 300,
+            "description": "The DID or content identifier of the linked resource",
+            "examples": [
+              "did:cheqd:mainnet:ai-training-dataset-456",
+              "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4",
+              "did:web:storage.platform.com:dataset-789"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TrainingData",
+              "ModelOutputs",
+              "ProcessingLogs",
+              "ComputeResults",
+              "CachedModels",
+              "ConfigurationData",
+              "SecurityAuditLogs",
+              "PerformanceMetrics"
+            ],
+            "description": "The type of compute resource",
+            "examples": ["TrainingData", "ModelOutputs", "ProcessingLogs"]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "description": "The name of the linked resource",
+            "examples": [
+              "Content Authenticity Training Dataset",
+              "C2PA Detection Model v2.1",
+              "Performance Metrics January 2025"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500,
+            "description": "The description of the linked resource",
+            "examples": [
+              "Curated dataset for training content authenticity detection models",
+              "Trained model for detecting C2PA assertions in media files",
+              "Comprehensive performance and utilization metrics for compute node"
+            ]
+          },
+          "uri": {
+            "type": "string",
+            "format": "uri",
+            "minLength": 10,
+            "maxLength": 300,
+            "description": "The URI of the linked resource",
+            "examples": [
+              "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4",
+              "https://storage.platform.com/models/c2pa-detector-v2-1",
+              "ceramic://k2t6wz4ylx0qsg8t9l5h3n2m4p9r7c8v3x1z5a6s7d9f2e4w8q3m1p0o9i8u7y6t5r"
+            ]
+          }
         },
-        "required": ["id", "type", "name", "description", "uri"]
+        "required": ["id", "type", "name", "description", "uri"],
+        "additionalProperties": false
       },
-      "description": "References to compute tasks and results."
+      "description": "References to compute tasks, datasets, models, and results"
     },
     "status": {
       "type": "string",
-      "enum": ["active", "suspended", "revoked"],
-      "description": "Operational status of the node."
+      "enum": ["active", "suspended", "revoked", "maintenance", "initializing"],
+      "description": "Operational status of the node",
+      "examples": ["active", "maintenance", "suspended"]
     },
-    "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of node declaration." }
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of node declaration",
+      "examples": ["2025-01-14T18:00:00Z", "2025-01-14T19:30:45.123Z"]
+    },
+    "rootType": {
+      "type": "string",
+      "enum": ["self-sovereign", "delegated", "federated", "hybrid"],
+      "description": "Multi-root trust pattern type for compute node governance",
+      "examples": ["delegated", "self-sovereign", "federated"]
+    },
+    "governanceModel": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["self-governed", "dao", "committee", "hierarchical", "consensus"],
+          "description": "Governance model for this compute node"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+          },
+          "description": "DIDs of governance participants"
+        }
+      },
+      "examples": [
+        {
+          "type": "hierarchical",
+          "participants": ["did:cheqd:mainnet:compute-operator-company-123", "did:cheqd:mainnet:ai-processing-cluster-alpha"]
+        },
+        {
+          "type": "self-governed",
+          "participants": ["did:key:z6MkEdgeDeviceOwner456"]
+        }
+      ]
+    },
+    "delegationChain": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+      },
+      "description": "Chain of trust delegation from root authority to this compute node",
+      "examples": [
+        ["did:cheqd:mainnet:originvault-namespace-root", "did:cheqd:mainnet:ai-processing-cluster-alpha", "did:cheqd:mainnet:compute-node-gpu-001"],
+        ["did:key:z6MkComputeNodeEdgeDevice789"],
+        ["did:web:enterprise-root.company.com", "did:web:compute.platform.com:node-123"]
+      ]
+    },
+    "trustChainContext": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Contextual information about the compute node's role in the trust chain",
+      "examples": [
+        "GPU compute node operating under cluster governance for AI training and inference tasks in content authenticity domain",
+        "Self-sovereign edge compute node for local AI inference and content verification",
+        "Enterprise compute node providing distributed processing for supply chain verification",
+        "Federated compute node participating in multi-party AI training consortium"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Schema version for tracking evolution"
+        },
+        "schemaType": {
+          "type": "string",
+          "const": "ComputeNode",
+          "description": "Schema type identifier for BFF integration"
+        },
+        "bffIntegration": {
+          "type": "boolean",
+          "description": "Indicates if schema supports BFF integration patterns"
+        }
+      },
+      "examples": [
+        {
+          "version": "1.0.0",
+          "schemaType": "ComputeNode",
+          "bffIntegration": true
+        }
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the compute node declaration was created",
+      "examples": ["2025-01-14T18:00:00Z", "2025-01-14T19:30:45.123Z"]
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the compute node declaration was last updated",
+      "examples": ["2025-01-14T18:00:00Z", "2025-01-14T19:30:45.123Z"]
+    },
+    "blockchainSync": {
+      "type": "object",
+      "properties": {
+        "transactionHash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$",
+          "description": "Blockchain transaction hash for this compute node declaration"
+        },
+        "blockNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Block number where transaction was confirmed"
+        },
+        "networkId": {
+          "type": "string",
+          "enum": ["cheqd:mainnet", "cheqd:testnet", "ethereum:mainnet", "ethereum:sepolia"],
+          "description": "Blockchain network identifier"
+        },
+        "lastSynced": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last blockchain synchronization timestamp"
+        }
+      },
+      "examples": [
+        {
+          "transactionHash": "0x456def789abc...",
+          "blockNumber": 12345681,
+          "networkId": "cheqd:mainnet",
+          "lastSynced": "2025-01-14T18:01:00Z"
+        }
+      ]
+    }
   },
-  "required": ["id", "cluster", "operator", "computeResources", "supportedTasks", "status", "timestamp"]
+  "required": ["@context", "id", "operator", "computeResources", "supportedTasks", "status", "timestamp"],
+  "additionalProperties": false
 }

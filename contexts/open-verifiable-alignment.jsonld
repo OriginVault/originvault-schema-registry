@@ -1,0 +1,198 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@protected": true,
+    
+    "schema": "https://schema.org/",
+    "ov": "https://schemas.originvault.box/",
+    "openverifiable": "https://openverifiable.org/",
+    "cheqd": "https://docs.cheqd.io/",
+    "did": "https://www.w3.org/ns/did#",
+    "vc": "https://www.w3.org/2018/credentials#",
+    "openownership": "https://www.openownership.org/",
+    "w3c": "https://www.w3.org/",
+    "dif": "https://identity.foundation/",
+    
+    "id": "@id",
+    "type": "@type",
+    
+    "OpenVerifiableAlignment": {
+      "@id": "ov:OpenVerifiableAlignment",
+      "@context": {
+        "alignmentType": {
+          "@id": "ov:alignmentType",
+          "@type": "@vocab"
+        },
+        "alignedWith": {
+          "@id": "ov:alignedWith",
+          "@type": "@id"
+        },
+        "complianceLevel": {
+          "@id": "ov:complianceLevel",
+          "@type": "@vocab"
+        },
+        "mappings": {
+          "@id": "ov:mappings",
+          "@context": {
+            "sourceProperty": {
+              "@id": "ov:sourceProperty"
+            },
+            "targetProperty": {
+              "@id": "ov:targetProperty"
+            },
+            "mappingType": {
+              "@id": "ov:mappingType",
+              "@type": "@vocab"
+            }
+          }
+        }
+      }
+    },
+    
+    "SchemaOrgAlignment": {
+      "@id": "ov:SchemaOrgAlignment",
+      "@context": {
+        "Person": "schema:Person",
+        "Organization": "schema:Organization",
+        "CreativeWork": "schema:CreativeWork",
+        "name": "schema:name",
+        "identifier": "schema:identifier",
+        "creator": "schema:creator",
+        "dateCreated": {
+          "@id": "schema:dateCreated",
+          "@type": "xsd:dateTime"
+        },
+        "copyrightHolder": "schema:copyrightHolder",
+        "license": "schema:license",
+        "contentAuthenticityCredential": {
+          "@id": "ov:contentAuthenticityCredential",
+          "@type": "schema:CreativeWork"
+        }
+      }
+    },
+    
+    "OpenOwnershipAlignment": {
+      "@id": "ov:OpenOwnershipAlignment", 
+      "@context": {
+        "ownershipStructure": {
+          "@id": "openownership:ownershipStructure"
+        },
+        "beneficialOwner": {
+          "@id": "openownership:beneficialOwner",
+          "@type": "@id"
+        },
+        "ownershipStake": {
+          "@id": "openownership:ownershipStake",
+          "@context": {
+            "percentage": {
+              "@id": "openownership:percentage",
+              "@type": "xsd:decimal"
+            },
+            "votingRights": {
+              "@id": "openownership:votingRights",
+              "@type": "xsd:boolean"
+            }
+          }
+        },
+        "transparencyReport": {
+          "@id": "openownership:transparencyReport"
+        }
+      }
+    },
+    
+    "W3CStandardsAlignment": {
+      "@id": "ov:W3CStandardsAlignment",
+      "@context": {
+        "verifiableCredential": {
+          "@id": "vc:VerifiableCredential"
+        },
+        "verifiablePresentation": {
+          "@id": "vc:VerifiablePresentation"
+        },
+        "credentialStatus": {
+          "@id": "vc:credentialStatus"
+        },
+        "statusList2021": {
+          "@id": "w3c:StatusList2021"
+        },
+        "didDocument": {
+          "@id": "did:didDocument"
+        },
+        "verificationMethod": {
+          "@id": "did:verificationMethod"
+        }
+      }
+    },
+    
+    "DIFStandardsAlignment": {
+      "@id": "ov:DIFStandardsAlignment",
+      "@context": {
+        "presentationExchange": {
+          "@id": "dif:PresentationExchange"
+        },
+        "credentialManifest": {
+          "@id": "dif:CredentialManifest"
+        },
+        "wellKnownDid": {
+          "@id": "dif:wellKnownDid"
+        },
+        "universalResolver": {
+          "@id": "dif:universalResolver"
+        }
+      }
+    },
+    
+    "TrustRegistryAlignment": {
+      "@id": "ov:TrustRegistryAlignment",
+      "@context": {
+        "trustRegistry": {
+          "@id": "ov:trustRegistry"
+        },
+        "trustedIssuer": {
+          "@id": "ov:trustedIssuer",
+          "@type": "@id"
+        },
+        "accreditationLevel": {
+          "@id": "ov:accreditationLevel",
+          "@type": "@vocab"
+        },
+        "governanceFramework": {
+          "@id": "ov:governanceFramework",
+          "@type": "@id"
+        }
+      }
+    },
+    
+    "InteroperabilityBridge": {
+      "@id": "ov:InteroperabilityBridge",
+      "@context": {
+        "bridgeType": {
+          "@id": "ov:bridgeType",
+          "@type": "@vocab"
+        },
+        "sourceRegistry": {
+          "@id": "ov:sourceRegistry",
+          "@type": "@id"
+        },
+        "targetRegistry": {
+          "@id": "ov:targetRegistry", 
+          "@type": "@id"
+        },
+        "transformationRules": {
+          "@id": "ov:transformationRules",
+          "@context": {
+            "rule": {
+              "@id": "ov:rule"
+            },
+            "condition": {
+              "@id": "ov:condition"
+            },
+            "action": {
+              "@id": "ov:action"
+            }
+          }
+        }
+      }
+    }
+  }
+} 

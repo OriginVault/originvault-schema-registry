@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://schemas.originvault.box/contexts/v1"
+  ],
+  "$id": "https://schemas.originvault.box/TrustScore",
+  "title": "Trust Score",
+  "description": "Represents a calculated trust score for a DID based on blockchain accreditations and local endorsements.",
+  "type": "object",
+  "properties": {
+    "did": {
+      "type": "string",
+      "description": "DID of the entity being scored",
+      "pattern": "^did:"
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall trust score (0-100)"
+    },
+    "factors": {
+      "type": "object",
+      "properties": {
+        "accreditations": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Score contribution from blockchain accreditations"
+        },
+        "endorsements": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Score contribution from local endorsements"
+        },
+        "timeWeighted": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Score contribution from recent activity"
+        },
+        "networkEffects": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Score contribution from network diversity"
+        },
+        "blockchainTrust": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Score contribution from blockchain-based trust indicators"
+        }
+      },
+      "required": ["accreditations", "endorsements", "timeWeighted", "networkEffects", "blockchainTrust"],
+      "description": "Breakdown of trust score factors"
+    },
+    "lastCalculated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the score was last calculated"
+    },
+    "decay": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Score decay factor (0 = no decay, 1 = full decay)"
+    },
+    "blockchainSync": {
+      "type": "object",
+      "properties": {
+        "lastSynced": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last time score was synced with blockchain"
+        },
+        "pendingChanges": {
+          "type": "boolean",
+          "description": "Whether there are local changes not yet pushed to blockchain"
+        },
+        "blockchainResourceId": {
+          "type": "string",
+          "description": "Resource ID on blockchain for this trust score"
+        }
+      },
+      "description": "Blockchain synchronization status"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata for the trust score"
+    }
+  },
+  "required": ["did", "score", "factors", "lastCalculated", "decay"]
+} 

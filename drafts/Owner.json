@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": ["https://schema.org", "https://schemas.originvault.box"],
+  "$id": "https://schemas.originvault.box/Owner",
+  "title": "Owner",
+  "description": "Defines an owner role for vaults, plugins, and namespaces.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": ["Person", "Organization"],
+      "description": "Schema.org type"
+    },
+    "ownerId": { "type": "string", "description": "DID of the owner." },
+    "ownsVaults": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of vaults owned by this persona." }
+    },
+    "ownsPlugins": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of plugins owned by this persona." }
+    },
+    "ownsNamespaces": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of namespaces owned by this persona." }
+    },
+    "delegatedAdmins": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of admins granted management permissions." }
+    },
+    "monetizationModel": {
+      "type": "object",
+      "properties": {
+        "revenueStreams": {
+          "type": "array",
+          "items": { "type": "string", "description": "Types of revenue models (e.g., subscription, licensing fees, transaction fees)." }
+        },
+        "payoutSchedule": { "type": "string", "description": "Schedule for revenue payouts." }
+      }
+    },
+    "disputeResolutionMethod": {
+      "type": "string",
+      "enum": ["DAO Governance", "Legal Arbitration", "Community Voting"],
+      "description": "Method for resolving ownership disputes."
+    },
+    "transferPolicy": {
+      "type": "string",
+      "description": "Rules governing how ownership can be transferred."
+    }
+  },
+  "required": ["ownerId", "ownsVaults", "ownsPlugins", "ownsNamespaces"]
+}

@@ -1,77 +1,472 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://w3id.org/security/multikey/v1",
+    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+  ],
   "$id": "https://schemas.originvault.box/NamespaceDeclaration",
   "title": "Namespace Declaration",
-  "description": "Defines an OV Namespace and its governance rules.",
+  "description": "Defines a namespace as a root authority that can establish trust chains and governance rules for its domain in a multi-root architecture.",
   "type": "object",
+  "examples": [
+    {
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "id": "did:cheqd:mainnet:originvault-namespace-root",
+      "type": "NamespaceDeclaration",
+      "namespaceScope": "originvault.box",
+      "rootAuthority": {
+        "rootType": "namespace",
+        "trustChainPurpose": "Content authenticity and provenance verification for creative industries",
+        "delegationPolicy": {
+          "allowsTrustedIssuers": true,
+          "requiresAccreditation": true,
+          "maxDelegationDepth": 5
+        }
+      },
+      "governance": {
+        "governanceModel": "dao",
+        "governingParties": ["did:cheqd:mainnet:governance-council-001", "did:cheqd:mainnet:technical-committee-002"],
+        "policyFramework": "https://governance.originvault.box/namespace-governance-v1"
+      },
+      "interoperability": {
+        "recognizedNamespaces": ["did:web:trust.contentauthenticity.org", "did:ethr:0xCreatorCollective"],
+        "crossNamespaceValidation": true,
+        "federationMember": "Open Verifiable Trust Federation"
+      },
+      "termsOfUse": {
+        "trustFramework": "OriginVault Multi-Root Trust Framework",
+        "trustFrameworkId": "ov-trust-framework-v1",
+        "trustFrameworkVersion": "1.0.0",
+        "trustFrameworkUrl": "https://governance.originvault.box/trust-framework-v1",
+        "trustFrameworkTerms": "https://governance.originvault.box/terms-of-use-v1"
+      },
+      "blockchainAnchoring": {
+        "blockchainNetwork": "cheqd-mainnet",
+        "resourceId": "did:cheqd:mainnet:originvault-namespace-root/resources/namespace-declaration-abc123"
+      },
+      "rootType": "namespace",
+      "governanceModel": {
+        "type": "dao",
+        "participants": ["did:cheqd:mainnet:governance-council-001"]
+      },
+      "delegationChain": ["did:cheqd:mainnet:originvault-namespace-root"],
+      "trustChainContext": "Multi-root trust architecture enabling diverse authority models for content authenticity and reputation systems",
+      "metadata": {
+        "version": "1.0.0",
+        "schemaType": "NamespaceDeclaration",
+        "bffIntegration": true
+      },
+      "createdAt": "2025-01-14T16:00:00Z",
+      "updatedAt": "2025-01-14T16:00:00Z",
+      "blockchainSync": {
+        "transactionHash": "0xdef456abc789...",
+        "blockNumber": 12345679,
+        "networkId": "cheqd:mainnet",
+        "lastSynced": "2025-01-14T16:01:00Z"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "id": "did:web:credentials.university.edu",
+      "type": "NamespaceDeclaration",
+      "namespaceScope": "academic-credentials.edu",
+      "rootAuthority": {
+        "rootType": "namespace",
+        "trustChainPurpose": "Academic credential verification and degree attestation",
+        "delegationPolicy": {
+          "allowsTrustedIssuers": true,
+          "requiresAccreditation": true,
+          "maxDelegationDepth": 3
+        }
+      },
+      "governance": {
+        "governanceModel": "committee",
+        "governingParties": ["did:web:accreditation.university.edu"],
+        "policyFramework": "https://policies.university.edu/academic-trust-framework"
+      },
+      "rootType": "federated",
+      "governanceModel": {
+        "type": "committee",
+        "participants": ["did:web:accreditation.university.edu"]
+      }
+    }
+  ],
   "properties": {
+    "@context": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+      "examples": [
+        ["https://www.w3.org/ns/credentials/v2", "https://schema.org"],
+        ["https://www.w3.org/ns/credentials/v2", "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"]
+      ]
+    },
     "id": {
       "type": "string",
-      "description": "The DID of the namespace."
+      "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+      "minLength": 20,
+      "maxLength": 200,
+      "description": "The DID of the namespace acting as a root authority",
+      "examples": [
+        "did:cheqd:mainnet:originvault-namespace-root",
+        "did:web:credentials.university.edu",
+        "did:ethr:0xNamespaceAuthority123"
+      ]
     },
     "type": {
       "const": "NamespaceDeclaration",
-      "description": "Indicates this is a Namespace DID declaration."
+      "description": "Indicates this is a Namespace DID declaration"
+    },
+    "namespaceScope": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 100,
+      "description": "The domain or scope of this namespace",
+      "examples": [
+        "originvault.box",
+        "content-authenticity.org", 
+        "academic-credentials.edu",
+        "supply-chain.industry"
+      ]
+    },
+    "rootAuthority": {
+      "type": "object",
+      "properties": {
+        "rootType": {
+          "type": "string",
+          "const": "namespace",
+          "description": "This namespace acts as a root authority"
+        },
+        "trustChainPurpose": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Primary purpose of trust chains in this namespace",
+          "examples": [
+            "Content authenticity and provenance",
+            "User reputation and verification", 
+            "Academic credential verification",
+            "Supply chain transparency"
+          ]
+        },
+        "delegationPolicy": {
+          "type": "object",
+          "properties": {
+            "allowsTrustedIssuers": {
+              "type": "boolean",
+              "description": "Whether this namespace delegates to trusted issuers",
+              "examples": [true, false]
+            },
+            "requiresAccreditation": {
+              "type": "boolean", 
+              "description": "Whether issuers must be accredited by this namespace",
+              "examples": [true, false]
+            },
+            "maxDelegationDepth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "description": "Maximum depth of delegation chains",
+              "examples": [3, 5, 2]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["rootType", "trustChainPurpose"],
+      "additionalProperties": false
     },
     "governance": {
       "type": "object",
       "properties": {
-        "managedBy": {
+        "governanceModel": {
+          "type": "string",
+          "enum": ["self-governed", "dao", "multisig", "committee", "democratic", "consortium"],
+          "description": "How this namespace makes governance decisions",
+          "examples": ["dao", "committee", "consortium"]
+        },
+        "governingParties": {
           "type": "array",
-          "items": { "type": "string" },
-          "description": "List of DIDs responsible for managing this namespace."
+          "items": {
+            "type": "string",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+          },
+          "description": "DIDs of entities involved in namespace governance",
+          "examples": [
+            ["did:cheqd:mainnet:governance-council-001", "did:cheqd:mainnet:technical-committee-002"],
+            ["did:web:accreditation.university.edu"]
+          ]
         },
-        "rules": {
+        "policyFramework": {
           "type": "string",
-          "description": "A reference to governance rules stored in Ceramic or DID-Linked Resources."
-        },
-        "disputeResolution": {
-          "type": "string",
-          "description": "A DID reference to a dispute resolution service."
+          "minLength": 10,
+          "maxLength": 300,
+          "description": "Reference to namespace governance policies and procedures",
+          "examples": [
+            "https://governance.originvault.box/namespace-governance-v1",
+            "https://policies.university.edu/academic-trust-framework"
+          ]
         }
       },
-      "description": "Governance policies for the namespace."
+      "required": ["governanceModel"],
+      "additionalProperties": false
     },
-    "clusters": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "List of Cluster DIDs under this namespace."
-    },
-    "verificationPolicies": {
+    "interoperability": {
       "type": "object",
       "properties": {
-        "clusterVerification": {
-          "type": "string",
-          "enum": ["Open", "Permissioned", "Staked"],
-          "description": "Defines how new clusters are verified."
+        "recognizedNamespaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+          },
+          "description": "DIDs of other namespaces this namespace recognizes or federates with",
+          "examples": [
+            ["did:web:trust.contentauthenticity.org", "did:ethr:0xCreatorCollective"],
+            ["did:cheqd:testnet:academic-root", "did:web:credentials.university.edu"]
+          ]
         },
-        "revocationPolicy": {
+        "crossNamespaceValidation": {
+          "type": "boolean",
+          "description": "Whether credentials from other namespaces are accepted",
+          "examples": [true, false]
+        },
+        "federationMember": {
           "type": "string",
-          "description": "Conditions under which a cluster can be revoked from the namespace."
+          "minLength": 3,
+          "maxLength": 100,
+          "description": "Namespace federation or consortium membership (optional)",
+          "examples": [
+            "Open Verifiable Trust Federation",
+            "Academic Credential Network",
+            "Supply Chain Trust Consortium"
+          ]
         }
       },
-      "description": "Verification and security policies for the namespace."
+      "additionalProperties": false
     },
-    "linkedResources": {
+    "termsOfUse": {
+      "type": "object",
+      "properties": {
+        "trustFramework": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100,
+          "description": "The trust framework for the namespace",
+          "examples": [
+            "OriginVault Multi-Root Trust Framework",
+            "Academic Credential Trust Framework",
+            "Supply Chain Transparency Framework"
+          ]
+        },
+        "trustFrameworkId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 50,
+          "description": "The ID of the trust framework for the namespace",
+          "examples": ["ov-trust-framework-v1", "academic-trust-v2", "supply-chain-v1"]
+        },
+        "trustFrameworkVersion": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "The version of the trust framework for the namespace",
+          "examples": ["1.0.0", "2.1.0", "1.5.2"]
+        },
+        "trustFrameworkUrl": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 10,
+          "maxLength": 300,
+          "description": "The URL of the trust framework for the namespace",
+          "examples": [
+            "https://governance.originvault.box/trust-framework-v1",
+            "https://policies.university.edu/academic-trust-framework"
+          ]
+        },
+        "trustFrameworkTerms": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 10,
+          "maxLength": 300,
+          "description": "The terms of use for the namespace",
+          "examples": [
+            "https://governance.originvault.box/terms-of-use-v1",
+            "https://policies.university.edu/terms-of-use"
+          ]
+        }
+      },
+      "required": ["trustFramework", "trustFrameworkId", "trustFrameworkVersion", "trustFrameworkUrl", "trustFrameworkTerms"],
+      "additionalProperties": false
+    },
+    "blockchainAnchoring": {
+      "type": "object",
+      "properties": {
+        "blockchainNetwork": {
+          "type": "string",
+          "enum": ["cheqd-mainnet", "cheqd-testnet", "ethereum", "polygon", "hyperledger-indy"],
+          "description": "Blockchain network where this namespace is anchored",
+          "examples": ["cheqd-mainnet", "ethereum", "polygon"]
+        },
+        "resourceId": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 300,
+          "description": "Blockchain resource ID for this namespace",
+          "examples": [
+            "did:cheqd:mainnet:originvault-namespace-root/resources/namespace-declaration-abc123",
+            "did:web:credentials.university.edu/resources/academic-namespace-def456"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "rootType": {
+      "type": "string",
+      "enum": ["self-sovereign", "delegated", "federated", "hybrid"],
+      "description": "Multi-root trust pattern type",
+      "examples": ["federated", "self-sovereign", "hybrid"]
+    },
+    "governanceModel": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["dao", "committee", "consensus", "hierarchical"],
+          "description": "Governance model for this namespace"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+          },
+          "description": "DIDs of governance participants"
+        }
+      },
+      "examples": [
+        {
+          "type": "dao",
+          "participants": ["did:cheqd:mainnet:governance-council-001"]
+        },
+        {
+          "type": "committee",
+          "participants": ["did:web:accreditation.university.edu"]
+        }
+      ]
+    },
+    "delegationChain": {
       "type": "array",
       "items": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "string", "description": "The DID of the linked resource." },
-          "type": { "type": "string", "description": "The type of resource (e.g., governance, metadata, event log)." },
-          "name": { "type": "string", "description": "The name of the linked resource." },
-          "description": { "type": "string", "description": "The description of the linked resource." },
-          "uri": { "type": "string", "description": "The uri of the linked resource." }
-        },
-        "required": ["id", "type", "name", "description", "uri"]
+        "type": "string",
+        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
       },
-      "description": "Linked resources associated with this namespace."
+      "description": "Chain of trust delegation (for namespace authority, typically just itself)",
+      "examples": [
+        ["did:cheqd:mainnet:originvault-namespace-root"],
+        ["did:web:credentials.university.edu"]
+      ]
     },
-    "timestamp": {
+    "trustChainContext": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Contextual information about the namespace trust chain purpose and scope",
+      "examples": [
+        "Multi-root trust architecture enabling diverse authority models for content authenticity and reputation systems",
+        "Academic credential verification framework supporting multiple universities and institutions",
+        "Supply chain transparency network for manufacturing and logistics verification"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Schema version for tracking evolution"
+        },
+        "schemaType": {
+          "type": "string",
+          "const": "NamespaceDeclaration",
+          "description": "Schema type identifier for BFF integration"
+        },
+        "bffIntegration": {
+          "type": "boolean",
+          "description": "Indicates if schema supports BFF integration patterns"
+        }
+      },
+      "examples": [
+        {
+          "version": "1.0.0",
+          "schemaType": "NamespaceDeclaration",
+          "bffIntegration": true
+        }
+      ]
+    },
+    "createdAt": {
       "type": "string",
       "format": "date-time",
-      "description": "Timestamp of when this namespace declaration was issued."
+      "description": "Timestamp when the namespace declaration was created",
+      "examples": ["2025-01-14T16:00:00Z", "2025-01-14T18:30:45.123Z"]
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the namespace declaration was last updated",
+      "examples": ["2025-01-14T16:00:00Z", "2025-01-14T18:30:45.123Z"]
+    },
+    "blockchainSync": {
+      "type": "object",
+      "properties": {
+        "transactionHash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$",
+          "description": "Blockchain transaction hash for this namespace declaration"
+        },
+        "blockNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Block number where transaction was confirmed"
+        },
+        "networkId": {
+          "type": "string",
+          "enum": ["cheqd:mainnet", "cheqd:testnet", "ethereum:mainnet", "ethereum:sepolia"],
+          "description": "Blockchain network identifier"
+        },
+        "lastSynced": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last blockchain synchronization timestamp"
+        }
+      },
+      "examples": [
+        {
+          "transactionHash": "0xdef456abc789...",
+          "blockNumber": 12345679,
+          "networkId": "cheqd:mainnet",
+          "lastSynced": "2025-01-14T16:01:00Z"
+        }
+      ]
     }
   },
-  "required": ["id", "clusters", "verificationPolicies", "timestamp"]
+  "required": ["@context", "id", "namespaceScope", "rootAuthority", "governance", "termsOfUse"],
+  "additionalProperties": false
 }

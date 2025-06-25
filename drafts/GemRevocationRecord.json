@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/GemRevocation",
+  "title": "Gem Revocation Record",
+  "description": "Defines how a previously awarded Gem can be revoked if necessary.",
+  "type": "object",
+  "properties": {
+    "gemId": { "type": "string", "description": "DID of the revoked Gem." },
+    "issuer": { "type": "string", "description": "DID of the entity revoking the Gem." },
+    "revocationReason": { "type": "string", "description": "The reason for revocation." },
+    "revokedOn": { "type": "string", "format": "date-time", "description": "Date the Gem was revoked." },
+    "verifiableCredentialRevoked": {
+      "type": "string",
+      "description": "DID-Linked Resource (DLR) referencing the revoked Verifiable Credential."
+    }
+  },
+  "required": ["gemId", "issuer", "revocationReason", "revokedOn", "verifiableCredentialRevoked"]
+}

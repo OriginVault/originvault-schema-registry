@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/GemIssuance",
+  "title": "Gem Issuance Record",
+  "description": "Tracks the issuance of a Gem, including verification of eligibility.",
+  "type": "object",
+  "properties": {
+    "gemId": { "type": "string", "description": "DID of the issued Gem." },
+    "issuer": { "type": "string", "description": "DID of the entity awarding the Gem." },
+    "recipient": { "type": "string", "description": "DID of the recipient of the Gem." },
+    "justification": { "type": "string", "description": "Why the Gem was awarded." },
+    "supportingEvidence": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" },
+      "description": "Links to content proving the recipient earned the Gem."
+    },
+    "dateIssued": { "type": "string", "format": "date-time", "description": "Date the Gem was issued." },
+    "verifiableCredential": {
+      "type": "string",
+      "description": "DID-Linked Resource (DLR) containing the VC proving eligibility."
+    }
+  },
+  "required": ["gemId", "issuer", "recipient", "justification", "supportingEvidence", "dateIssued", "verifiableCredential"]
+}

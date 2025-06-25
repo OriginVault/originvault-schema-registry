@@ -1,0 +1,140 @@
+name: Schema Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'drafts/**/*.json'
+      - 'schemas/**/*.json'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'drafts/**/*.json'
+      - 'schemas/**/*.json'
+  schedule:
+    # Run weekly on Sundays at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  validate-schemas:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install jsonschema pyyaml
+        
+    - name: Validate Schema Syntax
+      run: |
+        echo "🔍 Validating JSON schema syntax..."
+        find drafts -name "*.json" -type f | while read file; do
+          echo "Validating $file"
+          python -m json.tool "$file" > /dev/null || exit 1
+        done
+        echo "✅ All schemas have valid JSON syntax"
+        
+    - name: Run Schema Design Validation
+      run: |
+        echo "🔍 Running OriginVault schema design validation..."
+        python scripts/schema-validator.py
+        
+    - name: Check for validation report
+      run: |
+        if [ -f "governance/schema-validation-report.md" ]; then
+          echo "✅ Schema validation report generated successfully"
+          echo "📊 Report size: $(wc -l < governance/schema-validation-report.md) lines"
+        else
+          echo "❌ Schema validation report not found"
+          exit 1
+        fi
+        
+    - name: Extract validation summary
+      run: |
+        echo "## Schema Validation Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        grep -A 10 "## Summary" governance/schema-validation-report.md >> $GITHUB_STEP_SUMMARY || echo "No summary found" >> $GITHUB_STEP_SUMMARY
+        
+    - name: Upload validation report
+      uses: actions/upload-artifact@v3
+      with:
+        name: schema-validation-report
+        path: governance/schema-validation-report.md
+        retention-days: 30
+        
+    - name: Check quality standards
+      run: |
+        # Extract average quality score from report
+        avg_score=$(grep "Average Quality Score" governance/schema-validation-report.md | grep -o '[0-9]*\.[0-9]*' | head -1)
+        echo "Average Quality Score: $avg_score"
+        
+        # Set minimum quality threshold
+        min_threshold="0.65"
+        
+        if [ "$(echo "$avg_score >= $min_threshold" | bc -l)" -eq 1 ]; then
+          echo "✅ Quality standards met (${avg_score} >= ${min_threshold})"
+        else
+          echo "❌ Quality standards not met (${avg_score} < ${min_threshold})"
+          echo "Please improve schema quality before merging"
+          exit 1
+        fi
+        
+    - name: Check BFF compatibility
+      run: |
+        # Check BFF compatibility percentage
+        bff_compat=$(grep "BFF Compatible" governance/schema-validation-report.md | grep -o '[0-9]*\.[0-9]*%' | head -1 | sed 's/%//')
+        echo "BFF Compatibility: ${bff_compat}%"
+        
+        min_bff_threshold="95.0"
+        
+        if [ "$(echo "$bff_compat >= $min_bff_threshold" | bc -l)" -eq 1 ]; then
+          echo "✅ BFF compatibility standards met (${bff_compat}% >= ${min_bff_threshold}%)"
+        else
+          echo "⚠️ BFF compatibility below recommended threshold (${bff_compat}% < ${min_bff_threshold}%)"
+          echo "Consider improving BFF integration patterns"
+        fi
+        
+    - name: Comment PR with validation results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const path = './governance/schema-validation-report.md';
+          
+          if (fs.existsSync(path)) {
+            const report = fs.readFileSync(path, 'utf8');
+            const summary = report.split('## Schema Analysis')[0];
+            
+            const comment = `## 📋 Schema Validation Results
+            
+            ${summary}
+            
+            <details>
+            <summary>View full validation report</summary>
+            
+            \`\`\`
+            ${report.slice(0, 3000)}${report.length > 3000 ? '\n... (truncated)' : ''}
+            \`\`\`
+            
+            </details>
+            
+            The complete validation report is available as a workflow artifact.
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          } 

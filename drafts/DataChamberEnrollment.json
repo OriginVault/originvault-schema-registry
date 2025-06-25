@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/DataChamberEnrollment",
+  "title": "Data Chamber Enrollment",
+  "description": "Defines how users enroll in data pools within Vault Chambers and the terms of participation.",
+  "type": "object",
+  "properties": {
+    "chamberId": { "type": "string", "description": "DID of the Data Chamber." },
+    "userId": { "type": "string", "description": "DID of the user enrolling in the chamber." },
+    "contributedData": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dataId": { "type": "string", "description": "DID of the data contribution." },
+          "timestamp": { "type": "string", "format": "date-time", "description": "When the data was added." }
+        }
+      },
+      "description": "List of data contributions by this user."
+    },
+    "termsAccepted": { "type": "boolean", "description": "Whether the user has accepted the data-sharing terms." },
+    "rewardEligibility": {
+      "type": "object",
+      "properties": {
+        "revenueSharePercentage": { "type": "number", "description": "The percentage of sales the user is eligible for." },
+        "rewardMechanism": {
+          "type": "string",
+          "enum": ["Gems", "Tokens", "Fiat Payout"],
+          "description": "How users are rewarded."
+        }
+      },
+      "description": "Defines how rewards are distributed."
+    }
+  },
+  "required": ["chamberId", "userId", "contributedData", "termsAccepted", "rewardEligibility"]
+}

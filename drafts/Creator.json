@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.io/Creator",
+  "title": "Creator",
+  "description": "Defines a content creator in the OriginVault ecosystem.",
+  "type": "object",
+  "properties": {
+    "totalPublishedContent": { "type": "number", "description": "Total number of published pieces." },
+    "licenseAgreements": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of content licensing agreements." }
+    },
+    "aiUsagePolicies": {
+      "type": "object",
+      "properties": {
+        "allowsAITraining": { "type": "boolean", "description": "Whether AI companies can train on this creator's content." },
+        "allowsAIInference": { "type": "boolean", "description": "Whether AI can use content for inference." }
+      },
+      "description": "Defines AI usage restrictions for the creator's content."
+    },
+    "earningsHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transactionId": { "type": "string", "description": "Transaction ID for a sale." },
+          "amount": { "type": "number", "description": "Earnings from the transaction." },
+          "timestamp": { "type": "string", "format": "date-time", "description": "Date of transaction." }
+        }
+      },
+      "description": "Tracks revenue earned by the creator."
+    }
+  },
+  "required": ["totalPublishedContent", "licenseAgreements", "aiUsagePolicies"]
+}

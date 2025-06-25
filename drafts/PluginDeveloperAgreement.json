@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/PluginDeveloperAgreement",
+  "title": "Plugin Developer Agreement",
+  "description": "Defines the terms for publishing a plugin in the OV ecosystem.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": ["License", "CreativeWork", "SoftwareApplication"],
+      "description": "Schema.org type"
+    },
+    "agreementId": { "type": "string", "description": "DID of the agreement." },
+    "pluginId": { "type": "string", "description": "DID of the plugin." },
+    "developerId": { "type": "string", "description": "DID of the developer." },
+    "securityRequirements": {
+      "type": "string",
+      "description": "The security audit requirements for publishing a plugin."
+    },
+    "monetizationModel": {
+      "type": "string",
+      "enum": ["Free", "Subscription", "One-time Purchase"],
+      "description": "How the plugin is monetized."
+    },
+    "compliancePolicy": { "type": "string", "description": "Plugin compliance rules and enforcement." },
+    "revocationPolicy": { "type": "string", "description": "Conditions for plugin removal from the OV ecosystem." },
+    "agreementSigned": { "type": "boolean", "description": "Whether the developer has accepted the agreement." }
+  },
+  "required": ["agreementId", "pluginId", "developerId", "securityRequirements", "monetizationModel", "compliancePolicy", "revocationPolicy", "agreementSigned"]
+}

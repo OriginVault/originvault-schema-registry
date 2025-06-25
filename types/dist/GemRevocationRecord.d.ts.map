@@ -1,0 +1,1 @@
+{"version":3,"file":"GemRevocationRecord.d.ts","sourceRoot":"","sources":["../GemRevocationRecord.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAEH;;GAEG;AACH,MAAM,WAAW,mBAAmB;IAClC;;OAEG;IACH,KAAK,EAAE,MAAM,CAAC;IACd;;OAEG;IACH,MAAM,EAAE,MAAM,CAAC;IACf;;OAEG;IACH,gBAAgB,EAAE,MAAM,CAAC;IACzB;;OAEG;IACH,SAAS,EAAE,MAAM,CAAC;IAClB;;OAEG;IACH,2BAA2B,EAAE,MAAM,CAAC;CACrC"}

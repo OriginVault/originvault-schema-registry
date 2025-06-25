@@ -1,0 +1,308 @@
+{
+  "scenario": "Content Creator Verification Ecosystem",
+  "description": "Multiple root authorities collaborate to verify content authenticity, creator identity, and platform compliance",
+  
+  "rootAuthorities": {
+    "contentAuthenticity": {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "type": ["VerifiableCredential", "RootAuthorityDeclaration"],
+      "issuer": {"id": "did:cheqd:mainnet:content-authenticity-org"},
+      "issuanceDate": "2024-01-01T00:00:00Z",
+      "credentialSubject": {
+        "id": "did:cheqd:mainnet:content-authenticity-org",
+        "rootType": "concept",
+        "scope": "digital-content-authenticity",
+        "trustChainPurpose": "Verify the authenticity and provenance of digital content",
+        "governanceModel": {
+          "type": "consortium",
+          "participants": [
+            "did:web:journalism-council.org",
+            "did:web:creators-guild.org",
+            "did:web:tech-standards-body.org"
+          ]
+        },
+        "delegationPolicy": {
+          "allowsSubRoots": true,
+          "maxChainDepth": 3,
+          "delegationCriteria": "Must meet technical standards and pass governance review"
+        },
+        "interoperability": {
+          "recognizedRoots": [
+            "did:originvault:namespace-root",
+            "did:web:c2pa-foundation.org"
+          ],
+          "crossChainValidation": true,
+          "federationMember": "global-content-authenticity-alliance"
+        }
+      }
+    },
+    
+    "originvaultNamespace": {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1", 
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "type": ["VerifiableCredential", "NamespaceDeclaration"],
+      "issuer": {"id": "did:originvault:namespace-root"},
+      "issuanceDate": "2024-01-01T00:00:00Z",
+      "credentialSubject": {
+        "id": "did:originvault:namespace-root",
+        "namespaceScope": "originvault.box",
+        "rootAuthority": {
+          "rootType": "namespace",
+          "trustChainPurpose": "Govern OriginVault platform operations and user verification"
+        },
+        "governance": {
+          "governanceModel": "dao",
+          "governingParties": ["did:dao:originvault-governance"],
+          "policyFramework": "https://docs.originvault.box/governance"
+        },
+        "interoperability": {
+          "recognizedNamespaces": [
+            "did:cheqd:mainnet:content-authenticity-org",
+            "did:web:social-media-platform.com"
+          ],
+          "crossNamespaceValidation": true
+        }
+      }
+    },
+    
+    "userCreator": {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "type": ["VerifiableCredential", "RootAuthorityDeclaration"],
+      "issuer": {"id": "did:originvault:user:alice-creator"},
+      "issuanceDate": "2024-06-01T00:00:00Z",
+      "credentialSubject": {
+        "id": "did:originvault:user:alice-creator",
+        "rootType": "user",
+        "scope": "personal-content-creation",
+        "trustChainPurpose": "Authenticate and verify personal creative content",
+        "governanceModel": {
+          "type": "self-governed",
+          "policyDocument": "https://alice-creator.com/content-policy"
+        },
+        "delegationPolicy": {
+          "allowsSubRoots": false,
+          "maxChainDepth": 1,
+          "delegationCriteria": "Personal content only - no sub-delegation"
+        },
+        "accreditationStandards": [
+          {
+            "standardId": "personal-content-v1",
+            "schemaTypes": ["PersonalPhoto", "PersonalVideo", "PersonalArticle"],
+            "trustLevels": ["self-attested"]
+          }
+        ]
+      }
+    },
+    
+    "platformRoot": {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld" 
+      ],
+      "type": ["VerifiableCredential", "RootAuthorityDeclaration"],
+      "issuer": {"id": "did:web:social-media-platform.com"},
+      "issuanceDate": "2024-01-01T00:00:00Z",
+      "credentialSubject": {
+        "id": "did:web:social-media-platform.com",
+        "rootType": "platform",
+        "scope": "social-media-platform.com",
+        "trustChainPurpose": "Verify user identities and content compliance on platform",
+        "governanceModel": {
+          "type": "committee",
+          "participants": [
+            "did:web:platform-governance.com",
+            "did:web:user-safety-board.com"
+          ]
+        },
+        "delegationPolicy": {
+          "allowsSubRoots": true,
+          "maxChainDepth": 2,
+          "delegationCriteria": "Platform moderators and verified publishers"
+        }
+      }
+    }
+  },
+  
+  "trustDelegations": {
+    "originvaultContentManager": {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "type": ["VerifiableCredential", "TrustChainDelegation"],
+      "issuer": {
+        "id": "did:originvault:namespace-root",
+        "authorityType": "root"
+      },
+      "issuanceDate": "2024-01-15T00:00:00Z",
+      "credentialSubject": {
+        "id": "did:originvault:service:content-manager",
+        "delegationType": "trusted-issuer",
+        "trustChainContext": {
+          "rootAuthority": "did:originvault:namespace-root",
+          "parentAuthority": "did:originvault:namespace-root",
+          "chainDepth": 1,
+          "namespace": "originvault.box"
+        },
+        "delegatedAuthorities": [
+          {
+            "authority": "issue-credentials",
+            "scope": ["ContentAuthenticityCredential", "ProvenanceRecord"],
+            "conditions": "Must integrate with C2PA standards"
+          },
+          {
+            "authority": "verify-credentials", 
+            "scope": ["UserContent", "CreatorCredentials"]
+          }
+        ],
+        "constraints": {
+          "maxSubDelegations": 0,
+          "geographicScope": ["global"],
+          "industryScope": ["digital-content", "media"]
+        }
+      }
+    },
+    
+    "contentAuthenticityToNewsOrg": {
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "type": ["VerifiableCredential", "TrustChainDelegation"],
+      "issuer": {
+        "id": "did:cheqd:mainnet:content-authenticity-org",
+        "authorityType": "root"
+      },
+      "issuanceDate": "2024-02-01T00:00:00Z",
+      "credentialSubject": {
+        "id": "did:web:trusted-news-org.com",
+        "delegationType": "trusted-issuer",
+        "trustChainContext": {
+          "rootAuthority": "did:cheqd:mainnet:content-authenticity-org",
+          "parentAuthority": "did:cheqd:mainnet:content-authenticity-org",
+          "chainDepth": 1,
+          "namespace": "digital-content-authenticity"
+        },
+        "delegatedAuthorities": [
+          {
+            "authority": "issue-credentials",
+            "scope": ["JournalisticContent", "NewsArticle", "EditorialPhoto"],
+            "conditions": "Must follow journalistic ethics and fact-checking standards"
+          },
+          {
+            "authority": "delegate-authority",
+            "scope": ["individual-journalist"],
+            "conditions": "Only to employed journalists with verified credentials"
+          }
+        ],
+        "operationalRequirements": {
+          "technicalStandards": ["C2PA", "IPTC", "Schema.org NewsArticle"],
+          "auditRequirements": "Annual third-party journalism standards audit",
+          "reportingRequirements": "Monthly credential issuance reports"
+        }
+      }
+    }
+  },
+  
+  "realWorldScenario": {
+    "description": "Alice creates content that gets verified through multiple trust chains",
+    "steps": [
+      {
+        "step": 1,
+        "action": "Alice creates a photo using OriginVault platform",
+        "credentials_issued": [
+          {
+            "issuer": "did:originvault:user:alice-creator",
+            "type": "PersonalContentCredential",
+            "root_chain": "user -> personal content"
+          },
+          {
+            "issuer": "did:originvault:service:content-manager", 
+            "type": "ContentAuthenticityCredential",
+            "root_chain": "originvault namespace -> content manager -> content credential"
+          }
+        ]
+      },
+      {
+        "step": 2,
+        "action": "Trusted news organization wants to use Alice's photo",
+        "verification_process": [
+          "Verify Alice's personal root authority",
+          "Verify OriginVault content manager delegation",
+          "Check content authenticity credential chain",
+          "Cross-reference with content authenticity consortium root"
+        ]
+      },
+      {
+        "step": 3,
+        "action": "News org publishes article with Alice's photo",
+        "credentials_issued": [
+          {
+            "issuer": "did:web:trusted-news-org.com",
+            "type": "JournalisticContentCredential", 
+            "root_chain": "content authenticity root -> news org -> journalistic content",
+            "references": [
+              "Alice's PersonalContentCredential",
+              "OriginVault ContentAuthenticityCredential"
+            ]
+          }
+        ]
+      },
+      {
+        "step": 4,
+        "action": "Social media platform verifies before distribution",
+        "verification_process": [
+          "Verify news organization's delegation from content authenticity root",
+          "Check journalistic content credential",
+          "Validate referenced original content credentials",
+          "Apply platform-specific content policies"
+        ],
+        "platform_credential": {
+          "issuer": "did:web:social-media-platform.com",
+          "type": "PlatformVerificationCredential",
+          "root_chain": "platform root -> platform verification"
+        }
+      }
+    ]
+  },
+  
+  "interoperabilityExample": {
+    "description": "How different roots recognize and validate each other's credentials",
+    "cross_validation": {
+      "originvault_recognizes_content_auth": {
+        "scenario": "OriginVault platform accepts content verified by Content Authenticity Consortium",
+        "mechanism": "Cross-root recognition in interoperability section",
+        "validation_process": [
+          "Check if content auth root is in recognized roots list",
+          "Validate the credential chain back to content auth root", 
+          "Apply OriginVault's additional platform policies",
+          "Issue platform-specific verification if needed"
+        ]
+      },
+      "federation_membership": {
+        "scenario": "Multiple roots participate in Global Content Authenticity Alliance",
+        "shared_standards": ["C2PA", "Schema.org", "W3C VC"],
+        "mutual_recognition": "All federation members automatically recognize each other's credentials",
+        "governance": "Shared federation governance council makes interoperability decisions"
+      }
+    }
+  },
+  
+  "benefits": [
+    "Specialized trust domains: Each root focuses on their expertise area",
+    "Decentralized governance: No single point of control or failure", 
+    "Flexible delegation: Roots can customize their delegation policies",
+    "Interoperability: Cross-root recognition enables broad ecosystem",
+    "User empowerment: Individuals can establish personal trust roots",
+    "Innovation enablement: New trust models can emerge organically",
+    "Standards compliance: Integration with established W3C and schema.org standards"
+  ]
+} 

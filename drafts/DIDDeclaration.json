@@ -1,65 +1,335 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://w3id.org/security/multikey/v1",
+    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+  ],
   "$id": "https://schemas.originvault.box/DIDDeclaration",
   "title": "DID Declaration",
-  "description": "Defines the role and permissions of a DID in an OV Cluster.",
+  "description": "Defines the role and permissions of a DID in an OV Cluster within a multi-root trust architecture.",
   "type": "object",
+  "examples": [
+    {
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "id": "did:cheqd:mainnet:content-vault-node-001",
+      "type": "VaultDeclaration",
+      "parent": "did:cheqd:mainnet:originvault-cluster-alpha",
+      "roles": ["VaultOwner", "ContentCreator", "TrustDelegate"],
+      "governance": {
+        "managedBy": ["did:cheqd:mainnet:vault-admin-123", "did:cheqd:mainnet:originvault-cluster-alpha"],
+        "rules": "ceramic://k2t6wz4ylx0qsg8t9l5h3n2m4p9r7c8v3x1z5a6s7d9f2e4w8q3m1p0o9i8u7y6t5r"
+      },
+      "rootType": "delegated",
+      "governanceModel": {
+        "type": "hierarchical",
+        "participants": ["did:cheqd:mainnet:vault-admin-123"]
+      },
+      "delegationChain": [
+        "did:cheqd:mainnet:originvault-namespace-root",
+        "did:cheqd:mainnet:originvault-cluster-alpha",
+        "did:cheqd:mainnet:content-vault-node-001"
+      ],
+      "trustChainContext": "Content vault declaration within hierarchical trust delegation from namespace authority",
+      "metadata": {
+        "version": "1.0.0",
+        "schemaType": "DIDDeclaration",
+        "bffIntegration": true
+      },
+      "createdAt": "2025-01-14T17:00:00Z",
+      "updatedAt": "2025-01-14T17:00:00Z",
+      "blockchainSync": {
+        "transactionHash": "0x789abc456def...",
+        "blockNumber": 12345680,
+        "networkId": "cheqd:mainnet",
+        "lastSynced": "2025-01-14T17:01:00Z"
+      }
+    },
+    {
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+      "type": "IdentityNodeDeclaration",
+      "roles": ["IdentityNode", "VerificationService"],
+      "governance": {
+        "managedBy": ["did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"],
+        "rules": "Self-governed independent identity node"
+      },
+      "rootType": "self-sovereign",
+      "governanceModel": {
+        "type": "self-governed",
+        "participants": ["did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"]
+      },
+      "delegationChain": ["did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"],
+      "trustChainContext": "Self-sovereign identity node with independent governance"
+    }
+  ],
   "properties": {
+    "@context": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+      "examples": [
+        ["https://www.w3.org/ns/credentials/v2", "https://schema.org"],
+        ["https://www.w3.org/ns/credentials/v2", "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"]
+      ]
+    },
     "id": {
       "type": "string",
-      "description": "The DID of the entity declaring itself."
+      "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+      "minLength": 20,
+      "maxLength": 200,
+      "description": "The DID of the entity declaring itself",
+      "examples": [
+        "did:cheqd:mainnet:content-vault-node-001",
+        "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+        "did:web:storage-node.platform.com",
+        "did:ethr:0xIdentityNode456"
+      ]
     },
     "type": {
       "type": "string",
-      "enum": ["NamespaceDeclaration", "NodeClusterDeclaration", "NodeDeclaration", "VaultDeclaration"],
-      "description": "The type of DID declaration."
+      "enum": [
+        "NamespaceDeclaration", 
+        "NodeClusterDeclaration", 
+        "NodeDeclaration", 
+        "VaultDeclaration", 
+        "IdentityNodeDeclaration", 
+        "StorageNodeDeclaration", 
+        "VaultOwnerDeclaration",
+        "ComputeNodeDeclaration",
+        "VerificationNodeDeclaration"
+      ],
+      "description": "The type of DID declaration",
+      "examples": [
+        "VaultDeclaration",
+        "IdentityNodeDeclaration",
+        "StorageNodeDeclaration",
+        "NodeClusterDeclaration"
+      ]
     },
     "parent": {
       "type": "string",
-      "description": "The DID of the parent entity (e.g., a Cluster under a Namespace, or a Node under a Cluster)."
+      "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+      "minLength": 20,
+      "maxLength": 200,
+      "description": "The DID of the parent entity (e.g., a Cluster under a Namespace, or a Node under a Cluster)",
+      "examples": [
+        "did:cheqd:mainnet:originvault-cluster-alpha",
+        "did:cheqd:mainnet:originvault-namespace-root",
+        "did:web:parent-authority.platform.com"
+      ]
     },
     "roles": {
       "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
       "items": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "IdentityNode",
+          "StorageNode", 
+          "VaultOwner",
+          "ContentCreator",
+          "TrustDelegate",
+          "VerificationService",
+          "ComputeNode",
+          "GovernanceParticipant",
+          "DataProcessor",
+          "NetworkValidator"
+        ]
       },
-      "description": "The roles assigned to this DID (e.g., IdentityNode, StorageNode, VaultOwner)."
+      "description": "The roles assigned to this DID (e.g., IdentityNode, StorageNode, VaultOwner)",
+      "examples": [
+        ["VaultOwner", "ContentCreator", "TrustDelegate"],
+        ["IdentityNode", "VerificationService"],
+        ["StorageNode", "DataProcessor"]
+      ]
     },
     "governance": {
       "type": "object",
       "properties": {
         "managedBy": {
           "type": "array",
-          "items": { "type": "string" },
-          "description": "List of DIDs that govern this entity."
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+          },
+          "description": "List of DIDs that govern this entity",
+          "examples": [
+            ["did:cheqd:mainnet:vault-admin-123", "did:cheqd:mainnet:originvault-cluster-alpha"],
+            ["did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"],
+            ["did:web:governance.platform.com", "did:ethr:0xGovernanceCouncil"]
+          ]
         },
         "rules": {
           "type": "string",
-          "description": "A reference to governance policies (e.g., Ceramic document)."
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "A reference to governance policies (e.g., Ceramic document, IPFS hash, or governance description)",
+          "examples": [
+            "ceramic://k2t6wz4ylx0qsg8t9l5h3n2m4p9r7c8v3x1z5a6s7d9f2e4w8q3m1p0o9i8u7y6t5r",
+            "Self-governed independent identity node",
+            "https://governance.platform.com/policies/node-governance-v2",
+            "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4"
+          ]
         }
       },
-      "description": "Governance settings for this DID."
+      "description": "Governance settings for this DID",
+      "required": ["managedBy", "rules"],
+      "additionalProperties": false
     },
-    "linkedResources": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": { "type": "string", "description": "The id of the linked resource." },
-          "name": { "type": "string", "description": "The name of the linked resource." },
-          "description": { "type": "string", "description": "The description of the linked resource." },
-          "uri": { "type": "string", "description": "The uri of the linked resource." },
-          "type": { "type": "string", "description": "The type of resource (e.g., governance, metadata, event log)." }
+    "rootType": {
+      "type": "string",
+      "enum": ["self-sovereign", "delegated", "federated", "hybrid"],
+      "description": "Multi-root trust pattern type",
+      "examples": ["delegated", "self-sovereign", "federated"]
+    },
+    "governanceModel": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["self-governed", "dao", "committee", "hierarchical", "consensus"],
+          "description": "Governance model for this DID entity"
         },
-        "required": ["id", "type"]
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+          },
+          "description": "DIDs of governance participants"
+        }
       },
-      "description": "Linked resources associated with this cluster."
+      "examples": [
+        {
+          "type": "hierarchical",
+          "participants": ["did:cheqd:mainnet:vault-admin-123"]
+        },
+        {
+          "type": "self-governed",
+          "participants": ["did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"]
+        }
+      ]
     },
-    "timestamp": {
+    "delegationChain": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "items": {
+        "type": "string",
+        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+      },
+      "description": "Chain of trust delegation from root authority to this DID",
+      "examples": [
+        ["did:cheqd:mainnet:originvault-namespace-root", "did:cheqd:mainnet:originvault-cluster-alpha", "did:cheqd:mainnet:content-vault-node-001"],
+        ["did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"],
+        ["did:web:namespace-root.platform.com", "did:web:storage-node.platform.com"]
+      ]
+    },
+    "trustChainContext": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Contextual information about the DID's role in the trust chain",
+      "examples": [
+        "Content vault declaration within hierarchical trust delegation from namespace authority",
+        "Self-sovereign identity node with independent governance",
+        "Storage node operating under federated cluster governance",
+        "Compute node participating in multi-root validation network"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Schema version for tracking evolution"
+        },
+        "schemaType": {
+          "type": "string",
+          "const": "DIDDeclaration",
+          "description": "Schema type identifier for BFF integration"
+        },
+        "bffIntegration": {
+          "type": "boolean",
+          "description": "Indicates if schema supports BFF integration patterns"
+        }
+      },
+      "examples": [
+        {
+          "version": "1.0.0",
+          "schemaType": "DIDDeclaration",
+          "bffIntegration": true
+        }
+      ]
+    },
+    "createdAt": {
       "type": "string",
       "format": "date-time",
-      "description": "Timestamp of when this DID declaration was issued."
+      "description": "Timestamp when the DID declaration was created",
+      "examples": ["2025-01-14T17:00:00Z", "2025-01-14T19:30:45.123Z"]
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the DID declaration was last updated",
+      "examples": ["2025-01-14T17:00:00Z", "2025-01-14T19:30:45.123Z"]
+    },
+    "blockchainSync": {
+      "type": "object",
+      "properties": {
+        "transactionHash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$",
+          "description": "Blockchain transaction hash for this DID declaration"
+        },
+        "blockNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Block number where transaction was confirmed"
+        },
+        "networkId": {
+          "type": "string",
+          "enum": ["cheqd:mainnet", "cheqd:testnet", "ethereum:mainnet", "ethereum:sepolia"],
+          "description": "Blockchain network identifier"
+        },
+        "lastSynced": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last blockchain synchronization timestamp"
+        }
+      },
+      "examples": [
+        {
+          "transactionHash": "0x789abc456def...",
+          "blockNumber": 12345680,
+          "networkId": "cheqd:mainnet",
+          "lastSynced": "2025-01-14T17:01:00Z"
+        }
+      ]
     }
   },
-  "required": ["id", "type", "timestamp"]
+  "required": ["@context", "id", "type"],
+  "additionalProperties": false
 }

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.io/TrustGate",
+  "title": "Trust Gate",
+  "description": "Defines access rules based on Gems and Verifiable Credentials.",
+  "type": "object",
+  "properties": {
+    "resource": { "type": "string", "description": "The DID or URL of the resource being accessed." },
+    "requiredTrustLevel": { "type": "number", "minimum": 0, "description": "Minimum trust score required for access." },
+    "requiredGems": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of required Gems for access."
+    },
+    "requiredCredentials": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of required Verifiable Credentials for access."
+    },
+    "accessPolicy": {
+      "type": "string",
+      "enum": ["public", "restricted", "private"],
+      "description": "Whether access is open, trust-restricted, or fully private."
+    }
+  },
+  "required": ["resource", "requiredTrustLevel", "requiredGems", "requiredCredentials", "accessPolicy"]
+}

@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/TrustChainDelegation",
+  "title": "Trust Chain Delegation",
+  "description": "Verifiable delegation of trust authority from any root or trusted issuer to another entity in a trust chain.",
+  "type": "object",
+  "required": ["@context", "type", "issuer", "issuanceDate", "credentialSubject"],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://schema.org",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ]
+    },
+    "type": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": ["VerifiableCredential", "TrustChainDelegation"]
+    },
+    "issuer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^did:",
+          "description": "DID of the delegating authority (root or trusted issuer)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the delegating authority"
+        },
+        "authorityType": {
+          "type": "string",
+          "enum": ["root", "trusted-issuer", "delegated-authority"],
+          "description": "Type of authority making the delegation"
+        }
+      },
+      "required": ["id", "authorityType"]
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the delegation was issued"
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the delegation expires (optional)"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^did:",
+          "description": "DID of the entity receiving delegation"
+        },
+        "delegationType": {
+          "type": "string",
+          "enum": ["trusted-issuer", "sub-root", "verifier", "validator"],
+          "description": "Type of delegation being granted"
+        },
+        "trustChainContext": {
+          "type": "object",
+          "properties": {
+            "rootAuthority": {
+              "type": "string",
+              "pattern": "^did:",
+              "description": "DID of the ultimate root authority in this chain"
+            },
+            "parentAuthority": {
+              "type": "string", 
+              "pattern": "^did:",
+              "description": "DID of the immediate parent in delegation chain"
+            },
+            "chainDepth": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Depth in the trust chain (1 = direct from root)"
+            },
+            "namespace": {
+              "type": "string",
+              "description": "Namespace or domain scope of this delegation"
+            }
+          },
+          "required": ["rootAuthority", "parentAuthority", "chainDepth"]
+        },
+        "delegatedAuthorities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "authority": {
+                "type": "string",
+                "enum": [
+                  "issue-credentials",
+                  "verify-credentials", 
+                  "revoke-credentials",
+                  "delegate-authority",
+                  "update-schemas",
+                  "manage-trust-lists"
+                ],
+                "description": "Specific authority being delegated"
+              },
+              "scope": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Credential types or schemas this authority applies to"
+              },
+              "conditions": {
+                "type": "string",
+                "description": "Conditions or limitations on this authority"
+              }
+            },
+            "required": ["authority"]
+          },
+          "description": "Specific authorities being delegated"
+        },
+        "constraints": {
+          "type": "object",
+          "properties": {
+            "maxSubDelegations": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Maximum number of sub-delegations allowed"
+            },
+            "allowedDelegationTypes": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Types of delegations this entity can make"
+            },
+            "geographicScope": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Geographic limitations on delegation scope"
+            },
+            "industryScope": {
+              "type": "array",
+              "items": {"type": "string"}, 
+              "description": "Industry or domain limitations"
+            }
+          }
+        },
+        "operationalRequirements": {
+          "type": "object",
+          "properties": {
+            "technicalStandards": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Technical standards the delegate must follow"
+            },
+            "auditRequirements": {
+              "type": "string",
+              "description": "Audit and compliance requirements"
+            },
+            "reportingRequirements": {
+              "type": "string",
+              "description": "Reporting obligations to delegating authority"
+            },
+            "insuranceRequirements": {
+              "type": "string",
+              "description": "Insurance or bonding requirements"
+            }
+          }
+        },
+        "revocationConditions": {
+          "type": "object",
+          "properties": {
+            "revocableBy": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "DIDs of entities that can revoke this delegation"
+            },
+            "revocationCriteria": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Conditions under which delegation can be revoked"
+            },
+            "appealProcess": {
+              "type": "string",
+              "description": "Process for appealing revocation decisions"
+            }
+          }
+        }
+      },
+      "required": ["id", "delegationType", "trustChainContext", "delegatedAuthorities"]
+    },
+    "termsOfUse": {
+      "type": "object",
+      "properties": {
+        "delegationAgreement": {
+          "type": "string",
+          "description": "Reference to the delegation agreement document"
+        },
+        "governingLaw": {
+          "type": "string",
+          "description": "Legal jurisdiction governing this delegation"
+        }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "description": "Cryptographic proof of the delegation"
+    }
+  }
+} 

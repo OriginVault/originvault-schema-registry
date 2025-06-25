@@ -1,0 +1,34 @@
+{
+  "@context": {
+    "adr": "https://adrs.originvault.box/",
+    "governs": "adr:governs",
+    "implementsDecision": "adr:implementsDecision",
+    "architecturalRationale": "adr:architecturalRationale",
+    "businessJustification": "adr:businessJustification",
+    "principleAlignment": "adr:principleAlignment",
+    
+    "trustedIssuerStrategy": "adr:0024-trust-registry-integration",
+    "multiRootArchitecture": "adr:0086-open-verifiable-interoperability-strategy", 
+    "namespaceGovernance": "adr:0006-namespace-governance-delegation",
+    "didProgression": "adr:0003-did-progression-verification-strategy",
+    "userOnboarding": "adr:0001-user-onboarding-wallet-generation-strategy",
+    "pluginSecurity": "adr:0068-plugin-security-model",
+    "carbonAwareness": "adr:0077-climate-consciousness-co2-awareness-strategy",
+    "bffIntegration": "adr:0008-schema-driven-api-architecture",
+    
+    "missionPrinciples": {
+      "@id": "adr:mission-principles",
+      "@type": "@id"
+    },
+    "creatorFirst": "adr:principle/creator-first",
+    "userSovereignty": "adr:principle/user-sovereignty", 
+    "proofFirstTrust": "adr:principle/proof-first-trust",
+    "inclusiveIntegration": "adr:principle/inclusive-integration",
+    "communityCollaboration": "adr:principle/community-collaboration",
+    "empowermentOverExtraction": "adr:principle/empowerment-over-extraction",
+    "privacyByDesign": "adr:principle/privacy-by-design",
+    "modularOpenSource": "adr:principle/modular-open-source",
+    "securityFirst": "adr:principle/security-first",
+    "resilienceByDesign": "adr:principle/resilience-by-design"
+  }
+} 

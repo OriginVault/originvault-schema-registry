@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/ReferalAgreement",
+  "title": "Referal Agreement",
+  "description": "Defines the rules for trust-based referrals and reputation scoring within the OV ecosystem.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": ["License", "CreativeWork"],
+      "description": "Schema.org type"
+    },
+    "agreementId": { "type": "string", "description": "DID of the agreement." },
+    "referrerId": { "type": "string", "description": "DID of the entity providing the referral." },
+    "referredEntityId": { "type": "string", "description": "DID of the entity receiving the referral." },
+    "trustScoreImpact": {
+      "type": "object",
+      "properties": {
+        "initialBoost": { "type": "number", "description": "Trust score increase from referral." },
+        "slashingConditions": { "type": "string", "description": "Conditions under which the referral can be revoked or slashed." }
+      }
+    },
+    "reputationRewards": {
+      "type": "string",
+      "description": "How referrers are rewarded if the referred entity performs well."
+    },
+    "agreementSigned": { "type": "boolean", "description": "Whether both parties accepted the agreement." },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Time of agreement acceptance." }
+  },
+  "required": ["agreementId", "referrerId", "referredEntityId", "trustScoreImpact", "reputationRewards", "agreementSigned", "timestamp"]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/VerifierPersona",
+  "title": "Verifier Persona",
+  "description": "Defines a verifier in the OriginVault ecosystem.",
+  "type": "object",
+  "properties": {
+    "@type": { "type": "string", "description": "Schema.org type" },
+    "verificationsPerformed": { "type": "number", "description": "Total number of verification actions performed." },
+    "approvedNamespaces": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of namespaces the verifier is trusted in." }
+    },
+    "trustScoreImpact": { "type": "number", "description": "Modifier applied to their reputation based on accuracy." },
+    "disputedVerifications": {
+      "type": "number",
+      "description": "Count of verification decisions that were disputed or reversed."
+    }
+  },
+  "required": ["verificationsPerformed", "approvedNamespaces", "trustScoreImpact"]
+}

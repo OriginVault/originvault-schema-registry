@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/VaultChamberTransaction",
+  "title": "Vault Chamber Transaction",
+  "description": "Records payment-based access events for transactional Vault Chambers.",
+  "type": "object",
+  "properties": {
+    "transactionId": { "type": "string", "description": "Unique ID of the transaction." },
+    "chamberId": { "type": "string", "description": "DID of the Vault Chamber." },
+    "buyer": { "type": "string", "description": "DID of the user who paid for access." },
+    "amountPaid": { "type": "number", "description": "Amount paid for access." },
+    "currency": { "type": "string", "description": "Currency used (e.g., USD, CHEQ, ETH)." },
+    "timestamp": { "type": "string", "format": "date-time", "description": "Time of transaction." },
+    "accessDuration": { "type": "string", "description": "How long the user can access the Chamber." }
+  },
+  "required": ["transactionId", "chamberId", "buyer", "amountPaid", "currency", "timestamp", "accessDuration"]
+}

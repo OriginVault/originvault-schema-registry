@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.io/AITrainingAgreement",
+  "title": "AI Model Training Agreement",
+  "description": "Defines terms for AI companies training models on data within OV Vaults.",
+  "type": "object",
+  "properties": {
+    "agreementId": { "type": "string", "description": "DID of the agreement." },
+    "buyerId": { "type": "string", "description": "DID of the AI company." },
+    "chamberId": { "type": "string", "description": "DID of the Vault Chamber providing data." },
+    "licenseTerms": {
+      "type": "object",
+      "properties": {
+        "licenseType": { "type": "string", "enum": ["Exclusive", "Non-Exclusive", "Time-Limited"] },
+        "dataAnonymization": { "type": "boolean", "description": "Whether the data must be anonymized." }
+      }
+    },
+    "usageScope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Training Only", "Commercial Model Deployment", "Open-Source Research"]
+      }
+    },
+    "complianceRequirements": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Legal compliance and privacy requirements."
+    },
+    "revocationPolicy": { "type": "string", "description": "Conditions under which access can be revoked." },
+    "paymentProof": { "type": "string", "description": "Verifiable Credential proving payment." },
+    "agreementSigned": { "type": "boolean", "description": "Whether the AI company has accepted the agreement." }
+  },
+  "required": ["agreementId", "buyerId", "chamberId", "licenseTerms", "usageScope", "complianceRequirements", "revocationPolicy", "paymentProof", "agreementSigned"]
+}

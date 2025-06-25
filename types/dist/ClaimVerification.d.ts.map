@@ -1,0 +1,1 @@
+{"version":3,"file":"ClaimVerification.d.ts","sourceRoot":"","sources":["../ClaimVerification.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AAEH,MAAM,WAAW,iBAAiB;IAChC;;OAEG;IACH,UAAU,EAAE,MAAM,CAAC;IACnB;;OAEG;IACH,kBAAkB,EAAE,MAAM,CAAC;IAC3B,gBAAgB,EAAE;QAChB;;WAEG;QACH,UAAU,CAAC,EAAE,MAAM,CAAC;QACpB;;WAEG;QACH,IAAI,CAAC,EAAE,MAAM,CAAC;KACf,CAAC;CACH"}

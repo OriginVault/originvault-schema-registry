@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/ClusterRegistration",
+  "title": "Cluster Registration",
+  "description": "Defines the registration details of an OV cluster within a namespace.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "DID of the cluster registration document." },
+    "namespace": { "type": "string", "description": "DID of the namespace this cluster belongs to." },
+    "clusterDID": { "type": "string", "description": "DID of the cluster." },
+    "governanceModel": {
+      "type": "string",
+      "enum": ["centralized", "decentralized", "DAO-based"],
+      "description": "Governance model of the cluster."
+    },
+    "supportedPlugins": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of plugin DIDs this cluster supports."
+    },
+    "nodeOperators": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of DIDs of node operators in this cluster."
+    },
+    "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the cluster was registered." },
+    "proof": {
+      "type": "object",
+      "description": "Cryptographic proof of the cluster registration.",
+      "properties": {
+        "type": { "type": "string", "description": "Proof type." },
+        "created": { "type": "string", "format": "date-time", "description": "Timestamp of proof creation." },
+        "verificationMethod": { "type": "string", "description": "DID or method used to verify this proof." },
+        "signatureValue": { "type": "string", "description": "Base64 or hex-encoded signature." }
+      }
+    }
+  },
+  "required": ["id", "namespace", "clusterDID", "governanceModel", "supportedPlugins", "nodeOperators", "createdAt", "proof"]
+}

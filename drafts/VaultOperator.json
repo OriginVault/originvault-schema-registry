@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/VaultOperatorPersona",
+  "title": "Vault Operator Persona",
+  "description": "Defines a vault operator in the OriginVault ecosystem.",
+  "type": "object",
+  "properties": {
+    "managedVaults": {
+      "type": "array",
+      "items": { "type": "string", "description": "DIDs of vaults managed by this operator." }
+    },
+    "governanceModel": {
+      "type": "string",
+      "enum": ["Admin-Controlled", "DAO-Based", "Token-Weighted"],
+      "description": "Defines how the vault is governed."
+    },
+    "vaultAccessPolicies": {
+      "type": "object",
+      "properties": {
+        "allowsPublicContributions": { "type": "boolean", "description": "Whether non-members can contribute to the vault." },
+        "monetizationModel": {
+          "type": "string",
+          "enum": ["Subscription", "Pay-per-View", "One-Time Purchase"],
+          "description": "Defines the revenue model for content access."
+        }
+      },
+      "description": "Defines policies for managing vault access and revenue."
+    }
+  },
+  "required": ["managedVaults", "governanceModel", "vaultAccessPolicies"]
+}

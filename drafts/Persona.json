@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/Persona",
+  "title": "Persona",
+  "description": "Defines a persona in the OriginVault ecosystem.",
+  "type": "object",
+  "properties": {
+    "@type": { "type": "string", "description": "Schema.org type" },
+    "personaId": { "type": "string", "description": "DID of the persona." },
+    "displayName": { "type": "string", "description": "User's display name or pseudonym." },
+    "associatedDID": { "type": "string", "description": "The primary DID associated with this persona." },
+    "personaType": {
+      "type": "string",
+      "enum": ["Creator", "Verifier", "Vault Operator", "Community Member", "AI Trainer"],
+      "description": "Role of the user within the OV ecosystem."
+    },
+    "joinedDate": { "type": "string", "format": "date-time", "description": "Date of persona creation." },
+    "reputationScore": {
+      "type": "object",
+      "properties": {
+        "trustLevel": { "type": "number", "description": "A calculated trust score based on activity and endorsements." },
+        "endorsements": {
+          "type": "array",
+          "items": { "type": "string", "description": "DIDs of other users who have endorsed this persona." }
+        }
+      },
+      "description": "Tracks the persona's trust and reputation."
+    },
+    "badges": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "List of awarded badges or recognitions."
+      }
+    },
+    "activityLog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activityType": { "type": "string", "description": "Type of activity performed." },
+          "timestamp": { "type": "string", "format": "date-time", "description": "Timestamp of activity." }
+        }
+      },
+      "description": "Logs important persona actions within OV."
+    },
+    "linkedSocials": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "List of linked social media or web3 identities."
+      }
+    }
+  },
+  "required": ["personaId", "associatedDID", "personaType", "joinedDate"]
+}

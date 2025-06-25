@@ -1,47 +1,40 @@
 {
   "name": "@originvault/ov-types",
-  "version": "0.0.8",
-  "description": "A collection of JSON-LD schemas for the OriginVault ecosystem.",
-  "types": "dist/index.d.ts",
+  "version": "1.0.0",
+  "description": "Type-safe schemas for OriginVault multi-root trust architecture",
   "main": "dist/index.js",
-  "homepage": "https://schemas.originvault.box",
-  "files": [
-    "dist",
-    "index.d.ts",
-    "schemas/**/*"
-  ],
+  "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rm -rf dist",
-    "export-types": "npx tsx exportTypes.ts",
-    "build": "tsc -p .",
-    "prebuild": "npm run clean",
-    "postbuild": "npm run export-types",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublishOnly": "npm run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/OriginVault/originvault-schema-registry.git"
-  },
-  "keywords": [
-    "OriginVault",
-    "JSON-LD",
-    "schemas",
-    "DID",
-    "credentials"
-  ],
-  "author": "engineering@originvault.io>",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public",
-    "tag": "alpha"
-  },
-  "devDependencies": {
-    "json-schema-to-typescript": "^15.0.4",
-    "tsx": "^4.19.3",
-    "typescript": "^5.8.2"
+    "build": "tsc && npm run generate-types",
+    "generate-types": "node dist/exportTypes.js",
+    "dev": "tsc --watch",
+    "prepare": "npm run build"
   },
   "dependencies": {
-    "@openverifiable/open-verifiable-types": "^0.0.7"
-  }
+    "json-schema-to-typescript": "^13.1.1",
+    "quicktype-core": "^23.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist/",
+    "types/",
+    "schemas/",
+    "contexts/",
+    "examples/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/originvault/originvault-schema-registry"
+  },
+  "keywords": [
+    "originvault",
+    "verifiable-credentials",
+    "did",
+    "trust-registry",
+    "multi-root",
+    "schemas"
+  ]
 }

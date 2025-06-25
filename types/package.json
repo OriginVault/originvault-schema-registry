@@ -1,0 +1,45 @@
+{
+  "name": "@originvault/types",
+  "version": "1.0.0",
+  "description": "Generated TypeScript types for OriginVault multi-root trust architecture schemas",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "*.ts",
+    "*.js",
+    "*.d.ts",
+    "index.ts",
+    "registry.ts",
+    "bff-integration.ts"
+  ],
+  "keywords": [
+    "originvault",
+    "schemas",
+    "types",
+    "trust-registry",
+    "multi-root",
+    "verifiable-credentials",
+    "did",
+    "bff-integration"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/originvault/originvault-schema-registry",
+    "directory": "types"
+  },
+  "license": "MIT",
+  "author": "OriginVault Team",
+  "homepage": "https://originvault.io"
+} 
