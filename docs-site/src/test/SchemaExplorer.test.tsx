@@ -4,17 +4,12 @@ import { BrowserRouter } from 'react-router-dom'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import SchemaExplorer from '../pages/SchemaExplorer'
 
+// Mock QuickType
+const mockQuicktype = vi.fn()
+
 // Mock Monaco Editor
 vi.mock('@monaco-editor/react', () => ({
   Editor: vi.fn(() => <div data-testid="monaco-editor" />)
-}))
-
-// Mock QuickType
-const mockQuicktype = vi.fn()
-vi.mock('quicktype-core', () => ({
-  quicktype: mockQuicktype,
-  InputData: vi.fn(),
-  JSONSchemaInput: vi.fn()
 }))
 
 // Mock fetch
@@ -30,6 +25,12 @@ Object.assign(navigator, {
 // Mock URL.createObjectURL
 global.URL.createObjectURL = vi.fn()
 global.URL.revokeObjectURL = vi.fn()
+
+vi.mock('quicktype-core', () => ({
+  quicktype: mockQuicktype,
+  InputData: vi.fn(),
+  JSONSchemaInput: vi.fn()
+}))
 
 const renderWithRouter = (component: React.ReactElement) => {
   return render(

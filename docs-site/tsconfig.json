@@ -28,6 +28,14 @@
       "@docs/*": ["../docs/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
+  "exclude": [
+    "../src",
+    "../node_modules",
+    "../dist",
+    "../generated",
+    "node_modules",
+    "dist"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 } 

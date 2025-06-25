@@ -118,7 +118,8 @@ class SchemaService {
     }
 
     try {
-      // For now, return fallback code since QuickType integration needs more setup
+      // For now, use fallback code since QuickType browser integration needs more setup
+      // TODO: Implement proper QuickType browser integration
       const code = this.getFallbackCode(schema, language)
       const quickTypeResult: QuickTypeResult = {
         code,

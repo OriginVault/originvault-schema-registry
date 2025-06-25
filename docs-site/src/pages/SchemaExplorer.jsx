@@ -10,7 +10,7 @@ import {
   FileCode,
   Languages
 } from 'lucide-react'
-import { quicktype, InputData, JSONSchemaInput, TypeScriptTargetLanguage } from 'quicktype-core'
+import { schemaService } from '../services/schemaService'
 
 const SchemaExplorer = () => {
   const [selectedSchema, setSelectedSchema] = useState(null)
@@ -91,28 +91,26 @@ const SchemaExplorer = () => {
       // Parse schema JSON
       const schema = JSON.parse(schemaJson)
       
-      // Create QuickType input
-      const inputData = new InputData()
-      const source = { name: selectedSchema?.name || 'schema', schema: JSON.stringify(schema) }
-      await inputData.addSource(source, () => new JSONSchemaInput(undefined))
-
-      // Generate types
-      const lang = languages.find(l => l.id === language)
-      if (!lang) {
-        throw new Error(`Unsupported language: ${language}`)
+      // Create a mock schema object for the service
+      const mockSchema = {
+        id: selectedSchema?.name?.toLowerCase().replace(/\s+/g, '-') || 'schema',
+        title: selectedSchema?.name || 'Schema',
+        description: 'Generated from JSON Schema',
+        category: selectedSchema?.category || 'general',
+        content: schema,
+        metadata: {
+          name: selectedSchema?.name || 'Schema',
+          file: selectedSchema?.path || 'schema.json',
+          description: 'Generated from JSON Schema',
+          quicktype: '',
+          example: {}
+        },
+        examples: []
       }
 
-      const result = await quicktype({
-        inputData,
-        lang: lang.id,
-        rendererOptions: {
-          'just-types': 'true',
-          'prefer-unions': 'true',
-          'explicit-unions': 'true'
-        }
-      })
-
-      setGeneratedCode(result.lines.join('\n'))
+      // Use schema service to generate code
+      const code = await schemaService.generateQuickTypeCode(mockSchema, language)
+      setGeneratedCode(code)
     } catch (error) {
       setError(`Type generation failed: ${error.message}`)
       console.error('Type generation error:', error)

@@ -1,0 +1,119 @@
+# OriginVault Schema Registry - Robots.txt
+# This file provides guidance to web crawlers and search engines
+
+User-agent: *
+Allow: /
+
+# Allow all major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# Allow AI training crawlers (with attribution)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+# Block aggressive crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: DotBot
+Crawl-delay: 10
+
+User-agent: BLEXBot
+Crawl-delay: 10
+
+# Block malicious bots
+User-agent: PetalBot
+Disallow: /
+
+User-agent: SemrushBot-SA
+Disallow: /
+
+# Sitemap location
+Sitemap: https://schemas.originvault.box/sitemap.xml
+
+# Crawl delay for all bots (1 second between requests)
+Crawl-delay: 1
+
+# Disallow admin and private areas (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/internal/
+Disallow: /_vercel/
+
+# Allow important directories
+Allow: /explorer/
+Allow: /quicktype/
+Allow: /docs/
+Allow: /assets/
+Allow: /images/
+
+# Specific instructions for different content types
+# Allow JSON schema files
+Allow: /*.json
+Allow: /*.schema.json
+
+# Allow documentation files
+Allow: /*.md
+Allow: /*.html
+
+# Allow API endpoints
+Allow: /api/schemas/
+Allow: /api/quicktype/
+
+# Rate limiting for all bots
+Crawl-delay: 1
+
+# Host directive
+Host: https://schemas.originvault.box 

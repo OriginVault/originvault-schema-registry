@@ -11,6 +11,7 @@
     "prepare": "npm run build"
   },
   "dependencies": {
+    "@openverifiable/open-verifiable-types": "^0.0.1",
     "json-schema-to-typescript": "^13.1.1",
     "quicktype-core": "^23.2.6"
   },

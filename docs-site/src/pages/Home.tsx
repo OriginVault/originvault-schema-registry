@@ -1,210 +1,173 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
 import {
-  Container,
-  Typography,
+  Box,
   Button,
-  Grid,
   Card,
   CardContent,
-  CardActions,
-  Box,
-  Chip,
-  Stack,
-  Paper
-} from '@mui/material'
-import {
-  Explore as ExploreIcon,
-  Book as BookIcon,
-  FlashOn as FlashIcon,
-  Code as CodeIcon,
-  Security as SecurityIcon,
-  Speed as SpeedIcon
-} from '@mui/icons-material'
+  Grid,
+  Typography,
+  Container,
+  Paper,
+  Stack
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+
   const features = [
     {
-      icon: <CodeIcon sx={{ fontSize: 40 }} />,
-      title: 'Type-Safe Schemas',
-      description: 'Generate type-safe code in TypeScript, Python, Go, C#, Java, and Rust from JSON schemas.',
-      color: 'primary'
+      title: 'Interactive Schema Explorer',
+      description: 'Browse and explore JSON schemas with real-time validation and QuickType code generation.',
+      icon: '🔍',
+      path: '/explorer'
     },
     {
-      icon: <SecurityIcon sx={{ fontSize: 40 }} />,
+      title: 'Multi-Language Code Generation',
+      description: 'Generate type-safe code in TypeScript, Python, Java, C#, Go, and more using QuickType.',
+      icon: '⚡',
+      path: '/quicktype'
+    },
+    {
       title: 'Verifiable Credentials',
-      description: 'W3C VC 2.0 compliant schemas for decentralized identity and trust.',
-      color: 'secondary'
+      description: 'Built-in support for W3C Verifiable Credentials and JSON-LD schemas.',
+      icon: '🔐',
+      path: '/explorer'
     },
     {
-      icon: <SpeedIcon sx={{ fontSize: 40 }} />,
-      title: 'QuickType Integration',
-      description: 'Seamless integration with QuickType for instant code generation.',
-      color: 'success'
+      title: 'C2PA Integration',
+      description: 'Content authenticity and provenance tracking with C2PA manifest support.',
+      icon: '📷',
+      path: '/explorer'
     }
-  ]
+  ];
 
-  const quickActions = [
-    {
-      title: 'Explore Schemas',
-      description: 'Browse and interact with our schema collection',
-      icon: <ExploreIcon />,
-      href: '/explorer',
-      color: 'primary'
-    },
-    {
-      title: 'Documentation',
-      description: 'Implementation guides and architecture docs',
-      icon: <BookIcon />,
-      href: '/docs',
-      color: 'secondary'
-    },
-    {
-      title: 'QuickType Guide',
-      description: 'Learn how to generate types from schemas',
-      icon: <FlashIcon />,
-      href: '/quicktype',
-      color: 'success'
-    }
-  ]
+  const languages = [
+    { name: 'TypeScript', icon: '🔷' },
+    { name: 'Python', icon: '🐍' },
+    { name: 'Java', icon: '☕' },
+    { name: 'C#', icon: '🔷' },
+    { name: 'Go', icon: '🐹' },
+    { name: 'Rust', icon: '🦀' },
+    { name: 'Swift', icon: '🍎' },
+    { name: 'Kotlin', icon: '📱' },
+    { name: 'PHP', icon: '🐘' },
+    { name: 'Ruby', icon: '💎' }
+  ];
 
   return (
-    <Box sx={{ py: 8 }}>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Hero Section */}
-      <Container maxWidth="lg">
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-            OriginVault Schema Registry
+      <Box sx={{ textAlign: 'center', mb: 6 }}>
+        <Typography variant="h2" component="h1" gutterBottom>
+          OriginVault Schema Registry
+        </Typography>
+        <Typography variant="h5" color="text.secondary" paragraph>
+          Interactive JSON schema documentation with QuickType integration for verifiable credentials and decentralized identity
+        </Typography>
+        <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 4 }}>
+          <Button 
+            variant="contained" 
+            size="large"
+            onClick={() => navigate('/explorer')}
+          >
+            Explore Schemas
+          </Button>
+          <Button 
+            variant="outlined" 
+            size="large"
+            onClick={() => navigate('/quicktype')}
+          >
+            QuickType Guide
+          </Button>
+        </Stack>
+      </Box>
+
+      {/* Features */}
+      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+        Features
+      </Typography>
+      <Grid container spacing={3} sx={{ mb: 6 }}>
+        {features.map((feature, index) => (
+          <Grid item xs={12} md={6} key={index}>
+            <Card variant="outlined" sx={{ height: '100%' }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Typography variant="h3" sx={{ mr: 2 }}>
+                    {feature.icon}
+                  </Typography>
+                  <Typography variant="h6">
+                    {feature.title}
+                  </Typography>
+                </Box>
+                <Typography variant="body2" color="text.secondary" paragraph>
+                  {feature.description}
+                </Typography>
+                <Button 
+                  size="small" 
+                  onClick={() => navigate(feature.path)}
+                  variant="outlined"
+                >
+                  Learn More
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* Supported Languages */}
+      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+        Supported Languages
+      </Typography>
+      <Paper sx={{ p: 3, mb: 6 }}>
+        <Grid container spacing={2}>
+          {languages.map((lang, index) => (
+            <Grid item xs={6} sm={4} md={3} key={index}>
+              <Box sx={{ textAlign: 'center', p: 2 }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
+                  {lang.icon}
+                </Typography>
+                <Typography variant="body2">
+                  {lang.name}
+                </Typography>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
+
+      {/* Call to Action */}
+      <Card sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', textAlign: 'center' }}>
+        <CardContent sx={{ py: 4 }}>
+          <Typography variant="h4" gutterBottom>
+            Ready to Get Started?
           </Typography>
-          <Typography variant="h5" color="text.secondary" paragraph sx={{ mb: 4 }}>
-            Type-safe, verifiable credential schemas for the decentralized creator economy
+          <Typography variant="body1" paragraph>
+            Explore our schemas, generate code, and integrate verifiable credentials into your applications.
           </Typography>
-          <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 6 }}>
-            <Button
-              component={Link}
-              to="/explorer"
-              variant="contained"
+          <Stack direction="row" spacing={2} justifyContent="center">
+            <Button 
+              variant="contained" 
               size="large"
-              startIcon={<ExploreIcon />}
+              onClick={() => navigate('/explorer')}
+              sx={{ bgcolor: 'white', color: 'primary.main' }}
             >
               Explore Schemas
             </Button>
-            <Button
-              component={Link}
-              to="/docs"
-              variant="outlined"
+            <Button 
+              variant="outlined" 
               size="large"
-              startIcon={<BookIcon />}
+              onClick={() => navigate('/quicktype')}
+              sx={{ borderColor: 'white', color: 'white' }}
             >
-              View Documentation
+              QuickType Guide
             </Button>
           </Stack>
-          
-          <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap">
-            <Chip label="W3C VC 2.0" color="primary" variant="outlined" />
-            <Chip label="TypeScript" color="secondary" variant="outlined" />
-            <Chip label="QuickType" color="success" variant="outlined" />
-            <Chip label="Accessible" color="info" variant="outlined" />
-          </Stack>
-        </Box>
+        </CardContent>
+      </Card>
+    </Container>
+  );
+};
 
-        {/* Features Section */}
-        <Box sx={{ mb: 8 }}>
-          <Typography variant="h3" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 6 }}>
-            Why Choose OriginVault?
-          </Typography>
-          <Grid container spacing={4}>
-            {features.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Card sx={{ height: '100%', textAlign: 'center' }}>
-                  <CardContent sx={{ py: 4 }}>
-                    <Box sx={{ color: `${feature.color}.main`, mb: 2 }}>
-                      {feature.icon}
-                    </Box>
-                    <Typography variant="h5" component="h3" gutterBottom>
-                      {feature.title}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary">
-                      {feature.description}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Quick Actions */}
-        <Box sx={{ mb: 8 }}>
-          <Typography variant="h3" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 6 }}>
-            Get Started
-          </Typography>
-          <Grid container spacing={4}>
-            {quickActions.map((action, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Paper sx={{ p: 3, height: '100%', textAlign: 'center' }}>
-                  <Box sx={{ color: `${action.color}.main`, mb: 2 }}>
-                    {action.icon}
-                  </Box>
-                  <Typography variant="h5" component="h3" gutterBottom>
-                    {action.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" paragraph>
-                    {action.description}
-                  </Typography>
-                  <Button
-                    component={Link}
-                    to={action.href}
-                    variant="contained"
-                    color={action.color as any}
-                    fullWidth
-                  >
-                    Get Started
-                  </Button>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-
-        {/* Stats Section */}
-        <Box sx={{ textAlign: 'center' }}>
-          <Typography variant="h3" component="h2" gutterBottom>
-            Production Ready
-          </Typography>
-          <Typography variant="h6" color="text.secondary" paragraph>
-            Trusted by creators and developers worldwide
-          </Typography>
-          <Grid container spacing={4} justifyContent="center">
-            <Grid item>
-              <Typography variant="h4" component="div" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                22+
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Production Schemas
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h4" component="div" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                6
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Programming Languages
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h4" component="div" color="primary.main" sx={{ fontWeight: 'bold' }}>
-                100%
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Accessibility Compliant
-              </Typography>
-            </Grid>
-          </Grid>
-        </Box>
-      </Container>
-    </Box>
-  )
-}
-
-export default Home 
+export default Home; 

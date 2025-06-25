@@ -4,12 +4,30 @@ import { BrowserRouter } from 'react-router-dom'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Layout from '../components/Layout'
 
+// Mock react-router-dom with Outlet
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await importOriginal() as any;
+  return {
+    ...actual,
+    Outlet: () => <div data-testid="mock-outlet" />,
+  };
+});
+
+// Mock @mui/icons-material
+vi.mock('@mui/icons-material', () => ({
+  Menu: () => <div data-testid="menu-icon">Menu</div>,
+  Home: () => <div data-testid="home-icon">Home</div>,
+  Explore: () => <div data-testid="explore-icon">Explore</div>,
+  Code: () => <div data-testid="code-icon">Code</div>,
+  Description: () => <div data-testid="description-icon">Description</div>,
+}))
+
 const renderWithRouter = (component: React.ReactElement) => {
   return render(
     <BrowserRouter>
       {component}
     </BrowserRouter>
-  )
+  );
 }
 
 describe('Layout', () => {
@@ -19,7 +37,7 @@ describe('Layout', () => {
 
   describe('Accessibility', () => {
     it('should have proper semantic structure', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       // Check semantic elements
       expect(screen.getByRole('banner')).toBeInTheDocument()
@@ -29,7 +47,7 @@ describe('Layout', () => {
     })
 
     it('should have skip link for screen readers', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const skipLink = screen.getByText('Skip to main content')
       expect(skipLink).toBeInTheDocument()
@@ -38,7 +56,7 @@ describe('Layout', () => {
     })
 
     it('should have proper ARIA labels', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       // Check navigation labels
       expect(screen.getByLabelText('Main navigation')).toBeInTheDocument()
@@ -48,7 +66,7 @@ describe('Layout', () => {
     })
 
     it('should support keyboard navigation', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       // Tab through navigation
       const homeLink = screen.getByText('Home')
@@ -66,7 +84,7 @@ describe('Layout', () => {
     })
 
     it('should indicate current page', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const homeLink = screen.getByText('Home')
       expect(homeLink).toHaveAttribute('aria-current', 'page')
@@ -78,7 +96,7 @@ describe('Layout', () => {
 
   describe('Navigation', () => {
     it('should render all navigation items', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       expect(screen.getByText('Home')).toBeInTheDocument()
       expect(screen.getByText('Schema Explorer')).toBeInTheDocument()
@@ -87,7 +105,7 @@ describe('Layout', () => {
     })
 
     it('should have working navigation links', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const homeLink = screen.getByText('Home')
       const explorerLink = screen.getByText('Schema Explorer')
@@ -101,7 +119,7 @@ describe('Layout', () => {
     })
 
     it('should have external links with proper attributes', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const githubLink = screen.getByLabelText('View on GitHub')
       const schemaLink = screen.getByLabelText('Schema Registry')
@@ -115,7 +133,7 @@ describe('Layout', () => {
 
   describe('Documentation Dropdown', () => {
     it('should toggle dropdown on click', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const docsButton = screen.getByLabelText('Documentation menu')
       expect(docsButton).toHaveAttribute('aria-expanded', 'false')
@@ -139,7 +157,7 @@ describe('Layout', () => {
     })
 
     it('should close dropdown when item is clicked', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const docsButton = screen.getByLabelText('Documentation menu')
       fireEvent.click(docsButton)
@@ -158,7 +176,7 @@ describe('Layout', () => {
     })
 
     it('should have proper dropdown ARIA attributes', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const docsButton = screen.getByLabelText('Documentation menu')
       fireEvent.click(docsButton)
@@ -175,7 +193,7 @@ describe('Layout', () => {
 
   describe('Mobile Navigation', () => {
     it('should show mobile menu button on small screens', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const mobileButton = screen.getByLabelText('Toggle menu')
       expect(mobileButton).toBeInTheDocument()
@@ -183,7 +201,7 @@ describe('Layout', () => {
     })
 
     it('should toggle mobile menu', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const mobileButton = screen.getByLabelText('Toggle menu')
       expect(mobileButton).toHaveAttribute('aria-expanded', 'false')
@@ -204,7 +222,7 @@ describe('Layout', () => {
     })
 
     it('should close mobile menu when link is clicked', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const mobileButton = screen.getByLabelText('Toggle menu')
       fireEvent.click(mobileButton)
@@ -223,7 +241,7 @@ describe('Layout', () => {
     })
 
     it('should show mobile menu button on mobile', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const mobileButtonWrapper = screen.getByLabelText('Toggle menu').parentElement
       expect(mobileButtonWrapper).toHaveClass('md:hidden')
@@ -232,7 +250,7 @@ describe('Layout', () => {
 
   describe('Footer', () => {
     it('should have proper footer structure', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const footer = screen.getByRole('contentinfo')
       expect(footer).toBeInTheDocument()
@@ -242,7 +260,7 @@ describe('Layout', () => {
     })
 
     it('should have working footer links', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const guidesLink = screen.getByText('Guides')
       const explorerLink = screen.getByText('Interactive Explorer')
@@ -254,7 +272,7 @@ describe('Layout', () => {
     })
 
     it('should have external footer links', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const schemaLink = screen.getByText('Schema Registry')
       const quicktypeLink = screen.getByText('QuickType')
@@ -268,14 +286,14 @@ describe('Layout', () => {
 
   describe('Responsive Design', () => {
     it('should hide desktop navigation on mobile', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const desktopNav = screen.getByLabelText('Main navigation')
       expect(desktopNav).toHaveClass('hidden', 'md:flex')
     })
 
     it('should show mobile menu button on mobile', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const mobileButtonWrapper = screen.getByLabelText('Toggle menu').parentElement
       expect(mobileButtonWrapper).toHaveClass('md:hidden')
@@ -284,7 +302,7 @@ describe('Layout', () => {
 
   describe('Logo and Branding', () => {
     it('should have proper logo structure', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const logoLink = screen.getByLabelText('OriginVault Home')
       expect(logoLink).toBeInTheDocument()
@@ -297,7 +315,7 @@ describe('Layout', () => {
     })
 
     it('should have proper logo link', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       const logoLink = screen.getByLabelText('OriginVault Home')
       expect(logoLink).toHaveAttribute('href', '/')
@@ -309,7 +327,7 @@ describe('Layout', () => {
       // Mock console.error to prevent test noise
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       // Navigation should still work
       expect(screen.getByText('Home')).toBeInTheDocument()
@@ -320,12 +338,12 @@ describe('Layout', () => {
 
   describe('Performance', () => {
     it('should not re-render unnecessarily', () => {
-      const { rerender } = renderWithRouter(<Layout />)
+      const { rerender } = renderWithRouter(<Layout><div>Test Content</div></Layout>)
       
       // Re-render with same props
       rerender(
         <BrowserRouter>
-          <Layout />
+          <Layout><div>Test Content</div></Layout>
         </BrowserRouter>
       )
       

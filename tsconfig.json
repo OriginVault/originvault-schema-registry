@@ -13,5 +13,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*", "src/**/*.d.ts"],
-  "exclude": ["node_modules", "drafts"]
+  "exclude": ["node_modules", "drafts", "docs-site", "dist", "generated"]
 }

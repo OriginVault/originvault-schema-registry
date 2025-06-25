@@ -1,350 +1,140 @@
-import React, { useState } from 'react'
-import { Outlet, Link, useLocation } from 'react-router-dom'
+import React from 'react';
 import {
   AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Box,
   Container,
-  Grid,
-  Paper,
-  Divider,
-  useTheme,
-  useMediaQuery,
-  Menu,
-  MenuItem,
+  CssBaseline,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
   ListItemButton,
-  Stack,
-  Chip
-} from '@mui/material'
+  ListItemText,
+  Toolbar,
+  Typography
+} from '@mui/material';
 import {
+  Menu as MenuIcon,
   Home as HomeIcon,
   Explore as ExploreIcon,
-  Book as BookIcon,
-  FlashOn as FlashIcon,
-  Menu as MenuIcon,
-  Close as CloseIcon,
-  GitHub as GitHubIcon,
-  OpenInNew as ExternalLinkIcon,
-  ChevronDown as ChevronDownIcon
-} from '@mui/icons-material'
+  Code as CodeIcon,
+  Description as DescriptionIcon
+} from '@mui/icons-material';
+import { Link, useLocation } from 'react-router-dom';
 
-interface NavigationItem {
-  name: string
-  href: string
-  icon: React.ComponentType<{ className?: string }>
-}
+const drawerWidth = 240;
 
-interface DocsSubmenuItem {
-  name: string
-  href: string
-}
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const location = useLocation();
 
-const Layout: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
-  const [isDocsOpen, setIsDocsOpen] = useState<boolean>(false)
-  const [docsAnchorEl, setDocsAnchorEl] = useState<null | HTMLElement>(null)
-  const location = useLocation()
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const menuItems = [
+    { text: 'Home', path: '/', icon: <HomeIcon /> },
+    { text: 'Schema Explorer', path: '/explorer', icon: <ExploreIcon /> },
+    { text: 'QuickType Guide', path: '/quicktype', icon: <CodeIcon /> },
+    { text: 'Documentation', path: '/docs', icon: <DescriptionIcon /> }
+  ];
 
-  const navigation: NavigationItem[] = [
-    { name: 'Home', href: '/', icon: HomeIcon },
-    { name: 'Schema Explorer', href: '/explorer', icon: ExploreIcon },
-    { name: 'Documentation', href: '/docs', icon: BookIcon },
-    { name: 'QuickType Guide', href: '/quicktype', icon: FlashIcon }
-  ]
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const docsSubmenu: DocsSubmenuItem[] = [
-    { name: 'Implementation Guides', href: '/docs/guides' },
-    { name: 'Architecture', href: '/docs/architecture' },
-    { name: 'Governance', href: '/docs/governance' },
-    { name: 'Migration', href: '/docs/migration' }
-  ]
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-  const isActive = (href: string): boolean => location.pathname === href
-
-  const handleDocsMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setDocsAnchorEl(event.currentTarget)
-    setIsDocsOpen(true)
-  }
-
-  const handleDocsMenuClose = () => {
-    setDocsAnchorEl(null)
-    setIsDocsOpen(false)
-  }
-
-  const handleMobileMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+  const drawer = (
+    <div>
+      <Toolbar>
+        <Typography variant="h6" noWrap component="div">
+          OriginVault
+        </Typography>
+      </Toolbar>
+      <List>
+        {menuItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton
+              component={Link}
+              to={item.path}
+              selected={location.pathname === item.path}
+              onClick={() => setMobileOpen(false)}
+            >
+              {item.icon}
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar position="static" elevation={1}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            {/* Logo */}
-            <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Box
-                    sx={{
-                      width: 32,
-                      height: 32,
-                      bgcolor: 'primary.main',
-                      borderRadius: 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    <Typography variant="body2" sx={{ color: 'white', fontWeight: 'bold' }}>
-                      OV
-                    </Typography>
-                  </Box>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
-                    OriginVault
-                  </Typography>
-                </Box>
-              </Link>
-            </Box>
-
-            {/* Desktop Navigation */}
-            {!isMobile && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                {navigation.map((item) => {
-                  const Icon = item.icon
-                  return (
-                    <Button
-                      key={item.name}
-                      component={Link}
-                      to={item.href}
-                      startIcon={<Icon />}
-                      sx={{
-                        color: isActive(item.href) ? 'primary.main' : 'text.secondary',
-                        bgcolor: isActive(item.href) ? 'primary.50' : 'transparent',
-                        '&:hover': {
-                          bgcolor: isActive(item.href) ? 'primary.100' : 'action.hover'
-                        }
-                      }}
-                    >
-                      {item.name}
-                    </Button>
-                  )
-                })}
-
-                {/* Documentation Dropdown */}
-                <Button
-                  endIcon={<ChevronDownIcon />}
-                  onClick={handleDocsMenuOpen}
-                  sx={{
-                    color: 'text.secondary',
-                    '&:hover': { bgcolor: 'action.hover' }
-                  }}
-                >
-                  <BookIcon sx={{ mr: 1 }} />
-                  Docs
-                </Button>
-                <Menu
-                  anchorEl={docsAnchorEl}
-                  open={isDocsOpen}
-                  onClose={handleDocsMenuClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                >
-                  {docsSubmenu.map((item) => (
-                    <MenuItem
-                      key={item.name}
-                      component={Link}
-                      to={item.href}
-                      onClick={handleDocsMenuClose}
-                    >
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Menu>
-
-                {/* External Links */}
-                <Stack direction="row" spacing={1}>
-                  <IconButton
-                    href="https://github.com/originvault/originvault-schema-registry"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size="small"
-                  >
-                    <GitHubIcon />
-                  </IconButton>
-                  <IconButton
-                    href="https://schemas.originvault.box"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size="small"
-                  >
-                    <ExternalLinkIcon />
-                  </IconButton>
-                </Stack>
-              </Box>
-            )}
-
-            {/* Mobile menu button */}
-            {isMobile && (
-              <IconButton
-                onClick={handleMobileMenuToggle}
-                sx={{ color: 'inherit' }}
-              >
-                {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
-              </IconButton>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
-
-      {/* Mobile Navigation Drawer */}
-      <Drawer
-        anchor="left"
-        open={isMenuOpen && isMobile}
-        onClose={handleMobileMenuToggle}
-        ModalProps={{
-          keepMounted: true // Better mobile performance
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
         }}
       >
-        <Box sx={{ width: 280, pt: 2 }}>
-          <List>
-            {navigation.map((item) => {
-              const Icon = item.icon
-              return (
-                <ListItem key={item.name} disablePadding>
-                  <ListItemButton
-                    component={Link}
-                    to={item.href}
-                    onClick={handleMobileMenuToggle}
-                    selected={isActive(item.href)}
-                  >
-                    <ListItemIcon>
-                      <Icon />
-                    </ListItemIcon>
-                    <ListItemText primary={item.name} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            })}
-          </List>
-        </Box>
-      </Drawer>
-
-      {/* Main Content */}
-      <Box component="main" sx={{ flexGrow: 1 }}>
-        <Outlet />
-      </Box>
-
-      {/* Footer */}
-      <Box component="footer" sx={{ bgcolor: 'grey.900', color: 'white', py: 6 }}>
-        <Container maxWidth="xl">
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom>
-                OriginVault Schema Registry
-              </Typography>
-              <Typography variant="body2" color="grey.400" paragraph>
-                Type-safe, verifiable credential schemas for the decentralized creator economy.
-                Built with accessibility and developer experience in mind.
-              </Typography>
-              <Stack direction="row" spacing={2}>
-                <IconButton
-                  href="https://github.com/originvault/originvault-schema-registry"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ color: 'grey.400', '&:hover': { color: 'white' } }}
-                >
-                  <GitHubIcon />
-                </IconButton>
-              </Stack>
-            </Grid>
-            
-            <Grid item xs={12} md={3}>
-              <Typography variant="subtitle2" gutterBottom sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
-                Documentation
-              </Typography>
-              <Stack spacing={1}>
-                <Button
-                  component={Link}
-                  to="/docs"
-                  sx={{ color: 'grey.400', justifyContent: 'flex-start', '&:hover': { color: 'white' } }}
-                >
-                  Guides
-                </Button>
-                <Button
-                  component={Link}
-                  to="/explorer"
-                  sx={{ color: 'grey.400', justifyContent: 'flex-start', '&:hover': { color: 'white' } }}
-                >
-                  Interactive Explorer
-                </Button>
-                <Button
-                  component={Link}
-                  to="/quicktype"
-                  sx={{ color: 'grey.400', justifyContent: 'flex-start', '&:hover': { color: 'white' } }}
-                >
-                  QuickType Guide
-                </Button>
-              </Stack>
-            </Grid>
-            
-            <Grid item xs={12} md={3}>
-              <Typography variant="subtitle2" gutterBottom sx={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
-                Resources
-              </Typography>
-              <Stack spacing={1}>
-                <Button
-                  href="https://schemas.originvault.box"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ color: 'grey.400', justifyContent: 'flex-start', '&:hover': { color: 'white' } }}
-                >
-                  Schema Registry
-                </Button>
-                <Button
-                  href="https://quicktype.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ color: 'grey.400', justifyContent: 'flex-start', '&:hover': { color: 'white' } }}
-                >
-                  QuickType
-                </Button>
-                <Button
-                  href="https://www.w3.org/TR/vc-data-model-2.0/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ color: 'grey.400', justifyContent: 'flex-start', '&:hover': { color: 'white' } }}
-                >
-                  W3C VC 2.0
-                </Button>
-              </Stack>
-            </Grid>
-          </Grid>
-          
-          <Divider sx={{ my: 4, borderColor: 'grey.800' }} />
-          
-          <Typography variant="body2" color="grey.400" align="center">
-            © 2024 OriginVault. Built with accessibility and open standards in mind.
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            Schema Registry
           </Typography>
+        </Toolbar>
+      </AppBar>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+          open
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
+        <Toolbar />
+        <Container maxWidth="lg">
+          {children}
         </Container>
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default Layout 
+export default Layout; 

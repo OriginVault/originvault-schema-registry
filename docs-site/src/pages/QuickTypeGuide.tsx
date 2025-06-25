@@ -1,460 +1,254 @@
-import React from 'react'
+import React from 'react';
 import {
-  Container,
-  Typography,
   Box,
   Grid,
-  Paper,
-  Card,
-  CardContent,
-  CardHeader,
+  Typography,
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
-  Divider,
-  Chip,
-  Alert,
-  Button,
-  Stack
-} from '@mui/material'
-import CodeEditor from '../components/CodeEditor'
+  Paper,
+  Chip
+} from '@mui/material';
 
 const QuickTypeGuide: React.FC = () => {
-  const installationCommands = {
-    npm: 'npm install -g quicktype',
-    yarn: 'yarn global add quicktype',
-    homebrew: 'brew install quicktype',
-    chocolatey: 'choco install quicktype'
-  }
+  const languages = [
+    { name: 'TypeScript', icon: '🔷', extension: '.ts' },
+    { name: 'Python', icon: '🐍', extension: '.py' },
+    { name: 'Java', icon: '☕', extension: '.java' },
+    { name: 'C#', icon: '🔷', extension: '.cs' },
+    { name: 'Go', icon: '🐹', extension: '.go' },
+    { name: 'Rust', icon: '🦀', extension: '.rs' },
+    { name: 'Swift', icon: '🍎', extension: '.swift' },
+    { name: 'Kotlin', icon: '📱', extension: '.kt' },
+    { name: 'PHP', icon: '🐘', extension: '.php' },
+    { name: 'Ruby', icon: '💎', extension: '.rb' }
+  ];
 
-  const basicExamples = {
-    typescript: `# Generate TypeScript types from JSON Schema
-quicktype --src schemas/v1/identity/PersonCredential.schema.json --lang typescript --out types/PersonCredential.ts
+  const installationSteps = [
+    {
+      step: 1,
+      title: 'Install QuickType CLI',
+      description: 'Install the QuickType CLI globally using npm.',
+      code: 'npm install -g quicktype'
+    },
+    {
+      step: 2,
+      title: 'Generate Types',
+      description: 'Generate TypeScript types from a JSON schema.',
+      code: 'quicktype schema.json -o types.ts'
+    },
+    {
+      step: 3,
+      title: 'Use Generated Types',
+      description: 'Import and use the generated types in your code.',
+      code: 'import { Person } from "./types";'
+    }
+  ];
 
-# Generate with custom options
-quicktype --src schemas/v1/identity/PersonCredential.schema.json \\
-  --lang typescript \\
-  --out types/PersonCredential.ts \\
-  --just-types \\
-  --prefer-unions \\
-  --explicit-unions`,
+  const examples = [
+    {
+      language: 'TypeScript',
+      description: 'Generate TypeScript interfaces from JSON schema',
+      code: `quicktype schema.json -o types.ts --just-types`
+    },
+    {
+      language: 'Python',
+      description: 'Generate Python dataclasses from JSON schema',
+      code: `quicktype schema.json -o models.py --lang python`
+    },
+    {
+      language: 'Java',
+      description: 'Generate Java classes from JSON schema',
+      code: `quicktype schema.json -o Models.java --lang java`
+    }
+  ];
 
-    python: `# Generate Python types
-quicktype --src schemas/v1/business/ContractCredential.schema.json --lang python --out types/contract_credential.py
-
-# Generate with dataclasses
-quicktype --src schemas/v1/business/ContractCredential.schema.json \\
-  --lang python \\
-  --out types/contract_credential.py \\
-  --python-version 3.7`,
-
-    go: `# Generate Go types
-quicktype --src schemas/v1/content/CreativeWorkCredential.schema.json --lang go --out types/creative_work.go
-
-# Generate with custom package name
-quicktype --src schemas/v1/content/CreativeWorkCredential.schema.json \\
-  --lang go \\
-  --out types/creative_work.go \\
-  --package-name originvault`,
-
-    csharp: `# Generate C# types
-quicktype --src schemas/v1/payments/PaymentCredential.schema.json --lang csharp --out types/PaymentCredential.cs
-
-# Generate with namespace
-quicktype --src schemas/v1/payments/PaymentCredential.schema.json \\
-  --lang csharp \\
-  --out types/PaymentCredential.cs \\
-  --namespace OriginVault.Schemas`,
-
-    java: `# Generate Java types
-quicktype --src schemas/v1/trust/TrustedIssuerCredential.schema.json --lang java --out types/TrustedIssuerCredential.java
-
-# Generate with package
-quicktype --src schemas/v1/trust/TrustedIssuerCredential.schema.json \\
-  --lang java \\
-  --out types/TrustedIssuerCredential.java \\
-  --package com.originvault.schemas`,
-
-    rust: `# Generate Rust types
-quicktype --src schemas/v1/platform/PluginEndorsementCredential.schema.json --lang rust --out types/plugin_endorsement.rs
-
-# Generate with serde
-quicktype --src schemas/v1/platform/PluginEndorsementCredential.schema.json \\
-  --lang rust \\
-  --out types/plugin_endorsement.rs \\
-  --derive-serde`
-  }
-
-  const batchExamples = {
-    all: `# Generate types for all schemas
-quicktype --src schemas/v1/ --lang typescript --out types/all-schemas.ts
-
-# Generate for specific category
-quicktype --src schemas/v1/identity/ --lang python --out types/identity.py
-
-# Generate multiple languages
-for lang in typescript python go csharp java rust; do
-  quicktype --src schemas/v1/ --lang $lang --out types/all-schemas.$lang
-done`,
-
-    url: `# Generate from OriginVault schema registry URLs
-quicktype --src https://schemas.originvault.box/v1/business/ContractCredential.schema.json --lang typescript
-
-# Generate entire category from URL
-quicktype --src https://schemas.originvault.box/v1/business/ --lang python --out business_types.py
-
-# Generate all schemas from registry
-quicktype --src https://schemas.originvault.box/v1/ --lang go --out all_types.go`
-  }
-
-  const advancedFeatures = {
-    options: `# Language-specific options
---just-types          # Generate only types, no serialization
---prefer-unions       # Use union types where possible
---explicit-unions     # Make union types explicit
---no-enums            # Don't generate enums
---no-maps             # Don't generate maps
---no-objects          # Don't generate objects
---no-arrays           # Don't generate arrays
-
-# TypeScript options
---typescript-version  # Specify TypeScript version
---no-typescript-strict # Don't use strict mode
-
-# Python options
---python-version      # Specify Python version
---python-format       # Use black formatting
-
-# Go options
---package-name        # Specify package name
---go-tags             # Add struct tags
-
-# C# options
---namespace           # Specify namespace
---csharp-version      # Specify C# version
-
-# Java options
---package             # Specify package name
---java-version        # Specify Java version
-
-# Rust options
---derive-serde        # Add serde derives
---rust-version        # Specify Rust version`,
-
-    integration: `# CI/CD Integration Example
-# .github/workflows/generate-types.yml
-
-name: Generate Type Definitions
-on:
-  push:
-    paths: ['schemas/**']
-  pull_request:
-    paths: ['schemas/**']
-
-jobs:
-  generate-types:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          
-      - name: Install QuickType
-        run: npm install -g quicktype
-        
-      - name: Generate TypeScript types
-        run: |
-          quicktype --src schemas/v1/ --lang typescript --out types/all-schemas.ts
-          quicktype --src schemas/v1/identity/ --lang typescript --out types/identity.ts
-          quicktype --src schemas/v1/business/ --lang typescript --out types/business.ts
-          
-      - name: Generate Python types
-        run: |
-          quicktype --src schemas/v1/ --lang python --out types/all_schemas.py
-          
-      - name: Generate Go types
-        run: |
-          quicktype --src schemas/v1/ --lang go --out types/all_schemas.go
-          
-      - name: Commit generated types
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add types/
-          git commit -m "chore: regenerate type definitions" || exit 0
-          git push`
-  }
+  const bestPractices = [
+    {
+      title: 'Schema Validation',
+      description: 'Always validate your JSON schemas before generating code.',
+      tip: 'Use JSON Schema validators to ensure schema correctness.'
+    },
+    {
+      title: 'Type Safety',
+      description: 'Generated types provide compile-time type safety.',
+      tip: 'Enable strict TypeScript settings for maximum type safety.'
+    },
+    {
+      title: 'Version Control',
+      description: 'Keep generated code in version control.',
+      tip: 'Regenerate types when schemas change to maintain consistency.'
+    },
+    {
+      title: 'Documentation',
+      description: 'Document any customizations made to generated code.',
+      tip: 'Use JSDoc comments to document complex type relationships.'
+    }
+  ];
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Box sx={{ py: 4 }}>
       <Typography variant="h3" component="h1" gutterBottom>
         QuickType Integration Guide
       </Typography>
-      <Typography variant="h6" color="text.secondary" paragraph>
-        Learn how to generate type-safe code from OriginVault schemas using QuickType
+      
+      <Typography variant="body1" color="text.secondary" paragraph>
+        Learn how to use QuickType to generate type-safe code from JSON schemas in multiple programming languages.
       </Typography>
 
-      <Grid container spacing={4}>
-        {/* Installation */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, height: 'fit-content' }}>
-            <Typography variant="h5" gutterBottom>
-              Installation
-            </Typography>
-            <Typography variant="body1" paragraph>
-              QuickType is a command-line tool that generates types and serialization code from JSON schemas.
-            </Typography>
-            
-            <Stack spacing={2}>
-              {Object.entries(installationCommands).map(([method, command]) => (
-                <Box key={method}>
-                  <Typography variant="subtitle2" color="primary" gutterBottom>
-                    {method.charAt(0).toUpperCase() + method.slice(1)}
-                  </Typography>
-                  <CodeEditor
-                    value={command}
-                    language="bash"
-                    height="60px"
-                    readOnly={true}
-                    title={`Install via ${method}`}
-                  />
+      {/* Installation Guide */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Installation & Setup
+        </Typography>
+        <Grid container spacing={3}>
+          {installationSteps.map((step, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Paper sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Box
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: '50%',
+                      bgcolor: 'primary.main',
+                      color: 'white',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      mr: 2,
+                      flexShrink: 0
+                    }}
+                  >
+                    {step.step}
+                  </Box>
+                  <Typography variant="h6">{step.title}</Typography>
                 </Box>
-              ))}
-            </Stack>
-          </Paper>
-        </Grid>
-
-        {/* Basic Usage */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, height: 'fit-content' }}>
-            <Typography variant="h5" gutterBottom>
-              Basic Usage
-            </Typography>
-            <Typography variant="body1" paragraph>
-              Generate types for individual schemas or entire categories.
-            </Typography>
-            
-            <Stack spacing={2}>
-              {Object.entries(basicExamples).slice(0, 3).map(([lang, example]) => (
-                <Box key={lang}>
-                  <Typography variant="subtitle2" color="primary" gutterBottom>
-                    {lang.charAt(0).toUpperCase() + lang.slice(1)}
-                  </Typography>
-                  <CodeEditor
-                    value={example}
-                    language="bash"
-                    height="120px"
-                    readOnly={true}
-                    title={`${lang} example`}
-                  />
+                <Typography variant="body2" color="text.secondary" paragraph>
+                  {step.description}
+                </Typography>
+                <Box
+                  component="pre"
+                  sx={{
+                    bgcolor: 'grey.100',
+                    p: 2,
+                    borderRadius: 1,
+                    overflow: 'auto',
+                    fontSize: '0.875rem'
+                  }}
+                >
+                  <code>{step.code}</code>
                 </Box>
-              ))}
-            </Stack>
-          </Paper>
-        </Grid>
-
-        {/* Batch Generation */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              Batch Generation
-            </Typography>
-            <Typography variant="body1" paragraph>
-              Generate types for multiple schemas or entire categories at once.
-            </Typography>
-            
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  Local Files
-                </Typography>
-                <CodeEditor
-                  value={batchExamples.all}
-                  language="bash"
-                  height="200px"
-                  readOnly={true}
-                  title="Batch generation from local files"
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  Remote URLs
-                </Typography>
-                <CodeEditor
-                  value={batchExamples.url}
-                  language="bash"
-                  height="200px"
-                  readOnly={true}
-                  title="Batch generation from URLs"
-                />
-              </Grid>
+              </Paper>
             </Grid>
-          </Paper>
+          ))}
         </Grid>
+      </Box>
 
-        {/* Advanced Features */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              Advanced Features
-            </Typography>
-            
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  Command Options
+      {/* Supported Languages */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Supported Languages
+        </Typography>
+        <Grid container spacing={2}>
+          {languages.map((lang, index) => (
+            <Grid item xs={6} sm={4} md={3} key={index}>
+              <Box sx={{ textAlign: 'center', p: 2 }}>
+                <Typography variant="h4" sx={{ mb: 1 }}>
+                  {lang.icon}
                 </Typography>
-                <CodeEditor
-                  value={advancedFeatures.options}
-                  language="bash"
-                  height="300px"
-                  readOnly={true}
-                  title="QuickType options"
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Typography variant="h6" gutterBottom>
-                  CI/CD Integration
+                <Typography variant="body2" gutterBottom>
+                  {lang.name}
                 </Typography>
-                <CodeEditor
-                  value={advancedFeatures.integration}
-                  language="yaml"
-                  height="300px"
-                  readOnly={true}
-                  title="GitHub Actions workflow"
-                />
-              </Grid>
+                <Chip label={lang.extension} size="small" variant="outlined" />
+              </Box>
             </Grid>
-          </Paper>
+          ))}
         </Grid>
+      </Box>
 
-        {/* Best Practices */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              Best Practices
-            </Typography>
-            
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={4}>
-                <Card variant="outlined">
-                  <CardHeader title="Version Control" />
-                  <CardContent>
-                    <List dense>
-                      <ListItem>
-                        <ListItemText primary="Commit generated types to your repository" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Use CI/CD to auto-regenerate on schema changes" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Include type generation in your build process" />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} md={4}>
-                <Card variant="outlined">
-                  <CardHeader title="Performance" />
-                  <CardContent>
-                    <List dense>
-                      <ListItem>
-                        <ListItemText primary="Use caching for large schema sets" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Generate types incrementally when possible" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Consider parallel generation for multiple languages" />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} md={4}>
-                <Card variant="outlined">
-                  <CardHeader title="Maintenance" />
-                  <CardContent>
-                    <List dense>
-                      <ListItem>
-                        <ListItemText primary="Keep QuickType version updated" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Test generated types with your codebase" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Document any custom generation options" />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
+      {/* Examples */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Usage Examples
+        </Typography>
+        <Grid container spacing={3}>
+          {examples.map((example, index) => (
+            <Grid item xs={12} md={6} key={index}>
+              <Paper sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom>
+                  {example.language}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" paragraph>
+                  {example.description}
+                </Typography>
+                <Box
+                  component="pre"
+                  sx={{
+                    bgcolor: 'grey.100',
+                    p: 2,
+                    borderRadius: 1,
+                    overflow: 'auto',
+                    fontSize: '0.875rem'
+                  }}
+                >
+                  <code>{example.code}</code>
+                </Box>
+              </Paper>
             </Grid>
-          </Paper>
+          ))}
         </Grid>
+      </Box>
 
-        {/* Supported Languages */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h5" gutterBottom>
-              Supported Languages
-            </Typography>
-            <Typography variant="body1" paragraph>
-              QuickType supports a wide range of programming languages and frameworks.
-            </Typography>
-            
-            <Grid container spacing={2}>
-              {[
-                'TypeScript/JavaScript', 'Python', 'Go', 'C#', 'Java', 'Rust',
-                'Swift', 'Kotlin', 'PHP', 'Ruby', 'Dart', 'Elm', 'Haskell',
-                'Objective-C', 'C++', 'C', 'Scala', 'Clojure', 'F#'
-              ].map((lang) => (
-                <Grid item key={lang}>
-                  <Chip label={lang} variant="outlined" />
-                </Grid>
-              ))}
-            </Grid>
-          </Paper>
-        </Grid>
+      {/* Best Practices */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" gutterBottom>
+          Best Practices
+        </Typography>
+        <List>
+          {bestPractices.map((practice, index) => (
+            <ListItem key={index} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+              <ListItemText
+                primary={practice.title}
+                secondary={
+                  <Box>
+                    <Typography variant="body2" paragraph>
+                      {practice.description}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      💡 {practice.tip}
+                    </Typography>
+                  </Box>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
 
-        {/* Resources */}
-        <Grid item xs={12}>
-          <Alert severity="info" sx={{ mb: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Additional Resources
-            </Typography>
-            <List dense>
-              <ListItem>
-                <ListItemText 
-                  primary="QuickType Documentation"
-                  secondary="https://quicktype.io/docs"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText 
-                  primary="GitHub Repository"
-                  secondary="https://github.com/quicktype/quicktype"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText 
-                  primary="OriginVault Schema Registry"
-                  secondary="https://schemas.originvault.box"
-                />
-              </ListItem>
-            </List>
-          </Alert>
-        </Grid>
-      </Grid>
-    </Container>
-  )
-}
+      {/* Call to Action */}
+      <Box sx={{ bgcolor: 'primary.main', color: 'primary.contrastText', p: 4, borderRadius: 2, textAlign: 'center' }}>
+        <Typography variant="h5" gutterBottom>
+          Ready to Generate Types?
+        </Typography>
+        <Typography variant="body1" paragraph>
+          Explore our schemas and generate type-safe code for your preferred language.
+        </Typography>
+        <a 
+          href="/explorer" 
+          style={{ 
+            color: 'inherit', 
+            textDecoration: 'none',
+            padding: '8px 16px',
+            border: '1px solid currentColor',
+            borderRadius: '4px'
+          }}
+        >
+          Explore Schemas
+        </a>
+      </Box>
+    </Box>
+  );
+};
 
-export default QuickTypeGuide 
+export default QuickTypeGuide; 
