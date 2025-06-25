@@ -249,7 +249,7 @@ func main() {
                 PaymentSchedule: "monthly",
             },
         },
-    }
+  }
 }
 ```
 
