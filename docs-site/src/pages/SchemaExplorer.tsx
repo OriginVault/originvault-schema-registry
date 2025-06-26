@@ -31,13 +31,15 @@ import {
   PlayArrow as ValidateIcon,
   AutoFixHigh as GenerateIcon,
   Fullscreen as FullscreenIcon,
-  FullscreenExit as FullscreenExitIcon
+  FullscreenExit as FullscreenExitIcon,
+  Link as LinkIcon
 } from '@mui/icons-material'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import CodeEditor from '../components/CodeEditor'
 import SocialShare from '../components/SocialShare'
 import { schemaService, Schema } from '../services/schemaService'
 import { useFullscreen } from '../App'
+import { generateSchemaResolverUrl } from '../utils/urlUtils'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -815,14 +817,38 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                 flexShrink: 0,
                 fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
               }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <Box sx={{ flexGrow: 1 }}>
                     <Typography variant="h6" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
                       {selectedSchema.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" fontFamily="Thiccboi">
+                    <Typography variant="body2" color="text.secondary" fontFamily="Thiccboi" sx={{ mb: 1 }}>
                       {selectedSchema.description}
                     </Typography>
+                    
+                    {/* Resolver URLs info */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+                      <Typography variant="caption" color="text.secondary" fontFamily="Thiccboi">
+                        Direct URLs:
+                      </Typography>
+                      <Button
+                        size="small"
+                        variant="text"
+                        startIcon={<LinkIcon />}
+                        onClick={() => {
+                          const resolverUrl = generateSchemaResolverUrl(selectedSchema.metadata.file)
+                          navigator.clipboard.writeText(`${window.location.origin}${resolverUrl}`)
+                        }}
+                        sx={{ 
+                          fontFamily: 'Thiccboi',
+                          fontSize: '0.75rem',
+                          minWidth: 'auto',
+                          p: 0.5
+                        }}
+                      >
+                        Copy Schema URL
+                      </Button>
+                    </Box>
                   </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Chip 

@@ -4,6 +4,9 @@ import { Container, AppBar, Toolbar, Typography, Button, Box, ThemeProvider, Css
 import { Brightness4, Brightness7 } from '@mui/icons-material'
 import Home from './pages/Home'
 import SchemaExplorer from './pages/SchemaExplorer'
+import SchemaResolver from './pages/SchemaResolver'
+import ContextResolver from './pages/ContextResolver'
+import WellKnownResolver from './pages/WellKnownResolver'
 import Footer from './components/Footer'
 import OpenGraphImage from './components/OpenGraphImage'
 import { lightTheme, darkTheme } from './theme'
@@ -171,10 +174,14 @@ const App: React.FC = () => {
                     <Route path="/schemas" element={<SchemaExplorer />} />
                     <Route path="/schemas/:schemaId" element={<SchemaExplorer />} />
                     <Route path="/schemas/:schemaId/:tab" element={<SchemaExplorer />} />
+                    <Route path="/schema/:schemaPath" element={<SchemaResolver />} />
+                    <Route path="/context/:contextPath" element={<ContextResolver />} />
+                    <Route path="/.well-known/:wellKnownPath" element={<WellKnownResolver />} />
                     <Route path="/quickType" element={<QuickTypeGuide />} />
                     <Route path="/explorer" element={<SchemaExplorer />} />
                     <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
                     <Route path="/explorer/:schemaId/:tab" element={<SchemaExplorer />} />
+                    <Route path="/:schemaId" element={<SchemaResolver />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Container>
@@ -185,10 +192,14 @@ const App: React.FC = () => {
                     <Route path="/schemas" element={<SchemaExplorer />} />
                     <Route path="/schemas/:schemaId" element={<SchemaExplorer />} />
                     <Route path="/schemas/:schemaId/:tab" element={<SchemaExplorer />} />
+                    <Route path="/schema/:schemaPath" element={<SchemaResolver />} />
+                    <Route path="/context/:contextPath" element={<ContextResolver />} />
+                    <Route path="/.well-known/:wellKnownPath" element={<WellKnownResolver />} />
                     <Route path="/quickType" element={<QuickTypeGuide />} />
                     <Route path="/explorer" element={<SchemaExplorer />} />
                     <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
                     <Route path="/explorer/:schemaId/:tab" element={<SchemaExplorer />} />
+                    <Route path="/:schemaId" element={<SchemaResolver />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Box>

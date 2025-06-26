@@ -15,6 +15,37 @@ export const SCHEMA_REGISTRY = {
     "title": "Admin",
     "description": "Defines an administrator role within OriginVault, including governance and permissions.",
     "type": "object",
+    "examples": [
+        {
+            "@type": "Person",
+            "adminId": "did:cheqd:mainnet:7f2b8c5e-4d1a-4b3c-9e8f-1a2b3c4d5e6f",
+            "governsVaults": [
+                "did:cheqd:mainnet:vault:content-studio-alpha",
+                "did:cheqd:mainnet:vault:creator-collective-beta"
+            ],
+            "managesNodes": [
+                "did:cheqd:mainnet:node:us-east-1-primary",
+                "did:cheqd:mainnet:node:eu-west-1-backup"
+            ],
+            "policyApprovals": [
+                "did:cheqd:mainnet:policy:content-moderation-v2",
+                "did:cheqd:mainnet:policy:privacy-framework-v1"
+            ],
+            "enforcementActions": [
+                {
+                    "actionId": "did:cheqd:mainnet:action:enforce-123",
+                    "targetEntity": "did:cheqd:mainnet:user:violator-456",
+                    "reason": "Violation of content authenticity policy",
+                    "timestamp": "2025-01-14T10:30:00Z"
+                }
+            ],
+            "trustedByNamespaces": [
+                "did:cheqd:mainnet:namespace:photography",
+                "did:cheqd:mainnet:namespace:journalism"
+            ],
+            "securityClearanceLevel": "high"
+        }
+    ],
     "properties": {
         "@type": {
             "type": "string",
@@ -22,65 +53,189 @@ export const SCHEMA_REGISTRY = {
                 "Person",
                 "Organization"
             ],
-            "description": "Schema.org type"
+            "description": "Schema.org type indicating whether this admin is a person or organization",
+            "examples": [
+                "Person",
+                "Organization"
+            ]
         },
         "adminId": {
             "type": "string",
-            "description": "DID of the admin."
+            "description": "DID of the admin.",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "examples": [
+                "did:cheqd:mainnet:7f2b8c5e-4d1a-4b3c-9e8f-1a2b3c4d5e6f",
+                "did:web:admin.originvault.box",
+                "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+            ]
         },
         "governsVaults": {
             "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
             "items": {
                 "type": "string",
-                "description": "DIDs of vaults managed by this admin."
-            }
+                "description": "DIDs of vaults managed by this admin.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of vault DIDs that this admin has governance authority over",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:vault:content-studio-alpha"
+                ],
+                [
+                    "did:cheqd:mainnet:vault:creator-collective-beta",
+                    "did:cheqd:mainnet:vault:enterprise-vault-gamma"
+                ]
+            ]
         },
         "managesNodes": {
             "type": "array",
+            "minItems": 0,
+            "maxItems": 50,
             "items": {
                 "type": "string",
-                "description": "DIDs of nodes managed by this admin."
-            }
+                "description": "DIDs of nodes managed by this admin.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of infrastructure node DIDs that this admin manages",
+            "examples": [
+                [],
+                [
+                    "did:cheqd:mainnet:node:us-east-1-primary"
+                ],
+                [
+                    "did:cheqd:mainnet:node:us-east-1-primary",
+                    "did:cheqd:mainnet:node:eu-west-1-backup"
+                ]
+            ]
         },
         "policyApprovals": {
             "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
             "items": {
                 "type": "string",
-                "description": "DIDs of approved governance policies."
-            }
+                "description": "DIDs of approved governance policies.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of governance policy DIDs that this admin has approved",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:policy:content-moderation-v2"
+                ],
+                [
+                    "did:cheqd:mainnet:policy:content-moderation-v2",
+                    "did:cheqd:mainnet:policy:privacy-framework-v1"
+                ]
+            ]
         },
         "enforcementActions": {
             "type": "array",
+            "minItems": 0,
+            "maxItems": 1000,
             "items": {
                 "type": "object",
+                "required": [
+                    "actionId",
+                    "targetEntity",
+                    "reason",
+                    "timestamp"
+                ],
                 "properties": {
                     "actionId": {
                         "type": "string",
-                        "description": "DID of the action taken."
+                        "description": "DID of the action taken.",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                        "minLength": 20,
+                        "maxLength": 200,
+                        "examples": [
+                            "did:cheqd:mainnet:action:enforce-123"
+                        ]
                     },
                     "targetEntity": {
                         "type": "string",
-                        "description": "DID of the entity affected by the action."
+                        "description": "DID of the entity affected by the action.",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                        "minLength": 20,
+                        "maxLength": 200,
+                        "examples": [
+                            "did:cheqd:mainnet:user:violator-456"
+                        ]
                     },
                     "reason": {
                         "type": "string",
-                        "description": "Reason for enforcement."
+                        "description": "Reason for enforcement action.",
+                        "minLength": 10,
+                        "maxLength": 500,
+                        "examples": [
+                            "Violation of content authenticity policy",
+                            "Spam content detected",
+                            "Terms of service violation"
+                        ]
                     },
                     "timestamp": {
                         "type": "string",
                         "format": "date-time",
-                        "description": "Time of enforcement action."
+                        "description": "ISO 8601 timestamp of when the enforcement action was taken",
+                        "examples": [
+                            "2025-01-14T10:30:00Z",
+                            "2025-01-14T15:45:30.123Z"
+                        ]
                     }
-                }
+                },
+                "examples": [
+                    {
+                        "actionId": "did:cheqd:mainnet:action:enforce-123",
+                        "targetEntity": "did:cheqd:mainnet:user:violator-456",
+                        "reason": "Violation of content authenticity policy",
+                        "timestamp": "2025-01-14T10:30:00Z"
+                    }
+                ]
             },
-            "description": "Records enforcement actions taken by the admin."
+            "description": "Records enforcement actions taken by the admin",
+            "examples": [
+                [],
+                [
+                    {
+                        "actionId": "did:cheqd:mainnet:action:enforce-123",
+                        "targetEntity": "did:cheqd:mainnet:user:violator-456",
+                        "reason": "Violation of content authenticity policy",
+                        "timestamp": "2025-01-14T10:30:00Z"
+                    }
+                ]
+            ]
         },
         "trustedByNamespaces": {
             "type": "array",
+            "minItems": 0,
+            "maxItems": 50,
             "items": {
                 "type": "string",
-                "description": "DIDs of namespaces that trust this admin."
-            }
+                "description": "DIDs of namespaces that trust this admin.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of namespace DIDs that have granted trust to this admin",
+            "examples": [
+                [],
+                [
+                    "did:cheqd:mainnet:namespace:photography"
+                ],
+                [
+                    "did:cheqd:mainnet:namespace:photography",
+                    "did:cheqd:mainnet:namespace:journalism"
+                ]
+            ]
         },
         "securityClearanceLevel": {
             "type": "string",
@@ -89,7 +244,13 @@ export const SCHEMA_REGISTRY = {
                 "medium",
                 "high"
             ],
-            "description": "Level of security clearance granted to the admin."
+            "description": "Level of security clearance granted to the admin",
+            "examples": [
+                "low",
+                "medium",
+                "high"
+            ],
+            "default": "low"
         }
     },
     "required": [
@@ -97,7 +258,8 @@ export const SCHEMA_REGISTRY = {
         "governsVaults",
         "managesNodes",
         "policyApprovals"
-    ]
+    ],
+    "additionalProperties": false
 },
   "AIConfig": {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -699,76 +861,372 @@ export const SCHEMA_REGISTRY = {
 },
   "ComputeNode": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://schemas.originvault.io/ComputeNodeDeclaration",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+    ],
+    "$id": "https://schemas.originvault.box/ComputeNodeDeclaration",
     "title": "Compute Node Declaration",
-    "description": "Defines a Compute Node in an OV Cluster.",
+    "description": "Defines a Compute Node in an OV Cluster within a multi-root trust architecture for distributed computation and AI processing.",
     "type": "object",
+    "examples": [
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "id": "did:cheqd:mainnet:compute-node-gpu-001",
+            "type": "ComputeNode",
+            "cluster": "did:cheqd:mainnet:ai-processing-cluster-alpha",
+            "operator": "did:cheqd:mainnet:compute-operator-company-123",
+            "computeResources": {
+                "cpu": "AMD EPYC 7742, 64 cores, 2.25-3.4GHz",
+                "ram": "256GB DDR4 ECC",
+                "gpu": "8x NVIDIA A100 80GB SXM4",
+                "storage": "2TB NVMe SSD",
+                "network": "100Gbps InfiniBand"
+            },
+            "supportedTasks": [
+                "AI Training",
+                "Large Language Model Inference",
+                "Computer Vision Processing",
+                "Data Transformation",
+                "Cryptographic Operations",
+                "Homomorphic Encryption"
+            ],
+            "linkedResources": [
+                {
+                    "id": "did:cheqd:mainnet:ai-training-dataset-456",
+                    "type": "TrainingData",
+                    "name": "Content Authenticity Training Dataset",
+                    "description": "Curated dataset for training content authenticity detection models",
+                    "uri": "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4"
+                },
+                {
+                    "id": "did:cheqd:mainnet:model-output-789",
+                    "type": "ModelOutputs",
+                    "name": "C2PA Detection Model v2.1",
+                    "description": "Trained model for detecting C2PA assertions in media files",
+                    "uri": "ipfs://QmR7eF3mN8pL1qS9tV5wX2yC4nM6pR9sA7fB8gD5eH3jK9"
+                }
+            ],
+            "status": "active",
+            "timestamp": "2025-01-14T18:00:00Z",
+            "rootType": "delegated",
+            "governanceModel": {
+                "type": "hierarchical",
+                "participants": [
+                    "did:cheqd:mainnet:compute-operator-company-123",
+                    "did:cheqd:mainnet:ai-processing-cluster-alpha"
+                ]
+            },
+            "delegationChain": [
+                "did:cheqd:mainnet:originvault-namespace-root",
+                "did:cheqd:mainnet:ai-processing-cluster-alpha",
+                "did:cheqd:mainnet:compute-node-gpu-001"
+            ],
+            "trustChainContext": "GPU compute node operating under cluster governance for AI training and inference tasks in content authenticity domain",
+            "metadata": {
+                "version": "1.0.0",
+                "schemaType": "ComputeNode",
+                "bffIntegration": true
+            },
+            "createdAt": "2025-01-14T18:00:00Z",
+            "updatedAt": "2025-01-14T18:00:00Z",
+            "blockchainSync": {
+                "transactionHash": "0x456def789abc...",
+                "blockNumber": 12345681,
+                "networkId": "cheqd:mainnet",
+                "lastSynced": "2025-01-14T18:01:00Z"
+            }
+        },
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "id": "did:key:z6MkComputeNodeEdgeDevice789",
+            "type": "ComputeNode",
+            "operator": "did:key:z6MkEdgeDeviceOwner456",
+            "computeResources": {
+                "cpu": "Apple M2 Pro, 10 cores",
+                "ram": "32GB",
+                "gpu": "Apple M2 Pro integrated GPU"
+            },
+            "supportedTasks": [
+                "Edge AI Inference",
+                "Local Content Verification"
+            ],
+            "status": "active",
+            "timestamp": "2025-01-14T19:30:00Z",
+            "rootType": "self-sovereign",
+            "governanceModel": {
+                "type": "self-governed",
+                "participants": [
+                    "did:key:z6MkEdgeDeviceOwner456"
+                ]
+            },
+            "delegationChain": [
+                "did:key:z6MkComputeNodeEdgeDevice789"
+            ],
+            "trustChainContext": "Self-sovereign edge compute node for local AI inference and content verification"
+        }
+    ],
     "properties": {
+        "@context": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "default": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+            "examples": [
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schema.org"
+                ],
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+                ]
+            ]
+        },
         "id": {
             "type": "string",
-            "description": "The DID of the Compute Node."
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "description": "The DID of the Compute Node",
+            "examples": [
+                "did:cheqd:mainnet:compute-node-gpu-001",
+                "did:key:z6MkComputeNodeEdgeDevice789",
+                "did:web:compute.platform.com:node-123",
+                "did:ethr:0xComputeNode456"
+            ]
         },
         "type": {
             "const": "ComputeNode",
-            "description": "Node type."
+            "description": "Node type identifier for compute infrastructure"
         },
         "cluster": {
             "type": "string",
-            "description": "The DID of the cluster this node belongs to."
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "description": "The DID of the cluster this node belongs to (optional for self-sovereign nodes)",
+            "examples": [
+                "did:cheqd:mainnet:ai-processing-cluster-alpha",
+                "did:web:enterprise-cluster.company.com",
+                "did:ethr:0xComputeClusterBeta"
+            ]
         },
         "operator": {
             "type": "string",
-            "description": "DID of the entity operating this node."
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "description": "DID of the entity operating this node",
+            "examples": [
+                "did:cheqd:mainnet:compute-operator-company-123",
+                "did:key:z6MkEdgeDeviceOwner456",
+                "did:web:operator.cloudprovider.com",
+                "did:ethr:0xNodeOperator789"
+            ]
         },
         "computeResources": {
             "type": "object",
             "properties": {
                 "cpu": {
                     "type": "string",
-                    "description": "CPU specifications (e.g., 8 cores, 3.2GHz)."
+                    "minLength": 5,
+                    "maxLength": 200,
+                    "description": "CPU specifications including model, cores, and frequency",
+                    "examples": [
+                        "AMD EPYC 7742, 64 cores, 2.25-3.4GHz",
+                        "Intel Xeon Platinum 8280, 28 cores, 2.7GHz",
+                        "Apple M2 Pro, 10 cores",
+                        "ARM Neoverse N1, 80 cores, 2.6GHz"
+                    ]
                 },
                 "ram": {
                     "type": "string",
-                    "description": "RAM available (e.g., 32GB, 64GB)."
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "description": "RAM capacity and type",
+                    "examples": [
+                        "256GB DDR4 ECC",
+                        "32GB",
+                        "128GB DDR5",
+                        "1TB HBM2"
+                    ]
                 },
                 "gpu": {
                     "type": "string",
-                    "description": "GPU specifications (if applicable)."
+                    "minLength": 5,
+                    "maxLength": 200,
+                    "description": "GPU specifications if applicable for AI/ML workloads",
+                    "examples": [
+                        "8x NVIDIA A100 80GB SXM4",
+                        "4x NVIDIA RTX 4090 24GB",
+                        "Apple M2 Pro integrated GPU",
+                        "AMD Instinct MI250X 128GB"
+                    ]
+                },
+                "storage": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 200,
+                    "description": "Storage capacity and type",
+                    "examples": [
+                        "2TB NVMe SSD",
+                        "10TB NVMe + 100TB HDD",
+                        "500GB SSD",
+                        "50TB All-Flash Array"
+                    ]
+                },
+                "network": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 100,
+                    "description": "Network connectivity specifications",
+                    "examples": [
+                        "100Gbps InfiniBand",
+                        "25Gbps Ethernet",
+                        "1Gbps Ethernet",
+                        "200Gbps RDMA"
+                    ]
                 }
             },
-            "description": "Hardware specifications of the compute node."
+            "required": [
+                "cpu",
+                "ram"
+            ],
+            "additionalProperties": false,
+            "description": "Hardware specifications of the compute node"
         },
         "supportedTasks": {
             "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
             "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                    "AI Training",
+                    "AI Inference",
+                    "Large Language Model Inference",
+                    "Computer Vision Processing",
+                    "Data Transformation",
+                    "Cryptographic Operations",
+                    "Homomorphic Encryption",
+                    "Zero Knowledge Proofs",
+                    "Blockchain Validation",
+                    "Content Analysis",
+                    "Media Processing",
+                    "Edge AI Inference",
+                    "Local Content Verification",
+                    "Distributed Computing",
+                    "Scientific Computing"
+                ]
             },
-            "description": "List of supported compute tasks (e.g., AI Training, Data Transformation, Encryption)."
+            "description": "List of supported compute tasks and capabilities",
+            "examples": [
+                [
+                    "AI Training",
+                    "Large Language Model Inference",
+                    "Computer Vision Processing"
+                ],
+                [
+                    "Edge AI Inference",
+                    "Local Content Verification"
+                ],
+                [
+                    "Cryptographic Operations",
+                    "Zero Knowledge Proofs",
+                    "Blockchain Validation"
+                ]
+            ]
         },
         "linkedResources": {
             "type": "array",
+            "maxItems": 50,
             "items": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "string",
-                        "description": "The DID of the linked resource."
+                        "pattern": "^(did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+|ipfs://[a-zA-Z0-9]+)$",
+                        "minLength": 10,
+                        "maxLength": 300,
+                        "description": "The DID or content identifier of the linked resource",
+                        "examples": [
+                            "did:cheqd:mainnet:ai-training-dataset-456",
+                            "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4",
+                            "did:web:storage.platform.com:dataset-789"
+                        ]
                     },
                     "type": {
                         "type": "string",
-                        "description": "The type of resource (e.g., Data, ProcessingLogs, ModelOutputs)."
+                        "enum": [
+                            "TrainingData",
+                            "ModelOutputs",
+                            "ProcessingLogs",
+                            "ComputeResults",
+                            "CachedModels",
+                            "ConfigurationData",
+                            "SecurityAuditLogs",
+                            "PerformanceMetrics"
+                        ],
+                        "description": "The type of compute resource",
+                        "examples": [
+                            "TrainingData",
+                            "ModelOutputs",
+                            "ProcessingLogs"
+                        ]
                     },
                     "name": {
                         "type": "string",
-                        "description": "The name of the linked resource."
+                        "minLength": 3,
+                        "maxLength": 100,
+                        "description": "The name of the linked resource",
+                        "examples": [
+                            "Content Authenticity Training Dataset",
+                            "C2PA Detection Model v2.1",
+                            "Performance Metrics January 2025"
+                        ]
                     },
                     "description": {
                         "type": "string",
-                        "description": "The description of the linked resource."
+                        "minLength": 10,
+                        "maxLength": 500,
+                        "description": "The description of the linked resource",
+                        "examples": [
+                            "Curated dataset for training content authenticity detection models",
+                            "Trained model for detecting C2PA assertions in media files",
+                            "Comprehensive performance and utilization metrics for compute node"
+                        ]
                     },
                     "uri": {
                         "type": "string",
-                        "description": "The uri of the linked resource."
+                        "format": "uri",
+                        "minLength": 10,
+                        "maxLength": 300,
+                        "description": "The URI of the linked resource",
+                        "examples": [
+                            "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4",
+                            "https://storage.platform.com/models/c2pa-detector-v2-1",
+                            "ceramic://k2t6wz4ylx0qsg8t9l5h3n2m4p9r7c8v3x1z5a6s7d9f2e4w8q3m1p0o9i8u7y6t5r"
+                        ]
                     }
                 },
                 "required": [
@@ -777,34 +1235,219 @@ export const SCHEMA_REGISTRY = {
                     "name",
                     "description",
                     "uri"
-                ]
+                ],
+                "additionalProperties": false
             },
-            "description": "References to compute tasks and results."
+            "description": "References to compute tasks, datasets, models, and results"
         },
         "status": {
             "type": "string",
             "enum": [
                 "active",
                 "suspended",
-                "revoked"
+                "revoked",
+                "maintenance",
+                "initializing"
             ],
-            "description": "Operational status of the node."
+            "description": "Operational status of the node",
+            "examples": [
+                "active",
+                "maintenance",
+                "suspended"
+            ]
         },
         "timestamp": {
             "type": "string",
             "format": "date-time",
-            "description": "Timestamp of node declaration."
+            "description": "Timestamp of node declaration",
+            "examples": [
+                "2025-01-14T18:00:00Z",
+                "2025-01-14T19:30:45.123Z"
+            ]
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern type for compute node governance",
+            "examples": [
+                "delegated",
+                "self-sovereign",
+                "federated"
+            ]
+        },
+        "governanceModel": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "self-governed",
+                        "dao",
+                        "committee",
+                        "hierarchical",
+                        "consensus"
+                    ],
+                    "description": "Governance model for this compute node"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+                    },
+                    "description": "DIDs of governance participants"
+                }
+            },
+            "examples": [
+                {
+                    "type": "hierarchical",
+                    "participants": [
+                        "did:cheqd:mainnet:compute-operator-company-123",
+                        "did:cheqd:mainnet:ai-processing-cluster-alpha"
+                    ]
+                },
+                {
+                    "type": "self-governed",
+                    "participants": [
+                        "did:key:z6MkEdgeDeviceOwner456"
+                    ]
+                }
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+                "type": "string",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+            },
+            "description": "Chain of trust delegation from root authority to this compute node",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:originvault-namespace-root",
+                    "did:cheqd:mainnet:ai-processing-cluster-alpha",
+                    "did:cheqd:mainnet:compute-node-gpu-001"
+                ],
+                [
+                    "did:key:z6MkComputeNodeEdgeDevice789"
+                ],
+                [
+                    "did:web:enterprise-root.company.com",
+                    "did:web:compute.platform.com:node-123"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500,
+            "description": "Contextual information about the compute node's role in the trust chain",
+            "examples": [
+                "GPU compute node operating under cluster governance for AI training and inference tasks in content authenticity domain",
+                "Self-sovereign edge compute node for local AI inference and content verification",
+                "Enterprise compute node providing distributed processing for supply chain verification",
+                "Federated compute node participating in multi-party AI training consortium"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "Schema version for tracking evolution"
+                },
+                "schemaType": {
+                    "type": "string",
+                    "const": "ComputeNode",
+                    "description": "Schema type identifier for BFF integration"
+                },
+                "bffIntegration": {
+                    "type": "boolean",
+                    "description": "Indicates if schema supports BFF integration patterns"
+                }
+            },
+            "examples": [
+                {
+                    "version": "1.0.0",
+                    "schemaType": "ComputeNode",
+                    "bffIntegration": true
+                }
+            ]
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the compute node declaration was created",
+            "examples": [
+                "2025-01-14T18:00:00Z",
+                "2025-01-14T19:30:45.123Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the compute node declaration was last updated",
+            "examples": [
+                "2025-01-14T18:00:00Z",
+                "2025-01-14T19:30:45.123Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "transactionHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Blockchain transaction hash for this compute node declaration"
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number where transaction was confirmed"
+                },
+                "networkId": {
+                    "type": "string",
+                    "enum": [
+                        "cheqd:mainnet",
+                        "cheqd:testnet",
+                        "ethereum:mainnet",
+                        "ethereum:sepolia"
+                    ],
+                    "description": "Blockchain network identifier"
+                },
+                "lastSynced": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last blockchain synchronization timestamp"
+                }
+            },
+            "examples": [
+                {
+                    "transactionHash": "0x456def789abc...",
+                    "blockNumber": 12345681,
+                    "networkId": "cheqd:mainnet",
+                    "lastSynced": "2025-01-14T18:01:00Z"
+                }
+            ]
         }
     },
     "required": [
+        "@context",
         "id",
-        "cluster",
         "operator",
         "computeResources",
         "supportedTasks",
         "status",
         "timestamp"
-    ]
+    ],
+    "additionalProperties": false
 },
   "ContentAIPermissionAssertionCredential": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -2114,6 +2757,12 @@ export const SCHEMA_REGISTRY = {
 },
   "DIDAssertionCredential": {
     "$schema": "https://json-schema.org/draft-07/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://w3id.org/security/multikey/v1",
+        "https://schema.org",
+        "https://schemas.originvault.box/contexts/v1"
+    ],
     "$id": "https://schemas.originvault.box/DIDAssertionCredential.schema.json",
     "title": "DID Assertion Credential",
     "version": "0.0.1",
@@ -2204,14 +2853,134 @@ export const SCHEMA_REGISTRY = {
 },
   "DIDDeclaration": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+    ],
     "$id": "https://schemas.originvault.box/DIDDeclaration",
     "title": "DID Declaration",
-    "description": "Defines the role and permissions of a DID in an OV Cluster.",
+    "description": "Defines the role and permissions of a DID in an OV Cluster within a multi-root trust architecture.",
     "type": "object",
+    "examples": [
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "id": "did:cheqd:mainnet:content-vault-node-001",
+            "type": "VaultDeclaration",
+            "parent": "did:cheqd:mainnet:originvault-cluster-alpha",
+            "roles": [
+                "VaultOwner",
+                "ContentCreator",
+                "TrustDelegate"
+            ],
+            "governance": {
+                "managedBy": [
+                    "did:cheqd:mainnet:vault-admin-123",
+                    "did:cheqd:mainnet:originvault-cluster-alpha"
+                ],
+                "rules": "ceramic://k2t6wz4ylx0qsg8t9l5h3n2m4p9r7c8v3x1z5a6s7d9f2e4w8q3m1p0o9i8u7y6t5r"
+            },
+            "rootType": "delegated",
+            "governanceModel": {
+                "type": "hierarchical",
+                "participants": [
+                    "did:cheqd:mainnet:vault-admin-123"
+                ]
+            },
+            "delegationChain": [
+                "did:cheqd:mainnet:originvault-namespace-root",
+                "did:cheqd:mainnet:originvault-cluster-alpha",
+                "did:cheqd:mainnet:content-vault-node-001"
+            ],
+            "trustChainContext": "Content vault declaration within hierarchical trust delegation from namespace authority",
+            "metadata": {
+                "version": "1.0.0",
+                "schemaType": "DIDDeclaration",
+                "bffIntegration": true
+            },
+            "createdAt": "2025-01-14T17:00:00Z",
+            "updatedAt": "2025-01-14T17:00:00Z",
+            "blockchainSync": {
+                "transactionHash": "0x789abc456def...",
+                "blockNumber": 12345680,
+                "networkId": "cheqd:mainnet",
+                "lastSynced": "2025-01-14T17:01:00Z"
+            }
+        },
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+            "type": "IdentityNodeDeclaration",
+            "roles": [
+                "IdentityNode",
+                "VerificationService"
+            ],
+            "governance": {
+                "managedBy": [
+                    "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+                ],
+                "rules": "Self-governed independent identity node"
+            },
+            "rootType": "self-sovereign",
+            "governanceModel": {
+                "type": "self-governed",
+                "participants": [
+                    "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+                ]
+            },
+            "delegationChain": [
+                "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+            ],
+            "trustChainContext": "Self-sovereign identity node with independent governance"
+        }
+    ],
     "properties": {
+        "@context": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "default": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+            "examples": [
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schema.org"
+                ],
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+                ]
+            ]
+        },
         "id": {
             "type": "string",
-            "description": "The DID of the entity declaring itself."
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "description": "The DID of the entity declaring itself",
+            "examples": [
+                "did:cheqd:mainnet:content-vault-node-001",
+                "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+                "did:web:storage-node.platform.com",
+                "did:ethr:0xIdentityNode456"
+            ]
         },
         "type": {
             "type": "string",
@@ -2222,43 +2991,290 @@ export const SCHEMA_REGISTRY = {
                 "VaultDeclaration",
                 "IdentityNodeDeclaration",
                 "StorageNodeDeclaration",
-                "VaultOwnerDeclaration"
+                "VaultOwnerDeclaration",
+                "ComputeNodeDeclaration",
+                "VerificationNodeDeclaration"
             ],
-            "description": "The type of DID declaration."
+            "description": "The type of DID declaration",
+            "examples": [
+                "VaultDeclaration",
+                "IdentityNodeDeclaration",
+                "StorageNodeDeclaration",
+                "NodeClusterDeclaration"
+            ]
         },
         "parent": {
             "type": "string",
-            "description": "The DID of the parent entity (e.g., a Cluster under a Namespace, or a Node under a Cluster)."
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "description": "The DID of the parent entity (e.g., a Cluster under a Namespace, or a Node under a Cluster)",
+            "examples": [
+                "did:cheqd:mainnet:originvault-cluster-alpha",
+                "did:cheqd:mainnet:originvault-namespace-root",
+                "did:web:parent-authority.platform.com"
+            ]
         },
         "roles": {
             "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
             "items": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                    "IdentityNode",
+                    "StorageNode",
+                    "VaultOwner",
+                    "ContentCreator",
+                    "TrustDelegate",
+                    "VerificationService",
+                    "ComputeNode",
+                    "GovernanceParticipant",
+                    "DataProcessor",
+                    "NetworkValidator"
+                ]
             },
-            "description": "The roles assigned to this DID (e.g., IdentityNode, StorageNode, VaultOwner)."
+            "description": "The roles assigned to this DID (e.g., IdentityNode, StorageNode, VaultOwner)",
+            "examples": [
+                [
+                    "VaultOwner",
+                    "ContentCreator",
+                    "TrustDelegate"
+                ],
+                [
+                    "IdentityNode",
+                    "VerificationService"
+                ],
+                [
+                    "StorageNode",
+                    "DataProcessor"
+                ]
+            ]
         },
         "governance": {
             "type": "object",
             "properties": {
                 "managedBy": {
                     "type": "array",
+                    "minItems": 1,
+                    "maxItems": 20,
                     "items": {
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
                     },
-                    "description": "List of DIDs that govern this entity."
+                    "description": "List of DIDs that govern this entity",
+                    "examples": [
+                        [
+                            "did:cheqd:mainnet:vault-admin-123",
+                            "did:cheqd:mainnet:originvault-cluster-alpha"
+                        ],
+                        [
+                            "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+                        ],
+                        [
+                            "did:web:governance.platform.com",
+                            "did:ethr:0xGovernanceCouncil"
+                        ]
+                    ]
                 },
                 "rules": {
                     "type": "string",
-                    "description": "A reference to governance policies (e.g., Ceramic document)."
+                    "minLength": 10,
+                    "maxLength": 500,
+                    "description": "A reference to governance policies (e.g., Ceramic document, IPFS hash, or governance description)",
+                    "examples": [
+                        "ceramic://k2t6wz4ylx0qsg8t9l5h3n2m4p9r7c8v3x1z5a6s7d9f2e4w8q3m1p0o9i8u7y6t5r",
+                        "Self-governed independent identity node",
+                        "https://governance.platform.com/policies/node-governance-v2",
+                        "ipfs://QmT4PkU7VzJQzM3nH2pR5wX8vL6cN9sA1fB2gD7eH9jK4"
+                    ]
                 }
             },
-            "description": "Governance settings for this DID."
+            "description": "Governance settings for this DID",
+            "required": [
+                "managedBy",
+                "rules"
+            ],
+            "additionalProperties": false
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern type",
+            "examples": [
+                "delegated",
+                "self-sovereign",
+                "federated"
+            ]
+        },
+        "governanceModel": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "self-governed",
+                        "dao",
+                        "committee",
+                        "hierarchical",
+                        "consensus"
+                    ],
+                    "description": "Governance model for this DID entity"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+                    },
+                    "description": "DIDs of governance participants"
+                }
+            },
+            "examples": [
+                {
+                    "type": "hierarchical",
+                    "participants": [
+                        "did:cheqd:mainnet:vault-admin-123"
+                    ]
+                },
+                {
+                    "type": "self-governed",
+                    "participants": [
+                        "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+                    ]
+                }
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+                "type": "string",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+            },
+            "description": "Chain of trust delegation from root authority to this DID",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:originvault-namespace-root",
+                    "did:cheqd:mainnet:originvault-cluster-alpha",
+                    "did:cheqd:mainnet:content-vault-node-001"
+                ],
+                [
+                    "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+                ],
+                [
+                    "did:web:namespace-root.platform.com",
+                    "did:web:storage-node.platform.com"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500,
+            "description": "Contextual information about the DID's role in the trust chain",
+            "examples": [
+                "Content vault declaration within hierarchical trust delegation from namespace authority",
+                "Self-sovereign identity node with independent governance",
+                "Storage node operating under federated cluster governance",
+                "Compute node participating in multi-root validation network"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "Schema version for tracking evolution"
+                },
+                "schemaType": {
+                    "type": "string",
+                    "const": "DIDDeclaration",
+                    "description": "Schema type identifier for BFF integration"
+                },
+                "bffIntegration": {
+                    "type": "boolean",
+                    "description": "Indicates if schema supports BFF integration patterns"
+                }
+            },
+            "examples": [
+                {
+                    "version": "1.0.0",
+                    "schemaType": "DIDDeclaration",
+                    "bffIntegration": true
+                }
+            ]
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the DID declaration was created",
+            "examples": [
+                "2025-01-14T17:00:00Z",
+                "2025-01-14T19:30:45.123Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the DID declaration was last updated",
+            "examples": [
+                "2025-01-14T17:00:00Z",
+                "2025-01-14T19:30:45.123Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "transactionHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Blockchain transaction hash for this DID declaration"
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number where transaction was confirmed"
+                },
+                "networkId": {
+                    "type": "string",
+                    "enum": [
+                        "cheqd:mainnet",
+                        "cheqd:testnet",
+                        "ethereum:mainnet",
+                        "ethereum:sepolia"
+                    ],
+                    "description": "Blockchain network identifier"
+                },
+                "lastSynced": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last blockchain synchronization timestamp"
+                }
+            },
+            "examples": [
+                {
+                    "transactionHash": "0x789abc456def...",
+                    "blockNumber": 12345680,
+                    "networkId": "cheqd:mainnet",
+                    "lastSynced": "2025-01-14T17:01:00Z"
+                }
+            ]
         }
     },
     "required": [
+        "@context",
         "id",
         "type"
-    ]
+    ],
+    "additionalProperties": false
 },
   "DigitalDocument": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -2386,6 +3402,11 @@ export const SCHEMA_REGISTRY = {
 },
   "EndorsementRecord": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://schemas.originvault.box/contexts/v1"
+    ],
     "$id": "https://schemas.originvault.box/EndorsementRecord",
     "title": "Endorsement Record",
     "description": "Represents an endorsement given by one DID to another, contributing to trust scoring.",
@@ -2611,14 +3632,67 @@ export const SCHEMA_REGISTRY = {
 },
   "GemDeclaration": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/v1"
+    ],
     "$id": "https://schemas.originvault.box/GemDeclaration",
     "title": "Gem Declaration",
-    "description": "Defines an OriginVault Gem awarded to users for contributions.",
+    "description": "Defines an OriginVault Gem awarded to users for contributions with multi-root trust and BFF integration support.",
     "type": "object",
+    "examples": [
+        {
+            "@type": "GemDeclaration",
+            "id": "did:cheqd:mainnet:gem:founders-alice-001",
+            "type": "Founder's Gem",
+            "recipient": "did:cheqd:mainnet:alice-creator-001",
+            "issuer": "did:cheqd:mainnet:originvault-council",
+            "dateIssued": "2024-06-25T10:30:00Z",
+            "rootType": "delegated",
+            "governanceModel": "democratic",
+            "delegationChain": [
+                "did:cheqd:mainnet:root-authority",
+                "did:cheqd:mainnet:originvault-council"
+            ],
+            "trustChainContext": "https://schemas.originvault.box/trust/v1",
+            "metadata": {
+                "version": "1.0.0",
+                "schemaVersion": "2024-06-25",
+                "category": "credential-gem",
+                "video": "https://assets.originvault.box/gems/founders/animated.mp4",
+                "description": "Awarded for being a founding contributor to the OriginVault ecosystem."
+            },
+            "createdAt": "2024-06-25T10:30:00Z",
+            "updatedAt": "2024-06-25T10:30:00Z",
+            "blockchainSync": {
+                "lastSyncAt": "2024-06-25T10:30:00Z",
+                "txHash": "0x1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890",
+                "blockNumber": 123456
+            },
+            "verifiableCredential": "did:cheqd:mainnet:dlr:founders-gem-credential-001",
+            "revocationStatus": "valid"
+        }
+    ],
     "properties": {
+        "@type": {
+            "type": "string",
+            "const": "GemDeclaration",
+            "description": "JSON-LD type identifier for semantic interoperability.",
+            "examples": [
+                "GemDeclaration"
+            ]
+        },
         "id": {
             "type": "string",
-            "description": "The unique DID of the Gem."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "The unique DID of the Gem.",
+            "examples": [
+                "did:cheqd:mainnet:gem:founders-alice-001"
+            ]
         },
         "type": {
             "type": "string",
@@ -2632,39 +3706,208 @@ export const SCHEMA_REGISTRY = {
                 "Trailblazer's Gem",
                 "Luminary's Gem"
             ],
-            "description": "The category of the gem."
+            "description": "The category of the gem.",
+            "examples": [
+                "Founder's Gem"
+            ]
         },
         "recipient": {
             "type": "string",
-            "description": "DID of the user receiving the Gem."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "DID of the user receiving the Gem.",
+            "examples": [
+                "did:cheqd:mainnet:alice-creator-001"
+            ]
         },
         "issuer": {
             "type": "string",
-            "description": "DID of the entity awarding the Gem."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "DID of the entity awarding the Gem.",
+            "examples": [
+                "did:cheqd:mainnet:originvault-council"
+            ]
         },
         "dateIssued": {
             "type": "string",
             "format": "date-time",
-            "description": "Date the Gem was issued."
+            "description": "Date the Gem was issued.",
+            "examples": [
+                "2024-06-25T10:30:00Z"
+            ]
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern: how this gem establishes its root of trust.",
+            "examples": [
+                "delegated"
+            ]
+        },
+        "governanceModel": {
+            "type": "string",
+            "enum": [
+                "hierarchical",
+                "democratic",
+                "consensus",
+                "autonomous"
+            ],
+            "description": "Multi-root trust pattern: governance model for trust decisions.",
+            "examples": [
+                "democratic"
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+"
+            },
+            "minItems": 1,
+            "maxItems": 10,
+            "description": "Multi-root trust pattern: chain of authority delegation from root to this gem.",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:root-authority",
+                    "did:cheqd:mainnet:originvault-council"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "format": "uri",
+            "description": "Multi-root trust pattern: URI to the trust chain context document.",
+            "examples": [
+                "https://schemas.originvault.box/trust/v1"
+            ]
         },
         "metadata": {
             "type": "object",
-            "description": "Additional metadata related to the Gem.",
+            "description": "BFF Integration and Gem metadata.",
             "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "BFF Integration: Schema version for API compatibility.",
+                    "examples": [
+                        "1.0.0"
+                    ]
+                },
+                "schemaVersion": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "BFF Integration: Schema release date for version tracking.",
+                    "examples": [
+                        "2024-06-25"
+                    ]
+                },
+                "category": {
+                    "type": "string",
+                    "enum": [
+                        "credential-gem",
+                        "credential-badge",
+                        "credential-achievement"
+                    ],
+                    "description": "BFF Integration: Category for API routing and filtering.",
+                    "examples": [
+                        "credential-gem"
+                    ]
+                },
                 "video": {
                     "type": "string",
                     "format": "uri",
-                    "description": "URL to the Gem's animated artwork."
+                    "description": "URL to the Gem's animated artwork.",
+                    "examples": [
+                        "https://assets.originvault.box/gems/founders/animated.mp4"
+                    ]
                 },
                 "description": {
                     "type": "string",
-                    "description": "Description of why the Gem was awarded."
+                    "minLength": 10,
+                    "maxLength": 500,
+                    "description": "Description of why the Gem was awarded.",
+                    "examples": [
+                        "Awarded for being a founding contributor to the OriginVault ecosystem."
+                    ]
                 }
-            }
+            },
+            "required": [
+                "version",
+                "schemaVersion",
+                "category",
+                "description"
+            ],
+            "additionalProperties": false
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "BFF Integration: Creation timestamp for audit trails.",
+            "examples": [
+                "2024-06-25T10:30:00Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "BFF Integration: Last update timestamp for change tracking.",
+            "examples": [
+                "2024-06-25T10:30:00Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "lastSyncAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last successful blockchain synchronization timestamp.",
+                    "examples": [
+                        "2024-06-25T10:30:00Z"
+                    ]
+                },
+                "txHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Transaction hash of the last blockchain update.",
+                    "examples": [
+                        "0x1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890"
+                    ]
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number of the last blockchain update.",
+                    "examples": [
+                        123456
+                    ]
+                }
+            },
+            "required": [
+                "lastSyncAt",
+                "txHash",
+                "blockNumber"
+            ],
+            "description": "BFF Integration: Blockchain synchronization status for distributed systems.",
+            "additionalProperties": false
         },
         "verifiableCredential": {
             "type": "string",
-            "description": "DID-Linked Resource (DLR) to the Verifiable Credential proving eligibility for the Gem."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "DID-Linked Resource (DLR) to the Verifiable Credential proving eligibility for the Gem.",
+            "examples": [
+                "did:cheqd:mainnet:dlr:founders-gem-credential-001"
+            ]
         },
         "revocationStatus": {
             "type": "string",
@@ -2672,19 +3915,31 @@ export const SCHEMA_REGISTRY = {
                 "valid",
                 "revoked"
             ],
-            "description": "Whether the Gem is still recognized as valid."
+            "description": "Whether the Gem is still recognized as valid.",
+            "examples": [
+                "valid"
+            ]
         }
     },
     "required": [
+        "@type",
         "id",
         "type",
         "recipient",
         "issuer",
         "dateIssued",
+        "rootType",
+        "governanceModel",
+        "delegationChain",
+        "trustChainContext",
         "metadata",
+        "createdAt",
+        "updatedAt",
+        "blockchainSync",
         "verifiableCredential",
         "revocationStatus"
-    ]
+    ],
+    "additionalProperties": false
 },
   "GemIssuanceRecord": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -3627,21 +4882,167 @@ export const SCHEMA_REGISTRY = {
 },
   "NamespaceDeclaration": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+    ],
     "$id": "https://schemas.originvault.box/NamespaceDeclaration",
     "title": "Namespace Declaration",
-    "description": "Defines a namespace as a root authority that can establish trust chains and governance rules for its domain.",
+    "description": "Defines a namespace as a root authority that can establish trust chains and governance rules for its domain in a multi-root architecture.",
     "type": "object",
+    "examples": [
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "id": "did:cheqd:mainnet:originvault-namespace-root",
+            "type": "NamespaceDeclaration",
+            "namespaceScope": "originvault.box",
+            "rootAuthority": {
+                "rootType": "namespace",
+                "trustChainPurpose": "Content authenticity and provenance verification for creative industries",
+                "delegationPolicy": {
+                    "allowsTrustedIssuers": true,
+                    "requiresAccreditation": true,
+                    "maxDelegationDepth": 5
+                }
+            },
+            "governance": {
+                "governanceModel": "dao",
+                "governingParties": [
+                    "did:cheqd:mainnet:governance-council-001",
+                    "did:cheqd:mainnet:technical-committee-002"
+                ],
+                "policyFramework": "https://governance.originvault.box/namespace-governance-v1"
+            },
+            "interoperability": {
+                "recognizedNamespaces": [
+                    "did:web:trust.contentauthenticity.org",
+                    "did:ethr:0xCreatorCollective"
+                ],
+                "crossNamespaceValidation": true,
+                "federationMember": "Open Verifiable Trust Federation"
+            },
+            "termsOfUse": {
+                "trustFramework": "OriginVault Multi-Root Trust Framework",
+                "trustFrameworkId": "ov-trust-framework-v1",
+                "trustFrameworkVersion": "1.0.0",
+                "trustFrameworkUrl": "https://governance.originvault.box/trust-framework-v1",
+                "trustFrameworkTerms": "https://governance.originvault.box/terms-of-use-v1"
+            },
+            "blockchainAnchoring": {
+                "blockchainNetwork": "cheqd-mainnet",
+                "resourceId": "did:cheqd:mainnet:originvault-namespace-root/resources/namespace-declaration-abc123"
+            },
+            "rootType": "namespace",
+            "governanceModel": {
+                "type": "dao",
+                "participants": [
+                    "did:cheqd:mainnet:governance-council-001"
+                ]
+            },
+            "delegationChain": [
+                "did:cheqd:mainnet:originvault-namespace-root"
+            ],
+            "trustChainContext": "Multi-root trust architecture enabling diverse authority models for content authenticity and reputation systems",
+            "metadata": {
+                "version": "1.0.0",
+                "schemaType": "NamespaceDeclaration",
+                "bffIntegration": true
+            },
+            "createdAt": "2025-01-14T16:00:00Z",
+            "updatedAt": "2025-01-14T16:00:00Z",
+            "blockchainSync": {
+                "transactionHash": "0xdef456abc789...",
+                "blockNumber": 12345679,
+                "networkId": "cheqd:mainnet",
+                "lastSynced": "2025-01-14T16:01:00Z"
+            }
+        },
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "id": "did:web:credentials.university.edu",
+            "type": "NamespaceDeclaration",
+            "namespaceScope": "academic-credentials.edu",
+            "rootAuthority": {
+                "rootType": "namespace",
+                "trustChainPurpose": "Academic credential verification and degree attestation",
+                "delegationPolicy": {
+                    "allowsTrustedIssuers": true,
+                    "requiresAccreditation": true,
+                    "maxDelegationDepth": 3
+                }
+            },
+            "governance": {
+                "governanceModel": "committee",
+                "governingParties": [
+                    "did:web:accreditation.university.edu"
+                ],
+                "policyFramework": "https://policies.university.edu/academic-trust-framework"
+            },
+            "rootType": "federated",
+            "governanceModel": {
+                "type": "committee",
+                "participants": [
+                    "did:web:accreditation.university.edu"
+                ]
+            }
+        }
+    ],
     "properties": {
+        "@context": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "default": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+            "examples": [
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schema.org"
+                ],
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+                ]
+            ]
+        },
         "id": {
             "type": "string",
-            "description": "The DID of the namespace acting as a root authority."
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "description": "The DID of the namespace acting as a root authority",
+            "examples": [
+                "did:cheqd:mainnet:originvault-namespace-root",
+                "did:web:credentials.university.edu",
+                "did:ethr:0xNamespaceAuthority123"
+            ]
         },
         "type": {
             "const": "NamespaceDeclaration",
-            "description": "Indicates this is a Namespace DID declaration."
+            "description": "Indicates this is a Namespace DID declaration"
         },
         "namespaceScope": {
             "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
             "description": "The domain or scope of this namespace",
             "examples": [
                 "originvault.box",
@@ -3660,6 +5061,8 @@ export const SCHEMA_REGISTRY = {
                 },
                 "trustChainPurpose": {
                     "type": "string",
+                    "minLength": 10,
+                    "maxLength": 500,
                     "description": "Primary purpose of trust chains in this namespace",
                     "examples": [
                         "Content authenticity and provenance",
@@ -3673,24 +5076,40 @@ export const SCHEMA_REGISTRY = {
                     "properties": {
                         "allowsTrustedIssuers": {
                             "type": "boolean",
-                            "description": "Whether this namespace delegates to trusted issuers"
+                            "description": "Whether this namespace delegates to trusted issuers",
+                            "examples": [
+                                true,
+                                false
+                            ]
                         },
                         "requiresAccreditation": {
                             "type": "boolean",
-                            "description": "Whether issuers must be accredited by this namespace"
+                            "description": "Whether issuers must be accredited by this namespace",
+                            "examples": [
+                                true,
+                                false
+                            ]
                         },
                         "maxDelegationDepth": {
                             "type": "integer",
                             "minimum": 1,
-                            "description": "Maximum depth of delegation chains"
+                            "maximum": 10,
+                            "description": "Maximum depth of delegation chains",
+                            "examples": [
+                                3,
+                                5,
+                                2
+                            ]
                         }
-                    }
+                    },
+                    "additionalProperties": false
                 }
             },
             "required": [
                 "rootType",
                 "trustChainPurpose"
-            ]
+            ],
+            "additionalProperties": false
         },
         "governance": {
             "type": "object",
@@ -3705,23 +5124,45 @@ export const SCHEMA_REGISTRY = {
                         "democratic",
                         "consortium"
                     ],
-                    "description": "How this namespace makes governance decisions"
+                    "description": "How this namespace makes governance decisions",
+                    "examples": [
+                        "dao",
+                        "committee",
+                        "consortium"
+                    ]
                 },
                 "governingParties": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
                     },
-                    "description": "DIDs of entities involved in namespace governance"
+                    "description": "DIDs of entities involved in namespace governance",
+                    "examples": [
+                        [
+                            "did:cheqd:mainnet:governance-council-001",
+                            "did:cheqd:mainnet:technical-committee-002"
+                        ],
+                        [
+                            "did:web:accreditation.university.edu"
+                        ]
+                    ]
                 },
                 "policyFramework": {
                     "type": "string",
-                    "description": "Reference to namespace governance policies and procedures"
+                    "minLength": 10,
+                    "maxLength": 300,
+                    "description": "Reference to namespace governance policies and procedures",
+                    "examples": [
+                        "https://governance.originvault.box/namespace-governance-v1",
+                        "https://policies.university.edu/academic-trust-framework"
+                    ]
                 }
             },
             "required": [
                 "governanceModel"
-            ]
+            ],
+            "additionalProperties": false
         },
         "interoperability": {
             "type": "object",
@@ -3729,42 +5170,99 @@ export const SCHEMA_REGISTRY = {
                 "recognizedNamespaces": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
                     },
-                    "description": "DIDs of other namespaces this namespace recognizes or federates with"
+                    "description": "DIDs of other namespaces this namespace recognizes or federates with",
+                    "examples": [
+                        [
+                            "did:web:trust.contentauthenticity.org",
+                            "did:ethr:0xCreatorCollective"
+                        ],
+                        [
+                            "did:cheqd:testnet:academic-root",
+                            "did:web:credentials.university.edu"
+                        ]
+                    ]
                 },
                 "crossNamespaceValidation": {
                     "type": "boolean",
-                    "description": "Whether credentials from other namespaces are accepted"
+                    "description": "Whether credentials from other namespaces are accepted",
+                    "examples": [
+                        true,
+                        false
+                    ]
                 },
                 "federationMember": {
                     "type": "string",
-                    "description": "Namespace federation or consortium membership (optional)"
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "description": "Namespace federation or consortium membership (optional)",
+                    "examples": [
+                        "Open Verifiable Trust Federation",
+                        "Academic Credential Network",
+                        "Supply Chain Trust Consortium"
+                    ]
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "termsOfUse": {
             "type": "object",
             "properties": {
                 "trustFramework": {
                     "type": "string",
-                    "description": "The trust framework for the namespace."
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "description": "The trust framework for the namespace",
+                    "examples": [
+                        "OriginVault Multi-Root Trust Framework",
+                        "Academic Credential Trust Framework",
+                        "Supply Chain Transparency Framework"
+                    ]
                 },
                 "trustFrameworkId": {
                     "type": "string",
-                    "description": "The ID of the trust framework for the namespace."
+                    "minLength": 3,
+                    "maxLength": 50,
+                    "description": "The ID of the trust framework for the namespace",
+                    "examples": [
+                        "ov-trust-framework-v1",
+                        "academic-trust-v2",
+                        "supply-chain-v1"
+                    ]
                 },
                 "trustFrameworkVersion": {
                     "type": "string",
-                    "description": "The version of the trust framework for the namespace."
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "The version of the trust framework for the namespace",
+                    "examples": [
+                        "1.0.0",
+                        "2.1.0",
+                        "1.5.2"
+                    ]
                 },
                 "trustFrameworkUrl": {
                     "type": "string",
-                    "description": "The URL of the trust framework for the namespace."
+                    "format": "uri",
+                    "minLength": 10,
+                    "maxLength": 300,
+                    "description": "The URL of the trust framework for the namespace",
+                    "examples": [
+                        "https://governance.originvault.box/trust-framework-v1",
+                        "https://policies.university.edu/academic-trust-framework"
+                    ]
                 },
                 "trustFrameworkTerms": {
                     "type": "string",
-                    "description": "The terms of use for the namespace."
+                    "format": "uri",
+                    "minLength": 10,
+                    "maxLength": 300,
+                    "description": "The terms of use for the namespace",
+                    "examples": [
+                        "https://governance.originvault.box/terms-of-use-v1",
+                        "https://policies.university.edu/terms-of-use"
+                    ]
                 }
             },
             "required": [
@@ -3773,34 +5271,212 @@ export const SCHEMA_REGISTRY = {
                 "trustFrameworkVersion",
                 "trustFrameworkUrl",
                 "trustFrameworkTerms"
-            ]
+            ],
+            "additionalProperties": false
         },
         "blockchainAnchoring": {
             "type": "object",
             "properties": {
                 "blockchainNetwork": {
                     "type": "string",
+                    "enum": [
+                        "cheqd-mainnet",
+                        "cheqd-testnet",
+                        "ethereum",
+                        "polygon",
+                        "hyperledger-indy"
+                    ],
+                    "description": "Blockchain network where this namespace is anchored",
                     "examples": [
                         "cheqd-mainnet",
                         "ethereum",
                         "polygon"
-                    ],
-                    "description": "Blockchain network where this namespace is anchored"
+                    ]
                 },
                 "resourceId": {
                     "type": "string",
-                    "description": "Blockchain resource ID for this namespace"
+                    "minLength": 10,
+                    "maxLength": 300,
+                    "description": "Blockchain resource ID for this namespace",
+                    "examples": [
+                        "did:cheqd:mainnet:originvault-namespace-root/resources/namespace-declaration-abc123",
+                        "did:web:credentials.university.edu/resources/academic-namespace-def456"
+                    ]
                 }
-            }
+            },
+            "additionalProperties": false
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern type",
+            "examples": [
+                "federated",
+                "self-sovereign",
+                "hybrid"
+            ]
+        },
+        "governanceModel": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "dao",
+                        "committee",
+                        "consensus",
+                        "hierarchical"
+                    ],
+                    "description": "Governance model for this namespace"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+                    },
+                    "description": "DIDs of governance participants"
+                }
+            },
+            "examples": [
+                {
+                    "type": "dao",
+                    "participants": [
+                        "did:cheqd:mainnet:governance-council-001"
+                    ]
+                },
+                {
+                    "type": "committee",
+                    "participants": [
+                        "did:web:accreditation.university.edu"
+                    ]
+                }
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+            },
+            "description": "Chain of trust delegation (for namespace authority, typically just itself)",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:originvault-namespace-root"
+                ],
+                [
+                    "did:web:credentials.university.edu"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500,
+            "description": "Contextual information about the namespace trust chain purpose and scope",
+            "examples": [
+                "Multi-root trust architecture enabling diverse authority models for content authenticity and reputation systems",
+                "Academic credential verification framework supporting multiple universities and institutions",
+                "Supply chain transparency network for manufacturing and logistics verification"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "Schema version for tracking evolution"
+                },
+                "schemaType": {
+                    "type": "string",
+                    "const": "NamespaceDeclaration",
+                    "description": "Schema type identifier for BFF integration"
+                },
+                "bffIntegration": {
+                    "type": "boolean",
+                    "description": "Indicates if schema supports BFF integration patterns"
+                }
+            },
+            "examples": [
+                {
+                    "version": "1.0.0",
+                    "schemaType": "NamespaceDeclaration",
+                    "bffIntegration": true
+                }
+            ]
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the namespace declaration was created",
+            "examples": [
+                "2025-01-14T16:00:00Z",
+                "2025-01-14T18:30:45.123Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the namespace declaration was last updated",
+            "examples": [
+                "2025-01-14T16:00:00Z",
+                "2025-01-14T18:30:45.123Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "transactionHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Blockchain transaction hash for this namespace declaration"
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number where transaction was confirmed"
+                },
+                "networkId": {
+                    "type": "string",
+                    "enum": [
+                        "cheqd:mainnet",
+                        "cheqd:testnet",
+                        "ethereum:mainnet",
+                        "ethereum:sepolia"
+                    ],
+                    "description": "Blockchain network identifier"
+                },
+                "lastSynced": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last blockchain synchronization timestamp"
+                }
+            },
+            "examples": [
+                {
+                    "transactionHash": "0xdef456abc789...",
+                    "blockNumber": 12345679,
+                    "networkId": "cheqd:mainnet",
+                    "lastSynced": "2025-01-14T16:01:00Z"
+                }
+            ]
         }
     },
     "required": [
+        "@context",
         "id",
         "namespaceScope",
         "rootAuthority",
         "governance",
         "termsOfUse"
-    ]
+    ],
+    "additionalProperties": false
 },
   "NamespaceGovernance": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -4526,22 +6202,88 @@ export const SCHEMA_REGISTRY = {
 },
   "NodeDeclaration": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/v1"
+    ],
     "$id": "https://schemas.originvault.box/NodeDeclaration",
     "title": "Node Declaration",
-    "description": "Defines an OV Node within a cluster.",
+    "description": "Defines an OV Node within a cluster with multi-root trust and BFF integration support.",
     "type": "object",
+    "examples": [
+        {
+            "@type": "NodeDeclaration",
+            "id": "did:cheqd:mainnet:node:storage-001",
+            "type": "NodeDeclaration",
+            "cluster": "did:cheqd:mainnet:cluster:us-east-primary",
+            "role": "StorageNode",
+            "operator": "did:cheqd:mainnet:operator:node-services-inc",
+            "status": "active",
+            "rootType": "delegated",
+            "governanceModel": "hierarchical",
+            "delegationChain": [
+                "did:cheqd:mainnet:root-authority",
+                "did:cheqd:mainnet:cluster:us-east-primary"
+            ],
+            "trustChainContext": "https://schemas.originvault.box/trust/v1",
+            "metadata": {
+                "version": "1.0.0",
+                "schemaVersion": "2024-06-25",
+                "category": "node-infrastructure"
+            },
+            "createdAt": "2024-06-25T10:30:00Z",
+            "updatedAt": "2024-06-25T10:30:00Z",
+            "blockchainSync": {
+                "lastSyncAt": "2024-06-25T10:30:00Z",
+                "txHash": "0x1a2b3c4d5e6f...",
+                "blockNumber": 123456
+            },
+            "verificationPolicies": {
+                "assignedBy": [
+                    "did:cheqd:mainnet:validator:001"
+                ],
+                "verificationRules": "ceramic://k2t6wyfsu4pg0t2n4j8ms3s33xsgqjhtto04mvq8w5a1jyrpaa5nf2s2oupt3ak"
+            },
+            "timestamp": "2024-06-25T10:30:00Z"
+        }
+    ],
     "properties": {
+        "@type": {
+            "type": "string",
+            "const": "NodeDeclaration",
+            "description": "JSON-LD type identifier for semantic interoperability.",
+            "examples": [
+                "NodeDeclaration"
+            ]
+        },
         "id": {
             "type": "string",
-            "description": "The DID of the node."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "The DID of the node.",
+            "examples": [
+                "did:cheqd:mainnet:node:storage-001"
+            ]
         },
         "type": {
             "const": "NodeDeclaration",
-            "description": "Indicates this is a Node DID declaration."
+            "description": "Indicates this is a Node DID declaration.",
+            "examples": [
+                "NodeDeclaration"
+            ]
         },
         "cluster": {
             "type": "string",
-            "description": "The Cluster DID this node belongs to."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "The Cluster DID this node belongs to.",
+            "examples": [
+                "did:cheqd:mainnet:cluster:us-east-primary"
+            ]
         },
         "role": {
             "type": "string",
@@ -4551,11 +6293,20 @@ export const SCHEMA_REGISTRY = {
                 "ComputeNode",
                 "VerificationNode"
             ],
-            "description": "The functional role of this node."
+            "description": "The functional role of this node.",
+            "examples": [
+                "StorageNode"
+            ]
         },
         "operator": {
             "type": "string",
-            "description": "The DID of the entity that operates this node."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "The DID of the entity that operates this node.",
+            "examples": [
+                "did:cheqd:mainnet:operator:node-services-inc"
+            ]
         },
         "status": {
             "type": "string",
@@ -4564,7 +6315,154 @@ export const SCHEMA_REGISTRY = {
                 "suspended",
                 "revoked"
             ],
-            "description": "The operational status of the node."
+            "description": "The operational status of the node.",
+            "examples": [
+                "active"
+            ]
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern: how this node establishes its root of trust.",
+            "examples": [
+                "delegated"
+            ]
+        },
+        "governanceModel": {
+            "type": "string",
+            "enum": [
+                "hierarchical",
+                "democratic",
+                "consensus",
+                "autonomous"
+            ],
+            "description": "Multi-root trust pattern: governance model for trust decisions.",
+            "examples": [
+                "hierarchical"
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+"
+            },
+            "minItems": 1,
+            "maxItems": 10,
+            "description": "Multi-root trust pattern: chain of authority delegation from root to this node.",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:root-authority",
+                    "did:cheqd:mainnet:cluster:us-east-primary"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "format": "uri",
+            "description": "Multi-root trust pattern: URI to the trust chain context document.",
+            "examples": [
+                "https://schemas.originvault.box/trust/v1"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "BFF Integration: Schema version for API compatibility.",
+                    "examples": [
+                        "1.0.0"
+                    ]
+                },
+                "schemaVersion": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "BFF Integration: Schema release date for version tracking.",
+                    "examples": [
+                        "2024-06-25"
+                    ]
+                },
+                "category": {
+                    "type": "string",
+                    "enum": [
+                        "node-infrastructure",
+                        "node-compute",
+                        "node-storage",
+                        "node-identity",
+                        "node-verification"
+                    ],
+                    "description": "BFF Integration: Category for API routing and filtering.",
+                    "examples": [
+                        "node-infrastructure"
+                    ]
+                }
+            },
+            "required": [
+                "version",
+                "schemaVersion",
+                "category"
+            ],
+            "description": "BFF Integration: Metadata for API integration and versioning.",
+            "additionalProperties": false
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "BFF Integration: Creation timestamp for audit trails.",
+            "examples": [
+                "2024-06-25T10:30:00Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "BFF Integration: Last update timestamp for change tracking.",
+            "examples": [
+                "2024-06-25T10:30:00Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "lastSyncAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last successful blockchain synchronization timestamp.",
+                    "examples": [
+                        "2024-06-25T10:30:00Z"
+                    ]
+                },
+                "txHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Transaction hash of the last blockchain update.",
+                    "examples": [
+                        "0x1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890"
+                    ]
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number of the last blockchain update.",
+                    "examples": [
+                        123456
+                    ]
+                }
+            },
+            "required": [
+                "lastSyncAt",
+                "txHash",
+                "blockNumber"
+            ],
+            "description": "BFF Integration: Blockchain synchronization status for distributed systems.",
+            "additionalProperties": false
         },
         "linkedResources": {
             "type": "array",
@@ -4626,14 +6524,24 @@ export const SCHEMA_REGISTRY = {
         }
     },
     "required": [
+        "@type",
         "id",
         "type",
         "cluster",
         "role",
         "operator",
         "status",
+        "rootType",
+        "governanceModel",
+        "delegationChain",
+        "trustChainContext",
+        "metadata",
+        "createdAt",
+        "updatedAt",
+        "blockchainSync",
         "timestamp"
-    ]
+    ],
+    "additionalProperties": false
 },
   "NodeOperatorAgreement": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -6650,10 +8558,149 @@ export const SCHEMA_REGISTRY = {
 },
   "RootAuthority": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+    ],
     "$id": "https://schemas.originvault.box/RootAuthority",
     "title": "Root Authority Declaration",
-    "description": "Declaration of a root authority establishing a trust chain for any namespace, platform, user, organization, community, or concept.",
+    "description": "Declaration of a root authority establishing a trust chain for any namespace, platform, user, organization, community, or concept in a multi-root architecture.",
     "type": "object",
+    "examples": [
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "RootAuthorityDeclaration"
+            ],
+            "issuer": {
+                "id": "did:cheqd:mainnet:originvault-namespace-root",
+                "name": "OriginVault Namespace Root Authority"
+            },
+            "issuanceDate": "2025-01-14T12:00:00Z",
+            "credentialSubject": {
+                "id": "did:cheqd:mainnet:originvault-namespace-root",
+                "rootType": "namespace",
+                "scope": "originvault.box",
+                "trustChainPurpose": "Establish trusted content authenticity and user reputation systems for the OriginVault ecosystem",
+                "governanceModel": {
+                    "type": "dao",
+                    "participants": [
+                        "did:cheqd:mainnet:governance-council-001",
+                        "did:cheqd:mainnet:technical-committee-002"
+                    ],
+                    "policyDocument": "https://governance.originvault.box/root-authority-policy-v1"
+                },
+                "delegationPolicy": {
+                    "allowsSubRoots": true,
+                    "maxChainDepth": 5,
+                    "delegationCriteria": "DAO vote with 67% consensus required for delegation"
+                },
+                "accreditationStandards": [
+                    {
+                        "standardId": "content-authenticity-v1",
+                        "schemaTypes": [
+                            "ContentAuthenticityCredential",
+                            "C2PAAssertion"
+                        ],
+                        "trustLevels": [
+                            "bronze",
+                            "silver",
+                            "gold",
+                            "platinum"
+                        ]
+                    }
+                ],
+                "interoperability": {
+                    "recognizedRoots": [
+                        "did:web:trust.contentauthenticity.org",
+                        "did:ethr:0xCreatorCollective"
+                    ],
+                    "crossChainValidation": true,
+                    "federationMember": "Open Verifiable Trust Federation"
+                },
+                "blockchainAnchoring": {
+                    "blockchainNetwork": "cheqd-mainnet",
+                    "resourceId": "did:cheqd:mainnet:originvault-namespace-root/resources/root-declaration-abc123",
+                    "registrationProof": "0x1234567890abcdef..."
+                }
+            },
+            "rootType": "namespace",
+            "governanceModel": {
+                "type": "dao",
+                "participants": [
+                    "did:cheqd:mainnet:governance-council-001"
+                ]
+            },
+            "delegationChain": [
+                "did:cheqd:mainnet:originvault-namespace-root"
+            ],
+            "trustChainContext": "Multi-root trust architecture enabling diverse authority models for content authenticity",
+            "metadata": {
+                "version": "1.0.0",
+                "schemaType": "RootAuthority",
+                "bffIntegration": true
+            },
+            "createdAt": "2025-01-14T12:00:00Z",
+            "updatedAt": "2025-01-14T12:00:00Z",
+            "blockchainSync": {
+                "transactionHash": "0xabc123def456...",
+                "blockNumber": 12345678,
+                "networkId": "cheqd:mainnet",
+                "lastSynced": "2025-01-14T12:01:00Z"
+            }
+        },
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "RootAuthorityDeclaration"
+            ],
+            "issuer": {
+                "id": "did:ethr:0xCommunityCollective456",
+                "name": "Independent Creator Community"
+            },
+            "issuanceDate": "2025-01-14T14:30:00Z",
+            "credentialSubject": {
+                "id": "did:ethr:0xCommunityCollective456",
+                "rootType": "community",
+                "scope": "creator-reputation",
+                "trustChainPurpose": "Community-governed reputation system for independent creators",
+                "governanceModel": {
+                    "type": "consensus",
+                    "participants": [
+                        "did:ethr:0xCreator1",
+                        "did:ethr:0xCreator2",
+                        "did:ethr:0xCreator3"
+                    ]
+                },
+                "delegationPolicy": {
+                    "allowsSubRoots": false,
+                    "maxChainDepth": 2
+                }
+            },
+            "rootType": "community",
+            "governanceModel": {
+                "type": "consensus",
+                "participants": [
+                    "did:ethr:0xCreator1",
+                    "did:ethr:0xCreator2"
+                ]
+            }
+        }
+    ],
     "required": [
         "@context",
         "type",
@@ -6668,9 +8715,21 @@ export const SCHEMA_REGISTRY = {
                 "type": "string"
             },
             "default": [
-                "https://www.w3.org/2018/credentials/v1",
+                "https://www.w3.org/ns/credentials/v2",
                 "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
                 "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+            ],
+            "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+            "examples": [
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schema.org"
+                ],
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+                ]
             ]
         },
         "type": {
@@ -6681,6 +8740,18 @@ export const SCHEMA_REGISTRY = {
             "default": [
                 "VerifiableCredential",
                 "RootAuthorityDeclaration"
+            ],
+            "description": "Credential types following W3C Verifiable Credentials specification",
+            "examples": [
+                [
+                    "VerifiableCredential",
+                    "RootAuthorityDeclaration"
+                ],
+                [
+                    "VerifiableCredential",
+                    "RootAuthorityDeclaration",
+                    "NamespaceDeclaration"
+                ]
             ]
         },
         "issuer": {
@@ -6688,30 +8759,56 @@ export const SCHEMA_REGISTRY = {
             "properties": {
                 "id": {
                     "type": "string",
-                    "pattern": "^did:",
-                    "description": "DID of the entity declaring itself as a root authority"
+                    "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                    "minLength": 20,
+                    "maxLength": 200,
+                    "description": "DID of the entity declaring itself as a root authority",
+                    "examples": [
+                        "did:cheqd:mainnet:originvault-namespace-root",
+                        "did:ethr:0xCommunityCollective456",
+                        "did:web:governance.platform.com"
+                    ]
                 },
                 "name": {
                     "type": "string",
-                    "description": "Name of the root authority"
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "description": "Name of the root authority",
+                    "examples": [
+                        "OriginVault Namespace Root Authority",
+                        "Independent Creator Community",
+                        "Enterprise Trust Council"
+                    ]
                 }
             },
             "required": [
                 "id"
-            ]
+            ],
+            "additionalProperties": false
         },
         "issuanceDate": {
             "type": "string",
             "format": "date-time",
-            "description": "When the root authority declaration was issued"
+            "description": "When the root authority declaration was issued",
+            "examples": [
+                "2025-01-14T12:00:00Z",
+                "2025-01-14T14:30:45.123Z"
+            ]
         },
         "credentialSubject": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "string",
-                    "pattern": "^did:",
-                    "description": "DID of the root authority (same as issuer for self-declaration)"
+                    "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                    "minLength": 20,
+                    "maxLength": 200,
+                    "description": "DID of the root authority (same as issuer for self-declaration)",
+                    "examples": [
+                        "did:cheqd:mainnet:originvault-namespace-root",
+                        "did:ethr:0xCommunityCollective456",
+                        "did:web:trust.organization.com"
+                    ]
                 },
                 "rootType": {
                     "type": "string",
@@ -6723,10 +8820,17 @@ export const SCHEMA_REGISTRY = {
                         "community",
                         "concept"
                     ],
-                    "description": "Type of root authority being declared"
+                    "description": "Type of root authority being declared",
+                    "examples": [
+                        "namespace",
+                        "community",
+                        "organization"
+                    ]
                 },
                 "scope": {
                     "type": "string",
+                    "minLength": 3,
+                    "maxLength": 100,
                     "description": "Scope or domain of authority",
                     "examples": [
                         "originvault.box",
@@ -6741,6 +8845,8 @@ export const SCHEMA_REGISTRY = {
                 },
                 "trustChainPurpose": {
                     "type": "string",
+                    "minLength": 10,
+                    "maxLength": 500,
                     "description": "Purpose and goals of this trust chain",
                     "examples": [
                         "Verify content authenticity and provenance",
@@ -6763,70 +8869,146 @@ export const SCHEMA_REGISTRY = {
                                 "democratic",
                                 "consortium"
                             ],
-                            "description": "Governance model for this root authority"
+                            "description": "Governance model for this root authority",
+                            "examples": [
+                                "dao",
+                                "consensus",
+                                "committee"
+                            ]
                         },
                         "participants": {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
                             },
-                            "description": "DIDs of governance participants (if applicable)"
+                            "description": "DIDs of governance participants (if applicable)",
+                            "examples": [
+                                [
+                                    "did:cheqd:mainnet:governance-council-001",
+                                    "did:cheqd:mainnet:technical-committee-002"
+                                ],
+                                [
+                                    "did:ethr:0xCreator1",
+                                    "did:ethr:0xCreator2"
+                                ]
+                            ]
                         },
                         "policyDocument": {
                             "type": "string",
-                            "description": "Reference to governance policies and procedures"
+                            "minLength": 10,
+                            "maxLength": 300,
+                            "description": "Reference to governance policies and procedures",
+                            "examples": [
+                                "https://governance.originvault.box/root-authority-policy-v1",
+                                "did:web:governance.platform.com/resources/trust-policy-v2"
+                            ]
                         }
                     },
                     "required": [
                         "type"
-                    ]
+                    ],
+                    "additionalProperties": false
                 },
                 "delegationPolicy": {
                     "type": "object",
                     "properties": {
                         "allowsSubRoots": {
                             "type": "boolean",
-                            "description": "Whether this root authority can delegate to sub-roots"
+                            "description": "Whether this root authority can delegate to sub-roots",
+                            "examples": [
+                                true,
+                                false
+                            ]
                         },
                         "maxChainDepth": {
                             "type": "integer",
                             "minimum": 1,
-                            "description": "Maximum depth of trust chain delegation"
+                            "maximum": 10,
+                            "description": "Maximum depth of trust chain delegation",
+                            "examples": [
+                                3,
+                                5,
+                                2
+                            ]
                         },
                         "delegationCriteria": {
                             "type": "string",
-                            "description": "Criteria for delegating authority to trusted issuers"
+                            "minLength": 10,
+                            "maxLength": 500,
+                            "description": "Criteria for delegating authority to trusted issuers",
+                            "examples": [
+                                "DAO vote with 67% consensus required for delegation",
+                                "Multi-signature approval from 3 of 5 committee members",
+                                "Community consensus with 80% approval rating"
+                            ]
                         }
-                    }
+                    },
+                    "additionalProperties": false
                 },
                 "accreditationStandards": {
                     "type": "array",
+                    "minItems": 1,
+                    "maxItems": 20,
                     "items": {
                         "type": "object",
                         "properties": {
                             "standardId": {
                                 "type": "string",
-                                "description": "Identifier for the accreditation standard"
+                                "minLength": 3,
+                                "maxLength": 100,
+                                "description": "Identifier for the accreditation standard",
+                                "examples": [
+                                    "content-authenticity-v1",
+                                    "user-reputation-v2",
+                                    "academic-credentials-v1"
+                                ]
                             },
                             "schemaTypes": {
                                 "type": "array",
+                                "minItems": 1,
+                                "maxItems": 10,
                                 "items": {
                                     "type": "string"
                                 },
-                                "description": "Credential types this root can accredit issuers for"
+                                "description": "Credential types this root can accredit issuers for",
+                                "examples": [
+                                    [
+                                        "ContentAuthenticityCredential",
+                                        "C2PAAssertion"
+                                    ],
+                                    [
+                                        "UserReputationCredential",
+                                        "PlatformEndorsement"
+                                    ]
+                                ]
                             },
                             "trustLevels": {
                                 "type": "array",
                                 "items": {
                                     "type": "string"
                                 },
-                                "description": "Trust levels this root authority recognizes"
+                                "description": "Trust levels this root authority recognizes",
+                                "examples": [
+                                    [
+                                        "bronze",
+                                        "silver",
+                                        "gold",
+                                        "platinum"
+                                    ],
+                                    [
+                                        "basic",
+                                        "intermediate",
+                                        "advanced"
+                                    ]
+                                ]
                             }
                         },
                         "required": [
                             "standardId",
                             "schemaTypes"
-                        ]
+                        ],
+                        "additionalProperties": false
                     },
                     "description": "Accreditation standards this root authority supports"
                 },
@@ -6836,42 +9018,84 @@ export const SCHEMA_REGISTRY = {
                         "recognizedRoots": {
                             "type": "array",
                             "items": {
-                                "type": "string"
+                                "type": "string",
+                                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
                             },
-                            "description": "DIDs of other root authorities this root recognizes"
+                            "description": "DIDs of other root authorities this root recognizes",
+                            "examples": [
+                                [
+                                    "did:web:trust.contentauthenticity.org",
+                                    "did:ethr:0xCreatorCollective"
+                                ],
+                                [
+                                    "did:cheqd:testnet:academic-root",
+                                    "did:web:credentials.university.edu"
+                                ]
+                            ]
                         },
                         "crossChainValidation": {
                             "type": "boolean",
-                            "description": "Whether this root supports cross-chain credential validation"
+                            "description": "Whether this root supports cross-chain credential validation",
+                            "examples": [
+                                true,
+                                false
+                            ]
                         },
                         "federationMember": {
                             "type": "string",
-                            "description": "Federation or consortium this root belongs to (optional)"
+                            "minLength": 3,
+                            "maxLength": 100,
+                            "description": "Federation or consortium this root belongs to (optional)",
+                            "examples": [
+                                "Open Verifiable Trust Federation",
+                                "Academic Credential Network",
+                                "Supply Chain Trust Consortium"
+                            ]
                         }
-                    }
+                    },
+                    "additionalProperties": false
                 },
                 "blockchainAnchoring": {
                     "type": "object",
                     "properties": {
                         "blockchainNetwork": {
                             "type": "string",
-                            "examples": [
+                            "enum": [
                                 "cheqd-mainnet",
+                                "cheqd-testnet",
                                 "ethereum",
                                 "polygon",
                                 "hyperledger-indy"
                             ],
-                            "description": "Blockchain network where this root is anchored"
+                            "description": "Blockchain network where this root is anchored",
+                            "examples": [
+                                "cheqd-mainnet",
+                                "ethereum",
+                                "polygon"
+                            ]
                         },
                         "resourceId": {
                             "type": "string",
-                            "description": "Blockchain resource ID for this root authority"
+                            "minLength": 10,
+                            "maxLength": 300,
+                            "description": "Blockchain resource ID for this root authority",
+                            "examples": [
+                                "did:cheqd:mainnet:originvault-namespace-root/resources/root-declaration-abc123",
+                                "did:ethr:0xCommunityCollective456/resources/community-root-def456"
+                            ]
                         },
                         "registrationProof": {
                             "type": "string",
-                            "description": "Cryptographic proof of blockchain registration"
+                            "minLength": 10,
+                            "maxLength": 200,
+                            "description": "Cryptographic proof of blockchain registration",
+                            "examples": [
+                                "0x1234567890abcdef...",
+                                "z8mRi2pN7kL3sT9xE4wQ6uY1vC5nM2jA8oF7"
+                            ]
                         }
-                    }
+                    },
+                    "additionalProperties": false
                 }
             },
             "required": [
@@ -6880,13 +9104,177 @@ export const SCHEMA_REGISTRY = {
                 "scope",
                 "trustChainPurpose",
                 "governanceModel"
-            ]
+            ],
+            "additionalProperties": false
         },
         "proof": {
             "type": "object",
             "description": "Cryptographic proof of the root authority declaration"
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern type",
+            "examples": [
+                "federated",
+                "self-sovereign",
+                "hybrid"
+            ]
+        },
+        "governanceModel": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "dao",
+                        "committee",
+                        "consensus",
+                        "hierarchical"
+                    ],
+                    "description": "Governance model for this root authority"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+                    },
+                    "description": "DIDs of governance participants"
+                }
+            },
+            "examples": [
+                {
+                    "type": "dao",
+                    "participants": [
+                        "did:cheqd:mainnet:governance-council-001"
+                    ]
+                },
+                {
+                    "type": "consensus",
+                    "participants": [
+                        "did:ethr:0xCreator1",
+                        "did:ethr:0xCreator2"
+                    ]
+                }
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+            },
+            "description": "Chain of trust delegation (for root authority, typically just itself)",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:originvault-namespace-root"
+                ],
+                [
+                    "did:ethr:0xCommunityCollective456"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500,
+            "description": "Contextual information about the trust chain purpose and scope",
+            "examples": [
+                "Multi-root trust architecture enabling diverse authority models for content authenticity",
+                "Community-governed reputation system for independent creators",
+                "Enterprise trust framework for supply chain verification"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "Schema version for tracking evolution"
+                },
+                "schemaType": {
+                    "type": "string",
+                    "const": "RootAuthority",
+                    "description": "Schema type identifier for BFF integration"
+                },
+                "bffIntegration": {
+                    "type": "boolean",
+                    "description": "Indicates if schema supports BFF integration patterns"
+                }
+            },
+            "examples": [
+                {
+                    "version": "1.0.0",
+                    "schemaType": "RootAuthority",
+                    "bffIntegration": true
+                }
+            ]
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the root authority declaration was created",
+            "examples": [
+                "2025-01-14T12:00:00Z",
+                "2025-01-14T14:30:45.123Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the root authority declaration was last updated",
+            "examples": [
+                "2025-01-14T12:00:00Z",
+                "2025-01-14T14:30:45.123Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "transactionHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Blockchain transaction hash for this root authority declaration"
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number where transaction was confirmed"
+                },
+                "networkId": {
+                    "type": "string",
+                    "enum": [
+                        "cheqd:mainnet",
+                        "cheqd:testnet",
+                        "ethereum:mainnet",
+                        "ethereum:sepolia"
+                    ],
+                    "description": "Blockchain network identifier"
+                },
+                "lastSynced": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last blockchain synchronization timestamp"
+                }
+            },
+            "examples": [
+                {
+                    "transactionHash": "0xabc123def456...",
+                    "blockNumber": 12345678,
+                    "networkId": "cheqd:mainnet",
+                    "lastSynced": "2025-01-14T12:01:00Z"
+                }
+            ]
         }
-    }
+    },
+    "additionalProperties": false
 },
   "ServiceLevelAgreement": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -7465,10 +9853,146 @@ export const SCHEMA_REGISTRY = {
 },
   "TrustedIssuer": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld",
+        "https://adrs.originvault.box/contexts/adr-context.jsonld"
+    ],
     "$id": "https://schemas.originvault.box/TrustedIssuer",
     "title": "Trusted Issuer Accreditation",
-    "description": "Verifiable Accreditation for trusted issuers within any trust chain, following cheqd DTC patterns for namespace-based trust hierarchies.",
+    "description": "Verifiable Accreditation for trusted issuers within any trust chain, following cheqd DTC patterns for namespace-based trust hierarchies and multi-root architecture.",
     "type": "object",
+    "examples": [
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld",
+                "https://adrs.originvault.box/contexts/adr-context.jsonld"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "VerifiableAccreditation",
+                "TrustedIssuerAccreditation"
+            ],
+            "issuer": {
+                "id": "did:cheqd:mainnet:namespace-root-originvault-box",
+                "name": "OriginVault Namespace Authority",
+                "rootType": "namespace"
+            },
+            "issuanceDate": "2025-01-14T10:30:00Z",
+            "expirationDate": "2026-01-14T10:30:00Z",
+            "credentialSubject": {
+                "id": "did:cheqd:mainnet:content-studio-issuer-123",
+                "accreditedFor": [
+                    {
+                        "namespaceId": "content-authenticity",
+                        "schemaId": "https://schemas.originvault.box/ContentAuthenticityCredential",
+                        "types": [
+                            "VerifiableCredential",
+                            "ContentAuthenticityCredential"
+                        ],
+                        "validUntil": "2026-01-14T10:30:00Z"
+                    }
+                ],
+                "trustLevel": "gold",
+                "blockchainResourceId": "did:cheqd:mainnet:content-studio-issuer-123/resources/issuer-accreditation-abc123"
+            },
+            "termsOfUse": {
+                "type": "AccreditationPolicy",
+                "rootAuthorisation": "did:ov:namespace-root/resources/originvault-namespace-authorization",
+                "trustChainScope": "content-authenticity",
+                "governanceFramework": "https://governance.originvault.box/trust-chain-governance-v1"
+            },
+            "rootType": "namespace",
+            "governanceModel": {
+                "type": "dao",
+                "participants": [
+                    "did:cheqd:mainnet:governance-council-789"
+                ]
+            },
+            "delegationChain": [
+                "did:ov:namespace-root",
+                "did:cheqd:mainnet:namespace-root-originvault-box"
+            ],
+            "trustChainContext": "Multi-root trust architecture supporting diverse authority models",
+            "architecturalRationale": "trustedIssuerStrategy",
+            "principleAlignment": [
+                "proofFirstTrust",
+                "communityCollaboration",
+                "securityFirst"
+            ],
+            "metadata": {
+                "version": "1.0.0",
+                "schemaType": "TrustedIssuer",
+                "bffIntegration": true
+            },
+            "createdAt": "2025-01-14T10:30:00Z",
+            "updatedAt": "2025-01-14T10:30:00Z",
+            "blockchainSync": {
+                "transactionHash": "0xabc123def456...",
+                "blockNumber": 12345678,
+                "networkId": "cheqd:mainnet",
+                "lastSynced": "2025-01-14T10:31:00Z"
+            }
+        },
+        {
+            "@context": [
+                "https://www.w3.org/ns/credentials/v2",
+                "https://schema.org",
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld",
+                "https://adrs.originvault.box/contexts/adr-context.jsonld"
+            ],
+            "type": [
+                "VerifiableCredential",
+                "VerifiableAccreditation",
+                "TrustedIssuerAccreditation"
+            ],
+            "issuer": {
+                "id": "did:ethr:0x456789",
+                "name": "Independent Creator Collective",
+                "rootType": "community"
+            },
+            "issuanceDate": "2025-01-14T15:45:00Z",
+            "credentialSubject": {
+                "id": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+                "accreditedFor": [
+                    {
+                        "namespaceId": "creator-reputation",
+                        "schemaId": "https://schemas.originvault.box/CreatorReputationCredential",
+                        "types": [
+                            "VerifiableCredential",
+                            "CreatorReputationCredential"
+                        ]
+                    }
+                ],
+                "trustLevel": "silver"
+            },
+            "termsOfUse": {
+                "type": "AccreditationPolicy",
+                "rootAuthorisation": "did:ethr:0x789abc/resources/community-root-authorization",
+                "trustChainScope": "creator-reputation"
+            },
+            "rootType": "community",
+            "governanceModel": {
+                "type": "consensus",
+                "participants": [
+                    "did:ethr:0x456789",
+                    "did:ethr:0xabc123"
+                ]
+            },
+            "architecturalRationale": "multiRootArchitecture",
+            "principleAlignment": [
+                "userSovereignty",
+                "communityCollaboration",
+                "privacyByDesign"
+            ]
+        }
+    ],
     "required": [
         "@context",
         "type",
@@ -7484,9 +10008,22 @@ export const SCHEMA_REGISTRY = {
                 "type": "string"
             },
             "default": [
-                "https://www.w3.org/2018/credentials/v1",
+                "https://www.w3.org/ns/credentials/v2",
                 "https://schema.org",
-                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+                "https://w3id.org/security/multikey/v1",
+                "https://schemas.originvault.box/contexts/trust-chain-core.jsonld",
+                "https://adrs.originvault.box/contexts/adr-context.jsonld"
+            ],
+            "description": "JSON-LD context for interoperability with verifiable credentials and linked data ecosystems",
+            "examples": [
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schema.org"
+                ],
+                [
+                    "https://www.w3.org/ns/credentials/v2",
+                    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+                ]
             ]
         },
         "type": {
@@ -7498,6 +10035,18 @@ export const SCHEMA_REGISTRY = {
                 "VerifiableCredential",
                 "VerifiableAccreditation",
                 "TrustedIssuerAccreditation"
+            ],
+            "description": "Credential types following W3C Verifiable Credentials specification",
+            "examples": [
+                [
+                    "VerifiableCredential",
+                    "VerifiableAccreditation",
+                    "TrustedIssuerAccreditation"
+                ],
+                [
+                    "VerifiableCredential",
+                    "TrustedIssuerAccreditation"
+                ]
             ]
         },
         "issuer": {
@@ -7505,12 +10054,26 @@ export const SCHEMA_REGISTRY = {
             "properties": {
                 "id": {
                     "type": "string",
-                    "pattern": "^did:",
-                    "description": "DID of the issuing authority - could be any namespace root, platform root, or user root"
+                    "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                    "minLength": 20,
+                    "maxLength": 200,
+                    "description": "DID of the issuing authority - could be any namespace root, platform root, or user root",
+                    "examples": [
+                        "did:cheqd:mainnet:namespace-root-originvault-box",
+                        "did:ethr:0x456789abc123",
+                        "did:web:governance.originvault.box"
+                    ]
                 },
                 "name": {
                     "type": "string",
-                    "description": "Name of the issuing authority"
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "description": "Name of the issuing authority",
+                    "examples": [
+                        "OriginVault Namespace Authority",
+                        "Independent Creator Collective",
+                        "Enterprise Trust Council"
+                    ]
                 },
                 "rootType": {
                     "type": "string",
@@ -7522,38 +10085,63 @@ export const SCHEMA_REGISTRY = {
                         "community",
                         "concept"
                     ],
-                    "description": "Type of root authority issuing this accreditation"
+                    "description": "Type of root authority issuing this accreditation",
+                    "examples": [
+                        "namespace",
+                        "community",
+                        "organization"
+                    ]
                 }
             },
             "required": [
                 "id"
-            ]
+            ],
+            "additionalProperties": false
         },
         "issuanceDate": {
             "type": "string",
             "format": "date-time",
-            "description": "When the accreditation was issued"
+            "description": "When the accreditation was issued",
+            "examples": [
+                "2025-01-14T10:30:00Z",
+                "2025-01-14T15:45:30.123Z"
+            ]
         },
         "expirationDate": {
             "type": "string",
             "format": "date-time",
-            "description": "When the accreditation expires"
+            "description": "When the accreditation expires",
+            "examples": [
+                "2026-01-14T10:30:00Z",
+                "2025-12-31T23:59:59Z"
+            ]
         },
         "credentialSubject": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "string",
-                    "pattern": "^did:",
-                    "description": "DID of the accredited trusted issuer"
+                    "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                    "minLength": 20,
+                    "maxLength": 200,
+                    "description": "DID of the accredited trusted issuer",
+                    "examples": [
+                        "did:cheqd:mainnet:content-studio-issuer-123",
+                        "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+                        "did:web:issuer.contentplatform.com"
+                    ]
                 },
                 "accreditedFor": {
                     "type": "array",
+                    "minItems": 1,
+                    "maxItems": 20,
                     "items": {
                         "type": "object",
                         "properties": {
                             "namespaceId": {
                                 "type": "string",
+                                "minLength": 3,
+                                "maxLength": 100,
                                 "description": "Namespace or domain for which the issuer is accredited",
                                 "examples": [
                                     "originvault.box",
@@ -7564,6 +10152,8 @@ export const SCHEMA_REGISTRY = {
                             },
                             "schemaId": {
                                 "type": "string",
+                                "minLength": 10,
+                                "maxLength": 300,
                                 "description": "Schema ID for which the issuer is accredited",
                                 "examples": [
                                     "did:cheqd:testnet:8ea036da-f340-480d-8952-f5561ea1763c/resources/b10146d7-0d0f-41e0-8ee3-c76db64890be",
@@ -7572,6 +10162,8 @@ export const SCHEMA_REGISTRY = {
                             },
                             "types": {
                                 "type": "array",
+                                "minItems": 1,
+                                "maxItems": 10,
                                 "items": {
                                     "type": "string"
                                 },
@@ -7598,14 +10190,19 @@ export const SCHEMA_REGISTRY = {
                             "validUntil": {
                                 "type": "string",
                                 "format": "date-time",
-                                "description": "Expiration date of this specific accreditation"
+                                "description": "Expiration date of this specific accreditation",
+                                "examples": [
+                                    "2026-01-14T10:30:00Z",
+                                    "2025-12-31T23:59:59Z"
+                                ]
                             }
                         },
                         "required": [
                             "namespaceId",
                             "schemaId",
                             "types"
-                        ]
+                        ],
+                        "additionalProperties": false
                     },
                     "description": "List of accreditations granted to this issuer"
                 },
@@ -7617,17 +10214,29 @@ export const SCHEMA_REGISTRY = {
                         "gold",
                         "platinum"
                     ],
-                    "description": "Trust level assigned within this trust chain"
+                    "description": "Trust level assigned within this trust chain",
+                    "examples": [
+                        "gold",
+                        "silver",
+                        "platinum"
+                    ]
                 },
                 "blockchainResourceId": {
                     "type": "string",
-                    "description": "DID-Linked Resource ID on blockchain (cheqd, ethereum, etc.)"
+                    "minLength": 10,
+                    "maxLength": 300,
+                    "description": "DID-Linked Resource ID on blockchain (cheqd, ethereum, etc.)",
+                    "examples": [
+                        "did:cheqd:mainnet:content-studio-issuer-123/resources/issuer-accreditation-abc123",
+                        "did:ethr:0x456789/resources/platform-trust-authorization-def456"
+                    ]
                 }
             },
             "required": [
                 "id",
                 "accreditedFor"
-            ]
+            ],
+            "additionalProperties": false
         },
         "termsOfUse": {
             "type": "object",
@@ -7639,6 +10248,8 @@ export const SCHEMA_REGISTRY = {
                 },
                 "parentAccreditation": {
                     "type": "string",
+                    "minLength": 10,
+                    "maxLength": 300,
                     "description": "DID URL of the parent accreditation in the trust chain (if not a root)",
                     "examples": [
                         "did:cheqd:mainnet:namespace-root/resources/18de60ec-bed1-42e5-980c-601c432bc60b",
@@ -7647,6 +10258,8 @@ export const SCHEMA_REGISTRY = {
                 },
                 "rootAuthorisation": {
                     "type": "string",
+                    "minLength": 10,
+                    "maxLength": 300,
                     "description": "DID URL of the root authority for this trust chain",
                     "examples": [
                         "did:ov:namespace-root/resources/originvault-namespace-authorization",
@@ -7656,6 +10269,8 @@ export const SCHEMA_REGISTRY = {
                 },
                 "trustChainScope": {
                     "type": "string",
+                    "minLength": 3,
+                    "maxLength": 100,
                     "description": "Scope or purpose of this trust chain",
                     "examples": [
                         "content-authenticity",
@@ -7667,20 +10282,232 @@ export const SCHEMA_REGISTRY = {
                 },
                 "governanceFramework": {
                     "type": "string",
-                    "description": "Reference to governance policies for this trust chain"
+                    "minLength": 10,
+                    "maxLength": 300,
+                    "description": "Reference to governance policies for this trust chain",
+                    "examples": [
+                        "https://governance.originvault.box/trust-chain-governance-v1",
+                        "did:web:governance.contentplatform.com/resources/trust-policy-v2"
+                    ]
                 }
             },
             "required": [
                 "type",
                 "rootAuthorisation",
                 "trustChainScope"
-            ]
+            ],
+            "additionalProperties": false
         },
         "proof": {
             "type": "object",
             "description": "Cryptographic proof of the accreditation"
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern type",
+            "examples": [
+                "delegated",
+                "federated",
+                "hybrid"
+            ]
+        },
+        "governanceModel": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "dao",
+                        "committee",
+                        "consensus",
+                        "hierarchical"
+                    ],
+                    "description": "Governance model for this trust relationship"
+                },
+                "participants": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+                    },
+                    "description": "DIDs of governance participants"
+                }
+            },
+            "examples": [
+                {
+                    "type": "dao",
+                    "participants": [
+                        "did:cheqd:mainnet:governance-council-789"
+                    ]
+                },
+                {
+                    "type": "consensus",
+                    "participants": [
+                        "did:ethr:0x456789",
+                        "did:ethr:0xabc123"
+                    ]
+                }
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$"
+            },
+            "description": "Chain of trust delegation from root to current authority",
+            "examples": [
+                [
+                    "did:ov:namespace-root",
+                    "did:cheqd:mainnet:namespace-root-originvault-box"
+                ],
+                [
+                    "did:ethr:platform-root",
+                    "did:ethr:regional-authority",
+                    "did:ethr:local-issuer"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500,
+            "description": "Contextual information about the trust chain purpose and scope",
+            "examples": [
+                "Multi-root trust architecture supporting diverse authority models",
+                "Content authenticity verification chain for creative industries",
+                "Community-governed reputation system for decentralized platforms"
+            ]
+        },
+        "architecturalRationale": {
+            "type": "string",
+            "description": "Reference to ADR explaining the architectural decisions behind this trust pattern",
+            "examples": [
+                "trustedIssuerStrategy",
+                "multiRootArchitecture"
+            ]
+        },
+        "principleAlignment": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "creatorFirst",
+                    "userSovereignty",
+                    "proofFirstTrust",
+                    "inclusiveIntegration",
+                    "communityCollaboration",
+                    "empowermentOverExtraction",
+                    "privacyByDesign",
+                    "modularOpenSource",
+                    "securityFirst",
+                    "resilienceByDesign"
+                ]
+            },
+            "description": "OriginVault mission principles that this trust pattern implements",
+            "examples": [
+                [
+                    "proofFirstTrust",
+                    "communityCollaboration",
+                    "securityFirst"
+                ],
+                [
+                    "userSovereignty",
+                    "privacyByDesign",
+                    "modularOpenSource"
+                ]
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "Schema version for tracking evolution"
+                },
+                "schemaType": {
+                    "type": "string",
+                    "const": "TrustedIssuer",
+                    "description": "Schema type identifier for BFF integration"
+                },
+                "bffIntegration": {
+                    "type": "boolean",
+                    "description": "Indicates if schema supports BFF integration patterns"
+                }
+            },
+            "examples": [
+                {
+                    "version": "1.0.0",
+                    "schemaType": "TrustedIssuer",
+                    "bffIntegration": true
+                }
+            ]
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the accreditation was created",
+            "examples": [
+                "2025-01-14T10:30:00Z",
+                "2025-01-14T15:45:30.123Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the accreditation was last updated",
+            "examples": [
+                "2025-01-14T10:30:00Z",
+                "2025-01-14T15:45:30.123Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "transactionHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Blockchain transaction hash for this accreditation"
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number where transaction was confirmed"
+                },
+                "networkId": {
+                    "type": "string",
+                    "enum": [
+                        "cheqd:mainnet",
+                        "cheqd:testnet",
+                        "ethereum:mainnet",
+                        "ethereum:sepolia"
+                    ],
+                    "description": "Blockchain network identifier"
+                },
+                "lastSynced": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last blockchain synchronization timestamp"
+                }
+            },
+            "examples": [
+                {
+                    "transactionHash": "0xabc123def456...",
+                    "blockNumber": 12345678,
+                    "networkId": "cheqd:mainnet",
+                    "lastSynced": "2025-01-14T10:31:00Z"
+                }
+            ]
         }
-    }
+    },
+    "additionalProperties": false
 },
   "TrustGate": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -7732,6 +10559,11 @@ export const SCHEMA_REGISTRY = {
 },
   "TrustScore": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://schemas.originvault.box/contexts/v1"
+    ],
     "$id": "https://schemas.originvault.box/TrustScore",
     "title": "Trust Score",
     "description": "Represents a calculated trust score for a DID based on blockchain accreditations and local endorsements.",
@@ -10182,33 +13014,267 @@ export const SCHEMA_REGISTRY = {
 },
   "VaultDeclaration": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/v1"
+    ],
     "$id": "https://schemas.originvault.io/VaultDeclaration",
     "title": "Vault DID Declaration",
-    "description": "Defines an OV Vault's ownership, governance, and access policies.",
+    "description": "Defines an OV Vault's ownership, governance, and access policies with multi-root trust and BFF integration support.",
     "type": "object",
+    "examples": [
+        {
+            "@type": "VaultDeclaration",
+            "id": "did:cheqd:mainnet:vault:alice-content-studio",
+            "type": "VaultDID",
+            "owner": "did:cheqd:mainnet:alice-creator-001",
+            "cluster": "did:cheqd:mainnet:cluster:us-east-primary",
+            "storageNodes": [
+                "did:cheqd:mainnet:storage:node-001",
+                "did:cheqd:mainnet:storage:node-002"
+            ],
+            "rootType": "delegated",
+            "governanceModel": "hierarchical",
+            "delegationChain": [
+                "did:cheqd:mainnet:root-authority",
+                "did:cheqd:mainnet:cluster:us-east-primary"
+            ],
+            "trustChainContext": "https://schemas.originvault.box/trust/v1",
+            "metadata": {
+                "version": "1.0.0",
+                "schemaVersion": "2024-06-25",
+                "category": "vault-infrastructure"
+            },
+            "createdAt": "2024-06-25T10:30:00Z",
+            "updatedAt": "2024-06-25T10:30:00Z",
+            "blockchainSync": {
+                "lastSyncAt": "2024-06-25T10:30:00Z",
+                "txHash": "0x1a2b3c4d5e6f...",
+                "blockNumber": 123456
+            },
+            "accessPolicies": {
+                "readAccess": [
+                    "did:cheqd:mainnet:alice-creator-001"
+                ],
+                "writeAccess": [
+                    "did:cheqd:mainnet:alice-creator-001"
+                ],
+                "publicAccess": false
+            },
+            "governance": {
+                "governedBy": "did:cheqd:mainnet:alice-creator-001",
+                "disputeResolution": "did:cheqd:mainnet:dispute-service-001"
+            },
+            "timestamp": "2024-06-25T10:30:00Z"
+        }
+    ],
     "properties": {
+        "@type": {
+            "type": "string",
+            "const": "VaultDeclaration",
+            "description": "JSON-LD type identifier for semantic interoperability.",
+            "examples": [
+                "VaultDeclaration"
+            ]
+        },
         "id": {
             "type": "string",
-            "description": "The DID of the vault."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "The DID of the vault.",
+            "examples": [
+                "did:cheqd:mainnet:vault:alice-content-studio"
+            ]
         },
         "type": {
             "const": "VaultDID",
-            "description": "Indicates this is a Vault DID declaration."
+            "description": "Indicates this is a Vault DID declaration.",
+            "examples": [
+                "VaultDID"
+            ]
+        },
+        "rootType": {
+            "type": "string",
+            "enum": [
+                "self-sovereign",
+                "delegated",
+                "federated",
+                "hybrid"
+            ],
+            "description": "Multi-root trust pattern: how this vault establishes its root of trust.",
+            "examples": [
+                "delegated"
+            ]
+        },
+        "governanceModel": {
+            "type": "string",
+            "enum": [
+                "hierarchical",
+                "democratic",
+                "consensus",
+                "autonomous"
+            ],
+            "description": "Multi-root trust pattern: governance model for trust decisions.",
+            "examples": [
+                "hierarchical"
+            ]
+        },
+        "delegationChain": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+"
+            },
+            "minItems": 1,
+            "maxItems": 10,
+            "description": "Multi-root trust pattern: chain of authority delegation from root to this vault.",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:root-authority",
+                    "did:cheqd:mainnet:cluster:us-east-primary"
+                ]
+            ]
+        },
+        "trustChainContext": {
+            "type": "string",
+            "format": "uri",
+            "description": "Multi-root trust pattern: URI to the trust chain context document.",
+            "examples": [
+                "https://schemas.originvault.box/trust/v1"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                    "description": "BFF Integration: Schema version for API compatibility.",
+                    "examples": [
+                        "1.0.0"
+                    ]
+                },
+                "schemaVersion": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "BFF Integration: Schema release date for version tracking.",
+                    "examples": [
+                        "2024-06-25"
+                    ]
+                },
+                "category": {
+                    "type": "string",
+                    "enum": [
+                        "vault-infrastructure",
+                        "vault-content",
+                        "vault-governance"
+                    ],
+                    "description": "BFF Integration: Category for API routing and filtering.",
+                    "examples": [
+                        "vault-infrastructure"
+                    ]
+                }
+            },
+            "required": [
+                "version",
+                "schemaVersion",
+                "category"
+            ],
+            "description": "BFF Integration: Metadata for API integration and versioning.",
+            "additionalProperties": false
+        },
+        "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "BFF Integration: Creation timestamp for audit trails.",
+            "examples": [
+                "2024-06-25T10:30:00Z"
+            ]
+        },
+        "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "BFF Integration: Last update timestamp for change tracking.",
+            "examples": [
+                "2024-06-25T10:30:00Z"
+            ]
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "lastSyncAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last successful blockchain synchronization timestamp.",
+                    "examples": [
+                        "2024-06-25T10:30:00Z"
+                    ]
+                },
+                "txHash": {
+                    "type": "string",
+                    "pattern": "^0x[a-fA-F0-9]{64}$",
+                    "description": "Transaction hash of the last blockchain update.",
+                    "examples": [
+                        "0x1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890"
+                    ]
+                },
+                "blockNumber": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Block number of the last blockchain update.",
+                    "examples": [
+                        123456
+                    ]
+                }
+            },
+            "required": [
+                "lastSyncAt",
+                "txHash",
+                "blockNumber"
+            ],
+            "description": "BFF Integration: Blockchain synchronization status for distributed systems.",
+            "additionalProperties": false
         },
         "owner": {
             "type": "string",
-            "description": "The DID of the user or organization that owns this vault."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "The DID of the user or organization that owns this vault.",
+            "examples": [
+                "did:cheqd:mainnet:alice-creator-001"
+            ]
         },
         "cluster": {
             "type": "string",
-            "description": "The DID of the OV cluster managing this vault."
+            "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+            "minLength": 10,
+            "maxLength": 200,
+            "description": "The DID of the OV cluster managing this vault.",
+            "examples": [
+                "did:cheqd:mainnet:cluster:us-east-primary"
+            ]
         },
         "storageNodes": {
             "type": "array",
             "items": {
-                "type": "string"
+                "type": "string",
+                "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+                "minLength": 10,
+                "maxLength": 200
             },
-            "description": "List of Storage Node DIDs storing this vault's data."
+            "minItems": 1,
+            "maxItems": 100,
+            "description": "List of Storage Node DIDs storing this vault's data.",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:storage:node-001",
+                    "did:cheqd:mainnet:storage:node-002"
+                ]
+            ]
         },
         "linkedResources": {
             "type": "array",
@@ -10291,12 +13357,23 @@ export const SCHEMA_REGISTRY = {
         }
     },
     "required": [
+        "@type",
         "id",
+        "type",
         "owner",
         "cluster",
         "storageNodes",
+        "rootType",
+        "governanceModel",
+        "delegationChain",
+        "trustChainContext",
+        "metadata",
+        "createdAt",
+        "updatedAt",
+        "blockchainSync",
         "timestamp"
-    ]
+    ],
+    "additionalProperties": false
 },
   "VaultOperator": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -10716,14 +13793,14 @@ export const SCHEMA_REGISTRY = {
 } as const;
 
 export const SCHEMA_HASHES = {
-  "Admin": "dbecfc2f9ba4ddee",
+  "Admin": "1cff5468079ce2bd",
   "AIConfig": "5ef397ced24cdca3",
   "AIModelTrainingAgreement": "d70d5e16308ccf8d",
   "ClaimVerification": "8c058d044fcd001f",
   "ClusterGovernance": "62c5014d52f68559",
   "ClusterRegistration": "5d8c277223ead6d4",
   "CommunityMember": "f31f34eeef429802",
-  "ComputeNode": "0d8cdc9aea4d8d5f",
+  "ComputeNode": "3db9f0d9fb7f5e9d",
   "ContentAIPermissionAssertionCredential": "ed866ace505ab926",
   "ContentAuthenticityAssertionCredential": "50dd17007a5a6a78",
   "ContentExtendedMetadata": "b49f9344bdb80aa5",
@@ -10735,13 +13812,13 @@ export const SCHEMA_HASHES = {
   "DataChamberEnrollment": "23f6d0638d0c8ac8",
   "Developer": "02974c14c63e11ad",
   "DevelopmentEnvironmentMetadata": "be04335e0377a54e",
-  "DIDAssertionCredential": "cff1c6c01b61ed5d",
-  "DIDDeclaration": "c230e82498e5853b",
+  "DIDAssertionCredential": "81aa4db720cd413e",
+  "DIDDeclaration": "bdafb6c078563664",
   "DigitalDocument": "ff51dfc7f5be546d",
-  "EndorsementRecord": "61a979e8f740da6d",
+  "EndorsementRecord": "b08263e684b31d80",
   "ExternalBuyerAgreement": "bcfdf4e67f303575",
   "ExternalDataAccess": "8c3f1348f12c54e0",
-  "GemDeclaration": "d18f185813d1f74d",
+  "GemDeclaration": "946299fba3a3dfce",
   "GemIssuanceRecord": "4ce38cdb71fafad0",
   "GemReputationScore": "ea1355ba16f9824b",
   "GemRevocationRecord": "ac64a6580d028546",
@@ -10751,7 +13828,7 @@ export const SCHEMA_HASHES = {
   "IdentityClaimsAggregationCredential": "aecfb058814aabc9",
   "IdentityNodeDeclaration": "48d1ac51963b218d",
   "LanguageConfiguration": "eb5fa9b073bc5550",
-  "NamespaceDeclaration": "c0c169189def2988",
+  "NamespaceDeclaration": "b04530e5d30eb4d6",
   "NamespaceGovernance": "96031fb8a9d0998d",
   "NamespaceParticipationAgreement": "d5acef2e23cae53e",
   "NamespacePluginDeclaration": "ebad72472aa2b5c9",
@@ -10759,7 +13836,7 @@ export const SCHEMA_HASHES = {
   "NamespaceRecognitionCertificate": "e8ff57e3052fd0e6",
   "NamespaceReputationRecord": "79733616a7048087",
   "NodeClusterDeclaration": "cbf8c467730fccf5",
-  "NodeDeclaration": "e299dd1da080f30b",
+  "NodeDeclaration": "c081cab960f36192",
   "NodeOperatorAgreement": "c7da31c251c984dc",
   "NodeVoting": "298dc987d9f9115b",
   "Owner": "a267eaf3ac918228",
@@ -10772,21 +13849,21 @@ export const SCHEMA_HASHES = {
   "ReferalAgreement": "0eb171e3b32e2df9",
   "RevenuDistribution": "d011f25e3f3c234b",
   "Revocation": "e156647323933e43",
-  "RootAuthority": "2afafb69b1bd0ef0",
+  "RootAuthority": "757243ff467c5ef3",
   "ServiceLevelAgreement": "3a5f60ecb841038c",
   "StorageNodeDeclaration": "34956500c4e271f2",
   "TrustChainDelegation": "e9c92577cc2f726b",
   "TrustDelegation": "92e63377410eda91",
-  "TrustedIssuer": "46e5a8521671b570",
+  "TrustedIssuer": "ba5ee775787ccdb8",
   "TrustGate": "a98178988d66deb1",
-  "TrustScore": "d7935044851cb392",
+  "TrustScore": "0db3ab66474f7c18",
   "TsconfigJson": "e9adda821c2f0a17",
   "VaultAdminAgreement": "e5eae1428ba46fd5",
   "VaultChamberGovernance": "7cbdb4325892710d",
   "VaultChamberPlugin": "b796b46d45134305",
   "VaultChamberTagging": "15f98337ae4033ed",
   "VaultChamberTransaction": "05c23d7c23b61867",
-  "VaultDeclaration": "feaabcf9d6884d81",
+  "VaultDeclaration": "a2037462a0ccab50",
   "VaultOperator": "54302395c476c1f9",
   "VaultPluginInstallationLog": "33dc13f5855a4643",
   "VaultUserAgreement": "11f58cac111cfe05",
@@ -10800,7 +13877,7 @@ export const SCHEMA_METADATA = {
   "Admin": {
     name: "Admin",
     id: "https://schemas.originvault.box/Admin",
-    hash: "dbecfc2f9ba4ddee",
+    hash: "1cff5468079ce2bd",
     version: "1.0.0"
   },
   "AIConfig": {
@@ -10841,8 +13918,8 @@ export const SCHEMA_METADATA = {
   },
   "ComputeNode": {
     name: "ComputeNode",
-    id: "https://schemas.originvault.io/ComputeNodeDeclaration",
-    hash: "0d8cdc9aea4d8d5f",
+    id: "https://schemas.originvault.box/ComputeNodeDeclaration",
+    hash: "3db9f0d9fb7f5e9d",
     version: "1.0.0"
   },
   "ContentAIPermissionAssertionCredential": {
@@ -10914,13 +13991,13 @@ export const SCHEMA_METADATA = {
   "DIDAssertionCredential": {
     name: "DIDAssertionCredential",
     id: "https://schemas.originvault.box/DIDAssertionCredential.schema.json",
-    hash: "cff1c6c01b61ed5d",
+    hash: "81aa4db720cd413e",
     version: "1.0.0"
   },
   "DIDDeclaration": {
     name: "DIDDeclaration",
     id: "https://schemas.originvault.box/DIDDeclaration",
-    hash: "c230e82498e5853b",
+    hash: "bdafb6c078563664",
     version: "1.0.0"
   },
   "DigitalDocument": {
@@ -10932,7 +14009,7 @@ export const SCHEMA_METADATA = {
   "EndorsementRecord": {
     name: "EndorsementRecord",
     id: "https://schemas.originvault.box/EndorsementRecord",
-    hash: "61a979e8f740da6d",
+    hash: "b08263e684b31d80",
     version: "1.0.0"
   },
   "ExternalBuyerAgreement": {
@@ -10950,7 +14027,7 @@ export const SCHEMA_METADATA = {
   "GemDeclaration": {
     name: "GemDeclaration",
     id: "https://schemas.originvault.box/GemDeclaration",
-    hash: "d18f185813d1f74d",
+    hash: "946299fba3a3dfce",
     version: "1.0.0"
   },
   "GemIssuanceRecord": {
@@ -11010,7 +14087,7 @@ export const SCHEMA_METADATA = {
   "NamespaceDeclaration": {
     name: "NamespaceDeclaration",
     id: "https://schemas.originvault.box/NamespaceDeclaration",
-    hash: "c0c169189def2988",
+    hash: "b04530e5d30eb4d6",
     version: "1.0.0"
   },
   "NamespaceGovernance": {
@@ -11058,7 +14135,7 @@ export const SCHEMA_METADATA = {
   "NodeDeclaration": {
     name: "NodeDeclaration",
     id: "https://schemas.originvault.box/NodeDeclaration",
-    hash: "e299dd1da080f30b",
+    hash: "c081cab960f36192",
     version: "1.0.0"
   },
   "NodeOperatorAgreement": {
@@ -11136,7 +14213,7 @@ export const SCHEMA_METADATA = {
   "RootAuthority": {
     name: "RootAuthority",
     id: "https://schemas.originvault.box/RootAuthority",
-    hash: "2afafb69b1bd0ef0",
+    hash: "757243ff467c5ef3",
     version: "1.0.0"
   },
   "ServiceLevelAgreement": {
@@ -11166,7 +14243,7 @@ export const SCHEMA_METADATA = {
   "TrustedIssuer": {
     name: "TrustedIssuer",
     id: "https://schemas.originvault.box/TrustedIssuer",
-    hash: "46e5a8521671b570",
+    hash: "ba5ee775787ccdb8",
     version: "1.0.0"
   },
   "TrustGate": {
@@ -11178,7 +14255,7 @@ export const SCHEMA_METADATA = {
   "TrustScore": {
     name: "TrustScore",
     id: "https://schemas.originvault.box/TrustScore",
-    hash: "d7935044851cb392",
+    hash: "0db3ab66474f7c18",
     version: "1.0.0"
   },
   "TsconfigJson": {
@@ -11220,7 +14297,7 @@ export const SCHEMA_METADATA = {
   "VaultDeclaration": {
     name: "VaultDeclaration",
     id: "https://schemas.originvault.io/VaultDeclaration",
-    hash: "feaabcf9d6884d81",
+    hash: "a2037462a0ccab50",
     version: "1.0.0"
   },
   "VaultOperator": {

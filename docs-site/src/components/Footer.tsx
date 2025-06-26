@@ -1,5 +1,6 @@
 import { Box, Link, useTheme } from '@mui/material';
 import { SocialIcon } from 'react-social-icons';
+import { OVIdViewer } from '@originvault/ov-id-viewer';
 
 const Footer = (props: { isDarkMode?: boolean }) => {
   const theme = useTheme();
@@ -58,6 +59,9 @@ const Footer = (props: { isDarkMode?: boolean }) => {
         alignItems: 'center',
         marginBottom: '10px',
       }}>
+        <Box sx={{ marginRight: "4px" }}>
+          <OVIdViewer did="did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55"  />
+        </Box>
         <SocialIcon 
           fgColor={backgroundColor} 
           bgColor={foregroundColor} 

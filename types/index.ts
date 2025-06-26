@@ -49,7 +49,6 @@ export * from './NodeClusterDeclaration';
 export * from './NodeDeclaration';
 export * from './NodeOperatorAgreement';
 export * from './NodeVoting';
-export * from './OriginVaultRootAuthority';
 export * from './Owner';
 export * from './PackageJson';
 export * from './Persona';

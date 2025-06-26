@@ -5,9 +5,13 @@
  */
 
 /**
- * Defines an OV Node within a cluster.
+ * Defines an OV Node within a cluster with multi-root trust and BFF integration support.
  */
 export interface NodeDeclaration {
+  /**
+   * JSON-LD type identifier for semantic interoperability.
+   */
+  "@type": "NodeDeclaration";
   /**
    * The DID of the node.
    */
@@ -32,6 +36,82 @@ export interface NodeDeclaration {
    * The operational status of the node.
    */
   status: "active" | "suspended" | "revoked";
+  /**
+   * Multi-root trust pattern: how this node establishes its root of trust.
+   */
+  rootType: "self-sovereign" | "delegated" | "federated" | "hybrid";
+  /**
+   * Multi-root trust pattern: governance model for trust decisions.
+   */
+  governanceModel: "hierarchical" | "democratic" | "consensus" | "autonomous";
+  /**
+   * Multi-root trust pattern: chain of authority delegation from root to this node.
+   *
+   * @minItems 1
+   * @maxItems 10
+   */
+  delegationChain:
+    | [string]
+    | [string, string]
+    | [string, string, string]
+    | [string, string, string, string]
+    | [string, string, string, string, string]
+    | [string, string, string, string, string, string]
+    | [string, string, string, string, string, string, string]
+    | [string, string, string, string, string, string, string, string]
+    | [string, string, string, string, string, string, string, string, string]
+    | [string, string, string, string, string, string, string, string, string, string];
+  /**
+   * Multi-root trust pattern: URI to the trust chain context document.
+   */
+  trustChainContext: string;
+  /**
+   * BFF Integration: Metadata for API integration and versioning.
+   */
+  metadata: {
+    /**
+     * BFF Integration: Schema version for API compatibility.
+     */
+    version: string;
+    /**
+     * BFF Integration: Schema release date for version tracking.
+     */
+    schemaVersion: string;
+    /**
+     * BFF Integration: Category for API routing and filtering.
+     */
+    category:
+      | "node-infrastructure"
+      | "node-compute"
+      | "node-storage"
+      | "node-identity"
+      | "node-verification";
+  };
+  /**
+   * BFF Integration: Creation timestamp for audit trails.
+   */
+  createdAt: string;
+  /**
+   * BFF Integration: Last update timestamp for change tracking.
+   */
+  updatedAt: string;
+  /**
+   * BFF Integration: Blockchain synchronization status for distributed systems.
+   */
+  blockchainSync: {
+    /**
+     * Last successful blockchain synchronization timestamp.
+     */
+    lastSyncAt: string;
+    /**
+     * Transaction hash of the last blockchain update.
+     */
+    txHash: string;
+    /**
+     * Block number of the last blockchain update.
+     */
+    blockNumber: number;
+  };
   /**
    * Linked resources associated with this node.
    */

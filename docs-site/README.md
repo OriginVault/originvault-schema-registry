@@ -79,6 +79,179 @@ npm run deploy
 - **CDN deployment** optimized
 - **SEO friendly** with proper meta tags
 
+### **✅ Schema Explorer**
+- **Browse and search through all available JSON schemas**
+- **Generate TypeScript, Python, Go, C#, Java, Rust, and other language types from schemas**
+- **Create types from custom JSON schemas**
+- **Test data against schemas**
+
+### **✅ Direct Schema Resolution**
+- **Direct URLs to access schemas and contexts**
+
+## Routes
+
+### Main Routes
+
+- `/` - Home page
+- `/schemas` - Schema Explorer (main interface)
+- `/quickType` - QuickType Guide
+
+### Resolver Routes
+
+The application provides direct URL resolution for schemas and contexts from the GitHub repository:
+
+#### Schema Resolution
+```
+/schema/{schemaPath}
+```
+
+**Examples:**
+- `/schema/personCore.schema.json` - Resolves to the PersonCore schema
+- `/schema/verifiableCredential.schema.json` - Resolves to the VerifiableCredential schema
+- `/schema/trust-chain/TrustChain.schema.json` - Resolves to nested schema files
+
+#### Context Resolution
+```
+/context/{contextPath}
+```
+
+**Examples:**
+- `/context/adr-context.jsonld` - Resolves to the ADR context
+- `/context/trust-chain-core.jsonld` - Resolves to the Trust Chain Core context
+- `/context/open-verifiable-alignment.jsonld` - Resolves to the Open Verifiable alignment context
+
+#### Well-Known Resolution
+```
+/.well-known/{wellKnownPath}
+```
+
+**Examples:**
+- `/.well-known/did-configuration.json` - Resolves to DID configuration from schemas.originvault.box
+- `/.well-known/did-configuration-resource.json` - Resolves to additional DID configuration resources
+- `/.well-known/other-config.json` - Resolves to other .well-known configuration files
+
+### URL Generation
+
+The application provides utility functions to generate resolver URLs:
+
+```typescript
+import { 
+  generateSchemaResolverUrl, 
+  generateContextResolverUrl, 
+  generateWellKnownResolverUrl,
+  generateDidConfigurationUrl 
+} from './utils/urlUtils'
+
+// Generate schema resolver URL
+const schemaUrl = generateSchemaResolverUrl('personCore.schema.json')
+// Returns: /schema/personCore.schema.json
+
+// Generate context resolver URL
+const contextUrl = generateContextResolverUrl('adr-context.jsonld')
+// Returns: /context/adr-context.jsonld
+
+// Generate .well-known resolver URL
+const wellKnownUrl = generateWellKnownResolverUrl('did-configuration.json')
+// Returns: /.well-known/did-configuration.json
+
+// Generate DID configuration URL for external domain
+const didConfigUrl = generateDidConfigurationUrl('schemas.originvault.box')
+// Returns: https://schemas.originvault.box/.well-known/did-configuration.json
+```
+
+### GitHub Integration
+
+All schemas and contexts are loaded directly from the GitHub repository:
+- **Repository**: https://github.com/OriginVault/originvault-schema-registry
+- **Schema Path**: `schemas/v1/`
+- **Context Path**: `contexts/`
+- **Well-Known Path**: `.well-known/`
+
+**Note**: DID configuration files are loaded from the external domain `schemas.originvault.box` to maintain proper domain verification.
+
+## Usage Examples
+
+### Direct Schema Access
+
+You can directly access any schema using its file path:
+
+```
+https://your-domain.com/schema/personCore.schema.json
+```
+
+This will:
+1. Load the schema from GitHub
+2. Display it in a formatted JSON editor
+3. Show metadata and provide download/copy options
+4. Link to the GitHub source
+
+### Direct Context Access
+
+You can directly access any JSON-LD context:
+
+```
+https://your-domain.com/context/adr-context.jsonld
+```
+
+This will:
+1. Load the context from GitHub
+2. Display it in a formatted JSON editor
+3. Extract and show context terms
+4. Provide download/copy options
+5. Link to the GitHub source
+
+### Direct Well-Known Access
+
+You can directly access .well-known configuration files:
+
+```
+https://your-domain.com/.well-known/did-configuration.json
+```
+
+This will:
+1. Load the DID configuration from schemas.originvault.box
+2. Display it in a formatted JSON editor
+3. Extract and show DID configuration details (domain, DID, validFrom)
+4. Provide download/copy options
+5. Link to the source
+
+### Integration with External Tools
+
+The resolver routes can be used by external tools and applications:
+
+```javascript
+// Example: Loading a schema in another application
+const schemaResponse = await fetch('https://your-domain.com/schema/personCore.schema.json')
+const schema = await schemaResponse.json()
+
+// Example: Loading a context in another application
+const contextResponse = await fetch('https://your-domain.com/context/adr-context.jsonld')
+const context = await contextResponse.json()
+
+// Example: Loading DID configuration
+const didConfigResponse = await fetch('https://your-domain.com/.well-known/did-configuration.json')
+const didConfig = await didConfigResponse.json()
+```
+
+### Example URLs
+
+Here are some example URLs you can test:
+
+**Schemas:**
+- `/schema/personCore.schema.json`
+- `/schema/verifiableCredential.schema.json`
+- `/schema/trust-chain/TrustChain.schema.json`
+- `/schema/trust-chain/TrustChainNode.schema.json`
+
+**Contexts:**
+- `/context/adr-context.jsonld`
+- `/context/trust-chain-core.jsonld`
+- `/context/open-verifiable-alignment.jsonld`
+
+**Well-Known:**
+- `/.well-known/did-configuration.json`
+- `/.well-known/did-configuration-resource.json`
+
 ---
 
 ## 🏗️ **Architecture**
@@ -103,8 +276,9 @@ docs-site/
 │   ├── pages/              # Page components
 │   │   ├── Home.tsx        # Landing page
 │   │   ├── SchemaExplorer.tsx # Interactive explorer
-│   │   ├── Documentation.tsx  # Static docs
-│   │   └── ...
+│   │   ├── SchemaResolver.tsx    # New: Direct schema resolution
+│   │   ├── ContextResolver.tsx   # New: Direct context resolution
+│   │   └── QuickTypeGuide.tsx
 │   ├── test/               # Test files
 │   │   ├── setup.ts        # Test configuration
 │   │   ├── utils/          # Test utilities

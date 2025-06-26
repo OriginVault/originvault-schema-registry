@@ -5,10 +5,16 @@
  */
 
 /**
- * Verifiable Accreditation for trusted issuers within any trust chain, following cheqd DTC patterns for namespace-based trust hierarchies.
+ * Verifiable Accreditation for trusted issuers within any trust chain, following cheqd DTC patterns for namespace-based trust hierarchies and multi-root architecture.
  */
 export interface TrustedIssuerAccreditation {
+  /**
+   * JSON-LD context for interoperability with verifiable credentials and linked data ecosystems
+   */
   "@context": string[];
+  /**
+   * Credential types following W3C Verifiable Credentials specification
+   */
   type: string[];
   issuer: {
     /**
@@ -39,29 +45,7401 @@ export interface TrustedIssuerAccreditation {
     id: string;
     /**
      * List of accreditations granted to this issuer
+     *
+     * @minItems 1
+     * @maxItems 20
      */
-    accreditedFor: {
-      /**
-       * Namespace or domain for which the issuer is accredited
-       */
-      namespaceId: string;
-      /**
-       * Schema ID for which the issuer is accredited
-       */
-      schemaId: string;
-      /**
-       * Credential types the issuer can issue
-       */
-      types: string[];
-      /**
-       * Geographic or regulatory restriction (optional)
-       */
-      limitJurisdiction?: string;
-      /**
-       * Expiration date of this specific accreditation
-       */
-      validUntil?: string;
-    }[];
+    accreditedFor:
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ]
+      | [
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          },
+          {
+            /**
+             * Namespace or domain for which the issuer is accredited
+             */
+            namespaceId: string;
+            /**
+             * Schema ID for which the issuer is accredited
+             */
+            schemaId: string;
+            /**
+             * Credential types the issuer can issue
+             *
+             * @minItems 1
+             * @maxItems 10
+             */
+            types:
+              | [string]
+              | [string, string]
+              | [string, string, string]
+              | [string, string, string, string]
+              | [string, string, string, string, string]
+              | [string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string]
+              | [string, string, string, string, string, string, string, string, string, string];
+            /**
+             * Geographic or regulatory restriction (optional)
+             */
+            limitJurisdiction?: string;
+            /**
+             * Expiration date of this specific accreditation
+             */
+            validUntil?: string;
+          }
+        ];
     /**
      * Trust level assigned within this trust chain
      */
@@ -97,4 +7475,85 @@ export interface TrustedIssuerAccreditation {
    * Cryptographic proof of the accreditation
    */
   proof?: {};
+  /**
+   * Multi-root trust pattern type
+   */
+  rootType?: "self-sovereign" | "delegated" | "federated" | "hybrid";
+  governanceModel?: {
+    /**
+     * Governance model for this trust relationship
+     */
+    type?: "dao" | "committee" | "consensus" | "hierarchical";
+    /**
+     * DIDs of governance participants
+     */
+    participants?: string[];
+  };
+  /**
+   * Chain of trust delegation from root to current authority
+   */
+  delegationChain?: string[];
+  /**
+   * Contextual information about the trust chain purpose and scope
+   */
+  trustChainContext?: string;
+  /**
+   * Reference to ADR explaining the architectural decisions behind this trust pattern
+   */
+  architecturalRationale?: string;
+  /**
+   * OriginVault mission principles that this trust pattern implements
+   */
+  principleAlignment?: (
+    | "creatorFirst"
+    | "userSovereignty"
+    | "proofFirstTrust"
+    | "inclusiveIntegration"
+    | "communityCollaboration"
+    | "empowermentOverExtraction"
+    | "privacyByDesign"
+    | "modularOpenSource"
+    | "securityFirst"
+    | "resilienceByDesign"
+  )[];
+  metadata?: {
+    /**
+     * Schema version for tracking evolution
+     */
+    version?: string;
+    /**
+     * Schema type identifier for BFF integration
+     */
+    schemaType?: "TrustedIssuer";
+    /**
+     * Indicates if schema supports BFF integration patterns
+     */
+    bffIntegration?: boolean;
+  };
+  /**
+   * Timestamp when the accreditation was created
+   */
+  createdAt?: string;
+  /**
+   * Timestamp when the accreditation was last updated
+   */
+  updatedAt?: string;
+  blockchainSync?: {
+    /**
+     * Blockchain transaction hash for this accreditation
+     */
+    transactionHash?: string;
+    /**
+     * Block number where transaction was confirmed
+     */
+    blockNumber?: number;
+    /**
+     * Blockchain network identifier
+     */
+    networkId?: "cheqd:mainnet" | "cheqd:testnet" | "ethereum:mainnet" | "ethereum:sepolia";
+    /**
+     * Last blockchain synchronization timestamp
+     */
+    lastSynced?: string;
+  };
 }
