@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Box, Paper, Typography, CircularProgress, Alert } from '@mui/material'
 import Editor from '@monaco-editor/react'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 interface CodeEditorProps {
   value: string
@@ -125,29 +123,25 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             </Box>
           )}
           <Box sx={{ height: title ? 'calc(100% - 40px)' : '100%', overflow: 'auto' }}>
-            <SyntaxHighlighter
-              language={language}
-              style={oneLight}
-              customStyle={{
+            <Box
+              component="pre"
+              sx={{
                 margin: 0,
-                padding: '16px',
-                background: '#f7fafc',
+                padding: 2,
+                backgroundColor: '#f7fafc',
                 fontSize: '14px',
                 fontFamily: '"JetBrains Mono", "Fira Code", "Consolas", monospace',
                 height: '100%',
-                overflow: 'auto'
-              }}
-              showLineNumbers={true}
-              lineNumberStyle={{
-                minWidth: '3em',
-                paddingRight: '1em',
-                color: '#a0aec0',
-                borderRight: '1px solid #e2e8f0',
-                marginRight: '1em'
+                overflow: 'auto',
+                whiteSpace: 'pre-wrap',
+                lineHeight: 1.5,
+                color: '#2d3748',
+                border: 'none',
+                outline: 'none'
               }}
             >
               {value}
-            </SyntaxHighlighter>
+            </Box>
           </Box>
         </Paper>
       </Box>
