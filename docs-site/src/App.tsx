@@ -59,7 +59,7 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/schemas" element={<SchemaExplorer />} />
             <Route path="/quickType" element={<QuickTypeGuide />} />
-            <Route path="/explore" element={<SchemaExplorer />} />
+            <Route path="/explorer" element={<SchemaExplorer />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
