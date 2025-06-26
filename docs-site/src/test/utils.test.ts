@@ -76,49 +76,55 @@ describe('Utility Functions', () => {
   })
 
   describe('debounce', () => {
-    it('should delay function execution', (done) => {
-      let called = false
-      const debouncedFn = debounce(() => {
-        called = true
-      }, 100)
+    it('should delay function execution', () => {
+      return new Promise<void>((resolve) => {
+        let called = false
+        const debouncedFn = debounce(() => {
+          called = true
+        }, 100)
 
-      debouncedFn()
-      expect(called).toBe(false)
+        debouncedFn()
+        expect(called).toBe(false)
 
-      setTimeout(() => {
-        expect(called).toBe(true)
-        done()
-      }, 150)
+        setTimeout(() => {
+          expect(called).toBe(true)
+          resolve()
+        }, 150)
+      })
     })
 
-    it('should cancel previous calls', (done) => {
-      let callCount = 0
-      const debouncedFn = debounce(() => {
-        callCount++
-      }, 100)
+    it('should cancel previous calls', () => {
+      return new Promise<void>((resolve) => {
+        let callCount = 0
+        const debouncedFn = debounce(() => {
+          callCount++
+        }, 100)
 
-      debouncedFn()
-      debouncedFn()
-      debouncedFn()
+        debouncedFn()
+        debouncedFn()
+        debouncedFn()
 
-      setTimeout(() => {
-        expect(callCount).toBe(1)
-        done()
-      }, 150)
+        setTimeout(() => {
+          expect(callCount).toBe(1)
+          resolve()
+        }, 150)
+      })
     })
 
-    it('should pass arguments correctly', (done) => {
-      let receivedArgs: any[] = []
-      const debouncedFn = debounce((...args: any[]) => {
-        receivedArgs = args
-      }, 50)
+    it('should pass arguments correctly', () => {
+      return new Promise<void>((resolve) => {
+        let receivedArgs: any[] = []
+        const debouncedFn = debounce((...args: any[]) => {
+          receivedArgs = args
+        }, 50)
 
-      debouncedFn('test', 123, { key: 'value' })
+        debouncedFn('test', 123, { key: 'value' })
 
-      setTimeout(() => {
-        expect(receivedArgs).toEqual(['test', 123, { key: 'value' }])
-        done()
-      }, 100)
+        setTimeout(() => {
+          expect(receivedArgs).toEqual(['test', 123, { key: 'value' }])
+          resolve()
+        }, 100)
+      })
     })
   })
 

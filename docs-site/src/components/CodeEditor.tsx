@@ -25,11 +25,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 }) => {
   const editorRef = useRef<any>(null)
   const [monacoError, setMonacoError] = useState<string | null>(null)
-  const [monacoLoading, setMonacoLoading] = useState(true)
 
   const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor
-    setMonacoLoading(false)
     
     try {
       // Configure Monaco Editor theme
@@ -89,17 +87,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   }
 
   const handleBeforeMount = () => {
-    setMonacoLoading(true)
+    // Monaco is starting to load
   }
 
   const handleMount = (editor: any, monaco: any) => {
     handleEditorDidMount(editor, monaco)
-  }
-
-  const handleError = (error: any) => {
-    console.error('Monaco editor error:', error)
-    setMonacoError('Monaco Editor failed to load')
-    setMonacoLoading(false)
   }
 
   if (loading) {

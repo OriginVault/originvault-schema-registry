@@ -41,7 +41,7 @@ describe('Layout', () => {
 
   describe('Accessibility', () => {
     it('should have proper semantic structure', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       // Check semantic elements
       expect(screen.getByRole('banner')).toBeInTheDocument()
@@ -51,7 +51,7 @@ describe('Layout', () => {
     })
 
     it('should have skip link for screen readers', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const skipLink = screen.getByText('Skip to main content')
       expect(skipLink).toBeInTheDocument()
@@ -60,7 +60,7 @@ describe('Layout', () => {
     })
 
     it('should have proper ARIA labels', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       // Check navigation labels
       expect(screen.getByLabelText('Toggle menu')).toBeInTheDocument()
@@ -69,7 +69,7 @@ describe('Layout', () => {
     })
 
     it('should support keyboard navigation', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       // Tab through navigation - use getAllByText to get all Home links and pick the navigation one
       const homeLinks = screen.getAllByText('Home')
@@ -90,7 +90,7 @@ describe('Layout', () => {
     })
 
     it('should indicate current page', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       // Find the navigation link by its href attribute
       const homeLink = screen.getByRole('link', { name: /Home/ })
@@ -103,7 +103,7 @@ describe('Layout', () => {
 
   describe('Navigation', () => {
     it('should render all navigation items', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       expect(screen.getByRole('link', { name: /Home/ })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /Schema Explorer/ })).toBeInTheDocument()
@@ -112,7 +112,7 @@ describe('Layout', () => {
     })
 
     it('should have working navigation links', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const homeLink = screen.getByRole('link', { name: /Home/ })
       const explorerLink = screen.getByRole('link', { name: /Schema Explorer/ })
@@ -126,7 +126,7 @@ describe('Layout', () => {
     })
 
     it('should have external links with proper attributes', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const githubLink = screen.getByLabelText('View on GitHub')
       const schemaLink = screen.getByLabelText('Schema Registry')
@@ -140,7 +140,7 @@ describe('Layout', () => {
 
   describe('Documentation Dropdown', () => {
     it('should toggle dropdown on click', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const docsButton = screen.getByText('Docs')
       expect(docsButton).toHaveAttribute('aria-expanded', 'false')
@@ -164,7 +164,7 @@ describe('Layout', () => {
     })
 
     it('should close dropdown when item is clicked', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const docsButton = screen.getByText('Docs')
       fireEvent.click(docsButton)
@@ -183,7 +183,7 @@ describe('Layout', () => {
     })
 
     it('should have proper dropdown ARIA attributes', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const docsButton = screen.getByText('Docs')
       expect(docsButton).toHaveAttribute('aria-haspopup', 'true')
@@ -198,7 +198,7 @@ describe('Layout', () => {
 
   describe('Mobile Navigation', () => {
     it('should show mobile menu button on small screens', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const mobileButton = screen.getByLabelText('Toggle menu')
       expect(mobileButton).toBeInTheDocument()
@@ -206,7 +206,7 @@ describe('Layout', () => {
     })
 
     it('should toggle mobile menu', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const mobileButton = screen.getByLabelText('Toggle menu')
       expect(mobileButton).toHaveAttribute('aria-expanded', 'false')
@@ -228,7 +228,7 @@ describe('Layout', () => {
     })
 
     it('should close mobile menu when link is clicked', async () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const mobileButton = screen.getByLabelText('Toggle menu')
       fireEvent.click(mobileButton)
@@ -248,7 +248,7 @@ describe('Layout', () => {
     })
 
     it('should show mobile menu button on mobile', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const mobileButtonWrapper = screen.getByLabelText('Toggle menu').parentElement
       expect(mobileButtonWrapper).toHaveClass('md:hidden')
@@ -257,7 +257,7 @@ describe('Layout', () => {
 
   describe('Footer', () => {
     it('should have proper footer structure', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const footer = screen.getByRole('contentinfo')
       expect(footer).toBeInTheDocument()
@@ -267,7 +267,7 @@ describe('Layout', () => {
     })
 
     it('should have working footer links', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       // Use more specific selectors for footer links
       const footer = screen.getByRole('contentinfo')
@@ -281,7 +281,7 @@ describe('Layout', () => {
     })
 
     it('should have external footer links', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const footer = screen.getByRole('contentinfo')
       const schemaLink = footer.querySelector('a[href*="schemas.originvault.box"]')
@@ -296,14 +296,14 @@ describe('Layout', () => {
 
   describe('Responsive Design', () => {
     it('should hide desktop navigation on mobile', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const desktopNav = screen.getByRole('navigation')
       expect(desktopNav).toHaveClass('hidden', 'md:flex')
     })
 
     it('should show mobile menu button on mobile', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const mobileButtonWrapper = screen.getByLabelText('Toggle menu').parentElement
       expect(mobileButtonWrapper).toHaveClass('md:hidden')
@@ -312,7 +312,7 @@ describe('Layout', () => {
 
   describe('Logo and Branding', () => {
     it('should have proper logo structure', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const logoText = screen.getByText('OriginVault')
       expect(logoText).toBeInTheDocument()
@@ -322,7 +322,7 @@ describe('Layout', () => {
     })
 
     it('should have proper logo link', () => {
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       const logoLink = screen.getByText('OriginVault').closest('a')
       expect(logoLink).toHaveAttribute('href', '/')
@@ -334,7 +334,7 @@ describe('Layout', () => {
       // Mock console.error to prevent test noise
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
       
-      renderWithRouter(<Layout />)
+      renderWithRouter(<Layout><div /></Layout>)
       
       // Navigation should still work - use role selector to avoid duplicate text issue
       expect(screen.getByRole('link', { name: /Home/ })).toBeInTheDocument()
@@ -345,12 +345,12 @@ describe('Layout', () => {
 
   describe('Performance', () => {
     it('should not re-render unnecessarily', () => {
-      const { rerender } = renderWithRouter(<Layout />)
+      const { rerender } = renderWithRouter(<Layout><div /></Layout>)
       
       // Re-render with same props
       rerender(
         <BrowserRouter>
-          <Layout />
+          <Layout><div /></Layout>
         </BrowserRouter>
       )
       

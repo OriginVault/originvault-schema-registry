@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import { Container, AppBar, Toolbar, Typography, Button, Box } from '@mui/material'
+import { Container, AppBar, Toolbar, Typography, Button } from '@mui/material'
 import Home from './pages/Home'
 import SchemaExplorer from './pages/SchemaExplorer'
 import Footer from './components/Footer'

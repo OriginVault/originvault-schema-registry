@@ -41,7 +41,6 @@ export interface QuickTypeResult {
 
 class SchemaService {
   private schemaRegistry: SchemaRegistry | null = null
-  private schemas: Schema[] = []
   private cache: Map<string, QuickTypeResult> = new Map()
 
   async loadSchemaRegistry(): Promise<SchemaRegistry> {
@@ -465,65 +464,6 @@ pub struct ${schema.title.replace(/\s+/g, '')} {
               description: "Third-party integration and API access",
               quicktype: "quicktype --src schemas/v1/platform/IntegrationCredential.schema.json --lang typescript",
               example: {}
-            }
-          ]
-        }
-      }
-    }
-  }
-
-  private getMockRegistry(): SchemaRegistry {
-    return {
-      version: "1.0.0",
-      lastUpdated: "2025-01-14T10:00:00Z",
-      totalSchemas: 2,
-      categories: {
-        identity: {
-          name: "Identity & Access Management",
-          description: "Core identity and permission management schemas",
-          count: 1,
-          schemas: [
-            {
-              name: "PersonCredential",
-              file: "identity/PersonCredential.schema.json",
-              description: "Individual identity verification and management",
-              quicktype: "quicktype --src schemas/v1/identity/PersonCredential.schema.json --lang typescript",
-              example: {
-                issuer: "did:cheqd:mainnet:originvault",
-                credentialSubject: {
-                  id: "did:cheqd:mainnet:person-123",
-                  givenName: "John",
-                  familyName: "Doe",
-                  email: "john.doe@example.com"
-                }
-              }
-            }
-          ]
-        },
-        business: {
-          name: "Business Workflow Automation",
-          description: "Complete business process automation schemas",
-          count: 1,
-          schemas: [
-            {
-              name: "ContractCredential",
-              file: "business/ContractCredential.schema.json",
-              description: "Legal contract execution and tracking",
-              quicktype: "quicktype --src schemas/v1/business/ContractCredential.schema.json --lang typescript",
-              example: {
-                issuer: "did:cheqd:mainnet:originvault",
-                credentialSubject: {
-                  id: "did:cheqd:mainnet:contract-456",
-                  contractType: "ContentCreation",
-                  parties: ["did:cheqd:mainnet:acme-corp", "did:cheqd:mainnet:creator-789"],
-                  terms: "Exclusive content creation agreement...",
-                  compensation: {
-                    amount: 5000,
-                    currency: "USD",
-                    paymentSchedule: "monthly"
-                  }
-                }
-              }
             }
           ]
         }
