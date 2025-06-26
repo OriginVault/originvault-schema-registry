@@ -6,9 +6,10 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run generate-types",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "generate-types": "node scripts/generate-types.js",
+    "generate-types": "node scripts/generate-types.mjs",
     "deploy": "npm run build && npm run deploy-static",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,23 +18,28 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@codesandbox/sandpack-react": "^2.20.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@monaco-editor/react": "^4.6.0",
+    "@monaco-editor/react": "^4.7.0",
     "@mui/icons-material": "^5.17.1",
     "@mui/material": "^5.15.0",
     "@rjsf/utils": "^5.0.0",
     "@rjsf/validator-ajv8": "^5.0.0",
     "@tailwindcss/typography": "^0.5.10",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "clsx": "^2.0.0",
     "lucide-react": "^0.294.0",
     "monaco-editor": "^0.45.0",
+    "node-fetch": "^3.3.2",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet-async": "^2.0.5",
     "react-jsonschema-form": "^1.8.1",
     "react-router-dom": "^6.8.1",
-    "react-social-icons": "^6.24.0"
+    "react-social-icons": "^6.24.0",
+    "react-syntax-highlighter": "^15.6.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.1.5",
@@ -44,9 +50,13 @@
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
     "@vitest/coverage-v8": "^1.6.1",
+    "@vitest/ui": "^1.6.1",
     "jsdom": "^23.0.1",
+    "quicktype": "^23.2.6",
+    "quicktype-core": "^23.2.6",
     "typescript": "^5.3.3",
     "vite": "^5.0.8",
+    "vite-plugin-monaco-editor-esm": "^2.0.2",
     "vitest": "^1.0.4"
   },
   "resolutions": {

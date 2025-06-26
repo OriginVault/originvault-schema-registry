@@ -1,16 +1,18 @@
 import { describe, it, expect } from 'vitest'
 
 // Utility functions for testing
-const formatSchemaName = (name: string): string => {
+export const formatSchemaName = (name: string): string => {
+  if (!name || typeof name !== 'string') return ''
   return name.replace(/([A-Z])/g, ' $1').trim()
 }
 
-const validateEmail = (email: string): boolean => {
+export const validateEmail = (email: string): boolean => {
+  if (!email || typeof email !== 'string') return false
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(email)
 }
 
-const debounce = (func: Function, wait: number) => {
+export const debounce = (func: Function, wait: number) => {
   let timeout: NodeJS.Timeout
   return function executedFunction(...args: any[]) {
     const later = () => {
@@ -22,13 +24,72 @@ const debounce = (func: Function, wait: number) => {
   }
 }
 
-const capitalizeFirst = (str: string): string => {
+export const capitalizeFirst = (str: string): string => {
+  if (!str || typeof str !== 'string') return ''
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-const truncateText = (text: string, maxLength: number): string => {
+export const truncateText = (text: string, maxLength: number): string => {
+  if (!text || typeof text !== 'string') return ''
+  if (typeof maxLength !== 'number' || maxLength <= 0) return '...'
   if (text.length <= maxLength) return text
   return text.slice(0, maxLength) + '...'
+}
+
+export const getCodeExtension = (language: string): string => {
+  if (!language || typeof language !== 'string') return 'txt'
+  const extensions: { [key: string]: string } = {
+    typescript: 'ts',
+    javascript: 'js',
+    python: 'py',
+    go: 'go',
+    csharp: 'cs',
+    java: 'java',
+    kotlin: 'kt',
+    swift: 'swift',
+    rust: 'rs',
+    php: 'php',
+    ruby: 'rb',
+    dart: 'dart',
+    elm: 'elm',
+    json: 'json',
+    'json-schema': 'json'
+  }
+  return extensions[language.toLowerCase()] || 'txt'
+}
+
+export const validateJSONSchema = (schema: string): { valid: boolean; errors: string[] } => {
+  if (!schema || typeof schema !== 'string') {
+    return { valid: false, errors: ['Schema must be a valid string'] }
+  }
+  
+  try {
+    const parsed = JSON.parse(schema)
+    const errors: string[] = []
+    
+    // Basic JSON Schema validation
+    if (typeof parsed !== 'object' || parsed === null) {
+      errors.push('Schema must be an object')
+    }
+    
+    if (!parsed.$schema && !parsed.type && !parsed.properties) {
+      errors.push('Schema should have $schema, type, or properties field')
+    }
+    
+    return { valid: errors.length === 0, errors }
+  } catch (error) {
+    return { valid: false, errors: ['Invalid JSON syntax'] }
+  }
+}
+
+export const formatSchema = (schema: any): string => {
+  if (!schema) return ''
+  if (typeof schema === 'string') return schema
+  try {
+    return JSON.stringify(schema, null, 2)
+  } catch (error) {
+    return ''
+  }
 }
 
 describe('Utility Functions', () => {

@@ -1,0 +1,51 @@
+graph TD
+  App_tsx["App.tsx"]
+  components_AccessibilityEnhancer_tsx["AccessibilityEnhancer.tsx"]:::componentNode
+  components_BreadcrumbNav_tsx["BreadcrumbNav.tsx"]
+  components_CodeEditor_tsx["CodeEditor.tsx"]
+  components_Footer_tsx["Footer.tsx"]
+  components_Layout_jsx["Layout.jsx"]
+  components_Layout_tsx["Layout.tsx"]
+  components_LayoutDebugger_tsx["LayoutDebugger.tsx"]:::componentNode
+  components_OpenGraphImage_tsx["OpenGraphImage.tsx"]
+  components_PerformanceMonitor_tsx["PerformanceMonitor.tsx"]:::hookNode
+  components_ResponsiveInspector_tsx["ResponsiveInspector.tsx"]:::componentNode
+  components_SearchOptimizer_tsx["SearchOptimizer.tsx"]
+  components_SimpleCodeViewer_tsx["SimpleCodeViewer.tsx"]
+  components_SimpleEditor_tsx["SimpleEditor.tsx"]
+  components_SimpleLayout_tsx["SimpleLayout.tsx"]:::componentNode
+  components_StructuredData_tsx["StructuredData.tsx"]
+  hooks_useElementSize_ts["useElementSize.ts"]:::componentNode
+  index_css["index.css"]:::styleNode
+  main_tsx["main.tsx"]
+  pages_Documentation_tsx["Documentation.tsx"]
+  pages_Home_tsx["Home.tsx"]
+  pages_NotFound_tsx["NotFound.tsx"]
+  pages_QuickTypeGuide_tsx["QuickTypeGuide.tsx"]
+  pages_SchemaExplorer_tsx["SchemaExplorer.tsx"]:::componentNode
+  services_schemaService_ts["schemaService.ts"]:::hookNode
+  services_typeGeneration_ts["typeGeneration.ts"]:::utilityNode
+  test_App_test_tsx["App.test.tsx"]
+  test_CodeEditor_test_tsx["CodeEditor.test.tsx"]:::testNode
+  test_Footer_test_tsx["Footer.test.tsx"]
+  test_Layout_test_tsx["Layout.test.tsx"]:::testNode
+  test_SchemaExplorer_test_tsx["SchemaExplorer.test.tsx"]:::typesNode
+  test_schemaService_test_ts["schemaService.test.ts"]:::typesNode
+  test_setup_ts["setup.ts"]:::typesNode
+  test_SimpleEditor_test_tsx["SimpleEditor.test.tsx"]
+  test_utils_test_utils_tsx["test-utils.tsx"]:::componentNode
+  test_utils_test_ts["utils.test.ts"]:::componentNode
+  types_OriginVaultRootAuthority_ts["OriginVaultRootAuthority.ts"]:::utilityNode
+
+  App_tsx --> __pages_Home
+  App_tsx --> __pages_SchemaExplorer
+  App_tsx --> __components_Footer
+  App_tsx --> __pages_QuickTypeGuide
+  App_tsx --> __pages_NotFound
+  pages_SchemaExplorer_tsx --> ___components_CodeEditor
+  pages_SchemaExplorer_tsx --> ___components_LayoutDebugger
+  pages_SchemaExplorer_tsx --> ___components_ResponsiveInspector
+  pages_SchemaExplorer_tsx --> ___services_schemaService
+  test_CodeEditor_test_tsx --> ___components_CodeEditor
+  test_SchemaExplorer_test_tsx --> ___pages_SchemaExplorer
+  test_schemaService_test_ts --> ___services_schemaService

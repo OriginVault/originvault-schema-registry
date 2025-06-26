@@ -4,9 +4,9 @@ import Editor from '@monaco-editor/react'
 
 interface CodeEditorProps {
   value: string
-  language: string
+  language?: string
   height?: string
-  readOnly?: boolean
+  readonly?: boolean
   onChange?: (value: string) => void
   loading?: boolean
   title?: string
@@ -16,7 +16,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   value,
   language,
   height = '400px',
-  readOnly = false,
+  readonly = false,
   onChange,
   loading = false,
   title
@@ -51,7 +51,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       // Set theme
       monaco.editor.setTheme('originvault')
       
-      // Configure editor options
+      // Configure editor options with left alignment
       editor.updateOptions({
         minimap: { enabled: false },
         scrollBeyondLastLine: false,
@@ -65,7 +65,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           useShadows: false,
           verticalScrollbarSize: 8,
           horizontalScrollbarSize: 8
-        }
+        },
+        // Force left text alignment
+        wrappingIndent: 'none',
+        wordWrap: 'on',
+        wordWrapColumn: 120
       })
     } catch (error) {
       console.error('Monaco editor configuration error:', error)
@@ -106,9 +110,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   }
 
   // Use simple fallback if Monaco fails or is read-only
-  if (monacoError || readOnly) {
+  if (monacoError || readonly) {
     return (
-      <Box>
+      <Box data-testid="code-editor-container">
         {monacoError && (
           <Alert severity="info" sx={{ mb: 1 }}>
             Using simplified code viewer. {monacoError}
@@ -137,7 +141,10 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
                 lineHeight: 1.5,
                 color: '#2d3748',
                 border: 'none',
-                outline: 'none'
+                outline: 'none',
+                // Force left text alignment
+                textAlign: 'left',
+                direction: 'ltr'
               }}
             >
               {value}
@@ -149,7 +156,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
   }
 
   return (
-    <Paper sx={{ height, overflow: 'hidden' }}>
+    <Paper sx={{ height, overflow: 'hidden' }} data-testid="code-editor-container">
       {title && (
         <Box sx={{ p: 1, borderBottom: 1, borderColor: 'divider', bgcolor: 'grey.50' }}>
           <Typography variant="caption" color="text.secondary">
@@ -174,7 +181,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           </Box>
         }
         options={{
-          readOnly,
+          readOnly: readonly,
           wordWrap: 'on',
           automaticLayout: true,
           folding: true,
@@ -184,17 +191,20 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           lineNumbersMinChars: 3,
           glyphMargin: false,
           contextmenu: true,
-          quickSuggestions: !readOnly,
-          suggestOnTriggerCharacters: !readOnly,
+          quickSuggestions: !readonly,
+          suggestOnTriggerCharacters: !readonly,
           acceptSuggestionOnEnter: 'on',
           tabCompletion: 'on',
-          wordBasedSuggestions: readOnly ? 'off' : 'currentDocument',
+          wordBasedSuggestions: readonly ? 'off' : 'currentDocument',
           parameterHints: {
-            enabled: !readOnly
+            enabled: !readonly
           },
           hover: {
             enabled: true
-          }
+          },
+          // Force left text alignment in Monaco
+          wrappingIndent: 'none',
+          wordWrapColumn: 120
         }}
         theme="originvault"
       />

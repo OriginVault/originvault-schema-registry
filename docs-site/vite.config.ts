@@ -1,61 +1,41 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
-import fs from 'fs'
 
+// Import Monaco Editor ESM plugin (already in package.json)
+import monacoEditorPlugin from 'vite-plugin-monaco-editor-esm'
+
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    {
-      name: 'serve-schemas',
-      configureServer(server) {
-        server.middlewares.use('/schemas', (req, res, next) => {
-          const filePath = resolve(__dirname, '..', req.url.replace('/schemas/', 'schemas/'))
-          if (fs.existsSync(filePath) && filePath.endsWith('.json')) {
-            res.setHeader('Content-Type', 'application/json')
-            res.end(fs.readFileSync(filePath))
-          } else {
-            next()
-          }
-        })
-      }
-    }
+    // Monaco Editor ESM plugin with correct configuration
+    monacoEditorPlugin({
+      languageWorkers: ['editorWorkerService', 'typescript', 'json'],
+      globalAPI: false,
+      forceBuildCDN: false
+    })
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
-      '@schemas': resolve(__dirname, '../schemas'),
-      '@docs': resolve(__dirname, '../docs')
-    },
-    dedupe: ['react', 'react-dom']
+      '@': resolve(__dirname, './src')
+    }
   },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets',
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html')
+      output: {
+        // Manual chunks for better optimization
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          monaco: ['@monaco-editor/react', 'monaco-editor'],
+          ui: ['@mui/material', '@emotion/react', '@emotion/styled']
+        }
       }
     }
   },
   server: {
     port: 3000,
-    open: true,
-    fs: {
-      allow: ['..']
-    }
-  },
-  publicDir: 'public',
-  assetsInclude: ['**/*.json'],
-  define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    global: 'globalThis'
-  },
-  optimizeDeps: {
-    include: ['@monaco-editor/react'],
-    exclude: ['../src', '../index.ts']
-  },
-  worker: {
-    format: 'es'
+    host: true
   }
 }) 

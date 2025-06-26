@@ -1,0 +1,36 @@
+/**
+ * Generated TypeScript types from JSON Schema
+ * Schema: PersonCredential
+ * Generated: 2025-06-26T04:06:15.986Z
+ * Generator: OriginVault Schema Service
+ */
+
+export interface PersonCredential {
+  /** Unique identifier */
+  id: string;
+  /** First name */
+  firstName: string;
+  /** Last name */
+  lastName: string;
+  /** Email address */
+  email: string;
+  /** Is active */
+  isActive?: boolean;
+  /** Permissions list */
+  permissions?: string[];
+}
+
+export function isPersonCredential(obj: unknown): obj is PersonCredential {
+  return typeof obj === 'object' && obj !== null;
+}
+
+export function createPersonCredential(data: Partial<PersonCredential>): PersonCredential {
+  return {
+    id: data.id ?? "",
+    firstName: data.firstName ?? "",
+    lastName: data.lastName ?? "",
+    email: data.email ?? "",
+    isActive: data.isActive ?? false,
+    permissions: data.permissions ?? [],
+  };
+}

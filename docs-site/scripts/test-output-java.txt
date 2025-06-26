@@ -1,0 +1,89 @@
+// Generated Java types from JSON Schema
+// Schema: PersonCredential
+// Generated: 2025-06-26T04:06:15.995Z
+// Generator: OriginVault Schema Service
+
+package com.originvault.schemas;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.validation.constraints.*;
+import java.util.*;
+
+public class PersonCredential {
+    // Unique identifier
+    @NotNull
+    @JsonProperty("id")
+    private String id;
+
+    // First name
+    @NotNull
+    @JsonProperty("firstName")
+    private String firstName;
+
+    // Last name
+    @NotNull
+    @JsonProperty("lastName")
+    private String lastName;
+
+    // Email address
+    @NotNull
+    @JsonProperty("email")
+    private String email;
+
+    // Is active
+    @JsonProperty("isActive")
+    private Boolean isActive;
+
+    // Permissions list
+    @JsonProperty("permissions")
+    private List<String> permissions;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
+}

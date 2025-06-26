@@ -1,0 +1,401 @@
+{
+  "timestamp": "2025-06-26T04:06:41.749Z",
+  "summary": {
+    "issues": 2,
+    "warnings": 23,
+    "suggestions": 0,
+    "total": 25
+  },
+  "byFile": {
+    "src\\pages\\Home.tsx": [
+      {
+        "file": "src\\pages\\Home.tsx",
+        "type": "overflow",
+        "severity": "error",
+        "message": "Horizontal Stack with multiple items lacks flexWrap",
+        "suggestion": "Add sx={{ flexWrap: \"wrap\", gap: 1 }} to prevent overflow"
+      },
+      {
+        "file": "src\\pages\\Home.tsx",
+        "type": "color_contrast",
+        "severity": "info",
+        "message": "Multiple buttons with same variant may lack visual hierarchy",
+        "suggestion": "Consider using primary/secondary variants or different sizes"
+      },
+      {
+        "file": "src\\pages\\Home.tsx",
+        "type": "responsive",
+        "severity": "warning",
+        "message": "Horizontal layout may cause scrolling on mobile",
+        "suggestion": "Add overflow handling or wrap to vertical on small screens"
+      }
+    ],
+    "src\\test\\SchemaExplorer.test.tsx": [
+      {
+        "file": "src\\test\\SchemaExplorer.test.tsx",
+        "type": "color_contrast",
+        "severity": "warning",
+        "message": "Multiple Chip components (6) without distinct colors may blend together",
+        "suggestion": "Add color prop and hover states to differentiate chips"
+      },
+      {
+        "file": "src\\test\\SchemaExplorer.test.tsx",
+        "type": "accessibility",
+        "severity": "warning",
+        "message": "Interactive elements may lack proper accessibility labels",
+        "suggestion": "Add aria-label or title attributes to interactive elements"
+      },
+      {
+        "file": "src\\test\\SchemaExplorer.test.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\App.tsx": [
+      {
+        "file": "src\\App.tsx",
+        "type": "accessibility",
+        "severity": "warning",
+        "message": "Interactive elements may lack proper accessibility labels",
+        "suggestion": "Add aria-label or title attributes to interactive elements"
+      }
+    ],
+    "src\\components\\AccessibilityEnhancer.tsx": [
+      {
+        "file": "src\\components\\AccessibilityEnhancer.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\components\\CodeEditor.tsx": [
+      {
+        "file": "src\\components\\CodeEditor.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\components\\Footer.tsx": [
+      {
+        "file": "src\\components\\Footer.tsx",
+        "type": "responsive",
+        "severity": "warning",
+        "message": "Fixed pixel widths detected - may not be responsive",
+        "suggestion": "Consider using percentage, vh/vw, or breakpoint-specific values"
+      },
+      {
+        "file": "src\\components\\Footer.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\components\\PerformanceMonitor.tsx": [
+      {
+        "file": "src\\components\\PerformanceMonitor.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\components\\SearchOptimizer.tsx": [
+      {
+        "file": "src\\components\\SearchOptimizer.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\hooks\\useElementSize.ts": [
+      {
+        "file": "src\\hooks\\useElementSize.ts",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\pages\\SchemaExplorer.tsx": [
+      {
+        "file": "src\\pages\\SchemaExplorer.tsx",
+        "type": "layout_overflow",
+        "severity": "warning",
+        "message": "space-between layout with multiple interactive elements may cause overlap on small screens",
+        "suggestion": "Consider using flex-start with gap or responsive breakpoints"
+      },
+      {
+        "file": "src\\pages\\SchemaExplorer.tsx",
+        "type": "color_contrast",
+        "severity": "info",
+        "message": "Multiple buttons with same variant may lack visual hierarchy",
+        "suggestion": "Consider using primary/secondary variants or different sizes"
+      }
+    ],
+    "src\\services\\schemaService.ts": [
+      {
+        "file": "src\\services\\schemaService.ts",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\services\\typeGeneration.ts": [
+      {
+        "file": "src\\services\\typeGeneration.ts",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\test\\CodeEditor.test.tsx": [
+      {
+        "file": "src\\test\\CodeEditor.test.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\test\\Layout.test.tsx": [
+      {
+        "file": "src\\test\\Layout.test.tsx",
+        "type": "accessibility",
+        "severity": "warning",
+        "message": "Interactive elements may lack proper accessibility labels",
+        "suggestion": "Add aria-label or title attributes to interactive elements"
+      }
+    ],
+    "src\\test\\schemaService.test.ts": [
+      {
+        "file": "src\\test\\schemaService.test.ts",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\test\\setup.ts": [
+      {
+        "file": "src\\test\\setup.ts",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\test\\utils\\test-utils.tsx": [
+      {
+        "file": "src\\test\\utils\\test-utils.tsx",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\test\\utils.test.ts": [
+      {
+        "file": "src\\test\\utils.test.ts",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ],
+    "src\\types\\OriginVaultRootAuthority.ts": [
+      {
+        "file": "src\\types\\OriginVaultRootAuthority.ts",
+        "type": "responsive",
+        "severity": "info",
+        "message": "Large component without responsive breakpoints",
+        "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+      }
+    ]
+  },
+  "allItems": [
+    {
+      "file": "src\\pages\\Home.tsx",
+      "type": "overflow",
+      "severity": "error",
+      "message": "Horizontal Stack with multiple items lacks flexWrap",
+      "suggestion": "Add sx={{ flexWrap: \"wrap\", gap: 1 }} to prevent overflow"
+    },
+    {
+      "file": "src\\test\\SchemaExplorer.test.tsx",
+      "type": "color_contrast",
+      "severity": "warning",
+      "message": "Multiple Chip components (6) without distinct colors may blend together",
+      "suggestion": "Add color prop and hover states to differentiate chips"
+    },
+    {
+      "file": "src\\App.tsx",
+      "type": "accessibility",
+      "severity": "warning",
+      "message": "Interactive elements may lack proper accessibility labels",
+      "suggestion": "Add aria-label or title attributes to interactive elements"
+    },
+    {
+      "file": "src\\components\\AccessibilityEnhancer.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\components\\CodeEditor.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\components\\Footer.tsx",
+      "type": "responsive",
+      "severity": "warning",
+      "message": "Fixed pixel widths detected - may not be responsive",
+      "suggestion": "Consider using percentage, vh/vw, or breakpoint-specific values"
+    },
+    {
+      "file": "src\\components\\Footer.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\components\\PerformanceMonitor.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\components\\SearchOptimizer.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\hooks\\useElementSize.ts",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\pages\\Home.tsx",
+      "type": "color_contrast",
+      "severity": "info",
+      "message": "Multiple buttons with same variant may lack visual hierarchy",
+      "suggestion": "Consider using primary/secondary variants or different sizes"
+    },
+    {
+      "file": "src\\pages\\Home.tsx",
+      "type": "responsive",
+      "severity": "warning",
+      "message": "Horizontal layout may cause scrolling on mobile",
+      "suggestion": "Add overflow handling or wrap to vertical on small screens"
+    },
+    {
+      "file": "src\\pages\\SchemaExplorer.tsx",
+      "type": "layout_overflow",
+      "severity": "warning",
+      "message": "space-between layout with multiple interactive elements may cause overlap on small screens",
+      "suggestion": "Consider using flex-start with gap or responsive breakpoints"
+    },
+    {
+      "file": "src\\pages\\SchemaExplorer.tsx",
+      "type": "color_contrast",
+      "severity": "info",
+      "message": "Multiple buttons with same variant may lack visual hierarchy",
+      "suggestion": "Consider using primary/secondary variants or different sizes"
+    },
+    {
+      "file": "src\\services\\schemaService.ts",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\services\\typeGeneration.ts",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\test\\CodeEditor.test.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\test\\Layout.test.tsx",
+      "type": "accessibility",
+      "severity": "warning",
+      "message": "Interactive elements may lack proper accessibility labels",
+      "suggestion": "Add aria-label or title attributes to interactive elements"
+    },
+    {
+      "file": "src\\test\\SchemaExplorer.test.tsx",
+      "type": "accessibility",
+      "severity": "warning",
+      "message": "Interactive elements may lack proper accessibility labels",
+      "suggestion": "Add aria-label or title attributes to interactive elements"
+    },
+    {
+      "file": "src\\test\\SchemaExplorer.test.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\test\\schemaService.test.ts",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\test\\setup.ts",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\test\\utils\\test-utils.tsx",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\test\\utils.test.ts",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    },
+    {
+      "file": "src\\types\\OriginVaultRootAuthority.ts",
+      "type": "responsive",
+      "severity": "info",
+      "message": "Large component without responsive breakpoints",
+      "suggestion": "Consider adding xs, sm, md breakpoints for better mobile experience"
+    }
+  ]
+}

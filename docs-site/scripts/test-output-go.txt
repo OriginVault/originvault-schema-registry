@@ -1,0 +1,34 @@
+// Generated Go types from JSON Schema
+// Schema: PersonCredential
+// Generated: 2025-06-26T04:06:15.994Z
+// Generator: OriginVault Schema Service
+
+package main
+
+import (
+    "encoding/json"
+    "time"
+)
+
+type PersonCredential struct {
+    // Unique identifier
+    Id string `json:"id"`
+    // First name
+    FirstName string `json:"firstName"`
+    // Last name
+    LastName string `json:"lastName"`
+    // Email address
+    Email string `json:"email"`
+    // Is active
+    IsActive bool `json:"isActive"`
+    // Permissions list
+    Permissions []string `json:"permissions"`
+}
+
+func (obj *PersonCredential) FromJSON(data []byte) error {
+    return json.Unmarshal(data, obj)
+}
+
+func (obj *PersonCredential) ToJSON() ([]byte, error) {
+    return json.Marshal(obj)
+}

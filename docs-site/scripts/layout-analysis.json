@@ -1,0 +1,4605 @@
+{
+  "timestamp": "2025-06-26T03:41:30.617Z",
+  "summary": {
+    "totalComponents": 28,
+    "totalIssues": 55,
+    "responsiveComponents": 5,
+    "averageComplexity": 5.7,
+    "frameworkUsage": {
+      "muiUsage": 14,
+      "tailwindUsage": 0,
+      "inlineStyles": 5,
+      "styledComponents": 0,
+      "responsiveComponents": 5
+    }
+  },
+  "components": [
+    {
+      "path": "App.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx",
+          "css-classes"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Container"
+        ],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": [
+          "missing-keyboard-support",
+          "non-semantic-interactive"
+        ]
+      },
+      "complexity": {
+        "lines": 73,
+        "jsxElements": 15,
+        "conditionals": 2,
+        "hooks": 1,
+        "functions": 2,
+        "score": 2,
+        "level": "simple"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-router-dom",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@mui/material",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "./pages/Home",
+          "type": "local",
+          "isLocal": true
+        },
+        {
+          "name": "./pages/SchemaExplorer",
+          "type": "local",
+          "isLocal": true
+        },
+        {
+          "name": "./components/Footer",
+          "type": "local",
+          "isLocal": true
+        },
+        {
+          "name": "./pages/QuickTypeGuide",
+          "type": "local",
+          "isLocal": true
+        },
+        {
+          "name": "./pages/NotFound",
+          "type": "local",
+          "isLocal": true
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        }
+      ]
+    },
+    {
+      "path": "components\\AccessibilityEnhancer.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "css-classes"
+        ],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [
+          "absolute"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [
+          "conditional-display"
+        ],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 3,
+        "features": [
+          "aria-attributes",
+          "semantic-roles"
+        ],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 241,
+        "jsxElements": 1,
+        "conditionals": 10,
+        "hooks": 12,
+        "functions": 15,
+        "score": 7,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "components\\BreadcrumbNav.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 1,
+        "jsxElements": 0,
+        "conditionals": 0,
+        "hooks": 0,
+        "functions": 0,
+        "score": 0,
+        "level": "simple"
+      },
+      "dependencies": [],
+      "exports": [],
+      "issues": []
+    },
+    {
+      "path": "components\\CodeEditor.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Box",
+          "Paper"
+        ],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 205,
+        "jsxElements": 18,
+        "conditionals": 16,
+        "hooks": 5,
+        "functions": 7,
+        "score": 6,
+        "level": "moderate"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@mui/material",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@monaco-editor/react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "components\\Footer.tsx",
+      "name": "Footer",
+      "type": "presentational",
+      "styling": {
+        "methods": [
+          "inline-styles"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": true,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Box"
+        ],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 1,
+        "features": [
+          "alt-text"
+        ],
+        "issues": [
+          "missing-keyboard-support"
+        ]
+      },
+      "complexity": {
+        "lines": 121,
+        "jsxElements": 14,
+        "conditionals": 3,
+        "hooks": 0,
+        "functions": 2,
+        "score": 2,
+        "level": "simple"
+      },
+      "dependencies": [
+        {
+          "name": "@mui/material",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-social-icons",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        }
+      ]
+    },
+    {
+      "path": "components\\Layout.jsx",
+      "name": "Layout",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "css-classes"
+        ],
+        "frameworks": [],
+        "inline": false,
+        "responsive": true,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [
+          "absolute",
+          "relative"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [
+          "sm",
+          "lg",
+          "md"
+        ],
+        "patterns": [],
+        "mobile": true
+      },
+      "accessibility": {
+        "score": 2,
+        "features": [
+          "aria-attributes"
+        ],
+        "issues": [
+          "missing-keyboard-support",
+          "non-semantic-interactive"
+        ]
+      },
+      "complexity": {
+        "lines": 272,
+        "jsxElements": 17,
+        "conditionals": 7,
+        "hooks": 5,
+        "functions": 9,
+        "score": 6,
+        "level": "moderate"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-router-dom",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "components\\Layout.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": true,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Container",
+          "Box"
+        ],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [
+          "fixed"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [
+          "sm",
+          "xs"
+        ],
+        "patterns": [],
+        "mobile": true
+      },
+      "accessibility": {
+        "score": 2,
+        "features": [
+          "aria-attributes"
+        ],
+        "issues": [
+          "missing-keyboard-support",
+          "non-semantic-interactive"
+        ]
+      },
+      "complexity": {
+        "lines": 140,
+        "jsxElements": 23,
+        "conditionals": 0,
+        "hooks": 3,
+        "functions": 4,
+        "score": 4,
+        "level": "moderate"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-router-dom",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        }
+      ]
+    },
+    {
+      "path": "components\\LayoutDebugger.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Container",
+          "Box",
+          "Paper",
+          "Stack"
+        ],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [
+          "absolute",
+          "relative",
+          "fixed"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 1,
+        "features": [
+          "semantic-roles"
+        ],
+        "issues": [
+          "missing-keyboard-support"
+        ]
+      },
+      "complexity": {
+        "lines": 373,
+        "jsxElements": 38,
+        "conditionals": 13,
+        "hooks": 4,
+        "functions": 23,
+        "score": 10,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "LayoutDebugger"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "components\\OpenGraphImage.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 1,
+        "jsxElements": 0,
+        "conditionals": 0,
+        "hooks": 0,
+        "functions": 0,
+        "score": 0,
+        "level": "simple"
+      },
+      "dependencies": [],
+      "exports": [],
+      "issues": []
+    },
+    {
+      "path": "components\\PerformanceMonitor.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Box"
+        ],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [
+          "fixed"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": [
+          "missing-keyboard-support"
+        ]
+      },
+      "complexity": {
+        "lines": 133,
+        "jsxElements": 20,
+        "conditionals": 14,
+        "hooks": 12,
+        "functions": 9,
+        "score": 7,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@mui/material",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@mui/icons-material",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "PerformanceMonitor"
+        },
+        {
+          "type": "named",
+          "name": "useRenderTracker"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Console.log statements found"
+        },
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        }
+      ]
+    },
+    {
+      "path": "components\\ResponsiveInspector.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": true,
+        "themes": true
+      },
+      "layout": {
+        "containers": [
+          "Box",
+          "Paper",
+          "Stack"
+        ],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [
+          "fixed"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "patterns": [
+          "media-queries",
+          "breakpoint-system"
+        ],
+        "mobile": true
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": [
+          "missing-keyboard-support"
+        ]
+      },
+      "complexity": {
+        "lines": 232,
+        "jsxElements": 29,
+        "conditionals": 23,
+        "hooks": 13,
+        "functions": 11,
+        "score": 10,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "ResponsiveInspector"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "components\\SearchOptimizer.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Box",
+          "Paper",
+          "Card"
+        ],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": [
+          "missing-keyboard-support"
+        ]
+      },
+      "complexity": {
+        "lines": 273,
+        "jsxElements": 40,
+        "conditionals": 15,
+        "hooks": 6,
+        "functions": 25,
+        "score": 10,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@mui/icons-material",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "components\\SimpleCodeViewer.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 1,
+        "jsxElements": 0,
+        "conditionals": 0,
+        "hooks": 0,
+        "functions": 0,
+        "score": 0,
+        "level": "simple"
+      },
+      "dependencies": [],
+      "exports": [],
+      "issues": []
+    },
+    {
+      "path": "components\\SimpleEditor.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [
+          "inline-styles"
+        ],
+        "frameworks": [],
+        "inline": true,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 45,
+        "jsxElements": 2,
+        "conditionals": 6,
+        "hooks": 0,
+        "functions": 3,
+        "score": 1,
+        "level": "simple"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "path": "components\\SimpleLayout.tsx",
+      "name": "ExampleLayout",
+      "type": "presentational",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": true,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Container",
+          "Box",
+          "Paper",
+          "Stack"
+        ],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [
+          "absolute",
+          "relative"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 357,
+        "jsxElements": 17,
+        "conditionals": 32,
+        "hooks": 0,
+        "functions": 8,
+        "score": 8,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@mui/material",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "SimpleContainer"
+        },
+        {
+          "type": "named",
+          "name": "SimpleGrid"
+        },
+        {
+          "type": "named",
+          "name": "SimplePaper"
+        },
+        {
+          "type": "named",
+          "name": "SimpleBox"
+        },
+        {
+          "type": "named",
+          "name": "SimpleStack"
+        },
+        {
+          "type": "named",
+          "name": "LayoutBuilder"
+        },
+        {
+          "type": "named",
+          "name": "ExampleLayout"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "components\\StructuredData.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 23,
+        "jsxElements": 1,
+        "conditionals": 0,
+        "hooks": 0,
+        "functions": 1,
+        "score": 0,
+        "level": "simple"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        }
+      ]
+    },
+    {
+      "path": "hooks\\useElementSize.ts",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "inline-styles"
+        ],
+        "frameworks": [],
+        "inline": true,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [
+          "absolute"
+        ],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 63,
+        "jsxElements": 5,
+        "conditionals": 4,
+        "hooks": 7,
+        "functions": 5,
+        "score": 3,
+        "level": "moderate"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "useElementSize"
+        },
+        {
+          "type": "named",
+          "name": "SizeDebugger"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        }
+      ]
+    },
+    {
+      "path": "main.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 10,
+        "jsxElements": 2,
+        "conditionals": 0,
+        "hooks": 0,
+        "functions": 0,
+        "score": 0,
+        "level": "simple"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-dom/client",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "./App.tsx",
+          "type": "local",
+          "isLocal": true
+        }
+      ],
+      "exports": [],
+      "issues": []
+    },
+    {
+      "path": "pages\\Documentation.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [
+          "mui-sx",
+          "inline-styles"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": true,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Box",
+          "Paper",
+          "Card"
+        ],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 354,
+        "jsxElements": 54,
+        "conditionals": 1,
+        "hooks": 0,
+        "functions": 7,
+        "score": 7,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "pages\\Home.tsx",
+      "name": "UnknownComponent",
+      "type": "hook-based",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Container",
+          "Box",
+          "Paper",
+          "Card",
+          "Stack"
+        ],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": [
+          "missing-keyboard-support"
+        ]
+      },
+      "complexity": {
+        "lines": 173,
+        "jsxElements": 31,
+        "conditionals": 1,
+        "hooks": 2,
+        "functions": 8,
+        "score": 5,
+        "level": "moderate"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-router-dom",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        }
+      ]
+    },
+    {
+      "path": "pages\\NotFound.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [
+          "css-classes"
+        ],
+        "frameworks": [],
+        "inline": false,
+        "responsive": true,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [
+          "sm",
+          "lg"
+        ],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 24,
+        "jsxElements": 1,
+        "conditionals": 0,
+        "hooks": 0,
+        "functions": 1,
+        "score": 0,
+        "level": "simple"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-router-dom",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": []
+    },
+    {
+      "path": "pages\\QuickTypeGuide.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [
+          "mui-sx",
+          "inline-styles"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": true,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Box",
+          "Paper"
+        ],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 254,
+        "jsxElements": 39,
+        "conditionals": 1,
+        "hooks": 0,
+        "functions": 5,
+        "score": 5,
+        "level": "moderate"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "./types",
+          "type": "local",
+          "isLocal": true
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "pages\\SchemaExplorer.tsx",
+      "name": "UnknownComponent",
+      "type": "stateful",
+      "styling": {
+        "methods": [
+          "mui-sx"
+        ],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Container",
+          "Box",
+          "Paper",
+          "Card",
+          "Stack"
+        ],
+        "flexbox": true,
+        "grid": true,
+        "positioning": [],
+        "spacing": true
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 3,
+        "features": [
+          "aria-attributes",
+          "semantic-roles"
+        ],
+        "issues": [
+          "missing-keyboard-support",
+          "non-semantic-interactive"
+        ]
+      },
+      "complexity": {
+        "lines": 764,
+        "jsxElements": 91,
+        "conditionals": 57,
+        "hooks": 25,
+        "functions": 43,
+        "score": 27,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "../components/CodeEditor",
+          "type": "local",
+          "isLocal": true
+        },
+        {
+          "name": "../components/LayoutDebugger",
+          "type": "local",
+          "isLocal": true
+        },
+        {
+          "name": "../components/ResponsiveInspector",
+          "type": "local",
+          "isLocal": true
+        },
+        {
+          "name": "../services/schemaService",
+          "type": "local",
+          "isLocal": true
+        }
+      ],
+      "exports": [
+        {
+          "type": "default"
+        },
+        {
+          "type": "named",
+          "name": "is$"
+        },
+        {
+          "type": "named",
+          "name": "validate$"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "services\\schemaService.ts",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 479,
+        "jsxElements": 2,
+        "conditionals": 7,
+        "hooks": 0,
+        "functions": 1,
+        "score": 6,
+        "level": "moderate"
+      },
+      "dependencies": [],
+      "exports": [
+        {
+          "type": "named",
+          "name": "schemaService"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Console.log statements found"
+        },
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "services\\typeGeneration.ts",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 213,
+        "jsxElements": 2,
+        "conditionals": 37,
+        "hooks": 0,
+        "functions": 12,
+        "score": 7,
+        "level": "complex"
+      },
+      "dependencies": [],
+      "exports": [
+        {
+          "type": "named",
+          "name": "generateTypesClientSide"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "test\\setup.ts",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 162,
+        "jsxElements": 0,
+        "conditionals": 5,
+        "hooks": 0,
+        "functions": 12,
+        "score": 3,
+        "level": "moderate"
+      },
+      "dependencies": [
+        {
+          "name": "vitest",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        }
+      ]
+    },
+    {
+      "path": "test\\utils\\test-utils.tsx",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [
+          "MUI"
+        ],
+        "inline": false,
+        "responsive": true,
+        "themes": false
+      },
+      "layout": {
+        "containers": [
+          "Card"
+        ],
+        "flexbox": true,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": true
+      },
+      "accessibility": {
+        "score": 4,
+        "features": [
+          "aria-attributes",
+          "semantic-roles",
+          "keyboard-navigation"
+        ],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 554,
+        "jsxElements": 3,
+        "conditionals": 35,
+        "hooks": 0,
+        "functions": 80,
+        "score": 17,
+        "level": "complex"
+      },
+      "dependencies": [
+        {
+          "name": "react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@testing-library/react",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "react-router-dom",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "vitest",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "@mui/material/styles",
+          "type": "external",
+          "isLocal": false
+        },
+        {
+          "name": "vitest",
+          "type": "external",
+          "isLocal": false
+        }
+      ],
+      "exports": [
+        {
+          "type": "named",
+          "name": "accessibilityTestUtils"
+        },
+        {
+          "type": "named",
+          "name": "mockData"
+        },
+        {
+          "type": "named",
+          "name": "mockApiResponses"
+        },
+        {
+          "type": "named",
+          "name": "setupTestEnvironment"
+        },
+        {
+          "type": "named",
+          "name": "customMatchers"
+        },
+        {
+          "type": "named",
+          "name": "testHelpers"
+        },
+        {
+          "type": "named",
+          "name": "toBeAccessible"
+        },
+        {
+          "type": "named",
+          "name": "testKeyboardNavigation"
+        },
+        {
+          "type": "named",
+          "name": "testScreenReaderAnnouncement"
+        },
+        {
+          "type": "named",
+          "name": "testColorContrast"
+        },
+        {
+          "type": "named",
+          "name": "testResponsiveBehavior"
+        },
+        {
+          "type": "named",
+          "name": "testLoadingState"
+        },
+        {
+          "type": "named",
+          "name": "testErrorState"
+        },
+        {
+          "type": "named",
+          "name": "testFormValidation"
+        },
+        {
+          "type": "named",
+          "name": "testI18n"
+        },
+        {
+          "type": "named",
+          "name": "testPerformance"
+        },
+        {
+          "type": "named",
+          "name": "testAccessibilityWithAxe"
+        },
+        {
+          "type": "named",
+          "name": "testSEOElements"
+        },
+        {
+          "type": "named",
+          "name": "testStructuredData"
+        },
+        {
+          "type": "named",
+          "name": "testPWAFeatures"
+        },
+        {
+          "type": "named",
+          "name": "testOfflineFunctionality"
+        },
+        {
+          "type": "named",
+          "name": "testSecurityHeaders"
+        },
+        {
+          "type": "named",
+          "name": "testAnalytics"
+        },
+        {
+          "type": "named",
+          "name": "testSocialMediaMetaTags"
+        },
+        {
+          "type": "named",
+          "name": "testSEO"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    },
+    {
+      "path": "types\\OriginVaultRootAuthority.ts",
+      "name": "UnknownComponent",
+      "type": "presentational",
+      "styling": {
+        "methods": [],
+        "frameworks": [],
+        "inline": false,
+        "responsive": false,
+        "themes": false
+      },
+      "layout": {
+        "containers": [],
+        "flexbox": false,
+        "grid": false,
+        "positioning": [],
+        "spacing": false
+      },
+      "responsive": {
+        "breakpoints": [],
+        "patterns": [],
+        "mobile": false
+      },
+      "accessibility": {
+        "score": 0,
+        "features": [],
+        "issues": []
+      },
+      "complexity": {
+        "lines": 282,
+        "jsxElements": 0,
+        "conditionals": 30,
+        "hooks": 0,
+        "functions": 3,
+        "score": 6,
+        "level": "moderate"
+      },
+      "dependencies": [],
+      "exports": [
+        {
+          "type": "named",
+          "name": "OriginVaultRootAuthorityExample"
+        },
+        {
+          "type": "named",
+          "name": "isOriginVaultRootAuthority"
+        },
+        {
+          "type": "named",
+          "name": "validateOriginVaultRootAuthority"
+        }
+      ],
+      "issues": [
+        {
+          "type": "performance",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "types",
+          "message": "TypeScript any type used"
+        },
+        {
+          "type": "maintainability",
+          "message": "Component file is very large"
+        }
+      ]
+    }
+  ],
+  "stylePatterns": {
+    "muiUsage": 14,
+    "tailwindUsage": 0,
+    "inlineStyles": 5,
+    "styledComponents": 0,
+    "responsiveComponents": 5
+  },
+  "responsiveBreakpoints": {
+    "xs": 3,
+    "sm": 5,
+    "md": 3,
+    "lg": 4,
+    "xl": 2
+  },
+  "layoutIssues": [
+    {
+      "component": "UnknownComponent",
+      "file": "App.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\AccessibilityEnhancer.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\AccessibilityEnhancer.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\AccessibilityEnhancer.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\AccessibilityEnhancer.tsx",
+      "type": "layout",
+      "message": "Absolute positioning without responsive considerations"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\CodeEditor.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\CodeEditor.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\CodeEditor.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "Footer",
+      "file": "components\\Footer.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "Footer",
+      "file": "components\\Footer.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "Layout",
+      "file": "components\\Layout.jsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "Layout",
+      "file": "components\\Layout.jsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\Layout.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\LayoutDebugger.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\LayoutDebugger.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\LayoutDebugger.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\LayoutDebugger.tsx",
+      "type": "layout",
+      "message": "Absolute positioning without responsive considerations"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\PerformanceMonitor.tsx",
+      "type": "performance",
+      "message": "Console.log statements found"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\PerformanceMonitor.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\PerformanceMonitor.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\ResponsiveInspector.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\ResponsiveInspector.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\SearchOptimizer.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\SearchOptimizer.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "ExampleLayout",
+      "file": "components\\SimpleLayout.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "ExampleLayout",
+      "file": "components\\SimpleLayout.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "ExampleLayout",
+      "file": "components\\SimpleLayout.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "components\\StructuredData.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "hooks\\useElementSize.ts",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "hooks\\useElementSize.ts",
+      "type": "layout",
+      "message": "Absolute positioning without responsive considerations"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\Documentation.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\Documentation.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\Documentation.tsx",
+      "type": "maintainability",
+      "message": "Complex component with inline styles"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\Home.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\QuickTypeGuide.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\QuickTypeGuide.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\QuickTypeGuide.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\SchemaExplorer.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\SchemaExplorer.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "pages\\SchemaExplorer.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "services\\schemaService.ts",
+      "type": "performance",
+      "message": "Console.log statements found"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "services\\schemaService.ts",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "services\\schemaService.ts",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "services\\schemaService.ts",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "services\\typeGeneration.ts",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "services\\typeGeneration.ts",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "services\\typeGeneration.ts",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "test\\setup.ts",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "test\\setup.ts",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "test\\utils\\test-utils.tsx",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "test\\utils\\test-utils.tsx",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "test\\utils\\test-utils.tsx",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "types\\OriginVaultRootAuthority.ts",
+      "type": "performance",
+      "message": "Large component without memoization"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "types\\OriginVaultRootAuthority.ts",
+      "type": "types",
+      "message": "TypeScript any type used"
+    },
+    {
+      "component": "UnknownComponent",
+      "file": "types\\OriginVaultRootAuthority.ts",
+      "type": "maintainability",
+      "message": "Component file is very large"
+    }
+  ],
+  "componentHierarchy": {
+    "pages": [],
+    "containers": [
+      {
+        "path": "App.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx",
+            "css-classes"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Container"
+          ],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": [
+            "missing-keyboard-support",
+            "non-semantic-interactive"
+          ]
+        },
+        "complexity": {
+          "lines": 73,
+          "jsxElements": 15,
+          "conditionals": 2,
+          "hooks": 1,
+          "functions": 2,
+          "score": 2,
+          "level": "simple"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-router-dom",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@mui/material",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "./pages/Home",
+            "type": "local",
+            "isLocal": true
+          },
+          {
+            "name": "./pages/SchemaExplorer",
+            "type": "local",
+            "isLocal": true
+          },
+          {
+            "name": "./components/Footer",
+            "type": "local",
+            "isLocal": true
+          },
+          {
+            "name": "./pages/QuickTypeGuide",
+            "type": "local",
+            "isLocal": true
+          },
+          {
+            "name": "./pages/NotFound",
+            "type": "local",
+            "isLocal": true
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          }
+        ]
+      },
+      {
+        "path": "components\\AccessibilityEnhancer.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "css-classes"
+          ],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [
+            "absolute"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [
+            "conditional-display"
+          ],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 3,
+          "features": [
+            "aria-attributes",
+            "semantic-roles"
+          ],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 241,
+          "jsxElements": 1,
+          "conditionals": 10,
+          "hooks": 12,
+          "functions": 15,
+          "score": 7,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "components\\CodeEditor.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Box",
+            "Paper"
+          ],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 205,
+          "jsxElements": 18,
+          "conditionals": 16,
+          "hooks": 5,
+          "functions": 7,
+          "score": 6,
+          "level": "moderate"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@mui/material",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@monaco-editor/react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "components\\Layout.jsx",
+        "name": "Layout",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "css-classes"
+          ],
+          "frameworks": [],
+          "inline": false,
+          "responsive": true,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [
+            "absolute",
+            "relative"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [
+            "sm",
+            "lg",
+            "md"
+          ],
+          "patterns": [],
+          "mobile": true
+        },
+        "accessibility": {
+          "score": 2,
+          "features": [
+            "aria-attributes"
+          ],
+          "issues": [
+            "missing-keyboard-support",
+            "non-semantic-interactive"
+          ]
+        },
+        "complexity": {
+          "lines": 272,
+          "jsxElements": 17,
+          "conditionals": 7,
+          "hooks": 5,
+          "functions": 9,
+          "score": 6,
+          "level": "moderate"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-router-dom",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "components\\Layout.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": true,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Container",
+            "Box"
+          ],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [
+            "fixed"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [
+            "sm",
+            "xs"
+          ],
+          "patterns": [],
+          "mobile": true
+        },
+        "accessibility": {
+          "score": 2,
+          "features": [
+            "aria-attributes"
+          ],
+          "issues": [
+            "missing-keyboard-support",
+            "non-semantic-interactive"
+          ]
+        },
+        "complexity": {
+          "lines": 140,
+          "jsxElements": 23,
+          "conditionals": 0,
+          "hooks": 3,
+          "functions": 4,
+          "score": 4,
+          "level": "moderate"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-router-dom",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          }
+        ]
+      },
+      {
+        "path": "components\\LayoutDebugger.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Container",
+            "Box",
+            "Paper",
+            "Stack"
+          ],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [
+            "absolute",
+            "relative",
+            "fixed"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 1,
+          "features": [
+            "semantic-roles"
+          ],
+          "issues": [
+            "missing-keyboard-support"
+          ]
+        },
+        "complexity": {
+          "lines": 373,
+          "jsxElements": 38,
+          "conditionals": 13,
+          "hooks": 4,
+          "functions": 23,
+          "score": 10,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "named",
+            "name": "LayoutDebugger"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "components\\PerformanceMonitor.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Box"
+          ],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [
+            "fixed"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": [
+            "missing-keyboard-support"
+          ]
+        },
+        "complexity": {
+          "lines": 133,
+          "jsxElements": 20,
+          "conditionals": 14,
+          "hooks": 12,
+          "functions": 9,
+          "score": 7,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@mui/material",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@mui/icons-material",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "named",
+            "name": "PerformanceMonitor"
+          },
+          {
+            "type": "named",
+            "name": "useRenderTracker"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Console.log statements found"
+          },
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          }
+        ]
+      },
+      {
+        "path": "components\\ResponsiveInspector.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": true,
+          "themes": true
+        },
+        "layout": {
+          "containers": [
+            "Box",
+            "Paper",
+            "Stack"
+          ],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [
+            "fixed"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "patterns": [
+            "media-queries",
+            "breakpoint-system"
+          ],
+          "mobile": true
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": [
+            "missing-keyboard-support"
+          ]
+        },
+        "complexity": {
+          "lines": 232,
+          "jsxElements": 29,
+          "conditionals": 23,
+          "hooks": 13,
+          "functions": 11,
+          "score": 10,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "named",
+            "name": "ResponsiveInspector"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "components\\SearchOptimizer.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Box",
+            "Paper",
+            "Card"
+          ],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": [
+            "missing-keyboard-support"
+          ]
+        },
+        "complexity": {
+          "lines": 273,
+          "jsxElements": 40,
+          "conditionals": 15,
+          "hooks": 6,
+          "functions": 25,
+          "score": 10,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@mui/icons-material",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "hooks\\useElementSize.ts",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "inline-styles"
+          ],
+          "frameworks": [],
+          "inline": true,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [
+            "absolute"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 63,
+          "jsxElements": 5,
+          "conditionals": 4,
+          "hooks": 7,
+          "functions": 5,
+          "score": 3,
+          "level": "moderate"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "named",
+            "name": "useElementSize"
+          },
+          {
+            "type": "named",
+            "name": "SizeDebugger"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          }
+        ]
+      },
+      {
+        "path": "pages\\SchemaExplorer.tsx",
+        "name": "UnknownComponent",
+        "type": "stateful",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Container",
+            "Box",
+            "Paper",
+            "Card",
+            "Stack"
+          ],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 3,
+          "features": [
+            "aria-attributes",
+            "semantic-roles"
+          ],
+          "issues": [
+            "missing-keyboard-support",
+            "non-semantic-interactive"
+          ]
+        },
+        "complexity": {
+          "lines": 764,
+          "jsxElements": 91,
+          "conditionals": 57,
+          "hooks": 25,
+          "functions": 43,
+          "score": 27,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "../components/CodeEditor",
+            "type": "local",
+            "isLocal": true
+          },
+          {
+            "name": "../components/LayoutDebugger",
+            "type": "local",
+            "isLocal": true
+          },
+          {
+            "name": "../components/ResponsiveInspector",
+            "type": "local",
+            "isLocal": true
+          },
+          {
+            "name": "../services/schemaService",
+            "type": "local",
+            "isLocal": true
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          },
+          {
+            "type": "named",
+            "name": "is$"
+          },
+          {
+            "type": "named",
+            "name": "validate$"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      }
+    ],
+    "presentations": [
+      {
+        "path": "components\\BreadcrumbNav.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 1,
+          "jsxElements": 0,
+          "conditionals": 0,
+          "hooks": 0,
+          "functions": 0,
+          "score": 0,
+          "level": "simple"
+        },
+        "dependencies": [],
+        "exports": [],
+        "issues": []
+      },
+      {
+        "path": "components\\Footer.tsx",
+        "name": "Footer",
+        "type": "presentational",
+        "styling": {
+          "methods": [
+            "inline-styles"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": true,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Box"
+          ],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 1,
+          "features": [
+            "alt-text"
+          ],
+          "issues": [
+            "missing-keyboard-support"
+          ]
+        },
+        "complexity": {
+          "lines": 121,
+          "jsxElements": 14,
+          "conditionals": 3,
+          "hooks": 0,
+          "functions": 2,
+          "score": 2,
+          "level": "simple"
+        },
+        "dependencies": [
+          {
+            "name": "@mui/material",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-social-icons",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          }
+        ]
+      },
+      {
+        "path": "components\\OpenGraphImage.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 1,
+          "jsxElements": 0,
+          "conditionals": 0,
+          "hooks": 0,
+          "functions": 0,
+          "score": 0,
+          "level": "simple"
+        },
+        "dependencies": [],
+        "exports": [],
+        "issues": []
+      },
+      {
+        "path": "components\\SimpleCodeViewer.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 1,
+          "jsxElements": 0,
+          "conditionals": 0,
+          "hooks": 0,
+          "functions": 0,
+          "score": 0,
+          "level": "simple"
+        },
+        "dependencies": [],
+        "exports": [],
+        "issues": []
+      },
+      {
+        "path": "components\\SimpleEditor.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [
+            "inline-styles"
+          ],
+          "frameworks": [],
+          "inline": true,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 45,
+          "jsxElements": 2,
+          "conditionals": 6,
+          "hooks": 0,
+          "functions": 3,
+          "score": 1,
+          "level": "simple"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": []
+      },
+      {
+        "path": "components\\SimpleLayout.tsx",
+        "name": "ExampleLayout",
+        "type": "presentational",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": true,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Container",
+            "Box",
+            "Paper",
+            "Stack"
+          ],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [
+            "absolute",
+            "relative"
+          ],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 357,
+          "jsxElements": 17,
+          "conditionals": 32,
+          "hooks": 0,
+          "functions": 8,
+          "score": 8,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@mui/material",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "named",
+            "name": "SimpleContainer"
+          },
+          {
+            "type": "named",
+            "name": "SimpleGrid"
+          },
+          {
+            "type": "named",
+            "name": "SimplePaper"
+          },
+          {
+            "type": "named",
+            "name": "SimpleBox"
+          },
+          {
+            "type": "named",
+            "name": "SimpleStack"
+          },
+          {
+            "type": "named",
+            "name": "LayoutBuilder"
+          },
+          {
+            "type": "named",
+            "name": "ExampleLayout"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "components\\StructuredData.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 23,
+          "jsxElements": 1,
+          "conditionals": 0,
+          "hooks": 0,
+          "functions": 1,
+          "score": 0,
+          "level": "simple"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          }
+        ]
+      },
+      {
+        "path": "main.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 10,
+          "jsxElements": 2,
+          "conditionals": 0,
+          "hooks": 0,
+          "functions": 0,
+          "score": 0,
+          "level": "simple"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-dom/client",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "./App.tsx",
+            "type": "local",
+            "isLocal": true
+          }
+        ],
+        "exports": [],
+        "issues": []
+      },
+      {
+        "path": "pages\\Documentation.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [
+            "mui-sx",
+            "inline-styles"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": true,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Box",
+            "Paper",
+            "Card"
+          ],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 354,
+          "jsxElements": 54,
+          "conditionals": 1,
+          "hooks": 0,
+          "functions": 7,
+          "score": 7,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "pages\\NotFound.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [
+            "css-classes"
+          ],
+          "frameworks": [],
+          "inline": false,
+          "responsive": true,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [
+            "sm",
+            "lg"
+          ],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 24,
+          "jsxElements": 1,
+          "conditionals": 0,
+          "hooks": 0,
+          "functions": 1,
+          "score": 0,
+          "level": "simple"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-router-dom",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": []
+      },
+      {
+        "path": "pages\\QuickTypeGuide.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [
+            "mui-sx",
+            "inline-styles"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": true,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Box",
+            "Paper"
+          ],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 254,
+          "jsxElements": 39,
+          "conditionals": 1,
+          "hooks": 0,
+          "functions": 5,
+          "score": 5,
+          "level": "moderate"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "./types",
+            "type": "local",
+            "isLocal": true
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "services\\schemaService.ts",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 479,
+          "jsxElements": 2,
+          "conditionals": 7,
+          "hooks": 0,
+          "functions": 1,
+          "score": 6,
+          "level": "moderate"
+        },
+        "dependencies": [],
+        "exports": [
+          {
+            "type": "named",
+            "name": "schemaService"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Console.log statements found"
+          },
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "services\\typeGeneration.ts",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 213,
+          "jsxElements": 2,
+          "conditionals": 37,
+          "hooks": 0,
+          "functions": 12,
+          "score": 7,
+          "level": "complex"
+        },
+        "dependencies": [],
+        "exports": [
+          {
+            "type": "named",
+            "name": "generateTypesClientSide"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "test\\setup.ts",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 162,
+          "jsxElements": 0,
+          "conditionals": 5,
+          "hooks": 0,
+          "functions": 12,
+          "score": 3,
+          "level": "moderate"
+        },
+        "dependencies": [
+          {
+            "name": "vitest",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          }
+        ]
+      },
+      {
+        "path": "test\\utils\\test-utils.tsx",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": true,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Card"
+          ],
+          "flexbox": true,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": true
+        },
+        "accessibility": {
+          "score": 4,
+          "features": [
+            "aria-attributes",
+            "semantic-roles",
+            "keyboard-navigation"
+          ],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 554,
+          "jsxElements": 3,
+          "conditionals": 35,
+          "hooks": 0,
+          "functions": 80,
+          "score": 17,
+          "level": "complex"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@testing-library/react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-router-dom",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "vitest",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "@mui/material/styles",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "vitest",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "named",
+            "name": "accessibilityTestUtils"
+          },
+          {
+            "type": "named",
+            "name": "mockData"
+          },
+          {
+            "type": "named",
+            "name": "mockApiResponses"
+          },
+          {
+            "type": "named",
+            "name": "setupTestEnvironment"
+          },
+          {
+            "type": "named",
+            "name": "customMatchers"
+          },
+          {
+            "type": "named",
+            "name": "testHelpers"
+          },
+          {
+            "type": "named",
+            "name": "toBeAccessible"
+          },
+          {
+            "type": "named",
+            "name": "testKeyboardNavigation"
+          },
+          {
+            "type": "named",
+            "name": "testScreenReaderAnnouncement"
+          },
+          {
+            "type": "named",
+            "name": "testColorContrast"
+          },
+          {
+            "type": "named",
+            "name": "testResponsiveBehavior"
+          },
+          {
+            "type": "named",
+            "name": "testLoadingState"
+          },
+          {
+            "type": "named",
+            "name": "testErrorState"
+          },
+          {
+            "type": "named",
+            "name": "testFormValidation"
+          },
+          {
+            "type": "named",
+            "name": "testI18n"
+          },
+          {
+            "type": "named",
+            "name": "testPerformance"
+          },
+          {
+            "type": "named",
+            "name": "testAccessibilityWithAxe"
+          },
+          {
+            "type": "named",
+            "name": "testSEOElements"
+          },
+          {
+            "type": "named",
+            "name": "testStructuredData"
+          },
+          {
+            "type": "named",
+            "name": "testPWAFeatures"
+          },
+          {
+            "type": "named",
+            "name": "testOfflineFunctionality"
+          },
+          {
+            "type": "named",
+            "name": "testSecurityHeaders"
+          },
+          {
+            "type": "named",
+            "name": "testAnalytics"
+          },
+          {
+            "type": "named",
+            "name": "testSocialMediaMetaTags"
+          },
+          {
+            "type": "named",
+            "name": "testSEO"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      },
+      {
+        "path": "types\\OriginVaultRootAuthority.ts",
+        "name": "UnknownComponent",
+        "type": "presentational",
+        "styling": {
+          "methods": [],
+          "frameworks": [],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [],
+          "flexbox": false,
+          "grid": false,
+          "positioning": [],
+          "spacing": false
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": []
+        },
+        "complexity": {
+          "lines": 282,
+          "jsxElements": 0,
+          "conditionals": 30,
+          "hooks": 0,
+          "functions": 3,
+          "score": 6,
+          "level": "moderate"
+        },
+        "dependencies": [],
+        "exports": [
+          {
+            "type": "named",
+            "name": "OriginVaultRootAuthorityExample"
+          },
+          {
+            "type": "named",
+            "name": "isOriginVaultRootAuthority"
+          },
+          {
+            "type": "named",
+            "name": "validateOriginVaultRootAuthority"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          },
+          {
+            "type": "types",
+            "message": "TypeScript any type used"
+          },
+          {
+            "type": "maintainability",
+            "message": "Component file is very large"
+          }
+        ]
+      }
+    ],
+    "utilities": [
+      {
+        "path": "pages\\Home.tsx",
+        "name": "UnknownComponent",
+        "type": "hook-based",
+        "styling": {
+          "methods": [
+            "mui-sx"
+          ],
+          "frameworks": [
+            "MUI"
+          ],
+          "inline": false,
+          "responsive": false,
+          "themes": false
+        },
+        "layout": {
+          "containers": [
+            "Container",
+            "Box",
+            "Paper",
+            "Card",
+            "Stack"
+          ],
+          "flexbox": true,
+          "grid": true,
+          "positioning": [],
+          "spacing": true
+        },
+        "responsive": {
+          "breakpoints": [],
+          "patterns": [],
+          "mobile": false
+        },
+        "accessibility": {
+          "score": 0,
+          "features": [],
+          "issues": [
+            "missing-keyboard-support"
+          ]
+        },
+        "complexity": {
+          "lines": 173,
+          "jsxElements": 31,
+          "conditionals": 1,
+          "hooks": 2,
+          "functions": 8,
+          "score": 5,
+          "level": "moderate"
+        },
+        "dependencies": [
+          {
+            "name": "react",
+            "type": "external",
+            "isLocal": false
+          },
+          {
+            "name": "react-router-dom",
+            "type": "external",
+            "isLocal": false
+          }
+        ],
+        "exports": [
+          {
+            "type": "default"
+          }
+        ],
+        "issues": [
+          {
+            "type": "performance",
+            "message": "Large component without memoization"
+          }
+        ]
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "critical",
+      "title": "Fix Critical Issues",
+      "description": "23 critical accessibility or performance issues found",
+      "action": "Review and fix accessibility and performance issues"
+    },
+    {
+      "priority": "medium",
+      "category": "responsive",
+      "title": "Improve Responsive Design",
+      "description": "23 components lack responsive breakpoints",
+      "action": "Add responsive breakpoints to components"
+    }
+  ]
+}

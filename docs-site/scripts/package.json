@@ -1,0 +1,45 @@
+{
+  "name": "@originvault/layout-analysis-tools",
+  "version": "1.0.0",
+  "description": "Automated layout and component analysis tools for OriginVault Schema Registry",
+  "main": "analyze-layout.js",
+  "scripts": {
+    "analyze": "node analyze-layout.js",
+    "analyze:deps": "node component-dependency-graph.js",
+    "analyze:all": "npm run analyze && npm run analyze:deps",
+    "report": "npm run analyze:all && echo 'Reports generated in current directory'",
+    "validate": "node validate-components.js",
+    "validate:layout": "node layout-validator.js",
+    "validate:all": "npm run validate && npm run validate:layout",
+    "test": "node test-quicktype-generation.js",
+    "test:quicktype": "node test-quicktype-generation.js",
+    "test:all": "npm run test && npm run validate:all"
+  },
+  "bin": {
+    "ov-analyze": "./analyze-layout.js",
+    "ov-deps": "./component-dependency-graph.js"
+  },
+  "keywords": [
+    "layout",
+    "analysis",
+    "components",
+    "dependencies",
+    "react",
+    "mui",
+    "typescript"
+  ],
+  "author": "OriginVault Team",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^9.4.1",
+    "fs-extra": "^11.1.1",
+    "glob": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 

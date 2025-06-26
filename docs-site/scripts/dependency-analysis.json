@@ -1,0 +1,2233 @@
+{
+  "timestamp": "2025-06-26T03:41:34.764Z",
+  "summary": {
+    "totalFiles": 37,
+    "totalDependencies": 12,
+    "circularDependencies": 0,
+    "averageDependencies": 0.3,
+    "fileTypes": {
+      "module": 19,
+      "component": 8,
+      "hook": 2,
+      "style": 1,
+      "utility": 2,
+      "test": 2,
+      "types": 3
+    },
+    "complexityDistribution": {
+      "simple": 14,
+      "moderate": 11,
+      "complex": 12
+    }
+  },
+  "dependencyGraph": {
+    "App.tsx": {
+      "path": "App.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\App.tsx",
+      "type": "module",
+      "size": 2446,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 3
+        },
+        {
+          "path": "./pages/Home",
+          "type": "local",
+          "isLocal": true,
+          "line": 4
+        },
+        {
+          "path": "./pages/SchemaExplorer",
+          "type": "local",
+          "isLocal": true,
+          "line": 5
+        },
+        {
+          "path": "./components/Footer",
+          "type": "local",
+          "isLocal": true,
+          "line": 6
+        },
+        {
+          "path": "./pages/QuickTypeGuide",
+          "type": "local",
+          "isLocal": true,
+          "line": 8
+        },
+        {
+          "path": "./pages/NotFound",
+          "type": "local",
+          "isLocal": true,
+          "line": 9
+        }
+      ],
+      "exports": [
+        {
+          "name": "App",
+          "type": "default",
+          "line": 73
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useState",
+          "line": 12
+        }
+      ],
+      "dependencies": [
+        "react",
+        "react-router-dom",
+        "@mui/material"
+      ],
+      "complexity": {
+        "lines": 73,
+        "cyclomaticComplexity": 2,
+        "functionCount": 2,
+        "importCount": 9,
+        "score": 1
+      },
+      "dependsOn": [
+        {
+          "path": "./pages/Home",
+          "type": "local",
+          "isLocal": true,
+          "line": 4
+        },
+        {
+          "path": "./pages/SchemaExplorer",
+          "type": "local",
+          "isLocal": true,
+          "line": 5
+        },
+        {
+          "path": "./components/Footer",
+          "type": "local",
+          "isLocal": true,
+          "line": 6
+        },
+        {
+          "path": "./pages/QuickTypeGuide",
+          "type": "local",
+          "isLocal": true,
+          "line": 8
+        },
+        {
+          "path": "./pages/NotFound",
+          "type": "local",
+          "isLocal": true,
+          "line": 9
+        }
+      ],
+      "dependents": []
+    },
+    "components\\AccessibilityEnhancer.tsx": {
+      "path": "components\\AccessibilityEnhancer.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\AccessibilityEnhancer.tsx",
+      "type": "component",
+      "size": 7274,
+      "imports": [],
+      "exports": [
+        {
+          "name": "AccessibilityEnhancer",
+          "type": "default",
+          "line": 241
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useState",
+          "line": 8
+        },
+        {
+          "name": "useState",
+          "line": 9
+        },
+        {
+          "name": "useState",
+          "line": 10
+        },
+        {
+          "name": "useEffect",
+          "line": 12
+        },
+        {
+          "name": "useEffect",
+          "line": 154
+        },
+        {
+          "name": "useEffect",
+          "line": 173
+        },
+        {
+          "name": "useEffect",
+          "line": 214
+        }
+      ],
+      "dependencies": [
+        "react"
+      ],
+      "complexity": {
+        "lines": 241,
+        "cyclomaticComplexity": 18,
+        "functionCount": 15,
+        "importCount": 21,
+        "score": 5
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\BreadcrumbNav.tsx": {
+      "path": "components\\BreadcrumbNav.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\BreadcrumbNav.tsx",
+      "type": "module",
+      "size": 1,
+      "imports": [],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 1,
+        "cyclomaticComplexity": 0,
+        "functionCount": 0,
+        "importCount": 0,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\CodeEditor.tsx": {
+      "path": "components\\CodeEditor.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\CodeEditor.tsx",
+      "type": "module",
+      "size": 6220,
+      "imports": [
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@monaco-editor/react",
+          "type": "library",
+          "isLocal": false,
+          "line": 3
+        }
+      ],
+      "exports": [
+        {
+          "name": "CodeEditor",
+          "type": "default",
+          "line": 205
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@mui/material",
+        "@monaco-editor/react"
+      ],
+      "complexity": {
+        "lines": 205,
+        "cyclomaticComplexity": 29,
+        "functionCount": 7,
+        "importCount": 3,
+        "score": 4
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\Footer.tsx": {
+      "path": "components\\Footer.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\Footer.tsx",
+      "type": "module",
+      "size": 4175,
+      "imports": [
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "react-social-icons",
+          "type": "react",
+          "isLocal": false,
+          "line": 2
+        }
+      ],
+      "exports": [
+        {
+          "name": "Footer",
+          "type": "default",
+          "line": 121
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "@mui/material",
+        "react-social-icons"
+      ],
+      "complexity": {
+        "lines": 121,
+        "cyclomaticComplexity": 15,
+        "functionCount": 2,
+        "importCount": 2,
+        "score": 2
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\Layout.jsx": {
+      "path": "components\\Layout.jsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\Layout.jsx",
+      "type": "module",
+      "size": 10294,
+      "imports": [
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "lucide-react",
+          "type": "external",
+          "isLocal": false,
+          "line": 3
+        }
+      ],
+      "exports": [
+        {
+          "name": "Layout",
+          "type": "default",
+          "line": 272
+        }
+      ],
+      "components": [
+        {
+          "name": "Layout",
+          "type": "function",
+          "line": 15
+        },
+        {
+          "name": "Icon",
+          "type": "function",
+          "line": 63
+        },
+        {
+          "name": "Icon",
+          "type": "function",
+          "line": 152
+        }
+      ],
+      "hooks": [
+        {
+          "name": "useState",
+          "line": 16
+        },
+        {
+          "name": "useState",
+          "line": 17
+        },
+        {
+          "name": "useLocation",
+          "line": 18
+        }
+      ],
+      "dependencies": [
+        "react",
+        "react-router-dom",
+        "lucide-react"
+      ],
+      "complexity": {
+        "lines": 272,
+        "cyclomaticComplexity": 14,
+        "functionCount": 9,
+        "importCount": 3,
+        "score": 4
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\Layout.tsx": {
+      "path": "components\\Layout.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\Layout.tsx",
+      "type": "module",
+      "size": 3587,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@mui/icons-material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 16
+        },
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 23
+        }
+      ],
+      "exports": [
+        {
+          "name": "Layout",
+          "type": "default",
+          "line": 140
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useLocation",
+          "line": 28
+        },
+        {
+          "name": "useState",
+          "line": 37
+        }
+      ],
+      "dependencies": [
+        "react",
+        "@mui/material",
+        "@mui/icons-material",
+        "react-router-dom"
+      ],
+      "complexity": {
+        "lines": 140,
+        "cyclomaticComplexity": 0,
+        "functionCount": 4,
+        "importCount": 4,
+        "score": 2
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\LayoutDebugger.tsx": {
+      "path": "components\\LayoutDebugger.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\LayoutDebugger.tsx",
+      "type": "component",
+      "size": 11464,
+      "imports": [
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@mui/icons-material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 19
+        }
+      ],
+      "exports": [
+        {
+          "name": "LayoutDebugger",
+          "type": "named",
+          "line": 31
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useState",
+          "line": 32
+        },
+        {
+          "name": "useState",
+          "line": 33
+        },
+        {
+          "name": "useEffect",
+          "line": 179
+        }
+      ],
+      "dependencies": [
+        "react",
+        "@mui/material",
+        "@mui/icons-material"
+      ],
+      "complexity": {
+        "lines": 373,
+        "cyclomaticComplexity": 16,
+        "functionCount": 23,
+        "importCount": 22,
+        "score": 7
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\OpenGraphImage.tsx": {
+      "path": "components\\OpenGraphImage.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\OpenGraphImage.tsx",
+      "type": "module",
+      "size": 1,
+      "imports": [],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 1,
+        "cyclomaticComplexity": 0,
+        "functionCount": 0,
+        "importCount": 0,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\PerformanceMonitor.tsx": {
+      "path": "components\\PerformanceMonitor.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\PerformanceMonitor.tsx",
+      "type": "hook",
+      "size": 4064,
+      "imports": [
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@mui/icons-material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 3
+        }
+      ],
+      "exports": [
+        {
+          "name": "PerformanceMonitor",
+          "type": "named",
+          "line": 12
+        },
+        {
+          "name": "useRenderTracker",
+          "type": "named",
+          "line": 109
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useState",
+          "line": 13
+        },
+        {
+          "name": "useEffect",
+          "line": 22
+        },
+        {
+          "name": "useRef",
+          "line": 110
+        },
+        {
+          "name": "useRef",
+          "line": 111
+        },
+        {
+          "name": "useEffect",
+          "line": 113
+        }
+      ],
+      "dependencies": [
+        "react",
+        "@mui/material",
+        "@mui/icons-material"
+      ],
+      "complexity": {
+        "lines": 133,
+        "cyclomaticComplexity": 19,
+        "functionCount": 9,
+        "importCount": 3,
+        "score": 3
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\ResponsiveInspector.tsx": {
+      "path": "components\\ResponsiveInspector.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\ResponsiveInspector.tsx",
+      "type": "component",
+      "size": 8016,
+      "imports": [
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@mui/icons-material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 14
+        }
+      ],
+      "exports": [
+        {
+          "name": "ResponsiveInspector",
+          "type": "named",
+          "line": 24
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useTheme",
+          "line": 25
+        },
+        {
+          "name": "useState",
+          "line": 26
+        },
+        {
+          "name": "useState",
+          "line": 27
+        },
+        {
+          "name": "useMediaQuery",
+          "line": 30
+        },
+        {
+          "name": "useMediaQuery",
+          "line": 31
+        },
+        {
+          "name": "useMediaQuery",
+          "line": 32
+        },
+        {
+          "name": "useMediaQuery",
+          "line": 33
+        },
+        {
+          "name": "useMediaQuery",
+          "line": 34
+        },
+        {
+          "name": "useEffect",
+          "line": 37
+        }
+      ],
+      "dependencies": [
+        "react",
+        "@mui/material",
+        "@mui/icons-material"
+      ],
+      "complexity": {
+        "lines": 232,
+        "cyclomaticComplexity": 27,
+        "functionCount": 11,
+        "importCount": 3,
+        "score": 5
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\SearchOptimizer.tsx": {
+      "path": "components\\SearchOptimizer.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\SearchOptimizer.tsx",
+      "type": "module",
+      "size": 8534,
+      "imports": [
+        {
+          "path": "@mui/icons-material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 3
+        }
+      ],
+      "exports": [
+        {
+          "name": "SearchOptimizer",
+          "type": "default",
+          "line": 273
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useState",
+          "line": 36
+        },
+        {
+          "name": "useState",
+          "line": 38
+        },
+        {
+          "name": "useEffect",
+          "line": 50
+        }
+      ],
+      "dependencies": [
+        "react",
+        "@mui/icons-material",
+        "@mui/material"
+      ],
+      "complexity": {
+        "lines": 273,
+        "cyclomaticComplexity": 26,
+        "functionCount": 25,
+        "importCount": 3,
+        "score": 7
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\SimpleCodeViewer.tsx": {
+      "path": "components\\SimpleCodeViewer.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\SimpleCodeViewer.tsx",
+      "type": "module",
+      "size": 1,
+      "imports": [],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 1,
+        "cyclomaticComplexity": 0,
+        "functionCount": 0,
+        "importCount": 0,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\SimpleEditor.tsx": {
+      "path": "components\\SimpleEditor.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\SimpleEditor.tsx",
+      "type": "module",
+      "size": 992,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        }
+      ],
+      "exports": [
+        {
+          "name": "SimpleEditor",
+          "type": "default",
+          "line": 45
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react"
+      ],
+      "complexity": {
+        "lines": 45,
+        "cyclomaticComplexity": 6,
+        "functionCount": 3,
+        "importCount": 1,
+        "score": 1
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\SimpleLayout.tsx": {
+      "path": "components\\SimpleLayout.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\SimpleLayout.tsx",
+      "type": "component",
+      "size": 8797,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        }
+      ],
+      "exports": [
+        {
+          "name": "SimpleContainer",
+          "type": "named",
+          "line": 12
+        },
+        {
+          "name": "SimpleGrid",
+          "type": "named",
+          "line": 52
+        },
+        {
+          "name": "SimplePaper",
+          "type": "named",
+          "line": 112
+        },
+        {
+          "name": "SimpleBox",
+          "type": "named",
+          "line": 151
+        },
+        {
+          "name": "SimpleStack",
+          "type": "named",
+          "line": 191
+        },
+        {
+          "name": "LayoutBuilder",
+          "type": "named",
+          "line": 250
+        },
+        {
+          "name": "ExampleLayout",
+          "type": "named",
+          "line": 301
+        }
+      ],
+      "components": [
+        {
+          "name": "ExampleLayout",
+          "type": "function",
+          "line": 301
+        }
+      ],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@mui/material"
+      ],
+      "complexity": {
+        "lines": 357,
+        "cyclomaticComplexity": 44,
+        "functionCount": 8,
+        "importCount": 2,
+        "score": 7
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "components\\StructuredData.tsx": {
+      "path": "components\\StructuredData.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\components\\StructuredData.tsx",
+      "type": "module",
+      "size": 553,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        }
+      ],
+      "exports": [
+        {
+          "name": "StructuredData",
+          "type": "default",
+          "line": 23
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react"
+      ],
+      "complexity": {
+        "lines": 23,
+        "cyclomaticComplexity": 1,
+        "functionCount": 1,
+        "importCount": 1,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "hooks\\useElementSize.ts": {
+      "path": "hooks\\useElementSize.ts",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\hooks\\useElementSize.ts",
+      "type": "component",
+      "size": 1504,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        }
+      ],
+      "exports": [
+        {
+          "name": "useElementSize",
+          "type": "named",
+          "line": 8
+        },
+        {
+          "name": "SizeDebugger",
+          "type": "named",
+          "line": 38
+        }
+      ],
+      "components": [],
+      "hooks": [
+        {
+          "name": "useEffect",
+          "line": 12
+        }
+      ],
+      "dependencies": [
+        "react"
+      ],
+      "complexity": {
+        "lines": 63,
+        "cyclomaticComplexity": 5,
+        "functionCount": 5,
+        "importCount": 1,
+        "score": 1
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "index.css": {
+      "path": "index.css",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\index.css",
+      "type": "style",
+      "size": 8011,
+      "imports": [],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 471,
+        "cyclomaticComplexity": 17,
+        "functionCount": 0,
+        "importCount": 1,
+        "score": 6
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "main.tsx": {
+      "path": "main.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\main.tsx",
+      "type": "module",
+      "size": 245,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "react-dom/client",
+          "type": "react",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "./App.tsx",
+          "type": "local",
+          "isLocal": true,
+          "line": 3
+        }
+      ],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "react-dom"
+      ],
+      "complexity": {
+        "lines": 10,
+        "cyclomaticComplexity": 0,
+        "functionCount": 0,
+        "importCount": 4,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "pages\\Documentation.tsx": {
+      "path": "pages\\Documentation.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\pages\\Documentation.tsx",
+      "type": "module",
+      "size": 11427,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        }
+      ],
+      "exports": [
+        {
+          "name": "Documentation",
+          "type": "default",
+          "line": 354
+        }
+      ],
+      "components": [
+        {
+          "name": "Documentation",
+          "type": "function",
+          "line": 12
+        }
+      ],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@mui/material"
+      ],
+      "complexity": {
+        "lines": 354,
+        "cyclomaticComplexity": 25,
+        "functionCount": 7,
+        "importCount": 2,
+        "score": 5
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "pages\\Home.tsx": {
+      "path": "pages\\Home.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\pages\\Home.tsx",
+      "type": "module",
+      "size": 5681,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 13
+        }
+      ],
+      "exports": [
+        {
+          "name": "Home",
+          "type": "default",
+          "line": 173
+        }
+      ],
+      "components": [
+        {
+          "name": "Home",
+          "type": "function",
+          "line": 15
+        }
+      ],
+      "hooks": [
+        {
+          "name": "useNavigate",
+          "line": 16
+        }
+      ],
+      "dependencies": [
+        "react",
+        "@mui/material",
+        "react-router-dom"
+      ],
+      "complexity": {
+        "lines": 173,
+        "cyclomaticComplexity": 12,
+        "functionCount": 8,
+        "importCount": 3,
+        "score": 3
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "pages\\NotFound.tsx": {
+      "path": "pages\\NotFound.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\pages\\NotFound.tsx",
+      "type": "module",
+      "size": 737,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 2
+        }
+      ],
+      "exports": [
+        {
+          "name": "NotFound",
+          "type": "default",
+          "line": 24
+        }
+      ],
+      "components": [
+        {
+          "name": "NotFound",
+          "type": "function",
+          "line": 4
+        }
+      ],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "react-router-dom"
+      ],
+      "complexity": {
+        "lines": 24,
+        "cyclomaticComplexity": 1,
+        "functionCount": 1,
+        "importCount": 2,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "pages\\QuickTypeGuide.tsx": {
+      "path": "pages\\QuickTypeGuide.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\pages\\QuickTypeGuide.tsx",
+      "type": "module",
+      "size": 8291,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "./types",
+          "type": "local",
+          "isLocal": true,
+          "line": 44
+        }
+      ],
+      "exports": [
+        {
+          "name": "QuickTypeGuide",
+          "type": "default",
+          "line": 254
+        }
+      ],
+      "components": [
+        {
+          "name": "QuickTypeGuide",
+          "type": "function",
+          "line": 13
+        }
+      ],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@mui/material"
+      ],
+      "complexity": {
+        "lines": 254,
+        "cyclomaticComplexity": 7,
+        "functionCount": 5,
+        "importCount": 3,
+        "score": 3
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "pages\\SchemaExplorer.tsx": {
+      "path": "pages\\SchemaExplorer.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\pages\\SchemaExplorer.tsx",
+      "type": "component",
+      "size": 25518,
+      "imports": [
+        {
+          "path": "@mui/material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "@mui/icons-material",
+          "type": "mui",
+          "isLocal": false,
+          "line": 27
+        },
+        {
+          "path": "../components/CodeEditor",
+          "type": "local",
+          "isLocal": true,
+          "line": 36
+        },
+        {
+          "path": "../components/LayoutDebugger",
+          "type": "local",
+          "isLocal": true,
+          "line": 37
+        },
+        {
+          "path": "../components/ResponsiveInspector",
+          "type": "local",
+          "isLocal": true,
+          "line": 38
+        },
+        {
+          "path": "../services/schemaService",
+          "type": "local",
+          "isLocal": true,
+          "line": 39
+        }
+      ],
+      "exports": [
+        {
+          "name": "is",
+          "type": "named",
+          "line": 318
+        },
+        {
+          "name": "validate",
+          "type": "named",
+          "line": 323
+        },
+        {
+          "name": "SchemaExplorer",
+          "type": "default",
+          "line": 764
+        }
+      ],
+      "components": [
+        {
+          "name": "SchemaExplorer",
+          "type": "function",
+          "line": 78
+        }
+      ],
+      "hooks": [
+        {
+          "name": "useState",
+          "line": 82
+        },
+        {
+          "name": "useState",
+          "line": 83
+        },
+        {
+          "name": "useState",
+          "line": 84
+        },
+        {
+          "name": "useState",
+          "line": 85
+        },
+        {
+          "name": "useState",
+          "line": 87
+        },
+        {
+          "name": "useState",
+          "line": 88
+        },
+        {
+          "name": "useState",
+          "line": 97
+        },
+        {
+          "name": "useState",
+          "line": 101
+        },
+        {
+          "name": "useState",
+          "line": 102
+        },
+        {
+          "name": "useEffect",
+          "line": 105
+        },
+        {
+          "name": "useEffect",
+          "line": 155
+        },
+        {
+          "name": "useEffect",
+          "line": 173
+        }
+      ],
+      "dependencies": [
+        "react",
+        "@mui/material",
+        "@mui/icons-material"
+      ],
+      "complexity": {
+        "lines": 764,
+        "cyclomaticComplexity": 92,
+        "functionCount": 43,
+        "importCount": 7,
+        "score": 17
+      },
+      "dependsOn": [
+        {
+          "path": "../components/CodeEditor",
+          "type": "local",
+          "isLocal": true,
+          "line": 36
+        },
+        {
+          "path": "../components/LayoutDebugger",
+          "type": "local",
+          "isLocal": true,
+          "line": 37
+        },
+        {
+          "path": "../components/ResponsiveInspector",
+          "type": "local",
+          "isLocal": true,
+          "line": 38
+        },
+        {
+          "path": "../services/schemaService",
+          "type": "local",
+          "isLocal": true,
+          "line": 39
+        }
+      ],
+      "dependents": []
+    },
+    "services\\schemaService.ts": {
+      "path": "services\\schemaService.ts",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\services\\schemaService.ts",
+      "type": "hook",
+      "size": 16913,
+      "imports": [
+        {
+          "path": "time",
+          "type": "dynamic",
+          "isLocal": false,
+          "dynamic": true
+        }
+      ],
+      "exports": [
+        {
+          "name": "SchemaMetadata",
+          "type": "named",
+          "line": 1
+        },
+        {
+          "name": "SchemaCategory",
+          "type": "named",
+          "line": 9
+        },
+        {
+          "name": "SchemaRegistry",
+          "type": "named",
+          "line": 16
+        },
+        {
+          "name": "Schema",
+          "type": "named",
+          "line": 25
+        },
+        {
+          "name": "QuickTypeResult",
+          "type": "named",
+          "line": 35
+        },
+        {
+          "name": "schemaService",
+          "type": "named",
+          "line": 479
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 479,
+        "cyclomaticComplexity": 40,
+        "functionCount": 1,
+        "importCount": 7,
+        "score": 7
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "services\\typeGeneration.ts": {
+      "path": "services\\typeGeneration.ts",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\services\\typeGeneration.ts",
+      "type": "utility",
+      "size": 6445,
+      "imports": [
+        {
+          "path": "quicktype-core",
+          "type": "external",
+          "isLocal": false,
+          "line": 6
+        }
+      ],
+      "exports": [
+        {
+          "name": "TypeGenerationOptions",
+          "type": "named",
+          "line": 13
+        },
+        {
+          "name": "GeneratedTypes",
+          "type": "named",
+          "line": 23
+        },
+        {
+          "name": "generateTypesClientSide",
+          "type": "named",
+          "line": 176
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "quicktype-core"
+      ],
+      "complexity": {
+        "lines": 213,
+        "cyclomaticComplexity": 48,
+        "functionCount": 12,
+        "importCount": 1,
+        "score": 6
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "test\\App.test.tsx": {
+      "path": "test\\App.test.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\App.test.tsx",
+      "type": "module",
+      "size": 1,
+      "imports": [],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 1,
+        "cyclomaticComplexity": 0,
+        "functionCount": 0,
+        "importCount": 0,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "test\\CodeEditor.test.tsx": {
+      "path": "test\\CodeEditor.test.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\CodeEditor.test.tsx",
+      "type": "test",
+      "size": 4293,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@testing-library/react",
+          "type": "library",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 3
+        },
+        {
+          "path": "../components/CodeEditor",
+          "type": "local",
+          "isLocal": true,
+          "line": 4
+        }
+      ],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@testing-library/react",
+        "vitest"
+      ],
+      "complexity": {
+        "lines": 110,
+        "cyclomaticComplexity": 8,
+        "functionCount": 16,
+        "importCount": 4,
+        "score": 3
+      },
+      "dependsOn": [
+        {
+          "path": "../components/CodeEditor",
+          "type": "local",
+          "isLocal": true,
+          "line": 4
+        }
+      ],
+      "dependents": []
+    },
+    "test\\Footer.test.tsx": {
+      "path": "test\\Footer.test.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\Footer.test.tsx",
+      "type": "module",
+      "size": 1,
+      "imports": [],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 1,
+        "cyclomaticComplexity": 0,
+        "functionCount": 0,
+        "importCount": 0,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "test\\Layout.test.tsx": {
+      "path": "test\\Layout.test.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\Layout.test.tsx",
+      "type": "test",
+      "size": 14514,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@testing-library/react",
+          "type": "library",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 3
+        },
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 4
+        },
+        {
+          "path": "../components/Layout.jsx",
+          "type": "local",
+          "isLocal": true,
+          "line": 5
+        }
+      ],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@testing-library/react",
+        "react-router-dom",
+        "vitest"
+      ],
+      "complexity": {
+        "lines": 374,
+        "cyclomaticComplexity": 16,
+        "functionCount": 63,
+        "importCount": 7,
+        "score": 11
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "test\\SchemaExplorer.test.tsx": {
+      "path": "test\\SchemaExplorer.test.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\SchemaExplorer.test.tsx",
+      "type": "types",
+      "size": 15213,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@testing-library/react",
+          "type": "library",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 3
+        },
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 4
+        },
+        {
+          "path": "../pages/SchemaExplorer",
+          "type": "local",
+          "isLocal": true,
+          "line": 5
+        }
+      ],
+      "exports": [
+        {
+          "name": "TestSchema",
+          "type": "named",
+          "line": 91
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@testing-library/react",
+        "react-router-dom",
+        "vitest"
+      ],
+      "complexity": {
+        "lines": 404,
+        "cyclomaticComplexity": 26,
+        "functionCount": 78,
+        "importCount": 5,
+        "score": 13
+      },
+      "dependsOn": [
+        {
+          "path": "../pages/SchemaExplorer",
+          "type": "local",
+          "isLocal": true,
+          "line": 5
+        }
+      ],
+      "dependents": []
+    },
+    "test\\schemaService.test.ts": {
+      "path": "test\\schemaService.test.ts",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\schemaService.test.ts",
+      "type": "types",
+      "size": 8518,
+      "imports": [
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "../services/schemaService",
+          "type": "local",
+          "isLocal": true,
+          "line": 2
+        }
+      ],
+      "exports": [
+        {
+          "name": "TestSchema",
+          "type": "named",
+          "line": 122
+        },
+        {
+          "name": "TestSchema",
+          "type": "named",
+          "line": 253
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "vitest"
+      ],
+      "complexity": {
+        "lines": 256,
+        "cyclomaticComplexity": 7,
+        "functionCount": 22,
+        "importCount": 2,
+        "score": 5
+      },
+      "dependsOn": [
+        {
+          "path": "../services/schemaService",
+          "type": "local",
+          "isLocal": true,
+          "line": 2
+        }
+      ],
+      "dependents": []
+    },
+    "test\\setup.ts": {
+      "path": "test\\setup.ts",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\setup.ts",
+      "type": "types",
+      "size": 3416,
+      "imports": [
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 2
+        }
+      ],
+      "exports": [
+        {
+          "name": "TestSchema",
+          "type": "named",
+          "line": 158
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "vitest"
+      ],
+      "complexity": {
+        "lines": 162,
+        "cyclomaticComplexity": 10,
+        "functionCount": 12,
+        "importCount": 2,
+        "score": 3
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "test\\SimpleEditor.test.tsx": {
+      "path": "test\\SimpleEditor.test.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\SimpleEditor.test.tsx",
+      "type": "module",
+      "size": 1,
+      "imports": [],
+      "exports": [],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 1,
+        "cyclomaticComplexity": 0,
+        "functionCount": 0,
+        "importCount": 0,
+        "score": 0
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "test\\utils\\test-utils.tsx": {
+      "path": "test\\utils\\test-utils.tsx",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\utils\\test-utils.tsx",
+      "type": "component",
+      "size": 16573,
+      "imports": [
+        {
+          "path": "react",
+          "type": "react",
+          "isLocal": false,
+          "line": 1
+        },
+        {
+          "path": "@testing-library/react",
+          "type": "library",
+          "isLocal": false,
+          "line": 2
+        },
+        {
+          "path": "react-router-dom",
+          "type": "react",
+          "isLocal": false,
+          "line": 3
+        },
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 4
+        },
+        {
+          "path": "@mui/material/styles",
+          "type": "mui",
+          "isLocal": false,
+          "line": 5
+        },
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 6
+        }
+      ],
+      "exports": [
+        {
+          "name": "accessibilityTestUtils",
+          "type": "named",
+          "line": 37
+        },
+        {
+          "name": "mockData",
+          "type": "named",
+          "line": 78
+        },
+        {
+          "name": "TestSchema",
+          "type": "named",
+          "line": 108
+        },
+        {
+          "name": "mockApiResponses",
+          "type": "named",
+          "line": 124
+        },
+        {
+          "name": "setupTestEnvironment",
+          "type": "named",
+          "line": 142
+        },
+        {
+          "name": "customMatchers",
+          "type": "named",
+          "line": 174
+        },
+        {
+          "name": "testHelpers",
+          "type": "named",
+          "line": 202
+        },
+        {
+          "name": "toBeAccessible",
+          "type": "named",
+          "line": 248
+        },
+        {
+          "name": "testKeyboardNavigation",
+          "type": "named",
+          "line": 264
+        },
+        {
+          "name": "testScreenReaderAnnouncement",
+          "type": "named",
+          "line": 280
+        },
+        {
+          "name": "testColorContrast",
+          "type": "named",
+          "line": 288
+        },
+        {
+          "name": "testResponsiveBehavior",
+          "type": "named",
+          "line": 301
+        },
+        {
+          "name": "testLoadingState",
+          "type": "named",
+          "line": 329
+        },
+        {
+          "name": "testErrorState",
+          "type": "named",
+          "line": 351
+        },
+        {
+          "name": "testFormValidation",
+          "type": "named",
+          "line": 365
+        },
+        {
+          "name": "testI18n",
+          "type": "named",
+          "line": 380
+        },
+        {
+          "name": "testPerformance",
+          "type": "named",
+          "line": 394
+        },
+        {
+          "name": "testAccessibilityWithAxe",
+          "type": "named",
+          "line": 406
+        },
+        {
+          "name": "testSEOElements",
+          "type": "named",
+          "line": 428
+        },
+        {
+          "name": "testStructuredData",
+          "type": "named",
+          "line": 447
+        },
+        {
+          "name": "testPWAFeatures",
+          "type": "named",
+          "line": 462
+        },
+        {
+          "name": "testOfflineFunctionality",
+          "type": "named",
+          "line": 474
+        },
+        {
+          "name": "testSecurityHeaders",
+          "type": "named",
+          "line": 492
+        },
+        {
+          "name": "testAnalytics",
+          "type": "named",
+          "line": 504
+        },
+        {
+          "name": "testSocialMediaMetaTags",
+          "type": "named",
+          "line": 513
+        },
+        {
+          "name": "testSEO",
+          "type": "named",
+          "line": 530
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "react",
+        "@testing-library/react",
+        "react-router-dom",
+        "vitest",
+        "@mui/material"
+      ],
+      "complexity": {
+        "lines": 554,
+        "cyclomaticComplexity": 78,
+        "functionCount": 80,
+        "importCount": 7,
+        "score": 17
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "test\\utils.test.ts": {
+      "path": "test\\utils.test.ts",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\test\\utils.test.ts",
+      "type": "component",
+      "size": 8253,
+      "imports": [
+        {
+          "path": "vitest",
+          "type": "external",
+          "isLocal": false,
+          "line": 1
+        }
+      ],
+      "exports": [
+        {
+          "name": "formatSchemaName",
+          "type": "named",
+          "line": 4
+        },
+        {
+          "name": "validateEmail",
+          "type": "named",
+          "line": 9
+        },
+        {
+          "name": "debounce",
+          "type": "named",
+          "line": 15
+        },
+        {
+          "name": "capitalizeFirst",
+          "type": "named",
+          "line": 27
+        },
+        {
+          "name": "truncateText",
+          "type": "named",
+          "line": 32
+        },
+        {
+          "name": "getCodeExtension",
+          "type": "named",
+          "line": 39
+        },
+        {
+          "name": "validateJSONSchema",
+          "type": "named",
+          "line": 61
+        },
+        {
+          "name": "formatSchema",
+          "type": "named",
+          "line": 85
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [
+        "vitest"
+      ],
+      "complexity": {
+        "lines": 263,
+        "cyclomaticComplexity": 41,
+        "functionCount": 59,
+        "importCount": 1,
+        "score": 11
+      },
+      "dependsOn": [],
+      "dependents": []
+    },
+    "types\\OriginVaultRootAuthority.ts": {
+      "path": "types\\OriginVaultRootAuthority.ts",
+      "absolutePath": "C:\\Users\\lnisp\\originvault-schema-registry\\docs-site\\src\\types\\OriginVaultRootAuthority.ts",
+      "type": "utility",
+      "size": 8495,
+      "imports": [],
+      "exports": [
+        {
+          "name": "OriginVaultRootAuthority",
+          "type": "named",
+          "line": 16
+        },
+        {
+          "name": "CredentialStatus",
+          "type": "named",
+          "line": 30
+        },
+        {
+          "name": "StatusPurpose",
+          "type": "named",
+          "line": 39
+        },
+        {
+          "name": "CredentialStatusType",
+          "type": "named",
+          "line": 41
+        },
+        {
+          "name": "CredentialSubject",
+          "type": "named",
+          "line": 43
+        },
+        {
+          "name": "AccreditationStandard",
+          "type": "named",
+          "line": 56
+        },
+        {
+          "name": "BlockchainAnchoring",
+          "type": "named",
+          "line": 63
+        },
+        {
+          "name": "BlockchainNetwork",
+          "type": "named",
+          "line": 70
+        },
+        {
+          "name": "RegistrationProof",
+          "type": "named",
+          "line": 72
+        },
+        {
+          "name": "DelegationPolicy",
+          "type": "named",
+          "line": 78
+        },
+        {
+          "name": "GovernanceModel",
+          "type": "named",
+          "line": 85
+        },
+        {
+          "name": "GovernanceModelType",
+          "type": "named",
+          "line": 92
+        },
+        {
+          "name": "Interoperability",
+          "type": "named",
+          "line": 94
+        },
+        {
+          "name": "StandardsCompliance",
+          "type": "named",
+          "line": 102
+        },
+        {
+          "name": "RootType",
+          "type": "named",
+          "line": 110
+        },
+        {
+          "name": "Issuer",
+          "type": "named",
+          "line": 112
+        },
+        {
+          "name": "IssuerType",
+          "type": "named",
+          "line": 119
+        },
+        {
+          "name": "TermsOfUse",
+          "type": "named",
+          "line": 121
+        },
+        {
+          "name": "TermsOfUseType",
+          "type": "named",
+          "line": 129
+        },
+        {
+          "name": "OriginVaultRootAuthorityExample",
+          "type": "named",
+          "line": 132
+        },
+        {
+          "name": "isOriginVaultRootAuthority",
+          "type": "named",
+          "line": 249
+        },
+        {
+          "name": "validateOriginVaultRootAuthority",
+          "type": "named",
+          "line": 257
+        },
+        {
+          "name": "OriginVaultRootAuthorityArray",
+          "type": "named",
+          "line": 281
+        }
+      ],
+      "components": [],
+      "hooks": [],
+      "dependencies": [],
+      "complexity": {
+        "lines": 282,
+        "cyclomaticComplexity": 50,
+        "functionCount": 3,
+        "importCount": 0,
+        "score": 6
+      },
+      "dependsOn": [],
+      "dependents": []
+    }
+  },
+  "circularDependencies": [],
+  "componentAnalysis": {
+    "byType": {
+      "module": 19,
+      "component": 8,
+      "hook": 2,
+      "style": 1,
+      "utility": 2,
+      "test": 2,
+      "types": 3
+    },
+    "complexity": {
+      "simple": 14,
+      "moderate": 11,
+      "complex": 12
+    },
+    "patterns": {
+      "containers": 10,
+      "presentations": 4,
+      "hooks": 1,
+      "utilities": 2
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "medium",
+      "category": "complexity",
+      "title": "Reduce File Complexity",
+      "description": "5 files have high complexity scores.",
+      "impact": "Improves maintainability and testability"
+    },
+    {
+      "priority": "low",
+      "category": "structure",
+      "title": "Consider Component Structure",
+      "description": "Low ratio of component files suggests potential for better organization.",
+      "impact": "Better code organization and reusability"
+    }
+  ]
+}

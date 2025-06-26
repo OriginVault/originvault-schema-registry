@@ -1,0 +1,39 @@
+"""
+Generated Python types from JSON Schema
+Schema: PersonCredential
+Generated: 2025-06-26T04:06:15.991Z
+Generator: OriginVault Schema Service
+"""
+
+from typing import Dict, List, Optional, Union, Any
+from dataclasses import dataclass
+from datetime import datetime
+
+@dataclass
+class PersonCredential:
+    # Unique identifier
+    id: str
+    # First name
+    firstName: str
+    # Last name
+    lastName: str
+    # Email address
+    email: str
+    # Is active
+    isActive: Optional[bool] = None
+    # Permissions list
+    permissions: Optional[List[str]] = None
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> 'PersonCredential':
+        return cls(**data)
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'id': self.id,
+            'firstName': self.firstName,
+            'lastName': self.lastName,
+            'email': self.email,
+            'isActive': self.isActive,
+            'permissions': self.permissions,
+        }

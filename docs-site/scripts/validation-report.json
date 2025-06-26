@@ -1,0 +1,1479 @@
+{
+  "timestamp": "2025-06-26T03:41:54.044Z",
+  "summary": {
+    "totalComponents": 28,
+    "passedComponents": 0,
+    "failedComponents": 28,
+    "totalIssues": 99,
+    "totalWarnings": 76,
+    "averageScore": 30,
+    "issuesByType": {
+      "accessibility": {
+        "high": 0,
+        "medium": 33,
+        "low": 0
+      },
+      "performance": {
+        "high": 0,
+        "medium": 24,
+        "low": 2
+      },
+      "testing": {
+        "high": 0,
+        "medium": 0,
+        "low": 28
+      },
+      "typescript": {
+        "high": 0,
+        "medium": 12,
+        "low": 0
+      }
+    },
+    "warningsByType": {
+      "accessibility": 14,
+      "typescript": 16,
+      "styling": 23,
+      "performance": 5,
+      "structure": 18
+    }
+  },
+  "passed": [],
+  "failed": [
+    {
+      "path": "App.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 22,
+      "maxScore": 80,
+      "percentage": 28
+    },
+    {
+      "path": "components\\AccessibilityEnhancer.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "performance",
+          "message": "Multiple inline functions detected (consider useCallback)"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (241 lines). Consider splitting."
+        }
+      ],
+      "score": 36,
+      "maxScore": 80,
+      "percentage": 45
+    },
+    {
+      "path": "components\\BreadcrumbNav.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "No TypeScript types detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 12,
+      "maxScore": 80,
+      "percentage": 15
+    },
+    {
+      "path": "components\\CodeEditor.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (205 lines). Consider splitting."
+        },
+        {
+          "type": "structure",
+          "message": "Imports not in recommended order (React, external, local)"
+        }
+      ],
+      "score": 21,
+      "maxScore": 80,
+      "percentage": 26
+    },
+    {
+      "path": "components\\Footer.tsx",
+      "component": "Footer",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Imports not in recommended order (React, external, local)"
+        }
+      ],
+      "score": 27,
+      "maxScore": 80,
+      "percentage": 34
+    },
+    {
+      "path": "components\\Layout.jsx",
+      "component": "Layout",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (272 lines). Consider splitting."
+        }
+      ],
+      "score": 38,
+      "maxScore": 80,
+      "percentage": 48
+    },
+    {
+      "path": "components\\Layout.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "structure",
+          "message": "Imports not in recommended order (React, external, local)"
+        }
+      ],
+      "score": 35,
+      "maxScore": 80,
+      "percentage": 44
+    },
+    {
+      "path": "components\\LayoutDebugger.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (373 lines). Consider splitting."
+        }
+      ],
+      "score": 30,
+      "maxScore": 80,
+      "percentage": 38
+    },
+    {
+      "path": "components\\OpenGraphImage.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "No TypeScript types detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 12,
+      "maxScore": 80,
+      "percentage": 15
+    },
+    {
+      "path": "components\\PerformanceMonitor.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "performance",
+          "severity": "low",
+          "message": "Console.log statements found (should be removed in production)"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 22,
+      "maxScore": 80,
+      "percentage": 28
+    },
+    {
+      "path": "components\\ResponsiveInspector.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "performance",
+          "message": "Multiple inline functions detected (consider useCallback)"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (232 lines). Consider splitting."
+        }
+      ],
+      "score": 32,
+      "maxScore": 80,
+      "percentage": 40
+    },
+    {
+      "path": "components\\SearchOptimizer.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (273 lines). Consider splitting."
+        }
+      ],
+      "score": 32,
+      "maxScore": 80,
+      "percentage": 40
+    },
+    {
+      "path": "components\\SimpleCodeViewer.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "No TypeScript types detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 12,
+      "maxScore": 80,
+      "percentage": 15
+    },
+    {
+      "path": "components\\SimpleEditor.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 29,
+      "maxScore": 80,
+      "percentage": 36
+    },
+    {
+      "path": "components\\SimpleLayout.tsx",
+      "component": "ExampleLayout",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "List rendering without proper key props"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (357 lines). Consider splitting."
+        }
+      ],
+      "score": 28,
+      "maxScore": 80,
+      "percentage": 35
+    },
+    {
+      "path": "components\\StructuredData.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 26,
+      "maxScore": 80,
+      "percentage": 33
+    },
+    {
+      "path": "hooks\\useElementSize.ts",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 23,
+      "maxScore": 80,
+      "percentage": 29
+    },
+    {
+      "path": "main.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "No TypeScript types detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 12,
+      "maxScore": 80,
+      "percentage": 15
+    },
+    {
+      "path": "pages\\Documentation.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (354 lines). Consider splitting."
+        }
+      ],
+      "score": 22,
+      "maxScore": 80,
+      "percentage": 28
+    },
+    {
+      "path": "pages\\Home.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Imports not in recommended order (React, external, local)"
+        }
+      ],
+      "score": 26,
+      "maxScore": 80,
+      "percentage": 33
+    },
+    {
+      "path": "pages\\NotFound.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        }
+      ],
+      "score": 31,
+      "maxScore": 80,
+      "percentage": 39
+    },
+    {
+      "path": "pages\\QuickTypeGuide.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "accessibility",
+          "message": "Possible color-only information without text alternative"
+        },
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (254 lines). Consider splitting."
+        }
+      ],
+      "score": 22,
+      "maxScore": 80,
+      "percentage": 28
+    },
+    {
+      "path": "pages\\SchemaExplorer.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "Click handlers without keyboard support"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "performance",
+          "message": "Multiple inline functions detected (consider useCallback)"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (764 lines). Consider splitting."
+        }
+      ],
+      "score": 35,
+      "maxScore": 80,
+      "percentage": 44
+    },
+    {
+      "path": "services\\schemaService.ts",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "performance",
+          "severity": "low",
+          "message": "Console.log statements found (should be removed in production)"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "List rendering without proper key props"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (479 lines). Consider splitting."
+        }
+      ],
+      "score": 9,
+      "maxScore": 80,
+      "percentage": 11
+    },
+    {
+      "path": "services\\typeGeneration.ts",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "List rendering without proper key props"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (213 lines). Consider splitting."
+        }
+      ],
+      "score": 11,
+      "maxScore": 80,
+      "percentage": 14
+    },
+    {
+      "path": "test\\setup.ts",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "performance",
+          "message": "Multiple inline functions detected (consider useCallback)"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        }
+      ],
+      "score": 16,
+      "maxScore": 80,
+      "percentage": 20
+    },
+    {
+      "path": "test\\utils\\test-utils.tsx",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "performance",
+          "message": "Multiple inline functions detected (consider useCallback)"
+        },
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (554 lines). Consider splitting."
+        }
+      ],
+      "score": 25,
+      "maxScore": 80,
+      "percentage": 31
+    },
+    {
+      "path": "types\\OriginVaultRootAuthority.ts",
+      "component": "UnknownComponent",
+      "issues": [
+        {
+          "type": "accessibility",
+          "severity": "medium",
+          "message": "No ARIA attributes found"
+        },
+        {
+          "type": "performance",
+          "severity": "medium",
+          "message": "Large component without memoization"
+        },
+        {
+          "type": "typescript",
+          "severity": "medium",
+          "message": "TypeScript \"any\" type usage detected"
+        },
+        {
+          "type": "testing",
+          "severity": "low",
+          "message": "No test file found for this component"
+        }
+      ],
+      "warnings": [
+        {
+          "type": "typescript",
+          "message": "Component props may not be properly typed"
+        },
+        {
+          "type": "styling",
+          "message": "No responsive breakpoints detected"
+        },
+        {
+          "type": "structure",
+          "message": "Component is large (282 lines). Consider splitting."
+        }
+      ],
+      "score": 11,
+      "maxScore": 80,
+      "percentage": 14
+    }
+  ],
+  "warnings": [
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "performance",
+      "message": "Multiple inline functions detected (consider useCallback)"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (241 lines). Consider splitting."
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (205 lines). Consider splitting."
+    },
+    {
+      "type": "structure",
+      "message": "Imports not in recommended order (React, external, local)"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Imports not in recommended order (React, external, local)"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (272 lines). Consider splitting."
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "structure",
+      "message": "Imports not in recommended order (React, external, local)"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (373 lines). Consider splitting."
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "performance",
+      "message": "Multiple inline functions detected (consider useCallback)"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (232 lines). Consider splitting."
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (273 lines). Consider splitting."
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (357 lines). Consider splitting."
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (354 lines). Consider splitting."
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Imports not in recommended order (React, external, local)"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "accessibility",
+      "message": "Possible color-only information without text alternative"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (254 lines). Consider splitting."
+    },
+    {
+      "type": "performance",
+      "message": "Multiple inline functions detected (consider useCallback)"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (764 lines). Consider splitting."
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (479 lines). Consider splitting."
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (213 lines). Consider splitting."
+    },
+    {
+      "type": "performance",
+      "message": "Multiple inline functions detected (consider useCallback)"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "performance",
+      "message": "Multiple inline functions detected (consider useCallback)"
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (554 lines). Consider splitting."
+    },
+    {
+      "type": "typescript",
+      "message": "Component props may not be properly typed"
+    },
+    {
+      "type": "styling",
+      "message": "No responsive breakpoints detected"
+    },
+    {
+      "type": "structure",
+      "message": "Component is large (282 lines). Consider splitting."
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "medium",
+      "category": "testing",
+      "title": "Improve Test Coverage",
+      "description": "28 components missing test files",
+      "action": "Add unit tests for components"
+    },
+    {
+      "priority": "medium",
+      "category": "types",
+      "title": "Improve TypeScript Usage",
+      "description": "Components found with TypeScript issues",
+      "action": "Add proper type definitions and remove any types"
+    },
+    {
+      "priority": "low",
+      "category": "structure",
+      "title": "Improve Code Structure",
+      "description": "Multiple structural warnings found",
+      "action": "Review component organization and file sizes"
+    }
+  ]
+}

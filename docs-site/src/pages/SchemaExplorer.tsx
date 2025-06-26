@@ -18,10 +18,24 @@ import {
   Chip,
   Alert,
   CircularProgress,
-  Card,
-  CardContent
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Toolbar,
+  Divider
 } from '@mui/material'
+import {
+  Search as SearchIcon,
+  GetApp as DownloadIcon,
+  Code as CodeIcon,
+  Schema as SchemaIcon,
+  ExpandMore as ExpandMoreIcon,
+  PlayArrow as ValidateIcon,
+  AutoFixHigh as GenerateIcon
+} from '@mui/icons-material'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import CodeEditor from '../components/CodeEditor'
+import SocialShare from '../components/SocialShare'
 import { schemaService, Schema } from '../services/schemaService'
 
 interface TabPanelProps {
@@ -39,7 +53,7 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
       aria-labelledby={`schema-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>{children}</Box>}
     </div>
   )
 }
@@ -58,6 +72,58 @@ const SchemaExplorer: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [categories, setCategories] = useState<{ id: string; name: string; description: string; count: number }[]>([])
   const [languages, setLanguages] = useState<{ id: string; name: string }[]>([])
+  
+  // Dynamic type generation state
+  const [schemaInput, setSchemaInput] = useState<string>('{}')
+  const [dynamicTypes, setDynamicTypes] = useState<string>('')
+  const [dynamicLoading, setDynamicLoading] = useState(false)
+
+  // Validation state
+  const [jsonExample, setJsonExample] = useState('')
+  const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null)
+  const [showValidation, setShowValidation] = useState(false)
+
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+
+  // Initialize state from URL parameters
+  const initializeFromURL = (schemasArray: Schema[]) => {
+    const schemaId = searchParams.get('schema')
+    const tab = parseInt(searchParams.get('tab') || '0')
+    const lang = searchParams.get('language') || 'typescript'
+    const category = searchParams.get('category') || 'all'
+    const search = searchParams.get('search') || ''
+    const validation = searchParams.get('validation') === 'true'
+    
+    setTabValue(tab)
+    setSelectedLanguage(lang)
+    setSelectedCategory(category)
+    setSearchTerm(search)
+    setShowValidation(validation)
+    
+    // Find and select schema if specified in URL
+    if (schemaId && schemasArray.length > 0) {
+      const schema = schemasArray.find(s => s.id === schemaId)
+      if (schema) {
+        handleSchemaSelect(schema)
+      }
+    }
+  }
+  
+  // Update URL when state changes
+  const updateURL = (updates: Record<string, string | number | boolean | null>) => {
+    const newParams = new URLSearchParams(searchParams)
+    
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === '' || value === 0 || value === false || value === 'all' || value === 'typescript') {
+        newParams.delete(key)
+      } else {
+        newParams.set(key, String(value))
+      }
+    })
+    
+    navigate(`?${newParams.toString()}`, { replace: true })
+  }
 
   // Load schemas and categories on component mount
   useEffect(() => {
@@ -98,6 +164,9 @@ const SchemaExplorer: React.FC = () => {
         setFilteredSchemas(schemasArray)
         setCategories(categoriesArray)
         setLanguages(schemaService.getLanguages())
+        
+        // Initialize from URL after schemas are loaded
+        initializeFromURL(schemasArray)
       } catch (err) {
         setError('Failed to load schema data. Please try refreshing the page.')
         console.error('Error loading schemas:', err)
@@ -159,6 +228,15 @@ const SchemaExplorer: React.FC = () => {
       
       setSelectedSchema(schema)
       setTabValue(0)
+      
+      // Update URL with selected schema
+      updateURL({ schema: schema.id, tab: 0 })
+      
+      // Also update the dynamic type generator with this schema
+      if (schema.content) {
+        setSchemaInput(JSON.stringify(schema.content, null, 2))
+        await generateTypesFromSchema(schema.content)
+      }
     } catch (error) {
       console.error('Error loading schema content:', error)
       setError('Failed to load schema content')
@@ -169,18 +247,24 @@ const SchemaExplorer: React.FC = () => {
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
+    setShowValidation(false) // Close validation when switching tabs
+    updateURL({ tab: newValue, validation: false })
   }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
+    const value = event.target.value
+    setSearchTerm(value)
+    updateURL({ search: value })
   }
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
+    updateURL({ category })
   }
 
   const handleLanguageChange = (language: string) => {
     setSelectedLanguage(language)
+    updateURL({ language })
   }
 
   const handleCopyCode = async () => {
@@ -207,19 +291,248 @@ const SchemaExplorer: React.FC = () => {
   const getFileExtension = (language: string): string => {
     const extensions: { [key: string]: string } = {
       typescript: 'ts',
+      javascript: 'js',
       python: 'py',
       go: 'go',
       csharp: 'cs',
       java: 'java',
-      rust: 'rs'
+      kotlin: 'kt',
+      swift: 'swift',
+      rust: 'rs',
+      php: 'php',
+      ruby: 'rb',
+      dart: 'dart',
+      elm: 'elm',
+      json: 'json',
+      'json-schema': 'json'
     }
     return extensions[language] || 'txt'
+  }
+
+  // Dynamic type generation functions
+  const generateTypesFromSchema = async (schema: any) => {
+    setDynamicLoading(true)
+    try {
+      const generatedTypes = generateBasicTypesFromSchema(schema)
+      setDynamicTypes(generatedTypes)
+    } catch (error) {
+      console.error('Failed to generate types:', error)
+      setDynamicTypes(`// Error generating types: ${(error as Error).message}\n\n// Please check your JSON Schema format.`)
+    } finally {
+      setDynamicLoading(false)
+    }
+  }
+
+  const generateBasicTypesFromSchema = (schema: any): string => {
+    if (!schema || typeof schema !== 'object') {
+      return '// Invalid schema provided'
+    }
+
+    const typeName = schema.title || 'GeneratedType'
+    const interfaceName = typeName.replace(/[^a-zA-Z0-9]/g, '')
+    
+    let types = `/**
+ * Generated TypeScript types from JSON Schema
+ * Generated on: ${new Date().toISOString()}
+ * Schema: ${schema.$id || 'Unknown'}
+ */
+
+export interface ${interfaceName} {
+`
+
+    if (schema.properties) {
+      for (const [propName, propSchema] of Object.entries(schema.properties as any)) {
+        const propType = getTypeScriptType(propSchema as any)
+        const isRequired = schema.required?.includes(propName) ? '' : '?'
+        types += `  ${propName}${isRequired}: ${propType};\n`
+      }
+    }
+
+    types += `}
+
+// Type guard function
+export function is${interfaceName}(data: unknown): data is ${interfaceName} {
+  return typeof data === 'object' && data !== null;
+}
+
+// Validation function
+export function validate${interfaceName}(data: unknown): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  
+  if (!is${interfaceName}(data)) {
+    errors.push('Invalid data structure');
+    return { valid: false, errors };
+  }
+  
+  // Add validation logic here based on your schema
+  ${schema.required ? schema.required.map((req: string) => 
+    `if (!data.${req}) errors.push('Missing required property: ${req}');`
+  ).join('\n  ') : ''}
+  
+  return { valid: errors.length === 0, errors };
+}
+`
+
+    return types
+  }
+
+  const getTypeScriptType = (propSchema: any): string => {
+    if (!propSchema || typeof propSchema !== 'object') {
+      return 'any'
+    }
+
+    const type = propSchema.type
+    const format = propSchema.format
+    const enumValues = propSchema.enum
+    const items = propSchema.items
+
+    if (enumValues && Array.isArray(enumValues)) {
+      return enumValues.map((v: any) => `"${v}"`).join(' | ')
+    }
+
+    if (type === 'array' && items) {
+      const itemType = getTypeScriptType(items)
+      return `${itemType}[]`
+    }
+
+    if (type === 'object' && propSchema.properties) {
+      return 'object' // Simplified for demo
+    }
+
+    switch (type) {
+      case 'string':
+        if (format === 'email') return 'string'
+        if (format === 'date-time') return 'string'
+        if (format === 'date') return 'string'
+        return 'string'
+      case 'number':
+      case 'integer':
+        return 'number'
+      case 'boolean':
+        return 'boolean'
+      case 'null':
+        return 'null'
+      case 'array':
+        return 'any[]'
+      case 'object':
+        return 'object'
+      default:
+        return 'any'
+    }
+  }
+
+  const handleSchemaChange = async (newSchema: string) => {
+    setSchemaInput(newSchema)
+    try {
+      const parsedSchema = JSON.parse(newSchema)
+      await generateTypesFromSchema(parsedSchema)
+    } catch (error) {
+      setDynamicTypes('// Invalid JSON Schema\n// Please check your syntax.')
+    }
+  }
+
+  const validateExample = () => {
+    try {
+      const example = JSON.parse(jsonExample)
+      const schema = JSON.parse(schemaInput)
+      // Simple validation - in a real app you'd use a proper JSON Schema validator
+      const errors: string[] = []
+      
+      if (schema.required) {
+        for (const req of schema.required) {
+          if (!(req in example)) {
+            errors.push(`Missing required property: ${req}`)
+          }
+        }
+      }
+      
+      setValidationResult({ valid: errors.length === 0, errors })
+    } catch (error) {
+      setValidationResult({ 
+        valid: false, 
+        errors: ['Invalid JSON format or schema'] 
+      })
+    }
+  }
+
+  const generateExampleFromSchema = (schema: any): any => {
+    if (!schema || typeof schema !== 'object') {
+      return {}
+    }
+
+    // Handle different schema types
+    if (schema.type === 'object' && schema.properties) {
+      const example: any = {}
+      
+      // Generate examples for each property
+      for (const [propName, propSchema] of Object.entries(schema.properties as any)) {
+        example[propName] = generateValueFromProperty(propSchema as any)
+      }
+      
+      return example
+    }
+    
+    // If not an object schema, generate based on root type
+    return generateValueFromProperty(schema)
+  }
+
+  const generateValueFromProperty = (propSchema: any): any => {
+    if (!propSchema) return null
+
+    // Handle enum values
+    if (propSchema.enum && Array.isArray(propSchema.enum)) {
+      return propSchema.enum[0]
+    }
+
+    // Handle examples if provided
+    if (propSchema.example !== undefined) {
+      return propSchema.example
+    }
+
+    // Generate based on type
+    switch (propSchema.type) {
+      case 'string':
+        if (propSchema.format === 'email') return 'user@example.com'
+        if (propSchema.format === 'date-time') return new Date().toISOString()
+        if (propSchema.format === 'date') return new Date().toISOString().split('T')[0]
+        if (propSchema.format === 'uri') return 'https://example.com'
+        return propSchema.title ? `Example ${propSchema.title}` : 'example string'
+        
+      case 'number':
+      case 'integer':
+        return propSchema.minimum || 42
+        
+      case 'boolean':
+        return true
+        
+      case 'array':
+        if (propSchema.items) {
+          return [generateValueFromProperty(propSchema.items)]
+        }
+        return []
+        
+      case 'object':
+        if (propSchema.properties) {
+          const nestedExample: any = {}
+          for (const [key, value] of Object.entries(propSchema.properties as any)) {
+            nestedExample[key] = generateValueFromProperty(value as any)
+          }
+          return nestedExample
+        }
+        return {}
+        
+      case 'null':
+        return null
+        
+      default:
+        return 'example value'
+    }
   }
 
   if (loading) {
     return (
       <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
           <CircularProgress />
         </Box>
       </Container>
@@ -229,8 +542,11 @@ const SchemaExplorer: React.FC = () => {
   if (error) {
     return (
       <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ mb: 3 }}>
+        <Alert severity="error">
           {error}
+          <Button onClick={() => window.location.reload()} sx={{ ml: 2 }}>
+            Retry
+          </Button>
         </Alert>
       </Container>
     )
@@ -238,19 +554,103 @@ const SchemaExplorer: React.FC = () => {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Typography variant="h3" component="h1" gutterBottom>
-        Schema Explorer
-      </Typography>
-      <Typography variant="h6" color="text.secondary" paragraph>
-        Browse {schemas.length} production-ready schemas, view JSON content, and generate type-safe code with QuickType integration
-      </Typography>
-
-      <Grid container spacing={3} sx={{ mt: 2 }}>
-        {/* Schema List */}
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ height: '70vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            {/* Search and Categories */}
-            <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
+      {/* Main App Header - Clean and separated */}
+      <Box sx={{ mb: 4 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+          <Box>
+            <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+              Schema Explorer & Type Generator
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Discover JSON Schemas and generate TypeScript types instantly
+            </Typography>
+          </Box>
+          
+          {/* Social share in main header - separate from content panels */}
+          {selectedSchema && (
+            <SocialShare 
+              title={`${selectedSchema.title} - OriginVault Schema Registry`}
+              description={selectedSchema.description}
+            />
+          )}
+        </Box>
+        
+        {/* Global toolbar for validation and tools */}
+        {selectedSchema && tabValue === 2 && (
+          <Paper variant="outlined" sx={{ p: 2, mb: 2, bgcolor: 'grey.50' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Typography variant="h6" component="h2">
+                  Schema Testing Tools
+                </Typography>
+                <Divider orientation="vertical" flexItem />
+                <Button
+                  variant={showValidation ? "contained" : "outlined"}
+                  startIcon={<ValidateIcon />}
+                  onClick={() => {
+                    const newValue = !showValidation
+                    setShowValidation(newValue)
+                    updateURL({ validation: newValue })
+                  }}
+                  size="small"
+                >
+                  Test Data Validation
+                </Button>
+              </Box>
+              
+              <Stack direction="row" spacing={1}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<CodeIcon />}
+                  onClick={() => navigator.clipboard.writeText(dynamicTypes)}
+                  disabled={!dynamicTypes || dynamicTypes.includes('Error') || dynamicTypes.includes('Invalid')}
+                >
+                  Copy Types
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => {
+                    try {
+                      const parsed = JSON.parse(schemaInput);
+                      setSchemaInput(JSON.stringify(parsed, null, 2));
+                    } catch (e) {
+                      // Format button does nothing if invalid JSON
+                    }
+                  }}
+                  disabled={!schemaInput}
+                >
+                  Format JSON
+                </Button>
+              </Stack>
+            </Box>
+          </Paper>
+        )}
+      </Box>
+      
+      <Grid container spacing={3}>
+        {/* Schema List Panel - Fixed height with proper scrolling */}
+        <Grid item xs={12} lg={4}>
+          <Paper sx={{ 
+            height: '700px', 
+            display: 'flex', 
+            flexDirection: 'column',
+            borderRadius: 2,
+            overflow: 'hidden'
+          }}>
+            {/* Fixed header */}
+            <Box sx={{ 
+              p: 3, 
+              borderBottom: 1, 
+              borderColor: 'divider',
+              bgcolor: 'grey.50',
+              flexShrink: 0
+            }}>
+              <Typography variant="h6" fontWeight="medium" gutterBottom>
+                Schema Library
+              </Typography>
+              
               <TextField
                 fullWidth
                 placeholder="Search schemas..."
@@ -259,212 +659,356 @@ const SchemaExplorer: React.FC = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <Box component="span" sx={{ color: 'text.secondary' }}>🔍</Box>
+                      <SearchIcon />
                     </InputAdornment>
-                  ),
+                  )
                 }}
                 size="small"
                 sx={{ mb: 2 }}
               />
               
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              {/* Category chips properly constrained within panel */}
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 <Chip
-                  label={`All (${schemas.length})`}
-                  size="small"
-                  variant={selectedCategory === 'all' ? 'filled' : 'outlined'}
+                  label="All"
+                  color={selectedCategory === 'all' ? 'primary' : 'default'}
                   onClick={() => handleCategoryChange('all')}
-                  clickable
+                  size="small"
                 />
                 {categories.map((category) => (
                   <Chip
                     key={category.id}
                     label={`${category.name} (${category.count})`}
-                    size="small"
-                    variant={selectedCategory === category.id ? 'filled' : 'outlined'}
+                    color={selectedCategory === category.id ? 'primary' : 'default'}
                     onClick={() => handleCategoryChange(category.id)}
-                    clickable
+                    size="small"
                   />
                 ))}
-              </Stack>
+              </Box>
             </Box>
-
-            {/* Schema List */}
-            <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
-              <List>
-                {filteredSchemas.map((schema) => (
-                  <ListItem key={schema.id} disablePadding>
-                    <ListItemButton
-                      selected={selectedSchema?.id === schema.id}
-                      onClick={() => handleSchemaSelect(schema)}
-                      sx={{ flexDirection: 'column', alignItems: 'flex-start', py: 2 }}
-                    >
-                      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                        <ListItemText
-                          primary={schema.title}
-                          secondary={schema.description}
-                          primaryTypographyProps={{ variant: 'subtitle2', fontWeight: 600 }}
-                          secondaryTypographyProps={{ variant: 'body2', sx: { mt: 0.5 } }}
-                        />
-                        <Chip
-                          label={schema.category}
-                          size="small"
-                          color="primary"
-                          variant="outlined"
-                          sx={{ ml: 1, flexShrink: 0 }}
-                        />
-                      </Box>
-                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                        <Chip
-                          label="JSON Schema"
-                          size="small"
-                          variant="outlined"
-                          color="secondary"
-                        />
-                        <Chip
-                          label="QuickType"
-                          size="small"
-                          variant="outlined"
-                          color="secondary"
-                        />
-                        {schema.examples.length > 0 && (
-                          <Chip
-                            label={`${schema.examples.length} examples`}
-                            size="small"
-                            variant="outlined"
-                            color="secondary"
-                          />
-                        )}
-                      </Box>
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-              </List>
-              
-              {filteredSchemas.length === 0 && (
-                <Box sx={{ p: 3, textAlign: 'center' }}>
-                  <Box component="span" sx={{ fontSize: 48, color: 'grey.400', mb: 2, display: 'block' }}>🔍</Box>
-                  <Typography color="text.secondary">
-                    No schemas found matching your criteria
-                  </Typography>
-                </Box>
-              )}
-            </Box>
+            
+            {/* Scrollable list */}
+            <List sx={{ flexGrow: 1, overflow: 'auto', p: 0 }}>
+              {filteredSchemas.map((schema) => (
+                <ListItem key={schema.id} disablePadding>
+                  <ListItemButton
+                    selected={selectedSchema?.id === schema.id}
+                    onClick={() => handleSchemaSelect(schema)}
+                    sx={{ px: 3, py: 2 }}
+                  >
+                    <ListItemText
+                      primary={schema.title}
+                      secondary={schema.description}
+                      primaryTypographyProps={{ variant: 'body2', fontWeight: 'medium' }}
+                      secondaryTypographyProps={{ variant: 'caption' }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
           </Paper>
         </Grid>
 
-        {/* Schema Content */}
-        <Grid item xs={12} md={8}>
+        {/* Main Content Panel - Fixed height with proper structure */}
+        <Grid item xs={12} lg={8}>
           {selectedSchema ? (
-            <Paper sx={{ height: '70vh', display: 'flex', flexDirection: 'column' }}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={tabValue} onChange={handleTabChange}>
-                  <Tab label="Schema JSON" />
+            <Paper sx={{ 
+              height: '700px', 
+              display: 'flex', 
+              flexDirection: 'column',
+              borderRadius: 2,
+              overflow: 'hidden'
+            }}>
+              {/* Fixed header with schema info */}
+              <Box sx={{ 
+                p: 3, 
+                borderBottom: 1, 
+                borderColor: 'divider',
+                bgcolor: 'grey.50',
+                flexShrink: 0
+              }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box>
+                    <Typography variant="h6" fontWeight="medium">
+                      {selectedSchema.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {selectedSchema.description}
+                    </Typography>
+                  </Box>
+                  <Chip label={selectedSchema.category} size="small" color="primary" variant="outlined" />
+                </Box>
+              </Box>
+
+              {/* Tab navigation */}
+              <Box sx={{ borderBottom: 1, borderColor: 'divider', flexShrink: 0 }}>
+                <Tabs value={tabValue} onChange={handleTabChange} sx={{ px: 3 }}>
                   <Tab label="Generated Code" />
-                  <Tab label="Examples" />
+                  <Tab label="JSON Schema" />
+                  <Tab label="Dynamic Generator" />
                 </Tabs>
               </Box>
 
-              <TabPanel value={tabValue} index={0}>
-                <CodeEditor
-                  value={JSON.stringify(selectedSchema.content, null, 2)}
-                  language="json"
-                  height="60vh"
-                  readOnly={true}
-                  title={`${selectedSchema.title} - JSON Schema`}
-                />
-              </TabPanel>
-
-              <TabPanel value={tabValue} index={1}>
-                <Box sx={{ height: '60vh', display: 'flex', flexDirection: 'column' }}>
-                  {/* Language Selector */}
-                  <Box sx={{ mb: 2 }}>
-                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                      {languages.map((language) => (
-                        <Chip
-                          key={language.id}
-                          label={language.name}
-                          size="small"
-                          variant={selectedLanguage === language.id ? 'filled' : 'outlined'}
-                          onClick={() => handleLanguageChange(language.id)}
-                          clickable
-                        />
-                      ))}
-                    </Stack>
-                  </Box>
-
-                  {/* Code Actions */}
-                  <Box sx={{ mb: 2, display: 'flex', gap: 1 }}>
-                    <Button
-                      size="small"
-                      onClick={handleCopyCode}
-                      variant="outlined"
-                    >
-                      Copy Code
-                    </Button>
-                    <Button
-                      size="small"
-                      onClick={handleDownloadCode}
-                      variant="outlined"
-                    >
-                      Download
-                    </Button>
-                  </Box>
-
-                  {/* Code Display */}
-                  <Box sx={{ flexGrow: 1 }}>
-                    <CodeEditor
-                      value={generatedCode}
-                      language={selectedLanguage}
-                      height="100%"
-                      readOnly={true}
-                      loading={codeLoading}
-                      title={`${selectedSchema.title} - ${selectedLanguage.charAt(0).toUpperCase() + selectedLanguage.slice(1)} Types`}
-                    />
-                  </Box>
-                </Box>
-              </TabPanel>
-
-              <TabPanel value={tabValue} index={2}>
-                <Box sx={{ height: '60vh', overflow: 'auto' }}>
-                  {selectedSchema.examples.length > 0 ? (
-                    <Stack spacing={2}>
-                      {selectedSchema.examples.map((example: any, index: number) => (
-                        <Card key={index} variant="outlined">
-                          <CardContent>
-                            <Typography variant="h6" gutterBottom>
-                              Example {index + 1}
-                            </Typography>
-                            <CodeEditor
-                              value={JSON.stringify(example, null, 2)}
-                              language="json"
-                              height="300px"
-                              readOnly={true}
-                              title="Example Data"
-                            />
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </Stack>
-                  ) : (
-                    <Box sx={{ textAlign: 'center', py: 4 }}>
-                      <Box component="span" sx={{ fontSize: 48, color: 'grey.400', mb: 2, display: 'block' }}>📄</Box>
-                      <Typography color="text.secondary">
-                        No examples available for this schema
-                      </Typography>
+              {/* Tab content with fixed height and proper scrolling */}
+              <Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <TabPanel value={tabValue} index={0}>
+                  {/* Language selection toolbar */}
+                  <Box sx={{ p: 3, pb: 2, borderBottom: 1, borderColor: 'divider', flexShrink: 0 }}>
+                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap', mb: 2 }}>
+                      <Typography variant="subtitle2" sx={{ mr: 1 }}>Language:</Typography>
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {languages.map((language) => (
+                          <Chip
+                            key={language.id}
+                            label={language.name}
+                            color={selectedLanguage === language.id ? 'primary' : 'default'}
+                            onClick={() => handleLanguageChange(language.id)}
+                            size="small"
+                          />
+                        ))}
+                      </Box>
                     </Box>
-                  )}
-                </Box>
-              </TabPanel>
+                    
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<CodeIcon />}
+                        onClick={handleCopyCode}
+                      >
+                        Copy
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<DownloadIcon />}
+                        onClick={handleDownloadCode}
+                      >
+                        Download
+                      </Button>
+                    </Box>
+                  </Box>
+                  
+                  {/* Code editor with proper height */}
+                  <Box sx={{ flexGrow: 1, p: 3, pt: 2 }}>
+                    <Paper variant="outlined" sx={{ height: '100%', overflow: 'hidden' }}>
+                      <CodeEditor
+                        value={generatedCode}
+                        language={selectedLanguage}
+                        readonly
+                        height="100%"
+                        loading={codeLoading}
+                        title={`Generated ${languages.find(l => l.id === selectedLanguage)?.name || 'Code'}`}
+                      />
+                    </Paper>
+                  </Box>
+                </TabPanel>
+
+                <TabPanel value={tabValue} index={1}>
+                  <Box sx={{ flexGrow: 1, p: 3 }}>
+                    <Paper variant="outlined" sx={{ height: '100%', overflow: 'hidden' }}>
+                      <CodeEditor
+                        value={selectedSchema.content ? JSON.stringify(selectedSchema.content, null, 2) : '{}'}
+                        language="json"
+                        readonly
+                        height="100%"
+                        title="JSON Schema Definition"
+                      />
+                    </Paper>
+                  </Box>
+                </TabPanel>
+
+                <TabPanel value={tabValue} index={2}>
+                  <Box sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                    {/* Validation section - only shown when expanded */}
+                    {showValidation && (
+                      <Paper variant="outlined" sx={{ p: 2, mb: 2, bgcolor: 'info.50' }}>
+                        <Typography variant="h6" gutterBottom>
+                          Test Data Validation
+                        </Typography>
+                        <Grid container spacing={2}>
+                          <Grid item xs={12} md={8}>
+                            <TextField
+                              fullWidth
+                              label="Test JSON Data"
+                              multiline
+                              rows={4}
+                              placeholder='{"id": "test", "name": "Example", "email": "test@example.com"}'
+                              value={jsonExample}
+                              onChange={(e) => setJsonExample(e.target.value)}
+                              variant="outlined"
+                              size="small"
+                            />
+                          </Grid>
+                          <Grid item xs={12} md={4}>
+                            <Stack spacing={1}>
+                              <Button 
+                                variant="contained" 
+                                fullWidth
+                                size="small"
+                                startIcon={<ValidateIcon />}
+                                onClick={validateExample}
+                                disabled={!schemaInput.trim() || !jsonExample.trim()}
+                              >
+                                Validate Data
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                fullWidth
+                                size="small"
+                                startIcon={<GenerateIcon />}
+                                onClick={() => {
+                                  try {
+                                    const schema = JSON.parse(schemaInput);
+                                    const example = generateExampleFromSchema(schema);
+                                    setJsonExample(JSON.stringify(example, null, 2));
+                                  } catch (e) {
+                                    console.warn('Cannot generate example from invalid schema');
+                                  }
+                                }}
+                                disabled={!schemaInput.trim()}
+                              >
+                                Generate Example
+                              </Button>
+                            </Stack>
+                          </Grid>
+                        </Grid>
+                        
+                        {/* Validation results */}
+                        {validationResult && (
+                          <Box sx={{ mt: 2 }}>
+                            {validationResult.valid ? (
+                              <Alert severity="success" onClose={() => setValidationResult(null)}>
+                                ✅ Valid JSON data for this schema
+                              </Alert>
+                            ) : (
+                              <Alert severity="error" onClose={() => setValidationResult(null)}>
+                                <Box>
+                                  <Typography variant="subtitle2">Validation Errors:</Typography>
+                                  <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
+                                    {validationResult.errors.map((error, index) => (
+                                      <li key={index}>{error}</li>
+                                    ))}
+                                  </ul>
+                                </Box>
+                              </Alert>
+                            )}
+                          </Box>
+                        )}
+                      </Paper>
+                    )}
+                    
+                    {/* Main editor area with proper height calculations */}
+                    <Box sx={{ 
+                      flexGrow: 1, 
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      minHeight: 0,
+                      height: showValidation ? 'calc(100% - 280px)' : '100%'
+                    }}>
+                      <Grid container spacing={2} sx={{ height: '100%' }}>
+                        <Grid item xs={12} md={6} sx={{ height: '100%' }}>
+                          <Paper variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                            <Box sx={{ 
+                              px: 2, py: 1.5, 
+                              bgcolor: 'grey.50', 
+                              borderBottom: 1, 
+                              borderColor: 'divider',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              flexShrink: 0
+                            }}>
+                              <Typography variant="subtitle2" fontWeight="medium">
+                                JSON Schema Input
+                              </Typography>
+                              <Button
+                                size="small"
+                                color="primary"
+                                onClick={() => {
+                                  try {
+                                    JSON.parse(schemaInput);
+                                    setValidationResult({ valid: true, errors: [] });
+                                    setTimeout(() => setValidationResult(null), 2000);
+                                  } catch (e) {
+                                    setValidationResult({ 
+                                      valid: false, 
+                                      errors: [`JSON Parse Error: ${(e as Error).message}`] 
+                                    });
+                                  }
+                                }}
+                                disabled={!schemaInput.trim()}
+                              >
+                                Validate
+                              </Button>
+                            </Box>
+                            <Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
+                              <CodeEditor
+                                value={schemaInput}
+                                language="json"
+                                onChange={handleSchemaChange}
+                                height="100%"
+                              />
+                            </Box>
+                          </Paper>
+                        </Grid>
+                        
+                        <Grid item xs={12} md={6} sx={{ height: '100%' }}>
+                          <Paper variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                            <Box sx={{ 
+                              px: 2, py: 1.5, 
+                              bgcolor: 'grey.50', 
+                              borderBottom: 1, 
+                              borderColor: 'divider',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              flexShrink: 0
+                            }}>
+                              <Typography variant="subtitle2" fontWeight="medium">
+                                Generated TypeScript
+                              </Typography>
+                              {dynamicLoading && (
+                                <CircularProgress size={16} />
+                              )}
+                            </Box>
+                            <Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
+                              <CodeEditor
+                                value={dynamicTypes || '// Enter a valid JSON Schema to see generated types here...'}
+                                language="typescript"
+                                readonly
+                                height="100%"
+                                loading={dynamicLoading}
+                              />
+                            </Box>
+                          </Paper>
+                        </Grid>
+                      </Grid>
+                    </Box>
+                  </Box>
+                </TabPanel>
+              </Box>
             </Paper>
           ) : (
-            <Paper sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Box component="span" sx={{ fontSize: 64, color: 'grey.400', mb: 2, display: 'block' }}>💻</Box>
-                <Typography variant="h6" color="text.secondary">
-                  Select a schema to explore
+            <Paper sx={{ 
+              height: '700px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              borderRadius: 2,
+              bgcolor: 'grey.50'
+            }}>
+              <Box textAlign="center" sx={{ maxWidth: 400, px: 4 }}>
+                <SchemaIcon sx={{ fontSize: 96, color: 'primary.main', mb: 3, opacity: 0.7 }} />
+                <Typography variant="h5" color="text.primary" gutterBottom fontWeight="medium">
+                  Select a Schema to Get Started
+                </Typography>
+                <Typography variant="body1" color="text.secondary" paragraph>
+                  Choose a schema from the library to explore its structure, generate TypeScript types, 
+                  and test with sample data.
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Choose a schema from the list to view its JSON content, test the form, or generate code
+                  💡 Use the search bar or category filters to find the schema you need
                 </Typography>
               </Box>
             </Paper>
@@ -475,4 +1019,4 @@ const SchemaExplorer: React.FC = () => {
   )
 }
 
-export default SchemaExplorer 
+export default SchemaExplorer

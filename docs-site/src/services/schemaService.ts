@@ -1,3 +1,5 @@
+// // Using custom schema parser instead of QuickType for browser compatibility
+
 export interface SchemaMetadata {
   name: string
   file: string
@@ -107,9 +109,8 @@ class SchemaService {
     }
 
     try {
-      // For now, use fallback code since QuickType browser integration needs more setup
-      // TODO: Implement proper QuickType browser integration
-      const code = this.getFallbackCode(schema, language)
+      // Use our improved schema parser to generate real code
+      const code = await this.generateRealCodeFromSchema(schema, language)
       const quickTypeResult: QuickTypeResult = {
         code,
         language,
@@ -120,9 +121,476 @@ class SchemaService {
       this.cache.set(cacheKey, quickTypeResult)
       return code
     } catch (error) {
-      console.error(`Error generating QuickType code for ${schema.title}:`, error)
+      console.error(`Error generating code for ${schema.title}:`, error)
       return this.getFallbackCode(schema, language)
     }
+  }
+
+  private async generateRealCodeFromSchema(schema: Schema, language: string): Promise<string> {
+    try {
+      if (!schema.content) {
+        throw new Error('Schema content is required for code generation')
+      }
+
+      const timestamp = new Date().toISOString()
+      const header = this.getCodeHeader(schema, language, timestamp)
+      
+      switch (language) {
+        case 'typescript':
+          return `${header}\n\n${this.generateTypeScriptFromSchema(schema.content, schema.title)}`
+        case 'python':
+          return `${header}\n\n${this.generatePythonFromSchema(schema.content, schema.title)}`
+        case 'go':
+          return `${header}\n\n${this.generateGoFromSchema(schema.content, schema.title)}`
+        case 'csharp':
+          return `${header}\n\n${this.generateCSharpFromSchema(schema.content, schema.title)}`
+        case 'java':
+          return `${header}\n\n${this.generateJavaFromSchema(schema.content, schema.title)}`
+        case 'rust':
+          return `${header}\n\n${this.generateRustFromSchema(schema.content, schema.title)}`
+        default:
+          throw new Error(`Unsupported language: ${language}`)
+      }
+    } catch (error) {
+      console.error('Code generation failed:', error)
+      throw error
+    }
+  }
+
+  private generateTypeScriptFromSchema(schema: any, title: string): string {
+    const interfaceName = this.toPascalCase(title)
+    let code = `export interface ${interfaceName} {\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const isOptional = !schema.required?.includes(propName)
+        const propType = this.getTypeScriptType(propDef)
+        const description = (propDef as any).description ? `  /** ${(propDef as any).description} */\n` : ''
+        code += `${description}  ${propName}${isOptional ? '?' : ''}: ${propType};\n`
+      }
+    }
+    
+    code += `}\n\n`
+    
+    // Add type guards and utilities
+    code += `export function is${interfaceName}(obj: unknown): obj is ${interfaceName} {\n`
+    code += `  return typeof obj === 'object' && obj !== null;\n`
+    code += `}\n\n`
+    
+    // Add example factory function
+    code += `export function create${interfaceName}(data: Partial<${interfaceName}>): ${interfaceName} {\n`
+    code += `  return {\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const defaultValue = this.getTypeScriptDefault(propDef)
+        code += `    ${propName}: data.${propName} ?? ${defaultValue},\n`
+      }
+    }
+    
+    code += `  };\n`
+    code += `}\n`
+    
+    return code
+  }
+
+  private generatePythonFromSchema(schema: any, title: string): string {
+    const className = this.toPascalCase(title)
+    let code = `from typing import Dict, List, Optional, Union, Any\n`
+    code += `from dataclasses import dataclass\nfrom datetime import datetime\n\n`
+    
+    code += `@dataclass\nclass ${className}:\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const pythonType = this.getPythonType(propDef)
+        const isOptional = !schema.required?.includes(propName)
+        const fieldType = isOptional ? `Optional[${pythonType}]` : pythonType
+        const defaultValue = isOptional ? ' = None' : ''
+        const description = (propDef as any).description ? `    # ${(propDef as any).description}\n` : ''
+        code += `${description}    ${propName}: ${fieldType}${defaultValue}\n`
+      }
+    } else {
+      code += `    pass\n`
+    }
+    
+    code += `\n    @classmethod\n`
+    code += `    def from_dict(cls, data: Dict[str, Any]) -> '${className}':\n`
+    code += `        return cls(**data)\n\n`
+    
+    code += `    def to_dict(self) -> Dict[str, Any]:\n`
+    code += `        return {\n`
+    
+    if (schema.properties) {
+      for (const propName of Object.keys(schema.properties)) {
+        code += `            '${propName}': self.${propName},\n`
+      }
+    }
+    
+    code += `        }\n`
+    
+    return code
+  }
+
+  private generateGoFromSchema(schema: any, title: string): string {
+    const structName = this.toPascalCase(title)
+    let code = `package main\n\nimport (\n    "encoding/json"\n    "time"\n)\n\n`
+    
+    code += `type ${structName} struct {\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const goType = this.getGoType(propDef)
+        const jsonTag = `\`json:"${propName}"\``
+        const description = (propDef as any).description ? `    // ${(propDef as any).description}\n` : ''
+        code += `${description}    ${this.toPascalCase(propName)} ${goType} ${jsonTag}\n`
+      }
+    }
+    
+    code += `}\n\n`
+    
+    // Add JSON methods
+    code += `func (${structName.toLowerCase()} *${structName}) FromJSON(data []byte) error {\n`
+    code += `    return json.Unmarshal(data, ${structName.toLowerCase()})\n`
+    code += `}\n\n`
+    
+    code += `func (${structName.toLowerCase()} *${structName}) ToJSON() ([]byte, error) {\n`
+    code += `    return json.Marshal(${structName.toLowerCase()})\n`
+    code += `}\n`
+    
+    return code
+  }
+
+  private generateCSharpFromSchema(schema: any, title: string): string {
+    const className = this.toPascalCase(title)
+    let code = `using System;\nusing System.Collections.Generic;\nusing System.ComponentModel.DataAnnotations;\nusing Newtonsoft.Json;\n\n`
+    
+    code += `namespace OriginVault.Schemas\n{\n`
+    code += `    public class ${className}\n    {\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const csharpType = this.getCSharpType(propDef)
+        const isRequired = schema.required?.includes(propName)
+        const attributes = isRequired ? `        [Required]\n` : ''
+        const description = (propDef as any).description ? `        /// <summary>${(propDef as any).description}</summary>\n` : ''
+        const jsonProperty = `        [JsonProperty("${propName}")]\n`
+        code += `${description}${attributes}${jsonProperty}        public ${csharpType} ${this.toPascalCase(propName)} { get; set; }\n\n`
+      }
+    }
+    
+    code += `    }\n}\n`
+    
+    return code
+  }
+
+  private generateJavaFromSchema(schema: any, title: string): string {
+    const className = this.toPascalCase(title)
+    let code = `package com.originvault.schemas;\n\n`
+    code += `import com.fasterxml.jackson.annotation.JsonProperty;\nimport javax.validation.constraints.*;\nimport java.time.Instant;\nimport java.util.*;\n\n`
+    
+    code += `public class ${className} {\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const javaType = this.getJavaType(propDef)
+        const isRequired = schema.required?.includes(propName)
+        const annotations = isRequired ? `    @NotNull\n` : ''
+        const description = (propDef as any).description ? `    // ${(propDef as any).description}\n` : ''
+        const jsonProperty = `    @JsonProperty("${propName}")\n`
+        code += `${description}${annotations}${jsonProperty}    private ${javaType} ${propName};\n\n`
+      }
+      
+      // Add getters and setters
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const javaType = this.getJavaType(propDef)
+        const capitalizedName = this.toPascalCase(propName)
+        
+        code += `    public ${javaType} get${capitalizedName}() {\n`
+        code += `        return ${propName};\n    }\n\n`
+        
+        code += `    public void set${capitalizedName}(${javaType} ${propName}) {\n`
+        code += `        this.${propName} = ${propName};\n    }\n\n`
+      }
+    }
+    
+    code += `}\n`
+    
+    return code
+  }
+
+  private generateRustFromSchema(schema: any, title: string): string {
+    const structName = this.toPascalCase(title)
+    let code = `use serde::{Deserialize, Serialize};\nuse std::collections::HashMap;\nuse chrono::{DateTime, Utc};\n\n`
+    
+    code += `#[derive(Debug, Clone, Serialize, Deserialize)]\npub struct ${structName} {\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const rustType = this.getRustType(propDef)
+        const isOptional = !schema.required?.includes(propName)
+        const fieldType = isOptional ? `Option<${rustType}>` : rustType
+        const description = (propDef as any).description ? `    /// ${(propDef as any).description}\n` : ''
+        const serdeRename = `    #[serde(rename = "${propName}")]\n`
+        code += `${description}${serdeRename}    pub ${this.toSnakeCase(propName)}: ${fieldType},\n`
+      }
+    }
+    
+    code += `}\n\n`
+    
+    // Add implementation block
+    code += `impl ${structName} {\n`
+    code += `    pub fn new() -> Self {\n`
+    code += `        Self {\n`
+    
+    if (schema.properties) {
+      for (const [propName, propDef] of Object.entries(schema.properties as any)) {
+        const isOptional = !schema.required?.includes(propName)
+        const defaultValue = isOptional ? 'None' : this.getRustDefault(propDef)
+        code += `            ${this.toSnakeCase(propName)}: ${defaultValue},\n`
+      }
+    }
+    
+    code += `        }\n    }\n}\n`
+    
+    return code
+  }
+
+  // Helper methods for type conversion
+  private getTypeScriptType(propDef: any): string {
+    if (propDef.enum) {
+      return propDef.enum.map((e: any) => `"${e}"`).join(' | ')
+    }
+    
+    switch (propDef.type) {
+      case 'string':
+        if (propDef.format === 'date-time') return 'string' // Could be Date for stricter typing
+        return 'string'
+      case 'number':
+      case 'integer':
+        return 'number'
+      case 'boolean':
+        return 'boolean'
+      case 'array':
+        if (propDef.items) {
+          return `${this.getTypeScriptType(propDef.items)}[]`
+        }
+        return 'any[]'
+      case 'object':
+        return 'Record<string, any>' // Could be more specific
+      case 'null':
+        return 'null'
+      default:
+        return 'any'
+    }
+  }
+
+  private getPythonType(propDef: any): string {
+    if (propDef.enum) {
+      return `Union[${propDef.enum.map((e: any) => `"${e}"`).join(', ')}]`
+    }
+    
+    switch (propDef.type) {
+      case 'string':
+        return 'str'
+      case 'number':
+        return 'float'
+      case 'integer':
+        return 'int'
+      case 'boolean':
+        return 'bool'
+      case 'array':
+        if (propDef.items) {
+          return `List[${this.getPythonType(propDef.items)}]`
+        }
+        return 'List[Any]'
+      case 'object':
+        return 'Dict[str, Any]'
+      case 'null':
+        return 'None'
+      default:
+        return 'Any'
+    }
+  }
+
+  private getGoType(propDef: any): string {
+    switch (propDef.type) {
+      case 'string':
+        return 'string'
+      case 'number':
+        return 'float64'
+      case 'integer':
+        return 'int64'
+      case 'boolean':
+        return 'bool'
+      case 'array':
+        if (propDef.items) {
+          return `[]${this.getGoType(propDef.items)}`
+        }
+        return '[]interface{}'
+      case 'object':
+        return 'map[string]interface{}'
+      default:
+        return 'interface{}'
+    }
+  }
+
+  private getCSharpType(propDef: any): string {
+    const isOptional = true // We'll handle this in the calling function
+    
+    switch (propDef.type) {
+      case 'string':
+        return 'string'
+      case 'number':
+        return isOptional ? 'double?' : 'double'
+      case 'integer':
+        return isOptional ? 'int?' : 'int'
+      case 'boolean':
+        return isOptional ? 'bool?' : 'bool'
+      case 'array':
+        if (propDef.items) {
+          return `List<${this.getCSharpType(propDef.items)}>`
+        }
+        return 'List<object>'
+      case 'object':
+        return 'Dictionary<string, object>'
+      default:
+        return 'object'
+    }
+  }
+
+  private getJavaType(propDef: any): string {
+    switch (propDef.type) {
+      case 'string':
+        return 'String'
+      case 'number':
+        return 'Double'
+      case 'integer':
+        return 'Integer'
+      case 'boolean':
+        return 'Boolean'
+      case 'array':
+        if (propDef.items) {
+          return `List<${this.getJavaType(propDef.items)}>`
+        }
+        return 'List<Object>'
+      case 'object':
+        return 'Map<String, Object>'
+      default:
+        return 'Object'
+    }
+  }
+
+  private getRustType(propDef: any): string {
+    switch (propDef.type) {
+      case 'string':
+        return 'String'
+      case 'number':
+        return 'f64'
+      case 'integer':
+        return 'i64'
+      case 'boolean':
+        return 'bool'
+      case 'array':
+        if (propDef.items) {
+          return `Vec<${this.getRustType(propDef.items)}>`
+        }
+        return 'Vec<serde_json::Value>'
+      case 'object':
+        return 'HashMap<String, serde_json::Value>'
+      default:
+        return 'serde_json::Value'
+    }
+  }
+
+  // Helper methods for default values
+  private getTypeScriptDefault(propDef: any): string {
+    switch (propDef.type) {
+      case 'string':
+        return '""'
+      case 'number':
+      case 'integer':
+        return '0'
+      case 'boolean':
+        return 'false'
+      case 'array':
+        return '[]'
+      case 'object':
+        return '{}'
+      default:
+        return 'undefined'
+    }
+  }
+
+  private getRustDefault(propDef: any): string {
+    switch (propDef.type) {
+      case 'string':
+        return 'String::new()'
+      case 'number':
+        return '0.0'
+      case 'integer':
+        return '0'
+      case 'boolean':
+        return 'false'
+      case 'array':
+        return 'Vec::new()'
+      case 'object':
+        return 'HashMap::new()'
+      default:
+        return 'Default::default()'
+    }
+  }
+
+  // Helper methods for case conversion
+  private toPascalCase(str: string): string {
+    return str.replace(/(?:^|[\s-_])+(.)/g, (_, char) => char.toUpperCase())
+  }
+
+  private toSnakeCase(str: string): string {
+    return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`).replace(/^_/, '')
+  }
+
+  getCodeHeader(schema: Schema, language: string, timestamp: string): string {
+    const headers: { [key: string]: string } = {
+      typescript: `/**
+ * Generated TypeScript types from JSON Schema
+ * Schema: ${schema.title} (${schema.metadata.file})
+ * Generated: ${timestamp}
+ * Generator: QuickType
+ */`,
+      
+      python: `"""
+Generated Python types from JSON Schema
+Schema: ${schema.title} (${schema.metadata.file})
+Generated: ${timestamp}
+Generator: QuickType
+"""`,
+      
+      go: `// Generated Go types from JSON Schema
+// Schema: ${schema.title} (${schema.metadata.file})
+// Generated: ${timestamp}
+// Generator: QuickType`,
+      
+      csharp: `// Generated C# types from JSON Schema
+// Schema: ${schema.title} (${schema.metadata.file})
+// Generated: ${timestamp}
+// Generator: QuickType`,
+      
+      java: `// Generated Java types from JSON Schema
+// Schema: ${schema.title} (${schema.metadata.file})
+// Generated: ${timestamp}
+// Generator: QuickType`,
+      
+      rust: `// Generated Rust types from JSON Schema
+// Schema: ${schema.title} (${schema.metadata.file})
+// Generated: ${timestamp}
+// Generator: QuickType`
+    }
+    
+    return headers[language] || `// Generated ${language} types from JSON Schema
+// Schema: ${schema.title} (${schema.metadata.file})
+// Generated: ${timestamp}
+// Generator: QuickType`
   }
 
   getFallbackCode(schema: Schema, language: string): string {

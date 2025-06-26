@@ -17,28 +17,28 @@ const Home: React.FC = () => {
 
   const features = [
     {
-      title: 'Interactive Schema Explorer',
-      description: 'Browse and explore JSON schemas with real-time validation and QuickType code generation.',
+      title: 'Schema Explorer & Type Generator',
+      description: 'Browse schemas with side-by-side JSON and generated TypeScript types. Includes live dynamic type generation and validation.',
       icon: '🔍',
-      path: '/explorer'
+      path: '/schemas'
     },
     {
       title: 'Multi-Language Code Generation',
-      description: 'Generate type-safe code in TypeScript, Python, Java, C#, Go, and more using QuickType.',
+      description: 'Generate type-safe code in TypeScript, Python, Java, C#, Go, and more using QuickType integration.',
       icon: '⚡',
       path: '/quicktype'
     },
     {
       title: 'Verifiable Credentials',
-      description: 'Built-in support for W3C Verifiable Credentials and JSON-LD schemas.',
+      description: 'Built-in support for W3C Verifiable Credentials and JSON-LD schemas with blockchain integration.',
       icon: '🔐',
-      path: '/explorer'
+      path: '/schemas'
     },
     {
       title: 'C2PA Integration',
-      description: 'Content authenticity and provenance tracking with C2PA manifest support.',
+      description: 'Content authenticity and provenance tracking with C2PA manifest support for digital media.',
       icon: '📷',
-      path: '/explorer'
+      path: '/schemas'
     }
   ];
 
@@ -69,9 +69,9 @@ const Home: React.FC = () => {
           <Button 
             variant="contained" 
             size="large"
-            onClick={() => navigate('/explorer')}
+            onClick={() => navigate('/schemas')}
           >
-            Explore Schemas
+            Explore Schemas & Generate Types
           </Button>
           <Button 
             variant="outlined" 
@@ -150,7 +150,7 @@ const Home: React.FC = () => {
             <Button 
               variant="contained" 
               size="large"
-              onClick={() => navigate('/explorer')}
+              onClick={() => navigate('/schemas')}
               sx={{ bgcolor: 'white', color: 'primary.main' }}
             >
               Explore Schemas
