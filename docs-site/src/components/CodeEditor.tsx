@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Box, Paper, Typography, CircularProgress, Alert, useTheme } from '@mui/material'
+import { Box, Typography, CircularProgress, Alert, useTheme } from '@mui/material'
 import Editor from '@monaco-editor/react'
 
 interface CodeEditorProps {
