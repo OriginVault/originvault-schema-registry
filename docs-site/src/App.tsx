@@ -5,6 +5,8 @@ import Home from './pages/Home'
 import SchemaExplorer from './pages/SchemaExplorer'
 import Footer from './components/Footer'
 import './index.css'
+import QuickTypeGuide from './pages/QuickTypeGuide'
+import NotFound from './pages/NotFound'
 
 const App: React.FC = () => {
   const [isDarkMode, setIsDarkMode] = React.useState(false)
@@ -56,6 +58,9 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/schemas" element={<SchemaExplorer />} />
+            <Route path="/quickType" element={<QuickTypeGuide />} />
+            <Route path="/explore" element={<SchemaExplorer />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Container>
 
