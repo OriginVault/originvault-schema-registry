@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://w3id.org/security/multikey/v1",
+    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld",
+    "https://w3id.org/vc/status-list/2021/v1"
+  ],
+  "$id": "https://schemas.originvault.box/v1/OriginVaultRootAuthority",
+  "title": "OriginVault Root Authority",
+  "description": "Establishes OriginVault as a root authority in the multi-root trust architecture, defining its scope, governance, and interoperability with other trust ecosystems including OpenOwnership (UK), Schema.org, W3C, and DIF standards.",
+  "type": "object",
+  "examples": [
+    {
+      "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ],
+      "type": ["VerifiableCredential", "RootAuthorityDeclaration"],
+      "id": "did:cheqd:mainnet:originvault-root-authority",
+      "issuer": {
+        "id": "did:cheqd:mainnet:originvault-root-authority",
+        "name": "OriginVault Foundation",
+        "type": "Organization"
+      },
+      "issuanceDate": "2025-01-14T00:00:00Z",
+      "credentialSubject": {
+        "id": "did:cheqd:mainnet:originvault-root-authority",
+        "rootType": "namespace",
+        "scope": "content-authenticity-trust-ecosystem",
+        "trustChainPurpose": "Establishing verifiable provenance and authenticity for digital content across decentralized systems",
+        "governanceModel": {
+          "type": "dao",
+          "participants": [
+            "did:cheqd:mainnet:originvault-governance-council",
+            "did:cheqd:mainnet:creator-community-representatives"
+          ],
+          "policyDocument": "https://governance.originvault.box/root-authority-governance-v1"
+        },
+        "delegationPolicy": {
+          "allowsSubRoots": true,
+          "maxChainDepth": 5,
+          "accreditationRequired": true
+        },
+        "accreditationStandards": [
+          {
+            "standardId": "content-authenticity-issuer-v1",
+            "schemaTypes": ["ContentAuthenticityCredential", "CreatorVerificationCredential"],
+            "trustLevels": ["bronze", "silver", "gold", "platinum"]
+          },
+          {
+            "standardId": "trust-registry-issuer-v1", 
+            "schemaTypes": ["TrustedIssuerAccreditation", "NamespaceAuthorization"],
+            "trustLevels": ["verified", "accredited", "authoritative"]
+          }
+        ],
+        "interoperability": {
+          "recognizedRoots": [
+            "did:web:register.openownership.org",
+            "did:web:schema.org",
+            "did:web:w3.org",
+            "did:web:identity.foundation"
+          ],
+          "crossChainValidation": true,
+          "federationMember": "open-verifiable-trust-federation",
+          "standardsCompliance": {
+            "w3c": ["DID-Core", "VerifiableCredentials", "CredentialStatusList"],
+            "openOwnership": ["BODS-v1.0", "OwnershipCredential"],
+            "schemaOrg": ["Person", "Organization", "CreativeWork"],
+            "dif": ["PresentationExchange-v2", "CredentialManifest-v1"]
+          }
+        },
+        "blockchainAnchoring": {
+          "blockchainNetwork": "cheqd:mainnet",
+          "resourceId": "did:cheqd:mainnet:originvault-root-authority/resources/root-authority-declaration",
+          "registrationProof": {
+            "type": "Ed25519Signature2020",
+            "verificationMethod": "did:cheqd:mainnet:originvault-root-authority#key-1"
+          }
+        }
+      },
+      "termsOfUse": {
+        "type": "RootAuthorityPolicy",
+        "governanceFramework": "https://governance.originvault.box/root-authority-governance-v1",
+        "delegationScope": "content-authenticity-ecosystem",
+        "interoperabilityCommitment": "Full interoperability with W3C, DIF, OpenOwnership, and Schema.org standards"
+      },
+      "credentialStatus": {
+        "id": "https://schemas.originvault.box/v1/status-lists/root-authority#0",
+        "type": "StatusList2021Entry",
+        "statusPurpose": "revocation",
+        "statusListIndex": "0",
+        "statusListCredential": "https://schemas.originvault.box/v1/status-lists/root-authority"
+      }
+    }
+  ],
+  "required": ["@context", "type", "id", "issuer", "issuanceDate", "credentialSubject", "termsOfUse"],
+  "properties": {
+    "@context": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org", 
+        "https://w3id.org/security/multikey/v1",
+        "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+      ]
+    },
+    "type": {
+      "type": "array",
+      "items": {"type": "string"},
+      "contains": {
+        "const": "RootAuthorityDeclaration"
+      }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^did:(cheqd|web):[a-zA-Z0-9._:-]+$",
+      "description": "DID of the OriginVault root authority"
+    },
+    "issuer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^did:(cheqd|web):[a-zA-Z0-9._:-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "type": {
+          "type": "string",
+          "enum": ["Organization", "Foundation", "DAO"]
+        }
+      },
+      "required": ["id", "name", "type"]
+    },
+    "issuanceDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "credentialSubject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^did:(cheqd|web):[a-zA-Z0-9._:-]+$"
+        },
+        "rootType": {
+          "type": "string",
+          "enum": ["namespace", "platform", "federation", "standard"]
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 200
+        },
+        "trustChainPurpose": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 500
+        },
+        "governanceModel": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["dao", "committee", "foundation", "consortium"]
+            },
+            "participants": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^did:[a-zA-Z0-9._:-]+$"
+              }
+            },
+            "policyDocument": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          "required": ["type", "participants"]
+        },
+        "delegationPolicy": {
+          "type": "object",
+          "properties": {
+            "allowsSubRoots": {
+              "type": "boolean"
+            },
+            "maxChainDepth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "accreditationRequired": {
+              "type": "boolean"
+            }
+          },
+          "required": ["allowsSubRoots", "maxChainDepth"]
+        },
+        "accreditationStandards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "standardId": {
+                "type": "string"
+              },
+              "schemaTypes": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "trustLevels": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            },
+            "required": ["standardId", "schemaTypes", "trustLevels"]
+          }
+        },
+        "interoperability": {
+          "type": "object",
+          "properties": {
+            "recognizedRoots": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^did:[a-zA-Z0-9._:-]+$"
+              }
+            },
+            "crossChainValidation": {
+              "type": "boolean"
+            },
+            "federationMember": {
+              "type": "string"
+            },
+            "standardsCompliance": {
+              "type": "object",
+              "properties": {
+                "w3c": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "openOwnership": {
+                  "type": "array", 
+                  "items": {"type": "string"}
+                },
+                "schemaOrg": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "dif": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
+              }
+            }
+          },
+          "required": ["recognizedRoots", "crossChainValidation"]
+        },
+        "blockchainAnchoring": {
+          "type": "object",
+          "properties": {
+            "blockchainNetwork": {
+              "type": "string",
+              "enum": ["cheqd:mainnet", "cheqd:testnet", "ethereum:mainnet"]
+            },
+            "resourceId": {
+              "type": "string"
+            },
+            "registrationProof": {
+              "type": "object",
+              "properties": {
+                "type": {"type": "string"},
+                "verificationMethod": {"type": "string"}
+              }
+            }
+          },
+          "required": ["blockchainNetwork", "resourceId"]
+        }
+      },
+      "required": ["id", "rootType", "scope", "governanceModel", "delegationPolicy", "interoperability"]
+    },
+    "termsOfUse": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "RootAuthorityPolicy"
+        },
+        "governanceFramework": {
+          "type": "string",
+          "format": "uri"
+        },
+        "delegationScope": {
+          "type": "string"
+        },
+        "interoperabilityCommitment": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "governanceFramework"]
+    },
+    "credentialStatus": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "string", "format": "uri"},
+        "type": {"const": "StatusList2021Entry"},
+        "statusPurpose": {"enum": ["revocation", "suspension"]},
+        "statusListIndex": {"type": "string"},
+        "statusListCredential": {"type": "string", "format": "uri"}
+      },
+      "required": ["id", "type", "statusPurpose", "statusListIndex", "statusListCredential"]
+    }
+  },
+  "additionalProperties": false
+} 

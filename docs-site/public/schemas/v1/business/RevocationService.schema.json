@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schemas.originvault.box/contexts/trust-chain-core.jsonld"
+  ],
+  "$id": "https://schemas.originvault.box/v1/RevocationService",
+  "title": "Revocation Service Schema",
+  "description": "Schema for managing credential revocation across all OriginVault credential types",
+  "type": "object",
+  "properties": {
+    "revocationList": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "Unique identifier for this revocation list"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["RevocationList2020", "StatusList2021"],
+          "description": "Type of revocation list"
+        },
+        "issuer": {
+          "type": "string",
+          "pattern": "^did:[a-zA-Z0-9._:-]+$",
+          "description": "DID of the revocation list issuer"
+        },
+        "issued": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the revocation list was issued"
+        },
+        "validFrom": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the revocation list becomes valid"
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the revocation list expires"
+        },
+        "revokedCredentials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "credentialId": {
+                "type": "string",
+                "description": "ID of the revoked credential"
+              },
+              "revocationDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the credential was revoked"
+              },
+              "revocationReason": {
+                "type": "string",
+                "enum": [
+                  "expired",
+                  "compromised",
+                  "superseded",
+                  "terminated",
+                  "fraud",
+                  "user_request",
+                  "legal_requirement",
+                  "policy_violation"
+                ],
+                "description": "Reason for revocation"
+              },
+              "revokedBy": {
+                "type": "string",
+                "pattern": "^did:[a-zA-Z0-9._:-]+$",
+                "description": "DID of the entity that revoked the credential"
+              },
+              "credentialType": {
+                "type": "string",
+                "description": "Type of credential that was revoked"
+              },
+              "metadata": {
+                "type": "object",
+                "description": "Additional revocation metadata"
+              }
+            },
+            "required": ["credentialId", "revocationDate", "revocationReason", "revokedBy"]
+          }
+        },
+        "statusListCredential": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the status list credential"
+        },
+        "proof": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["Ed25519Signature2020", "JsonWebSignature2020"]
+            },
+            "created": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "verificationMethod": {
+              "type": "string",
+              "format": "uri"
+            },
+            "proofPurpose": {
+              "type": "string",
+              "enum": ["assertionMethod"]
+            },
+            "proofValue": {
+              "type": "string"
+            }
+          },
+          "required": ["type", "created", "verificationMethod", "proofPurpose"]
+        }
+      },
+      "required": ["id", "type", "issuer", "issued", "revokedCredentials"]
+    },
+    "revocationPolicy": {
+      "type": "object",
+      "properties": {
+        "autoRevokeOnExpiry": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to automatically revoke expired credentials"
+        },
+        "revocationGracePeriod": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Grace period in days before auto-revocation"
+        },
+        "requireRevocationReason": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether revocation reasons are mandatory"
+        },
+        "allowSelfRevocation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether credential subjects can revoke their own credentials"
+        },
+        "revocationNotification": {
+          "type": "object",
+          "properties": {
+            "notifyIssuer": {
+              "type": "boolean",
+              "default": true
+            },
+            "notifySubject": {
+              "type": "boolean",
+              "default": true
+            },
+            "notifyRelyingParties": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["revocationList"],
+  "examples": [
+    {
+      "revocationList": {
+        "id": "https://schemas.originvault.box/revocation/2025-01-14",
+        "type": "RevocationList2020",
+        "issuer": "did:cheqd:mainnet:originvault-revocation-service",
+        "issued": "2025-01-14T10:00:00Z",
+        "validFrom": "2025-01-14T10:00:00Z",
+        "validUntil": "2025-02-14T10:00:00Z",
+        "revokedCredentials": [
+          {
+            "credentialId": "urn:uuid:contract-12345",
+            "revocationDate": "2025-01-13T15:30:00Z",
+            "revocationReason": "terminated",
+            "revokedBy": "did:cheqd:mainnet:originvault-llc",
+            "credentialType": "ContractCredential",
+            "metadata": {
+              "contractTerminationDate": "2025-01-13T15:30:00Z",
+              "terminationReason": "Contract completed successfully"
+            }
+          }
+        ],
+        "proof": {
+          "type": "Ed25519Signature2020",
+          "created": "2025-01-14T10:00:00Z",
+          "verificationMethod": "did:cheqd:mainnet:originvault-revocation-service#key-1",
+          "proofPurpose": "assertionMethod",
+          "proofValue": "z5B2CgPgNjqzWe..."
+        }
+      },
+      "revocationPolicy": {
+        "autoRevokeOnExpiry": true,
+        "revocationGracePeriod": 30,
+        "requireRevocationReason": true,
+        "allowSelfRevocation": true,
+        "revocationNotification": {
+          "notifyIssuer": true,
+          "notifySubject": true,
+          "notifyRelyingParties": false
+        }
+      }
+    }
+  ]
+} 

@@ -1,76 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!-- 
+                         ██████╗ ██████╗ ██╗ ██████╗ ██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗ 
+                        ██╔═══██╗██╔══██╗██║██╔════╝ ██║████╗  ██║██║   ██║██╔══██╗██║   ██║██║  ╚══██╔══╝ 
+                        ██║   ██║██████╔╝██║██║  ███╗██║██╔██╗ ██║██║   ██║███████║██║   ██║██║     ██║  
+                        ██║   ██║██╔══██╗██║██║   ██║██║██║╚██╗██║╚██╗ ██╔╝██╔══██║██║   ██║██║     ██║ 
+                        ╚██████╔╝██║  ██║██║╚██████╔╝██║██║ ╚████║ ╚████╔╝ ██║  ██║╚██████╔╝███████╗██║
+                         ╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝
+                                                  MMMMMMMMMMMMMMMMMMMMMMMMMK                                             
+                                           MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                      
+                                      MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                                 
+                                   MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                             
+                                MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMK                          
+                             MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM                        
+                          MMMMMMMMMMMMMMMMMMMMMMM                          IMMMMMMMMMMMMMMMMMMMMMMMK                     
+                        MMMMMMMMMMMMMMMMMMMK                                     KMMMMMMMMMMMMMMMMMMMK                   
+                      MMMMMMMMMMMMMMMMMK                                             KMMMMMMMMMMMMMMMMM                  
+                    MMMMMMMMMMMMMMMMM                                                   MMMMMMMMMMMMMMMMM                
+                  MMMMMMMMMMMMMMMM                OOOO  MMMMMMMMMMMMMMM   OOOO            KMMMMMMMMMMMMMMMK              
+                 MMMMMMMMMMMMMMK                  OOOOO                  MOOOOO              MMMMMMMMMMMMMMK             
+                MMMMMMMMMOMMMM                MM   OOO                    OOOO MM              KMMMMMMMMMMMMM            
+              MMMMMMMMMMMMMM               MM                                     MM             MMMMMMMMMMMMM           
+             MMMMMMMMMMMMM              MM                                           MM           KMMMMMMMMMMMM          
+            MMMMMMMMMMMMM             M                                                MM                                
+  MMMMMMMMMMMMMMMMMMMMMK         OOOM                 MMMMMMMMMMMMMMMMMM                  M                              
+MMMMMMMMMMMMMMMMMMMMMMMM        OOOOOO             MMMMMMMMMMMMMMMMMMMMMMMMM             KKKKKKKKKKKKKKIIIIIIIIIIIHHHHH  
+MMMMMMMMMMMMMMMMMMMMMMMMM        OOOO           MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM         KKKKKKKKKKKKKKKKKIIIIIIIIIIIHHH  
+KMMMMMMMMMMMMMMMMMMMMMMM       MM             MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM     KKKKKKKKKKKKKKKKKKKKIIIIIIIIIII    
+  MMMMMMMMMMMMMMMMMMMMM       M             MMMMMMMMMMMMMKKKKKKKKKKKKKKKKKKKMMMMMMM   KIKKKKKKKKKKKKKKKKKKKIIIIIIIIII    
+       MMMMMMMMMMM           MM            MMMMMMMMMMMKKKKMKKKKKKKKKKKKKKKKKKKKKMMMMKIIKKKKKKKKKKKKKKKKKKKKKKIIIIIIMM    
+      MMMMMMMMMMMK          MM            MMMMMMMMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKMIIIIKKKKKK   MM         MMMMMMMMMM   
+      MMMMMMMMMMM           M           MMMMMMMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIKIKKK IIIIIIIIIIIIKKIKKKKKKKKKKKK
+     MMMMMMMMMMM           M            MMMMMMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIIKKKK IIIIIIIIIIIIIKIKKKKKKKKKKKK 
+     MMMMMMMMMMK          MM           MMMMMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIIKIIK IIIIIIIIIIIIIKIKKKKKKKKKKKK  
+     MMMMMMMMMMM          M            MMMMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIIIIKK IIIIIIIIIIIIIIIKKIKKKKKKKKKMK 
+    MMMMMMMMMMM           M           MMMMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIIIIIK HIIIIIIIIIIIIIIKKKKKKKKKKKKMMM 
+    MMMMMMMMMMM          MM           MMMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIIIIII IIIIIIIIIIIM         MMMMMMMMMMK
+    MMMMMMMMMMM          M            MMMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIIIIIII IHIIIIIIIII OM        MMMMMMMMMMM
+    MMMMIIIIIIIIKKKKKKKKKKKKKKKIIIIIIIIIIIIIIHHIKKKKKKKKKKKKKKKKKKKKKKKKKKIIIIIIIIII IIIIIIIIIII  MM        MMMMMMMMMMM
+    MMMMMIIIIIIKKKKKKKKKKKKKKKKKIKIIIIIIIIIIIIIIIHIKKKKKKKKKKKKKKKKKKKKKKKIIIIIIIIIII IHIIIIIIIII   OOO       MMMMMMMMMMM
+    MMMMMMIIIIIKKKKKKKKKKKKKKKKKKKIIIIIIIIIIIIIIIIIKKKKKKKKKKKKKKKKKKKKKKIIIIIIIIIII IIIIIIIIIII  OOOOOM      MMMMMMMMMMK
+    MMMMMMMMMMKKKKKKKKKKKKKKKKKKKKKIIIIIIIIIIIIIIIIIKKKKKKKKKKKKKKKKKKKKIIIIIIIIIII IIHIIIIIIII    OOOO       MMMMMMMMMMK
+    MMMMMMMMMMM           M                  IIIIIIIIKKKKKKKKKKKKKKKKKKIIIIIIIIII  IIIIIIIIIII      M        MMMMMMMMMMMI
+     MMMMMMMMMMM          M       HHHHHHHHHH  IIIIIIIIKKKKKKKKKKKKKKKKIIIIIIIIIIK IIIIIIIIIII       M        MMMMMMMMMMM 
+     MMMMMMMMMMM          MM       HHHHHHHHHH  IIIIIIIIKKKKKKKKKKKKKKIIIIIIIIII IIIIIIIIIIII       MM        MMMMMMMMMMK 
+     MMMMMMMMMMM           M        HHHHHHHHHH  IIIIIIIIKKKKKKKKKKKKIIIIIIIIII  IIIIIIIIIII        M        MMMMMMMMMMM  
+      MMMMMMMMMMM           M        IHIHHHHHHH  IIIIIIIIKKKKKKKKKKIIIIIIIIIK  IIIIIIIIIII        M         MMMMMMMMMMM  
+   MMMMMMMMMMMMMMMMMMM      MO        IIHIHIHIHH  IIIIIIIKKKKKKKKKKIIIIIKIIK  IIIIIIIIIII        MM        MMMMMMMMMMMK  
+ KMMMMMMMMMMMMMMMMMMMMMM     MM        IIIIIIHIIH  IIIIIIIKKKKKKKKIIIKIIKKK IIIIIIIIIIII        MO        KMMMMMMMMMMM   
+MMMMMMMMMMMMMMMMMMMMMMMMM     M         IIIHIIIIIII KKIKIIIKKKKKKIKKKKKKIK  IIIIIIIIIII        MM         MMMMMMMMMMM    
+MMMMMMMMMMMMMMMMMMMMMMMMM      MM        IIIIIIIIII  KKKKKKIKKKKIKKIKIKKK IIIIIIIIIII         M          MMMMMMMMMMMM    
+ KMMMMMMMMMMMMMMMMMMMMMM        MMOOO     IIIIIIIIII  KKKKKKKKKKKKKKKKKK  IIIIIIIIIII      OOOM         MMMMMMMMMMMK     
+  KMMMMMMMMMMMMMMMMMMMM         OOOOOO     IIIIIIIIII  KKKKKKKKKKKKKKKK IIIIIIIIIII       OOOOO        MMMMMMMMMMMM      
+           MMMMMMMMMMMM          OOOO       IIIIIIIIIII KKKKKKKKKKKKKK  IIIIIIIIIII        OOO        MMMMMMMMMMMM       
+            MMMMMMMMMMMM                     IIIIIIIIII  KKKKKKKKKKKK IIIIIIIIIKI         M         MMMMMMMMMMMMM        
+             MMMMMMMMMMMMM                    IIIIIIIIIII KKKKKKKKKK  IIIIIIIKIK         M         MMMMMMMMMMMMK         
+              MMMMMMMMMMMMMK                  IIIIIIIIIII  KKKKKKKK IIKIKIKKKKK          M       MMMMMMMMMMMMMK          
+               MMMMMMMMMMMMMM                   IKIKIKIIIII KKKKKK KKIKKKKIKII          M      MMMMMMMMMMMMMMI           
+                 MMMMMMMMMMMMMM                 IKKKKKKKKKKI KKKK KIKKIKKKKKK           M    MMMMMMMMMMMMMMM             
+                  MMMMMMMMMMMMMMMM               IKKKIIKIKIKK KK  KKKKKKKKKK            M  MMMMMMMMMMMMMMMK              
+                    MMMMMMMMMMMMMMMM              KKKKKKKKKKK   KKKKKKKKKKK             MMMMMMMMMMMMMMMMK                
+                      MMMMMMMMMMMMMMMMMK           KKKKKKKKKKKKKKKKKKKKKKK           MMMMMMMMMMMMMMMMMM                  
+                        MMMMMMMMMMMMMMMMMMMK        KKKKKKKKKKKKKKKKKKKKK        MMMMMMMMMMMMMMMMMMMK                    
+                          MMMMMMMMMMMMMMMMMMMMMI     KKKKKKKKKKKKKKKKKKK     MMMMMMMMMMMMMMMMMMMMMK                      
+                            KMMMMMMMMMMMMMMMMMMMMMMMMMMKKKKKKKKKKKKKKKKMMMMMMMMMMMMMMMMMMMMMMMMMK                        
+                               MMMMMMMMMMMMMMMMMMMMMMMMMKKKKKKKKKKKKKKMMMMMMMMMMMMMMMMMMMMMMMK                           
+                                  KMMMMMMMMMMMMMMMMMMMMMMKKKKKKKKKKKKMMMMMMMMMMMMMMMMMMMMMK   M                          
+                                      KMMMMMMMMMMMMMMMMMMMKKKKKKKKKMMMMMMMMMMMMMMMMMMKK         OOOOM                    
+                                          MMMMMMMMMMMMMMMMMKKKKKKKKMMMMMMMMMMMMMMMK             OOOOO                    
+                                                MMMMMMMMMMMMKKKKKMMMMMMMMMMKK                                            
+                                                            KKKKK                                                        
+                                                             KK                                                          
+                                             Copyrighted 2025 by OriginVault, LLC. 
+  -->
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Interactive OriginVault Schema Registry Documentation - Type-safe verifiable credential schemas for the decentralized creator economy" />
-  <meta name="keywords" content="originvault, verifiable credentials, schemas, quicktype, typescript, python, go, rust" />
-  <meta name="author" content="OriginVault" />
   
-  <!-- Open Graph -->
-  <meta property="og:title" content="OriginVault Schema Registry" />
-  <meta property="og:description" content="Interactive documentation for OriginVault's verifiable credential schemas" />
+  <!-- Primary Meta Tags -->
+  <title>OriginVault Schema Registry - Interactive JSON Schema Documentation & QuickType Integration</title>
+  <meta name="title" content="OriginVault Schema Registry - Interactive JSON Schema Documentation & QuickType Integration" />
+  <meta name="description" content="Explore OriginVault's comprehensive JSON schema registry with interactive documentation, real-time QuickType code generation, and multi-language type definitions for verifiable credentials and decentralized identity." />
+  <meta name="keywords" content="JSON schema, verifiable credentials, decentralized identity, QuickType, TypeScript, Python, Java, C#, Go, Rust, Swift, Kotlin, DID, OriginVault, blockchain, SSI, self-sovereign identity" />
+  <meta name="author" content="OriginVault" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  
+  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://docs.originvault.box" />
+  <meta property="og:url" content="https://schemas.originvault.box/" />
+  <meta property="og:title" content="OriginVault Schema Registry - Interactive JSON Schema Documentation" />
+  <meta property="og:description" content="Explore OriginVault's comprehensive JSON schema registry with interactive documentation, real-time QuickType code generation, and multi-language type definitions for verifiable credentials and decentralized identity." />
+  <meta property="og:image" content="https://schemas.originvault.box/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name" content="OriginVault Schema Registry" />
+  <meta property="og:locale" content="en_US" />
   
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="OriginVault Schema Registry" />
-  <meta name="twitter:description" content="Interactive documentation for OriginVault's verifiable credential schemas" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://schemas.originvault.box/" />
+  <meta property="twitter:title" content="OriginVault Schema Registry - Interactive JSON Schema Documentation" />
+  <meta property="twitter:description" content="Explore OriginVault's comprehensive JSON schema registry with interactive documentation, real-time QuickType code generation, and multi-language type definitions for verifiable credentials and decentralized identity." />
+  <meta property="twitter:image" content="https://schemas.originvault.box/og-image.png" />
+  <meta name="twitter:creator" content="@originvault" />
+  <meta name="twitter:site" content="@originvault" />
   
-  <title>OriginVault Schema Registry - Interactive Documentation</title>
+  <!-- Additional SEO Meta Tags -->
+  <meta name="application-name" content="OriginVault Schema Registry" />
+  <meta name="apple-mobile-web-app-title" content="OriginVault Schemas" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#5794b4" />
+  <meta name="msapplication-TileColor" content="#5794b4" />
+  <meta name="msapplication-config" content="/browserconfig.xml" />
   
-  <!-- Preload critical resources -->
-  <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://schemas.originvault.box/" />
   
-  <!-- Accessibility improvements -->
-  <style>
-    /* Critical CSS for accessibility */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM1Nzk0YjQ7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMmM1YWEwO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjYiIGZpbGw9InVybCgjZ3JhZCkiLz48dGV4dCB4PSIxNiIgeT0iMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5PPC90ZXh0Pjwvc3ZnPg==" />
+  <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM1Nzk0YjQ7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMmM1YWEwO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjYiIGZpbGw9InVybCgjZ3JhZCkiLz48dGV4dCB4PSIxNiIgeT0iMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5PPC90ZXh0Pjwvc3ZnPg==" />
+  <link rel="icon" type="image/png" sizes="16x16" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM1Nzk0YjQ7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMmM1YWEwO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjYiIGZpbGw9InVybCgjZ3JhZCkiLz48dGV4dCB4PSIxNiIgeT0iMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5PPC90ZXh0Pjwvc3ZnPg==" />
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM1Nzk0YjQ7c3RvcC1vcGFjaXR5OjEiIC8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMmM1YWEwO3N0b3Atb3BhY2l0eToxIiAvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjYiIGZpbGw9InVybCgjZ3JhZCkiLz48dGV4dCB4PSIxNiIgeT0iMjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5PPC90ZXh0Pjwvc3ZnPg==" />
+  <link rel="manifest" href="/site.webmanifest" />
+  
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Structured Data for Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "OriginVault Schema Registry",
+    "url": "https://schemas.originvault.box/",
+    "description": "Interactive JSON schema documentation with QuickType integration for verifiable credentials and decentralized identity",
+    "publisher": {
+      "@type": "Organization",
+      "name": "OriginVault",
+      "url": "https://originvault.box",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://originvault.box/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "sameAs": [
+        "https://github.com/originvault",
+        "https://twitter.com/originvault",
+        "https://linkedin.com/company/originvault"
+      ]
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://schemas.originvault.box/?search={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
     }
-    
-    /* Focus styles for keyboard navigation */
-    *:focus {
-      outline: 2px solid #3b82f6;
-      outline-offset: 2px;
-    }
-    
-    /* High contrast mode support */
-    @media (prefers-contrast: high) {
-      * {
-        border-color: currentColor !important;
+  }
+  </script>
+  
+  <!-- Additional Structured Data for Documentation -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "OriginVault Schema Registry Documentation",
+    "description": "Comprehensive documentation for OriginVault's JSON schema registry with interactive examples and QuickType integration",
+    "author": {
+      "@type": "Organization",
+      "name": "OriginVault"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "OriginVault"
+    },
+    "datePublished": "2025-01-14",
+    "dateModified": "2025-01-14",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://schemas.originvault.box/"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "JSON Schema"
+      },
+      {
+        "@type": "Thing",
+        "name": "Verifiable Credentials"
+      },
+      {
+        "@type": "Thing",
+        "name": "Decentralized Identity"
+      },
+      {
+        "@type": "Thing",
+        "name": "QuickType"
       }
+    ],
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Developers"
     }
-    
-    /* Reduced motion support */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+  }
+  </script>
+  
+  <!-- BreadcrumbList Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://schemas.originvault.box/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Schema Explorer",
+        "item": "https://schemas.originvault.box/explorer"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "QuickType Guide",
+        "item": "https://schemas.originvault.box/quicktype"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Documentation",
+        "item": "https://schemas.originvault.box/docs"
       }
-    }
-  </style>
-  <script type="module" crossorigin src="/assets/main-e062a986.js"></script>
-  <link rel="stylesheet" href="/assets/index-98c3f737.css">
+    ]
+  }
+  </script>
+  
+  <!-- Sitemap -->
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+  
+  <!-- RSS Feed -->
+  <link rel="alternate" type="application/rss+xml" title="OriginVault Schema Registry Updates" href="/rss.xml" />
+  
+  <!-- Security Headers -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+  
+  <!-- Performance Hints -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+  
+  <!-- Accessibility -->
+  <meta name="accessibility-control" content="full-keyboard-operable" />
+  <meta name="accessibility-feature" content="high-contrast, large-text, screen-reader-optimized" />
+  <meta name="accessibility-hazard" content="none" />
+  <meta name="accessibility-mode" content="screen-reader" />
+  
+  <!-- Language and Region -->
+  <meta name="language" content="English" />
+  <meta name="geo.region" content="US" />
+  <meta name="geo.placename" content="United States" />
+  
+  <!-- Content Type -->
+  <meta name="content-type" content="text/html; charset=UTF-8" />
+  <meta name="content-language" content="en" />
+  
+  <!-- Cache Control -->
+  <meta http-equiv="Cache-Control" content="public, max-age=3600" />
+  
+  <!-- Mobile Optimization -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  
+  <!-- Social Media Verification -->
+  <meta name="google-site-verification" content="your-google-verification-code" />
+  <meta name="msvalidate.01" content="your-bing-verification-code" />
+  <meta name="yandex-verification" content="your-yandex-verification-code" />
+  
+  <!-- Analytics and Monitoring -->
+  <meta name="google-analytics" content="your-ga-tracking-id" />
+  <meta name="plausible-domain" content="schemas.originvault.box" />
+  
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'none'; object-src 'none';" />
+  
+  <!-- Feature Policy -->
+  <meta http-equiv="Feature-Policy" content="camera 'none'; microphone 'none'; geolocation 'none'; payment 'none'; usb 'none'; magnetometer 'none'; gyroscope 'none'; accelerometer 'none';" />
+  
+  <!-- Permissions Policy -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()" />
+  <script type="module" crossorigin src="/assets/main-BMhHldsV.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-D7A6U-V_.css">
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root"></div>
   
-  
-  <!-- Skip to main content for screen readers -->
-  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded">
-    Skip to main content
-  </a>
+  <!-- Structured Data for Current Page -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "OriginVault Schema Registry",
+    "description": "Interactive JSON schema documentation with QuickType integration",
+    "url": "https://schemas.originvault.box/",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "OriginVault",
+      "url": "https://originvault.box"
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://schemas.originvault.box/"
+        }
+      ]
+    },
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "OriginVault Schema Registry",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  }
+  </script>
 </body>
 </html> 

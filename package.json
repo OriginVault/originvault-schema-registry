@@ -13,7 +13,8 @@
   "dependencies": {
     "@openverifiable/open-verifiable-types": "^0.0.1",
     "json-schema-to-typescript": "^13.1.1",
-    "quicktype-core": "^23.2.6"
+    "quicktype-core": "^23.2.6",
+    "react-social-icons": "^6.24.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

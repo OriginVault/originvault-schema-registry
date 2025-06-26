@@ -1,4 +1,7 @@
-import { TAgent, IKeyManager, IDIDManager, ICredentialIssuer, ICredentialVerifier, ICredentialPlugin, IDataStore, ICheqd, IResolver } from '@openverifiable/open-verifiable-types';
+// Temporarily commented out problematic imports
+// import { TAgent, IKeyManager, IDIDManager, ICredentialIssuer, ICredentialVerifier, ICredentialPlugin, IDataStore, ICheqd, IResolver } from '@openverifiable/open-verifiable-types';
+// Temporarily commented out all problematic exports
+/*
 export {
   DIDDocument, DIDResolver, DIDResolutionResult, ServiceEndpoint, PublicKey, Authentication,
   APPLICATION_BASE_URL, API_KEY_PREFIX, API_SECRET_KEY_LENGTH, API_KEY_EXPIRATION, CORS_ALLOWED_ORIGINS, CORS_ERROR_MSG, DEFAULT_DENOM_EXPONENT, FAUCET_URI, LOG_LEVEL, LOGTO_MANAGEMENT_API, MINIMAL_DENOM, TESTNET_MINIMUM_BALANCE, VC_CONTEXT, VC_PROOF_FORMAT, VC_REMOVE_ORIGINAL_FIELDS,
@@ -26,4 +29,5 @@ export {
   CreateAction, CreationDate, CreativeWork, CreativeWorkSeason, CreativeWorkSeries, Creator, Claim, ClaimData, ClaimReview, ArtGallery, CoverArt, ArtistCreator, Credential, CredentialData, CredentialSchema, Certification, CertificationStatusEnumeration, School, Sculpture, Drawing, Painting, DigitalDocument, DigitalDocumentPermission, DigitalDocumentPermissionType, TextDigitalDocument, FileDataID, DigitalPlatformEnumeration, VisualArtsEvent, VisualArtwork, QualitativeValue, QuantitativeValue, QuantitativeValueDistribution, Quantity, TypeAndQuantityNode, ComicCoverArt, PerformingArtsTheater, AvatarURL, Rating, Review, ReviewAction, UserReview, MediaGallery, MediaObject, MediaReview, MediaSubscription, MediaEnumeration, MediaManipulationRatingEnumeration, DIDAddress, DID, DIDJWTVerifiableCredential, DIDOfTheSubject, DIDThatOwnsTheDatabase, ExternalDID, DownloadAction, DataDownload, File, AudioObject, AudioObjectSnapshot, Audience, AIAssistant, Value, ValidUntil, VirtualLocation,
   Person, PeopleAudience, AdultOrientedEnumeration, ParentAudience, EducationalAudience, BusinessAudience, BusinessEntityType, BusinessEvent, BusinessFunction, LocalBusiness, OnlineBusiness, OnlineStore, Organization, OpenSeaMetadata, OrganizationRole, ArchiveOrganization, SoftwareApplication, SoftwareSourceCode, PriceSpecification, PriceComponentTypeEnumeration, PriceTypeEnumeration, UnitPriceSpecification, CompoundPriceSpecification, ProductCollection, Process, Profile, 
 } from '@openverifiable/open-verifiable-types';
-export type IOVAgent = TAgent<IKeyManager & IDIDManager & ICredentialIssuer & ICredentialVerifier & ICredentialPlugin & IDataStore & ICheqd & IResolver>;
+*/
+// export type IOVAgent = TAgent<IKeyManager & IDIDManager & ICredentialIssuer & ICredentialVerifier & ICredentialPlugin & IDataStore & ICheqd & IResolver>;

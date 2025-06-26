@@ -66,16 +66,38 @@ const SchemaExplorer: React.FC = () => {
         setLoading(true)
         setError(null)
         
-        const [schemasData, categoriesData, languagesData] = await Promise.all([
-          schemaService.loadSchemas(),
-          Promise.resolve(schemaService.getCategories()),
-          Promise.resolve(schemaService.getLanguages())
-        ])
+        // Load the registry from GitHub
+        const registry = await schemaService.loadSchemas()
         
-        setSchemas(schemasData)
-        setFilteredSchemas(schemasData)
-        setCategories(categoriesData)
-        setLanguages(languagesData)
+        // Convert registry to schema array
+        const schemasArray: Schema[] = []
+        const categoriesArray: { id: string; name: string; description: string; count: number }[] = []
+        
+        for (const [categoryId, category] of Object.entries(registry.categories)) {
+          categoriesArray.push({
+            id: categoryId,
+            name: category.name,
+            description: category.description,
+            count: category.schemas.length
+          })
+          
+          for (const schema of category.schemas) {
+            schemasArray.push({
+              id: schema.name,
+              title: schema.name,
+              description: schema.description,
+              category: categoryId,
+              content: null,
+              metadata: schema,
+              examples: schema.example ? [schema.example] : []
+            })
+          }
+        }
+        
+        setSchemas(schemasArray)
+        setFilteredSchemas(schemasArray)
+        setCategories(categoriesArray)
+        setLanguages(schemaService.getLanguages())
       } catch (err) {
         setError('Failed to load schema data. Please try refreshing the page.')
         console.error('Error loading schemas:', err)
@@ -98,8 +120,7 @@ const SchemaExplorer: React.FC = () => {
     if (searchTerm) {
       filtered = filtered.filter(schema =>
         schema.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        schema.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        schema.metadata.name.toLowerCase().includes(searchTerm.toLowerCase())
+        schema.description.toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
 
@@ -126,9 +147,24 @@ const SchemaExplorer: React.FC = () => {
     }
   }
 
-  const handleSchemaSelect = (schema: Schema) => {
-    setSelectedSchema(schema)
-    setTabValue(0)
+  const handleSchemaSelect = async (schema: Schema) => {
+    try {
+      setLoading(true)
+      
+      // Load the actual schema content if not already loaded
+      if (!schema.content) {
+        const schemaContent = await schemaService.loadSchemaFile(schema.metadata.file)
+        schema.content = schemaContent
+      }
+      
+      setSelectedSchema(schema)
+      setTabValue(0)
+    } catch (error) {
+      console.error('Error loading schema content:', error)
+      setError('Failed to load schema content')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
