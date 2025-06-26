@@ -580,7 +580,8 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
       ...(isFullscreen ? { 
         height: '100vh', 
         width: '100vw', 
-        overflow: 'hidden',
+        overflow: 'auto',
+        bgcolor: 'background.default'
       } : { 
         py: 4 
       })
@@ -678,8 +679,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
       
       <Grid container spacing={3} sx={{ 
         ...(isFullscreen && { 
-          height: 'calc(100vh - 200px)', 
-          overflow: 'hidden',
+          minHeight: 'calc(100vh - 200px)', 
           m: 0,
           p: 2
         })
@@ -844,15 +844,41 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                 bgcolor: theme.palette.background.paper,
               }}>
                 <Tabs value={tabValue} onChange={handleTabChange} sx={{ px: 3 }}>
-                  <Tab label="Generated Code" sx={{ fontFamily: 'Thiccboi' }} />
                   <Tab label="JSON Schema" sx={{ fontFamily: 'Thiccboi' }} />
+                  <Tab label="Generated Code" sx={{ fontFamily: 'Thiccboi' }} />
                   <Tab label="Dynamic Generator" sx={{ fontFamily: 'Thiccboi' }} />
                 </Tabs>
               </Box>
 
               {/* Tab content with fixed height and proper scrolling */}
-              <Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+              <Box sx={{ 
+                flexGrow: 1, 
+                overflow: isFullscreen ? 'auto' : 'hidden', 
+                display: 'flex', 
+                flexDirection: 'column',
+                ...(isFullscreen && { maxHeight: 'calc(100vh - 300px)' })
+              }}>
                 <TabPanel value={tabValue} index={0}>
+                  <Box sx={{ flexGrow: 1, p: 3, minHeight: 0 }}>
+                    <Paper variant="outlined" sx={{ 
+                      height: '100%', 
+                      overflow: isFullscreen ? 'auto' : 'hidden',
+                      position: 'relative',
+                      borderColor: theme.palette.divider,
+                      '& > div': { height: '100% !important' }
+                    }}>
+                      <CodeEditor
+                        value={selectedSchema?.content ? JSON.stringify(selectedSchema?.content, null, 2) : '{}'}
+                        language="json"
+                        readonly
+                        height="100%"
+                        title="JSON Schema Definition"
+                      />
+                    </Paper>
+                  </Box>
+                </TabPanel>
+
+                <TabPanel value={tabValue} index={1}>
                   {/* Language selection toolbar */}
                   <Box sx={{ 
                     p: 3, 
@@ -904,7 +930,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                   <Box sx={{ flexGrow: 1, p: 3, pt: 2, minHeight: 0 }}>
                     <Paper variant="outlined" sx={{ 
                       height: '100%', 
-                      overflow: 'hidden',
+                      overflow: isFullscreen ? 'auto' : 'hidden',
                       position: 'relative',
                       borderColor: theme.palette.divider,
                       '& > div': { height: '100% !important' }
@@ -916,26 +942,6 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                         height="100%"
                         loading={codeLoading}
                         title={`Generated ${languages.find(l => l.id === selectedLanguage)?.name || 'Code'}`}
-                      />
-                    </Paper>
-                  </Box>
-                </TabPanel>
-
-                <TabPanel value={tabValue} index={1}>
-                  <Box sx={{ flexGrow: 1, p: 3, minHeight: 0 }}>
-                    <Paper variant="outlined" sx={{ 
-                      height: '100%', 
-                      overflow: 'hidden',
-                      position: 'relative',
-                      borderColor: theme.palette.divider,
-                      '& > div': { height: '100% !important' }
-                    }}>
-                      <CodeEditor
-                        value={selectedSchema?.content ? JSON.stringify(selectedSchema?.content, null, 2) : '{}'}
-                        language="json"
-                        readonly
-                        height="100%"
-                        title="JSON Schema Definition"
                       />
                     </Paper>
                   </Box>
@@ -1042,15 +1048,19 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                       flexDirection: 'column', 
                       minHeight: 0,
                       height: showValidation ? 'calc(100% - 280px)' : '100%',
-                      overflow: 'hidden'
+                      overflow: isFullscreen ? 'auto' : 'hidden'
                     }}>
-                      <Grid container spacing={2} sx={{ height: '100%', overflow: 'hidden' }}>
+                      <Grid container spacing={2} sx={{ 
+                        height: '100%', 
+                        overflow: isFullscreen ? 'visible' : 'hidden',
+                        ...(isFullscreen && { minHeight: '600px' })
+                      }}>
                         <Grid item xs={12} md={6} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                           <Paper variant="outlined" sx={{ 
                             height: '100%', 
                             display: 'flex', 
                             flexDirection: 'column', 
-                            overflow: 'hidden',
+                            overflow: isFullscreen ? 'auto' : 'hidden',
                             minHeight: 0,
                             borderColor: theme.palette.divider,
                           }}>
@@ -1110,7 +1120,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                             height: '100%', 
                             display: 'flex', 
                             flexDirection: 'column', 
-                            overflow: 'hidden',
+                            overflow: isFullscreen ? 'auto' : 'hidden',
                             minHeight: 0,
                             borderColor: theme.palette.divider,
                           }}>
