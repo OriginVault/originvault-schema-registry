@@ -36,6 +36,28 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
+// Mock Monaco Editor
+vi.mock('@monaco-editor/react', () => ({
+  default: ({ value, language, height, onChange, onMount, options, theme }: any) => {
+    // Simulate onMount callback
+    if (onMount) {
+      setTimeout(() => {
+        onMount({ updateOptions: vi.fn(), layout: vi.fn() }, {
+          editor: {
+            defineTheme: vi.fn(),
+            setTheme: vi.fn(),
+          }
+        });
+      }, 0);
+    }
+    return (
+      <div data-testid="monaco-editor" data-language={language} data-theme={theme}>
+        <pre>{value}</pre>
+      </div>
+    );
+  }
+}))
+
 // Mock fullscreen API
 Object.defineProperty(document, 'fullscreenElement', {
   writable: true,
@@ -110,7 +132,7 @@ describe('Dark Mode Theme Tests', () => {
         // Check that schema library panel has dark background
         const schemaPanel = screen.getByText('Schema Library')
         const panelContainer = schemaPanel.closest('.MuiPaper-root')
-        expect(panelContainer).toHaveStyle({ backgroundColor: 'rgb(26, 26, 26)' })
+        expect(panelContainer).toHaveStyle({ backgroundColor: 'rgb(33, 40, 49)' }) // #212831
       })
     })
 
@@ -120,7 +142,7 @@ describe('Dark Mode Theme Tests', () => {
       await waitFor(() => {
         const searchInput = screen.getByPlaceholderText('Search schemas...')
         const inputContainer = searchInput.closest('.MuiOutlinedInput-root')
-        expect(inputContainer).toHaveStyle({ backgroundColor: 'rgb(42, 42, 42)' })
+        expect(inputContainer).toHaveStyle({ backgroundColor: 'rgb(28, 42, 53)' }) // #1c2a35
       })
     })
 
@@ -129,8 +151,8 @@ describe('Dark Mode Theme Tests', () => {
       
       await waitFor(() => {
         const allChip = screen.getByText('All')
-        expect(allChip).toHaveStyle({ backgroundColor: 'rgb(42, 42, 42)' })
-        expect(allChip).toHaveStyle({ color: 'rgb(255, 255, 255)' })
+        expect(allChip).toHaveStyle({ backgroundColor: 'rgb(33, 40, 49)' }) // #212831
+        expect(allChip).toHaveStyle({ color: 'rgb(173, 212, 239)' }) // #add4ef
       })
     })
 
@@ -144,7 +166,7 @@ describe('Dark Mode Theme Tests', () => {
         
         // Check tab styling
         const tabsContainer = screen.getByRole('tablist')
-        expect(tabsContainer).toHaveStyle({ backgroundColor: 'rgb(26, 26, 26)' })
+        expect(tabsContainer).toHaveStyle({ backgroundColor: 'rgb(33, 40, 49)' }) // #212831
       })
     })
   })
@@ -176,7 +198,7 @@ describe('Dark Mode Theme Tests', () => {
       )
       
       const loadingContainer = screen.getByRole('progressbar').closest('.MuiBox-root')
-      expect(loadingContainer).toHaveStyle({ backgroundColor: 'rgb(33, 33, 33)' })
+      expect(loadingContainer).toHaveStyle({ backgroundColor: 'rgb(33, 40, 49)' }) // #212831
     })
 
     test('should show dark theme in error state', () => {
@@ -199,21 +221,21 @@ describe('Dark Mode Theme Tests', () => {
       renderWithTheme(<Footer isDarkMode={true} />, darkTheme)
       
       const footer = screen.getByText('© 2025 OriginVault, LLC.').closest('.MuiBox-root')
-      expect(footer).toHaveStyle({ backgroundColor: 'rgb(26, 26, 26)' })
+      expect(footer).toHaveStyle({ backgroundColor: 'rgb(33, 40, 49)' }) // #212831
     })
 
     test('should apply light theme colors', () => {
       renderWithTheme(<Footer isDarkMode={false} />, lightTheme)
       
       const footer = screen.getByText('© 2025 OriginVault, LLC.').closest('.MuiBox-root')
-      expect(footer).toHaveStyle({ backgroundColor: 'rgb(245, 245, 245)' })
+      expect(footer).toHaveStyle({ backgroundColor: 'rgb(245, 245, 245)' }) // #f5f5f5
     })
 
     test('should use theme context when isDarkMode prop is not provided', () => {
       renderWithTheme(<Footer />, darkTheme)
       
       const footer = screen.getByText('© 2025 OriginVault, LLC.').closest('.MuiBox-root')
-      expect(footer).toHaveStyle({ backgroundColor: 'rgb(26, 26, 26)' })
+      expect(footer).toHaveStyle({ backgroundColor: 'rgb(33, 40, 49)' }) // #212831
     })
   })
 
@@ -283,10 +305,10 @@ describe('Dark Mode Theme Tests', () => {
       
       await waitFor(() => {
         const title = screen.getByText('Schema Explorer & Type Generator')
-        expect(title).toHaveStyle({ color: 'rgb(255, 255, 255)' })
+        expect(title).toHaveStyle({ color: 'rgb(173, 212, 239)' }) // #add4ef
         
         const subtitle = screen.getByText('Discover JSON Schemas and generate TypeScript types instantly')
-        expect(subtitle).toHaveStyle({ color: 'rgb(176, 176, 176)' })
+        expect(subtitle).toHaveStyle({ color: 'rgb(201, 179, 109)' }) // #c9b36d
       })
     })
 
