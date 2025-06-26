@@ -49,8 +49,8 @@ describe('CodeEditor', () => {
   it('should render with custom height', () => {
     render(<CodeEditor value="const x = 1" language="typescript" height="500px" />)
     
-    // The height gets passed to Monaco which shows 100% within the Paper container
-    expect(screen.getByTestId('editor-height')).toHaveTextContent('100%')
+    // The height gets passed to Monaco which shows the actual height value
+    expect(screen.getByTestId('editor-height')).toHaveTextContent('500px')
   })
 
   it('should call onChange when value changes', () => {
@@ -98,7 +98,8 @@ describe('CodeEditor', () => {
   it('should show loading state', () => {
     render(<CodeEditor value="test" language="typescript" loading />)
     
-    expect(screen.getByText('Generating code...')).toBeInTheDocument()
+    // Look for CircularProgress instead of text
+    expect(screen.getByRole('progressbar')).toBeInTheDocument()
   })
 
   it('should show title when provided', () => {

@@ -73,6 +73,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          background: 'linear-gradient(230deg, #1c2a35, #212831, #3a6278, #9c27b0, #1c2a35)',
+          color: '#add4ef',
+          boxShadow: '0 2px 8px 0 rgba(173, 212, 239, 0.08)',
+          borderBottom: '1.5px solid #3a6278',
+          fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
         }}
       >
         <Toolbar>
@@ -85,7 +90,18 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography 
+            variant="h6" 
+            noWrap 
+            component="div"
+            sx={{
+              fontFamily: 'Thiccboi',
+              background: 'linear-gradient(45deg, #add4ef, #fe9334)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
             Schema Registry
           </Typography>
         </Toolbar>

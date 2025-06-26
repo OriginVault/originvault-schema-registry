@@ -3,8 +3,17 @@ import { render, screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import { createContext } from 'react';
 import App from '../App';
 import { lightTheme } from '../theme';
+
+// Create FullscreenContext for testing
+interface FullscreenContextType {
+  isFullscreen: boolean
+  setIsFullscreen: (value: boolean) => void
+}
+
+const FullscreenContext = createContext<FullscreenContextType | undefined>(undefined);
 
 // Mock react-router-dom
 vi.mock('react-router-dom', () => ({
@@ -20,16 +29,45 @@ vi.mock('react-router-dom', () => ({
     state: null,
     key: 'default'
   }),
+  useSearchParams: () => [new URLSearchParams(), vi.fn()],
 }));
 
-const TestWrapper = ({ children }: { children: React.ReactNode }) => (
-  <HelmetProvider>
-    <ThemeProvider theme={lightTheme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
-  </HelmetProvider>
-);
+// Mock Monaco Editor
+vi.mock('@monaco-editor/react', () => ({
+  default: ({ value, language, height, onChange, onMount, options, theme }: any) => {
+    // Simulate onMount callback
+    if (onMount) {
+      setTimeout(() => {
+        onMount({ updateOptions: vi.fn(), layout: vi.fn() }, {
+          editor: {
+            defineTheme: vi.fn(),
+            setTheme: vi.fn(),
+          }
+        });
+      }, 0);
+    }
+    return (
+      <div data-testid="monaco-editor" data-language={language} data-theme={theme}>
+        <pre>{value}</pre>
+      </div>
+    );
+  }
+}));
+
+const TestWrapper = ({ children }: { children: React.ReactNode }) => {
+  const setIsFullscreen = vi.fn();
+  
+  return (
+    <HelmetProvider>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        <FullscreenContext.Provider value={{ isFullscreen: false, setIsFullscreen }}>
+          {children}
+        </FullscreenContext.Provider>
+      </ThemeProvider>
+    </HelmetProvider>
+  );
+};
 
 describe('App', () => {
   it('should render without crashing', () => {

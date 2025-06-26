@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Box, Paper, Typography, CircularProgress, Alert } from '@mui/material'
+import { Box, Paper, Typography, CircularProgress, Alert, useTheme } from '@mui/material'
 import Editor from '@monaco-editor/react'
 
 interface CodeEditorProps {
@@ -23,57 +23,114 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
 }) => {
   const editorRef = useRef<any>(null)
   const [monacoError, setMonacoError] = useState<string | null>(null)
+  const theme = useTheme()
 
   const handleEditorDidMount = (editor: any, monaco: any) => {
     editorRef.current = editor
     
     try {
-      // Configure Monaco Editor theme
-      monaco.editor.defineTheme('originvault', {
+      // Define dark theme for Monaco Editor using custom palette
+      monaco.editor.defineTheme('darkTheme', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+          { token: 'comment', foreground: '6A9955' },
+          { token: 'keyword', foreground: 'C586C0' },
+          { token: 'string', foreground: 'CE9178' },
+          { token: 'number', foreground: 'B5CEA8' },
+          { token: 'type', foreground: '4EC9B0' },
+          { token: 'class', foreground: '4EC9B0' },
+          { token: 'interface', foreground: '4EC9B0' },
+          { token: 'function', foreground: 'DCDCAA' },
+          { token: 'variable', foreground: '9CDCFE' },
+          { token: 'constant', foreground: '4FC1FF' },
+          { token: 'parameter', foreground: '9CDCFE' },
+          { token: 'property', foreground: '9CDCFE' },
+        ],
+        colors: {
+          'editor.background': theme.palette.background.paper,
+          'editor.foreground': theme.palette.text.primary,
+          'editor.lineHighlightBackground': theme.palette.background.default,
+          'editor.selectionBackground': theme.palette.primary.main + '40',
+          'editor.inactiveSelectionBackground': theme.palette.primary.main + '20',
+          'editorCursor.foreground': theme.palette.text.primary,
+          'editorWhitespace.foreground': theme.palette.divider,
+          'editorIndentGuide.background': theme.palette.divider,
+          'editor.selectionHighlightBorder': theme.palette.primary.main + '60',
+          'scrollbarSlider.background': theme.palette.divider,
+          'scrollbarSlider.hoverBackground': theme.palette.primary.main + '40',
+          'scrollbarSlider.activeBackground': theme.palette.primary.main + '60',
+        }
+      })
+
+      // Define light theme for Monaco Editor using custom palette
+      monaco.editor.defineTheme('lightTheme', {
         base: 'vs',
         inherit: true,
         rules: [
-          { token: 'comment', foreground: '6A737D' },
-          { token: 'keyword', foreground: 'D73A49' },
-          { token: 'string', foreground: '032F62' },
-          { token: 'number', foreground: '005CC5' },
-          { token: 'type', foreground: '6F42C1' }
+          { token: 'comment', foreground: '008000' },
+          { token: 'keyword', foreground: '0000ff' },
+          { token: 'string', foreground: 'a31515' },
+          { token: 'number', foreground: '098658' },
+          { token: 'type', foreground: '267f99' },
+          { token: 'class', foreground: '267f99' },
+          { token: 'interface', foreground: '267f99' },
+          { token: 'function', foreground: '795e26' },
+          { token: 'variable', foreground: '001080' },
+          { token: 'constant', foreground: '0070c1' },
+          { token: 'parameter', foreground: '001080' },
+          { token: 'property', foreground: '001080' },
         ],
         colors: {
-          'editor.background': '#F7FAFC',
-          'editor.foreground': '#2D3748',
-          'editor.lineHighlightBackground': '#EDF2F7',
-          'editor.selectionBackground': '#BEE3F8',
-          'editor.inactiveSelectionBackground': '#E2E8F0'
+          'editor.background': theme.palette.background.paper,
+          'editor.foreground': theme.palette.text.primary,
+          'editor.lineHighlightBackground': theme.palette.background.default,
+          'editor.selectionBackground': theme.palette.primary.main + '20',
+          'editor.inactiveSelectionBackground': theme.palette.primary.main + '10',
+          'editorCursor.foreground': theme.palette.text.primary,
+          'editorWhitespace.foreground': theme.palette.divider,
+          'editorIndentGuide.background': theme.palette.divider,
+          'editor.selectionHighlightBorder': theme.palette.primary.main + '40',
+          'scrollbarSlider.background': theme.palette.divider,
+          'scrollbarSlider.hoverBackground': theme.palette.primary.main + '20',
+          'scrollbarSlider.activeBackground': theme.palette.primary.main + '40',
         }
       })
       
-      // Set theme
-      monaco.editor.setTheme('originvault')
+      // Set theme based on current MUI theme
+      const monacoTheme = theme.palette.mode === 'dark' ? 'darkTheme' : 'lightTheme'
+      monaco.editor.setTheme(monacoTheme)
       
-      // Configure editor options with left alignment
+      // Set editor options for left alignment and proper scrolling
       editor.updateOptions({
+        wordWrap: 'on',
         minimap: { enabled: false },
         scrollBeyondLastLine: false,
+        automaticLayout: true,
         fontSize: 14,
-        fontFamily: '"JetBrains Mono", "Fira Code", "Consolas", monospace',
-        lineNumbers: 'on',
-        roundedSelection: false,
+        lineHeight: 20,
+        fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
+        renderWhitespace: 'selection',
+        tabSize: 2,
+        insertSpaces: true,
+        detectIndentation: false,
+        // Better scrolling behavior
         scrollbar: {
           vertical: 'visible',
           horizontal: 'visible',
-          useShadows: false,
-          verticalScrollbarSize: 8,
-          horizontalScrollbarSize: 8
-        },
-        // Force left text alignment
-        wrappingIndent: 'none',
-        wordWrap: 'on',
-        wordWrapColumn: 120
+          verticalScrollbarSize: 12,
+          horizontalScrollbarSize: 12
+        }
       })
+      
+      // Force layout update
+      setTimeout(() => {
+        editor.layout()
+      }, 100)
+      
     } catch (error) {
-      console.error('Monaco editor configuration error:', error)
-      setMonacoError('Failed to configure editor theme')
+      console.error('Error configuring Monaco editor:', error)
+      setMonacoError('Failed to configure editor')
     }
   }
 
@@ -83,132 +140,116 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     }
   }
 
-  const handleEditorValidationError = (error: any) => {
-    console.error('Monaco editor validation error:', error)
-    setMonacoError('Editor validation failed')
-  }
-
-  const handleBeforeMount = () => {
-    // Monaco is starting to load
-  }
-
-  const handleMount = (editor: any, monaco: any) => {
-    handleEditorDidMount(editor, monaco)
-  }
-
   if (loading) {
     return (
-      <Paper sx={{ p: 2, height }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          <CircularProgress size={24} />
-          <Typography variant="body2" sx={{ ml: 2 }}>
-            Generating code...
-          </Typography>
-        </Box>
-      </Paper>
+      <Box sx={{ 
+        height, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        bgcolor: theme.palette.background.paper,
+        border: 1,
+        borderColor: theme.palette.divider,
+        borderRadius: 1,
+        fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
+      }}>
+        <CircularProgress size={24} />
+      </Box>
     )
   }
 
-  // Use simple fallback if Monaco fails or is read-only
-  if (monacoError || readonly) {
+  if (monacoError) {
     return (
-      <Box data-testid="code-editor-container">
-        {monacoError && (
-          <Alert severity="info" sx={{ mb: 1 }}>
-            Using simplified code viewer. {monacoError}
-          </Alert>
-        )}
-        <Paper sx={{ height, overflow: 'hidden' }}>
-          {title && (
-            <Box sx={{ p: 1, borderBottom: 1, borderColor: 'divider', bgcolor: 'grey.50' }}>
-              <Typography variant="caption" color="text.secondary">
-                {title}
-              </Typography>
-            </Box>
-          )}
-          <Box sx={{ height: title ? 'calc(100% - 40px)' : '100%', overflow: 'auto' }}>
-            <Box
-              component="pre"
-              sx={{
-                margin: 0,
-                padding: 2,
-                backgroundColor: '#f7fafc',
-                fontSize: '14px',
-                fontFamily: '"JetBrains Mono", "Fira Code", "Consolas", monospace',
-                height: '100%',
-                overflow: 'auto',
-                whiteSpace: 'pre-wrap',
-                lineHeight: 1.5,
-                color: '#2d3748',
-                border: 'none',
-                outline: 'none',
-                // Force left text alignment
-                textAlign: 'left',
-                direction: 'ltr'
-              }}
-            >
-              {value}
-            </Box>
-          </Box>
-        </Paper>
+      <Box sx={{ height, p: 2 }}>
+        <Alert severity="error">
+          {monacoError}
+          <Typography variant="body2" sx={{ mt: 1, fontFamily: 'Thiccboi' }}>
+            Falling back to simple text display...
+          </Typography>
+        </Alert>
+        <Box sx={{ 
+          mt: 2, 
+          height: 'calc(100% - 80px)', 
+          overflow: 'auto',
+          border: 1,
+          borderColor: theme.palette.divider,
+          borderRadius: 1,
+          p: 2,
+          bgcolor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+          fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
+          fontSize: '14px',
+          lineHeight: 1.5,
+          textAlign: 'left',
+          whiteSpace: 'pre-wrap'
+        }}>
+          {value}
+        </Box>
       </Box>
     )
   }
 
   return (
-    <Paper sx={{ height, overflow: 'hidden' }} data-testid="code-editor-container">
+    <Box sx={{ 
+      height, 
+      width: '100%',
+      position: 'relative',
+      fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
+      '& .monaco-editor': {
+        textAlign: 'left !important'
+      },
+      '& .monaco-editor .margin': {
+        textAlign: 'left !important'
+      },
+      '& .monaco-editor .monaco-editor-background': {
+        textAlign: 'left !important'
+      }
+    }}>
       {title && (
-        <Box sx={{ p: 1, borderBottom: 1, borderColor: 'divider', bgcolor: 'grey.50' }}>
-          <Typography variant="caption" color="text.secondary">
-            {title}
-          </Typography>
+        <Box sx={{ 
+          px: 2, 
+          py: 1, 
+          bgcolor: theme.palette.background.paper, 
+          borderBottom: 1, 
+          borderColor: theme.palette.divider,
+          fontSize: '12px',
+          fontWeight: 'medium',
+          color: theme.palette.text.secondary,
+          fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
+        }}>
+          {title}
         </Box>
       )}
       <Editor
-        height={title ? 'calc(100% - 40px)' : '100%'}
-        language={language}
+        height={title ? `calc(${height} - 40px)` : height}
+        language={language || 'json'}
         value={value}
         onChange={handleEditorChange}
-        beforeMount={handleBeforeMount}
-        onMount={handleMount}
-        onValidate={handleEditorValidationError}
-        loading={
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-            <CircularProgress size={24} />
-            <Typography variant="body2" sx={{ ml: 2 }}>
-              Loading Monaco Editor...
-            </Typography>
-          </Box>
-        }
+        onMount={handleEditorDidMount}
         options={{
           readOnly: readonly,
           wordWrap: 'on',
+          minimap: { enabled: false },
+          scrollBeyondLastLine: false,
           automaticLayout: true,
-          folding: true,
-          foldingStrategy: 'indentation',
-          showFoldingControls: 'always',
-          lineDecorationsWidth: 10,
-          lineNumbersMinChars: 3,
-          glyphMargin: false,
-          contextmenu: true,
-          quickSuggestions: !readonly,
-          suggestOnTriggerCharacters: !readonly,
-          acceptSuggestionOnEnter: 'on',
-          tabCompletion: 'on',
-          wordBasedSuggestions: readonly ? 'off' : 'currentDocument',
-          parameterHints: {
-            enabled: !readonly
-          },
-          hover: {
-            enabled: true
-          },
-          // Force left text alignment in Monaco
-          wrappingIndent: 'none',
-          wordWrapColumn: 120
+          fontSize: 14,
+          lineHeight: 20,
+          fontFamily: 'Monaco, Menlo, "Ubuntu Mono", monospace',
+          renderWhitespace: 'selection',
+          tabSize: 2,
+          insertSpaces: true,
+          detectIndentation: false,
+          // Better scrolling behavior
+          scrollbar: {
+            vertical: 'visible',
+            horizontal: 'visible',
+            verticalScrollbarSize: 12,
+            horizontalScrollbarSize: 12
+          }
         }}
-        theme="originvault"
+        theme={theme.palette.mode === 'dark' ? 'darkTheme' : 'lightTheme'}
       />
-    </Paper>
+    </Box>
   )
 }
 

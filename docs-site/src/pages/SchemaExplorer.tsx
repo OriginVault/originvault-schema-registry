@@ -22,7 +22,10 @@ import {
   AccordionSummary,
   AccordionDetails,
   Toolbar,
-  Divider
+  Divider,
+  IconButton,
+  Tooltip,
+  useTheme
 } from '@mui/material'
 import {
   Search as SearchIcon,
@@ -31,12 +34,15 @@ import {
   Schema as SchemaIcon,
   ExpandMore as ExpandMoreIcon,
   PlayArrow as ValidateIcon,
-  AutoFixHigh as GenerateIcon
+  AutoFixHigh as GenerateIcon,
+  Fullscreen as FullscreenIcon,
+  FullscreenExit as FullscreenExitIcon
 } from '@mui/icons-material'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import CodeEditor from '../components/CodeEditor'
 import SocialShare from '../components/SocialShare'
 import { schemaService, Schema } from '../services/schemaService'
+import { useFullscreen } from '../App'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -51,6 +57,7 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index, ...other })
       hidden={value !== index}
       id={`schema-tabpanel-${index}`}
       aria-labelledby={`schema-tab-${index}`}
+      style={{ height: '100%' }}
       {...other}
     >
       {value === index && <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>{children}</Box>}
@@ -83,8 +90,29 @@ const SchemaExplorer: React.FC = () => {
   const [validationResult, setValidationResult] = useState<{ valid: boolean; errors: string[] } | null>(null)
   const [showValidation, setShowValidation] = useState(false)
 
+  // Fullscreen state from context
+  const { isFullscreen, setIsFullscreen } = useFullscreen()
+  const theme = useTheme()
+
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+
+  // Fullscreen toggle functionality
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        setIsFullscreen(true)
+      }).catch(err => {
+        console.error('Error entering fullscreen:', err)
+      })
+    } else {
+      document.exitFullscreen().then(() => {
+        setIsFullscreen(false)
+      }).catch(err => {
+        console.error('Error exiting fullscreen:', err)
+      })
+    }
+  }
 
   // Initialize state from URL parameters
   const initializeFromURL = (schemasArray: Schema[]) => {
@@ -552,35 +580,56 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
     )
   }
 
-  return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+  const mainContent = (
+    <Box sx={{ 
+      ...(isFullscreen ? { 
+        height: '100vh', 
+        width: '100vw', 
+        overflow: 'hidden',
+      } : { 
+        py: 4 
+      })
+    }}>
       {/* Main App Header - Clean and separated */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 4, ...(isFullscreen && { p: 2, mb: 2 }) }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
           <Box>
             <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
-              Schema Explorer & Type Generator
+              OriginVault Schema Explorer & Type Generator
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Discover JSON Schemas and generate TypeScript types instantly
+              Discover JSON Schemas used in OV and generate TypeScript types instantly
             </Typography>
           </Box>
           
-          {/* Social share in main header - separate from content panels */}
-          {selectedSchema && (
-            <SocialShare 
-              title={`${selectedSchema.title} - OriginVault Schema Registry`}
-              description={selectedSchema.description}
-            />
-          )}
+          {/* Social share and fullscreen controls in main header */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            {selectedSchema && (
+              <SocialShare 
+                title={`${selectedSchema.title} - OriginVault Schema Registry`}
+                description={selectedSchema.description}
+              />
+            )}
+            <Tooltip title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}>
+              <IconButton onClick={toggleFullscreen} size="small">
+                {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
         
         {/* Global toolbar for validation and tools */}
         {selectedSchema && tabValue === 2 && (
-          <Paper variant="outlined" sx={{ p: 2, mb: 2, bgcolor: 'grey.50' }}>
+          <Paper variant="outlined" sx={{ 
+            p: 2, 
+            mb: 2, 
+            bgcolor: theme.palette.background.paper,
+            borderColor: theme.palette.divider,
+            fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
+          }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Typography variant="h6" component="h2">
+                <Typography variant="h6" component="h2" color="text.primary" fontFamily="Thiccboi">
                   Schema Testing Tools
                 </Typography>
                 <Divider orientation="vertical" flexItem />
@@ -593,6 +642,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                     updateURL({ validation: newValue })
                   }}
                   size="small"
+                  sx={{ fontFamily: 'Thiccboi' }}
                 >
                   Test Data Validation
                 </Button>
@@ -605,6 +655,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                   startIcon={<CodeIcon />}
                   onClick={() => navigator.clipboard.writeText(dynamicTypes)}
                   disabled={!dynamicTypes || dynamicTypes.includes('Error') || dynamicTypes.includes('Invalid')}
+                  sx={{ fontFamily: 'Thiccboi' }}
                 >
                   Copy Types
                 </Button>
@@ -620,6 +671,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                     }
                   }}
                   disabled={!schemaInput}
+                  sx={{ fontFamily: 'Thiccboi' }}
                 >
                   Format JSON
                 </Button>
@@ -629,11 +681,18 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
         )}
       </Box>
       
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{ 
+        ...(isFullscreen && { 
+          height: 'calc(100vh - 200px)', 
+          overflow: 'hidden',
+          m: 0,
+          p: 2
+        })
+      }}>
         {/* Schema List Panel - Fixed height with proper scrolling */}
         <Grid item xs={12} lg={4}>
           <Paper sx={{ 
-            height: '700px', 
+            height: isFullscreen ? '100%' : '700px', 
             display: 'flex', 
             flexDirection: 'column',
             borderRadius: 2,
@@ -643,11 +702,12 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
             <Box sx={{ 
               p: 3, 
               borderBottom: 1, 
-              borderColor: 'divider',
-              bgcolor: 'grey.50',
-              flexShrink: 0
+              borderColor: theme.palette.divider,
+              bgcolor: theme.palette.background.paper,
+              flexShrink: 0,
+              fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
             }}>
-              <Typography variant="h6" fontWeight="medium" gutterBottom>
+              <Typography variant="h6" fontWeight="medium" gutterBottom color="text.primary" fontFamily="Thiccboi">
                 Schema Library
               </Typography>
               
@@ -664,7 +724,13 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                   )
                 }}
                 size="small"
-                sx={{ mb: 2 }}
+                sx={{ 
+                  mb: 2,
+                  '& .MuiOutlinedInput-root': {
+                    fontFamily: 'Thiccboi',
+                    bgcolor: theme.palette.background.default,
+                  }
+                }}
               />
               
               {/* Category chips properly constrained within panel */}
@@ -674,6 +740,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                   color={selectedCategory === 'all' ? 'primary' : 'default'}
                   onClick={() => handleCategoryChange('all')}
                   size="small"
+                  sx={{ fontFamily: 'Thiccboi' }}
                 />
                 {categories.map((category) => (
                   <Chip
@@ -682,25 +749,50 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                     color={selectedCategory === category.id ? 'primary' : 'default'}
                     onClick={() => handleCategoryChange(category.id)}
                     size="small"
+                    sx={{ fontFamily: 'Thiccboi' }}
                   />
                 ))}
               </Box>
             </Box>
             
             {/* Scrollable list */}
-            <List sx={{ flexGrow: 1, overflow: 'auto', p: 0 }}>
+            <List sx={{ 
+              flexGrow: 1, 
+              overflow: 'auto', 
+              p: 0,
+              bgcolor: theme.palette.background.default,
+            }}>
               {filteredSchemas.map((schema) => (
                 <ListItem key={schema.id} disablePadding>
                   <ListItemButton
                     selected={selectedSchema?.id === schema.id}
                     onClick={() => handleSchemaSelect(schema)}
-                    sx={{ px: 3, py: 2 }}
+                    sx={{ 
+                      px: 3, 
+                      py: 2,
+                      fontFamily: 'Thiccboi',
+                      '&.Mui-selected': {
+                        bgcolor: theme.palette.primary.main + '20',
+                        '&:hover': {
+                          bgcolor: theme.palette.primary.main + '30',
+                        }
+                      }
+                    }}
                   >
                     <ListItemText
                       primary={schema.title}
                       secondary={schema.description}
-                      primaryTypographyProps={{ variant: 'body2', fontWeight: 'medium' }}
-                      secondaryTypographyProps={{ variant: 'caption' }}
+                      primaryTypographyProps={{ 
+                        variant: 'body2', 
+                        fontWeight: 'medium',
+                        fontFamily: 'Thiccboi',
+                        color: 'text.primary'
+                      }}
+                      secondaryTypographyProps={{ 
+                        variant: 'caption',
+                        fontFamily: 'Thiccboi',
+                        color: 'text.secondary'
+                      }}
                     />
                   </ListItemButton>
                 </ListItem>
@@ -713,7 +805,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
         <Grid item xs={12} lg={8}>
           {selectedSchema ? (
             <Paper sx={{ 
-              height: '700px', 
+              height: isFullscreen ? '100%' : '700px', 
               display: 'flex', 
               flexDirection: 'column',
               borderRadius: 2,
@@ -723,29 +815,43 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
               <Box sx={{ 
                 p: 3, 
                 borderBottom: 1, 
-                borderColor: 'divider',
-                bgcolor: 'grey.50',
-                flexShrink: 0
+                borderColor: theme.palette.divider,
+                bgcolor: theme.palette.background.paper,
+                flexShrink: 0,
+                fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
               }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>
-                    <Typography variant="h6" fontWeight="medium">
+                    <Typography variant="h6" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
                       {selectedSchema.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" fontFamily="Thiccboi">
                       {selectedSchema.description}
                     </Typography>
                   </Box>
-                  <Chip label={selectedSchema.category} size="small" color="primary" variant="outlined" />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Chip 
+                      label={selectedSchema.category} 
+                      size="small" 
+                      color="primary" 
+                      variant="outlined" 
+                      sx={{ fontFamily: 'Thiccboi' }}
+                    />
+                  </Box>
                 </Box>
               </Box>
 
               {/* Tab navigation */}
-              <Box sx={{ borderBottom: 1, borderColor: 'divider', flexShrink: 0 }}>
+              <Box sx={{ 
+                borderBottom: 1, 
+                borderColor: theme.palette.divider, 
+                flexShrink: 0,
+                bgcolor: theme.palette.background.paper,
+              }}>
                 <Tabs value={tabValue} onChange={handleTabChange} sx={{ px: 3 }}>
-                  <Tab label="Generated Code" />
-                  <Tab label="JSON Schema" />
-                  <Tab label="Dynamic Generator" />
+                  <Tab label="Generated Code" sx={{ fontFamily: 'Thiccboi' }} />
+                  <Tab label="JSON Schema" sx={{ fontFamily: 'Thiccboi' }} />
+                  <Tab label="Dynamic Generator" sx={{ fontFamily: 'Thiccboi' }} />
                 </Tabs>
               </Box>
 
@@ -753,9 +859,16 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
               <Box sx={{ flexGrow: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <TabPanel value={tabValue} index={0}>
                   {/* Language selection toolbar */}
-                  <Box sx={{ p: 3, pb: 2, borderBottom: 1, borderColor: 'divider', flexShrink: 0 }}>
+                  <Box sx={{ 
+                    p: 3, 
+                    pb: 2, 
+                    borderBottom: 1, 
+                    borderColor: theme.palette.divider, 
+                    flexShrink: 0,
+                    bgcolor: theme.palette.background.paper,
+                  }}>
                     <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap', mb: 2 }}>
-                      <Typography variant="subtitle2" sx={{ mr: 1 }}>Language:</Typography>
+                      <Typography variant="subtitle2" sx={{ mr: 1 }} color="text.primary" fontFamily="Thiccboi">Language:</Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                         {languages.map((language) => (
                           <Chip
@@ -764,6 +877,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                             color={selectedLanguage === language.id ? 'primary' : 'default'}
                             onClick={() => handleLanguageChange(language.id)}
                             size="small"
+                            sx={{ fontFamily: 'Thiccboi' }}
                           />
                         ))}
                       </Box>
@@ -775,6 +889,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                         size="small"
                         startIcon={<CodeIcon />}
                         onClick={handleCopyCode}
+                        sx={{ fontFamily: 'Thiccboi' }}
                       >
                         Copy
                       </Button>
@@ -783,15 +898,22 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                         size="small"
                         startIcon={<DownloadIcon />}
                         onClick={handleDownloadCode}
+                        sx={{ fontFamily: 'Thiccboi' }}
                       >
                         Download
                       </Button>
                     </Box>
                   </Box>
                   
-                  {/* Code editor with proper height */}
-                  <Box sx={{ flexGrow: 1, p: 3, pt: 2 }}>
-                    <Paper variant="outlined" sx={{ height: '100%', overflow: 'hidden' }}>
+                  {/* Code editor with proper height and scrolling */}
+                  <Box sx={{ flexGrow: 1, p: 3, pt: 2, minHeight: 0 }}>
+                    <Paper variant="outlined" sx={{ 
+                      height: '100%', 
+                      overflow: 'hidden',
+                      position: 'relative',
+                      borderColor: theme.palette.divider,
+                      '& > div': { height: '100% !important' }
+                    }}>
                       <CodeEditor
                         value={generatedCode}
                         language={selectedLanguage}
@@ -805,10 +927,16 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                 </TabPanel>
 
                 <TabPanel value={tabValue} index={1}>
-                  <Box sx={{ flexGrow: 1, p: 3 }}>
-                    <Paper variant="outlined" sx={{ height: '100%', overflow: 'hidden' }}>
+                  <Box sx={{ flexGrow: 1, p: 3, minHeight: 0 }}>
+                    <Paper variant="outlined" sx={{ 
+                      height: '100%', 
+                      overflow: 'hidden',
+                      position: 'relative',
+                      borderColor: theme.palette.divider,
+                      '& > div': { height: '100% !important' }
+                    }}>
                       <CodeEditor
-                        value={selectedSchema.content ? JSON.stringify(selectedSchema.content, null, 2) : '{}'}
+                        value={selectedSchema?.content ? JSON.stringify(selectedSchema?.content, null, 2) : '{}'}
                         language="json"
                         readonly
                         height="100%"
@@ -822,8 +950,14 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                   <Box sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
                     {/* Validation section - only shown when expanded */}
                     {showValidation && (
-                      <Paper variant="outlined" sx={{ p: 2, mb: 2, bgcolor: 'info.50' }}>
-                        <Typography variant="h6" gutterBottom>
+                      <Paper variant="outlined" sx={{ 
+                        p: 2, 
+                        mb: 2, 
+                        bgcolor: theme.palette.background.paper,
+                        borderColor: theme.palette.divider,
+                        fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
+                      }}>
+                        <Typography variant="h6" gutterBottom color="text.primary" fontFamily="Thiccboi">
                           Test Data Validation
                         </Typography>
                         <Grid container spacing={2}>
@@ -838,6 +972,12 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                               onChange={(e) => setJsonExample(e.target.value)}
                               variant="outlined"
                               size="small"
+                              sx={{ 
+                                '& .MuiOutlinedInput-root': {
+                                  fontFamily: 'Thiccboi',
+                                  bgcolor: theme.palette.background.default,
+                                }
+                              }}
                             />
                           </Grid>
                           <Grid item xs={12} md={4}>
@@ -849,6 +989,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                                 startIcon={<ValidateIcon />}
                                 onClick={validateExample}
                                 disabled={!schemaInput.trim() || !jsonExample.trim()}
+                                sx={{ fontFamily: 'Thiccboi' }}
                               >
                                 Validate Data
                               </Button>
@@ -867,6 +1008,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                                   }
                                 }}
                                 disabled={!schemaInput.trim()}
+                                sx={{ fontFamily: 'Thiccboi' }}
                               >
                                 Generate Example
                               </Button>
@@ -884,8 +1026,8 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                             ) : (
                               <Alert severity="error" onClose={() => setValidationResult(null)}>
                                 <Box>
-                                  <Typography variant="subtitle2">Validation Errors:</Typography>
-                                  <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
+                                  <Typography variant="subtitle2" fontFamily="Thiccboi">Validation Errors:</Typography>
+                                  <ul style={{ margin: '8px 0', paddingLeft: '20px', fontFamily: 'Thiccboi' }}>
                                     {validationResult.errors.map((error, index) => (
                                       <li key={index}>{error}</li>
                                     ))}
@@ -898,28 +1040,37 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                       </Paper>
                     )}
                     
-                    {/* Main editor area with proper height calculations */}
+                    {/* Main editor area with proper height calculations and scrolling */}
                     <Box sx={{ 
                       flexGrow: 1, 
                       display: 'flex', 
                       flexDirection: 'column', 
                       minHeight: 0,
-                      height: showValidation ? 'calc(100% - 280px)' : '100%'
+                      height: showValidation ? 'calc(100% - 280px)' : '100%',
+                      overflow: 'hidden'
                     }}>
-                      <Grid container spacing={2} sx={{ height: '100%' }}>
-                        <Grid item xs={12} md={6} sx={{ height: '100%' }}>
-                          <Paper variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                      <Grid container spacing={2} sx={{ height: '100%', overflow: 'hidden' }}>
+                        <Grid item xs={12} md={6} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                          <Paper variant="outlined" sx={{ 
+                            height: '100%', 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            overflow: 'hidden',
+                            minHeight: 0,
+                            borderColor: theme.palette.divider,
+                          }}>
                             <Box sx={{ 
                               px: 2, py: 1.5, 
-                              bgcolor: 'grey.50', 
+                              bgcolor: theme.palette.background.paper, 
                               borderBottom: 1, 
-                              borderColor: 'divider',
+                              borderColor: theme.palette.divider,
                               display: 'flex',
                               justifyContent: 'space-between',
                               alignItems: 'center',
-                              flexShrink: 0
+                              flexShrink: 0,
+                              fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
                             }}>
-                              <Typography variant="subtitle2" fontWeight="medium">
+                              <Typography variant="subtitle2" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
                                 JSON Schema Input
                               </Typography>
                               <Button
@@ -938,11 +1089,17 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                                   }
                                 }}
                                 disabled={!schemaInput.trim()}
+                                sx={{ fontFamily: 'Thiccboi' }}
                               >
                                 Validate
                               </Button>
                             </Box>
-                            <Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
+                            <Box sx={{ 
+                              flexGrow: 1, 
+                              minHeight: 0,
+                              position: 'relative',
+                              '& > div': { height: '100% !important' }
+                            }}>
                               <CodeEditor
                                 value={schemaInput}
                                 language="json"
@@ -953,26 +1110,39 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                           </Paper>
                         </Grid>
                         
-                        <Grid item xs={12} md={6} sx={{ height: '100%' }}>
-                          <Paper variant="outlined" sx={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                        <Grid item xs={12} md={6} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                          <Paper variant="outlined" sx={{ 
+                            height: '100%', 
+                            display: 'flex', 
+                            flexDirection: 'column', 
+                            overflow: 'hidden',
+                            minHeight: 0,
+                            borderColor: theme.palette.divider,
+                          }}>
                             <Box sx={{ 
                               px: 2, py: 1.5, 
-                              bgcolor: 'grey.50', 
+                              bgcolor: theme.palette.background.paper, 
                               borderBottom: 1, 
-                              borderColor: 'divider',
+                              borderColor: theme.palette.divider,
                               display: 'flex',
                               justifyContent: 'space-between',
                               alignItems: 'center',
-                              flexShrink: 0
+                              flexShrink: 0,
+                              fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
                             }}>
-                              <Typography variant="subtitle2" fontWeight="medium">
+                              <Typography variant="subtitle2" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
                                 Generated TypeScript
                               </Typography>
                               {dynamicLoading && (
                                 <CircularProgress size={16} />
                               )}
                             </Box>
-                            <Box sx={{ flexGrow: 1, overflow: 'hidden' }}>
+                            <Box sx={{ 
+                              flexGrow: 1, 
+                              minHeight: 0,
+                              position: 'relative',
+                              '& > div': { height: '100% !important' }
+                            }}>
                               <CodeEditor
                                 value={dynamicTypes || '// Enter a valid JSON Schema to see generated types here...'}
                                 language="typescript"
@@ -991,23 +1161,25 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
             </Paper>
           ) : (
             <Paper sx={{ 
-              height: '700px', 
+              height: isFullscreen ? '100%' : '700px', 
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center',
               borderRadius: 2,
-              bgcolor: 'grey.50'
+              bgcolor: theme.palette.background.paper,
+              borderColor: theme.palette.divider,
+              fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
             }}>
               <Box textAlign="center" sx={{ maxWidth: 400, px: 4 }}>
                 <SchemaIcon sx={{ fontSize: 96, color: 'primary.main', mb: 3, opacity: 0.7 }} />
-                <Typography variant="h5" color="text.primary" gutterBottom fontWeight="medium">
+                <Typography variant="h5" color="text.primary" gutterBottom fontWeight="medium" fontFamily="Thiccboi">
                   Select a Schema to Get Started
                 </Typography>
-                <Typography variant="body1" color="text.secondary" paragraph>
+                <Typography variant="body1" color="text.secondary" paragraph fontFamily="Thiccboi">
                   Choose a schema from the library to explore its structure, generate TypeScript types, 
                   and test with sample data.
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" fontFamily="Thiccboi">
                   💡 Use the search bar or category filters to find the schema you need
                 </Typography>
               </Box>
@@ -1015,8 +1187,10 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
           )}
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   )
+
+  return mainContent
 }
 
 export default SchemaExplorer

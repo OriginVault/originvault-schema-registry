@@ -1,6 +1,31 @@
 import '@testing-library/jest-dom'
 import { vi, expect, beforeAll, afterAll } from 'vitest'
 
+// Mock React Router
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useSearchParams: () => [
+      new URLSearchParams(''),
+      vi.fn()
+    ],
+    useNavigate: () => vi.fn(),
+    useLocation: () => ({
+      pathname: '/',
+      search: '',
+      hash: '',
+      state: null,
+      key: 'default'
+    }),
+    BrowserRouter: actual.BrowserRouter,
+    Routes: actual.Routes,
+    Route: actual.Route,
+    Link: actual.Link,
+    NavLink: actual.NavLink
+  }
+})
+
 // Mock Monaco Editor
 vi.mock('@monaco-editor/react', () => ({
   Editor: vi.fn(() => null)

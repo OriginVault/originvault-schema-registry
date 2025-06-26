@@ -178,7 +178,7 @@ describe('SchemaExplorer', () => {
       renderWithRouter(<SchemaExplorer />)
       
       await waitFor(() => {
-        expect(screen.getByText('TestSchema')).toBeInTheDocument()
+        expect(screen.getAllByText('TestSchema')).toHaveLength(1) // Only one in the list
       }, { timeout: 5000 })
       
       const searchInput = screen.getByPlaceholderText('Search schemas...')
@@ -196,7 +196,8 @@ describe('SchemaExplorer', () => {
         expect(screen.getByText('TestSchema')).toBeInTheDocument()
       }, { timeout: 5000 })
       
-      const schemaButton = screen.getByText('TestSchema')
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
       fireEvent.click(schemaButton)
       
       await waitFor(() => {
@@ -213,7 +214,8 @@ describe('SchemaExplorer', () => {
         expect(screen.getByText('TestSchema')).toBeInTheDocument()
       }, { timeout: 5000 })
       
-      const schemaButton = screen.getByText('TestSchema')
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
       fireEvent.click(schemaButton)
       
       // Wait for the tab content to load
@@ -234,7 +236,8 @@ describe('SchemaExplorer', () => {
         expect(screen.getByText('TestSchema')).toBeInTheDocument()
       }, { timeout: 5000 })
       
-      const schemaButton = screen.getByText('TestSchema')
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
       fireEvent.click(schemaButton)
       
       // Wait for the tab content to load
@@ -257,7 +260,8 @@ describe('SchemaExplorer', () => {
         expect(screen.getByText('TestSchema')).toBeInTheDocument()
       }, { timeout: 5000 })
       
-      const schemaButton = screen.getByText('TestSchema')
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
       fireEvent.click(schemaButton)
       
       // Wait for the tab content to load and look for TypeScript (default language)
@@ -302,7 +306,9 @@ describe('SchemaExplorer', () => {
     it('should update code when language is switched', async () => {
       renderWithRouter(<SchemaExplorer />)
       await waitFor(() => expect(screen.getByText('TestSchema')).toBeInTheDocument(), { timeout: 5000 })
-      fireEvent.click(screen.getByText('TestSchema'))
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
+      fireEvent.click(schemaButton)
       await waitFor(() => expect(screen.getByText('Copy')).toBeInTheDocument())
       // Simulate switching to Python (which should be available)
       const pythonChip = screen.getByText('Python')
@@ -318,7 +324,9 @@ describe('SchemaExplorer', () => {
     it('should copy generated code to clipboard', async () => {
       renderWithRouter(<SchemaExplorer />)
       await waitFor(() => expect(screen.getByText('TestSchema')).toBeInTheDocument(), { timeout: 5000 })
-      fireEvent.click(screen.getByText('TestSchema'))
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
+      fireEvent.click(schemaButton)
       await waitFor(() => expect(screen.getByText('Copy')).toBeInTheDocument())
       fireEvent.click(screen.getByText('Copy'))
       expect(navigator.clipboard.writeText).toHaveBeenCalled()
@@ -326,7 +334,9 @@ describe('SchemaExplorer', () => {
     it('should trigger download of generated code', async () => {
       renderWithRouter(<SchemaExplorer />)
       await waitFor(() => expect(screen.getByText('TestSchema')).toBeInTheDocument(), { timeout: 5000 })
-      fireEvent.click(screen.getByText('TestSchema'))
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
+      fireEvent.click(schemaButton)
       await waitFor(() => expect(screen.getByText('Download')).toBeInTheDocument())
       fireEvent.click(screen.getByText('Download'))
       expect(global.URL.createObjectURL).toHaveBeenCalled()
@@ -338,10 +348,10 @@ describe('SchemaExplorer', () => {
       // Simulate small screen by setting window.innerWidth
       window.innerWidth = 500
       renderWithRouter(<SchemaExplorer />)
-      await waitFor(() => expect(screen.getByText('TestSchema')).toBeInTheDocument(), { timeout: 5000 })
+      await waitFor(() => expect(screen.getAllByText('TestSchema')).toHaveLength(1), { timeout: 5000 })
       // Check for a class or prop that indicates stacked layout (implementation-specific)
       // For now, just ensure the component renders without error
-      expect(screen.getByText('TestSchema')).toBeInTheDocument()
+      expect(screen.getAllByText('TestSchema')).toHaveLength(1)
     })
   })
 
@@ -349,7 +359,9 @@ describe('SchemaExplorer', () => {
     it('should show error for invalid schema input', async () => {
       renderWithRouter(<SchemaExplorer />)
       await waitFor(() => expect(screen.getByText('TestSchema')).toBeInTheDocument(), { timeout: 5000 })
-      fireEvent.click(screen.getByText('TestSchema'))
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
+      fireEvent.click(schemaButton)
       
       // Go to Dynamic Generator tab
       await waitFor(() => expect(screen.getByText('Dynamic Generator')).toBeInTheDocument())
@@ -372,7 +384,9 @@ describe('SchemaExplorer', () => {
     it('should validate example data and show result', async () => {
       renderWithRouter(<SchemaExplorer />)
       await waitFor(() => expect(screen.getByText('TestSchema')).toBeInTheDocument(), { timeout: 5000 })
-      fireEvent.click(screen.getByText('TestSchema'))
+      const schemaButtons = screen.getAllByText('TestSchema')
+      const schemaButton = schemaButtons[0] // Get the first one (list item)
+      fireEvent.click(schemaButton)
       
       // Go to Dynamic Generator tab
       await waitFor(() => expect(screen.getByText('Dynamic Generator')).toBeInTheDocument())
