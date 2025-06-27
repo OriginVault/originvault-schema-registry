@@ -90,7 +90,21 @@ const VerifiableCredentials: React.FC = () => {
     
     setLoading(true);
     try {
-      const credentialObj = JSON.parse(credential);
+      // First, try to parse the JSON
+      let credentialObj;
+      try {
+        credentialObj = JSON.parse(credential);
+      } catch (jsonError) {
+        setValidationResult({
+          valid: false,
+          errors: [{ message: 'Invalid JSON format. Please check your JSON syntax.' }],
+          warnings: []
+        });
+        setLoading(false);
+        return;
+      }
+      
+      // Then make the API call
       const response = await fetch('/api/vc/validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,12 +114,23 @@ const VerifiableCredentials: React.FC = () => {
         })
       });
       
+      if (!response.ok) {
+        const errorData = await response.json();
+        setValidationResult({
+          valid: false,
+          errors: [{ message: errorData.error || 'Validation request failed' }],
+          warnings: []
+        });
+        return;
+      }
+      
       const result = await response.json();
       setValidationResult(result);
     } catch (error) {
+      console.error('Validation error:', error);
       setValidationResult({
         valid: false,
-        errors: [{ message: 'Invalid JSON format' }],
+        errors: [{ message: 'Network error occurred during validation' }],
         warnings: []
       });
     } finally {
@@ -144,19 +169,44 @@ const VerifiableCredentials: React.FC = () => {
     
     setLoading(true);
     try {
-      const presentationObj = JSON.parse(presentation);
+      // First, try to parse the JSON
+      let presentationObj;
+      try {
+        presentationObj = JSON.parse(presentation);
+      } catch (jsonError) {
+        setValidationResult({
+          valid: false,
+          errors: [{ message: 'Invalid JSON format. Please check your JSON syntax.' }],
+          warnings: []
+        });
+        setLoading(false);
+        return;
+      }
+      
+      // Then make the API call
       const response = await fetch('/api/vc/verify-presentation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ presentation: presentationObj })
       });
       
+      if (!response.ok) {
+        const errorData = await response.json();
+        setValidationResult({
+          valid: false,
+          errors: [{ message: errorData.error || 'Verification request failed' }],
+          warnings: []
+        });
+        return;
+      }
+      
       const result = await response.json();
       setValidationResult(result);
     } catch (error) {
+      console.error('Verification error:', error);
       setValidationResult({
         valid: false,
-        errors: [{ message: 'Invalid JSON format' }],
+        errors: [{ message: 'Network error occurred during verification' }],
         warnings: []
       });
     } finally {

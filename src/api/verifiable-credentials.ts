@@ -101,7 +101,16 @@ export const validateVC = async (req: Request, res: Response) => {
     const validationResult: any = {
       valid: true,
       errors: [],
-      warnings: []
+      warnings: [],
+      debug: {
+        receivedFields: Object.keys(credential),
+        hasContext: !!credential['@context'],
+        hasType: !!credential.type,
+        hasIssuer: !!credential.issuer,
+        hasIssuanceDate: !!credential.issuanceDate,
+        hasValidFrom: !!credential.validFrom,
+        hasCredentialSubject: !!credential.credentialSubject
+      }
     };
     
     // Basic W3C VC structure validation
@@ -142,10 +151,23 @@ export const validateVC = async (req: Request, res: Response) => {
       validationResult.warnings.push(...contextValidation.warnings);
     }
     
+    // Additional format checks
+    if (credential.validFrom && !credential.issuanceDate) {
+      validationResult.warnings.push({
+        message: 'Using validFrom instead of standard issuanceDate field'
+      });
+    }
+    
+    if (credential.proof && credential.proof.jwt) {
+      validationResult.warnings.push({
+        message: 'JWT proof detected - signature verification not implemented yet'
+      });
+    }
+    
     res.json(validationResult);
   } catch (error) {
     console.error('VC validation error:', error);
-    res.status(500).json({ error: 'Validation failed' });
+    res.status(500).json({ error: 'Validation failed', details: error.message });
   }
 };
 
@@ -310,8 +332,9 @@ function validateBasicVCStructure(credential: any): { valid: boolean; errors: an
     errors.push({ message: 'issuer is required' });
   }
   
-  if (!credential.issuanceDate) {
-    errors.push({ message: 'issuanceDate is required' });
+  // Accept both issuanceDate and validFrom (common alternative)
+  if (!credential.issuanceDate && !credential.validFrom) {
+    errors.push({ message: 'issuanceDate or validFrom is required' });
   }
   
   if (!credential.credentialSubject) {
