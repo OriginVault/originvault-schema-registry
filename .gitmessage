@@ -1,0 +1,17 @@
+# Commit message template
+# 
+# Format: <type>(<scope>): <description>
+#
+# Types: feat, fix, docs, style, refactor, test, chore
+# Scope: api, ui, build, schema, types, etc.
+#
+# Example: feat(api): add verifiable credentials endpoint
+#
+# Repository DID: did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55
+# 
+# Detailed description (optional):
+#
+
+
+Repository-DID: did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55
+Build-Timestamp: 2025-06-27T22:45:50.852Z

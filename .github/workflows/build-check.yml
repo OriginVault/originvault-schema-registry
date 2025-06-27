@@ -23,6 +23,13 @@ jobs:
     - name: Install dependencies
       run: npm install
       
+    - name: Add repository DID to metadata
+      run: npm run add-repo-did
+      env:
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_REF: ${{ github.ref }}
+        NODE_ENV: production
+      
     - name: TypeScript type check
       run: npm run type-check
       
@@ -39,14 +46,48 @@ jobs:
           echo "❌ Types output directory 'types' not found"
           exit 1
         fi
+        if [ ! -f "dist/did-metadata.json" ]; then
+          echo "❌ DID metadata not found"
+          exit 1
+        fi
         echo "✅ Build verification successful"
       
+    - name: Verify DID metadata
+      run: |
+        echo "📋 DID Metadata Contents:"
+        cat dist/did-metadata.json | jq '.'
+        
+        # Extract and verify DID
+        REPO_DID=$(cat dist/did-metadata.json | jq -r '.repository.did')
+        echo "🆔 Repository DID: $REPO_DID"
+        
+        # Verify DID format
+        if [[ $REPO_DID =~ ^did:cheqd:mainnet:[a-f0-9-]+$ ]]; then
+          echo "✅ DID format is valid"
+        else
+          echo "❌ Invalid DID format: $REPO_DID"
+          exit 1
+        fi
+        
+    - name: Upload DID metadata artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: did-metadata
+        path: dist/did-metadata.json
+        retention-days: 30
+        
     - name: Build status summary
       run: |
         echo "## 🎉 Build Status: SUCCESS" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ TypeScript compilation: PASSED" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Type generation: PASSED" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ DID metadata: GENERATED" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Build verification: PASSED" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 🆔 Repository Information" >> $GITHUB_STEP_SUMMARY
+        echo "- **DID**: $(cat dist/did-metadata.json | jq -r '.repository.did')" >> $GITHUB_STEP_SUMMARY
+        echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Build Time**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "🚀 Ready for deployment!"  >> $GITHUB_STEP_SUMMARY 
