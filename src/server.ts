@@ -5,7 +5,6 @@ import quicktypeRouter from './routes/quicktype';
 import vcRouter from './routes/verifiable-credentials';
 import c2paRouter from './routes/c2pa';
 import trustRegistryRouter from './routes/trust-registry';
-import { generateFromFiles, downloadZip, validateSchema } from './api/quicktype';
 import { graphqlHandler, graphqlSchema } from './api/graphql';
 
 const app = express();
@@ -34,11 +33,6 @@ app.use('/api/trust', trustRegistryRouter);
 // GraphQL endpoint
 app.post('/api/graphql', graphqlHandler);
 app.get('/api/graphql/schema', graphqlSchema);
-
-// Direct endpoints for backward compatibility
-app.post('/api/quicktype/generate-from-files', generateFromFiles);
-app.post('/api/quicktype/download-zip', downloadZip);
-app.post('/api/quicktype/validate-schema', validateSchema);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

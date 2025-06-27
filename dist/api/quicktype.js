@@ -10,13 +10,43 @@ const jszip_1 = __importDefault(require("jszip"));
 const generateFromFiles = async (req, res) => {
     try {
         const { files, targetLanguage, options } = req.body;
-        if (!files || files.length === 0) {
-            return res.status(400).json({ error: 'No files provided' });
+        // Validate request payload
+        if (!files) {
+            return res.status(400).json({ error: 'No files property provided' });
+        }
+        if (!Array.isArray(files)) {
+            return res.status(400).json({ error: 'Files must be an array' });
+        }
+        if (files.length === 0) {
+            return res.status(400).json({
+                error: 'No files provided',
+                message: 'Please upload at least one schema or type file to generate code.'
+            });
+        }
+        if (!targetLanguage) {
+            return res.status(400).json({ error: 'Target language is required' });
+        }
+        // Validate target language
+        const supportedLanguages = ['typescript', 'python', 'go', 'csharp', 'java', 'rust', 'swift', 'kotlin', 'php', 'ruby', 'javascript'];
+        if (!supportedLanguages.includes(targetLanguage.toLowerCase())) {
+            return res.status(400).json({
+                error: 'Unsupported target language',
+                supportedLanguages
+            });
         }
         const results = [];
         for (const file of files) {
             try {
                 let result;
+                // Validate file content
+                if (!file.content || file.content.trim() === '') {
+                    results.push({
+                        language: targetLanguage,
+                        code: `// Error: Empty file content for ${file.name}`,
+                        filename: `error-${file.name}.txt`
+                    });
+                    continue;
+                }
                 switch (file.type) {
                     case 'json-schema':
                         result = await generateFromJsonSchema(file, targetLanguage, options);
@@ -37,16 +67,26 @@ const generateFromFiles = async (req, res) => {
                 console.error(`Failed to process file ${file.name}:`, error);
                 results.push({
                     language: targetLanguage,
-                    code: `// Error processing ${file.name}: ${error.message}`,
+                    code: `// Error processing ${file.name}: ${error.message}\n// Please check your file format and try again.`,
                     filename: `error-${file.name}.txt`
                 });
             }
         }
-        res.json(results);
+        // Always return results, even if some files failed
+        res.json({
+            success: true,
+            results,
+            totalFiles: files.length,
+            successCount: results.filter(r => !r.filename.startsWith('error-')).length,
+            errorCount: results.filter(r => r.filename.startsWith('error-')).length
+        });
     }
     catch (error) {
         console.error('Code generation failed:', error);
-        res.status(500).json({ error: 'Code generation failed' });
+        res.status(500).json({
+            error: 'Code generation failed',
+            message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+        });
     }
 };
 exports.generateFromFiles = generateFromFiles;

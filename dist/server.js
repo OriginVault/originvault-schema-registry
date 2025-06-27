@@ -10,7 +10,6 @@ const quicktype_1 = __importDefault(require("./routes/quicktype"));
 const verifiable_credentials_1 = __importDefault(require("./routes/verifiable-credentials"));
 const c2pa_1 = __importDefault(require("./routes/c2pa"));
 const trust_registry_1 = __importDefault(require("./routes/trust-registry"));
-const quicktype_2 = require("./api/quicktype");
 const graphql_1 = require("./api/graphql");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3001;
@@ -33,10 +32,6 @@ app.use('/api/trust', trust_registry_1.default);
 // GraphQL endpoint
 app.post('/api/graphql', graphql_1.graphqlHandler);
 app.get('/api/graphql/schema', graphql_1.graphqlSchema);
-// Direct endpoints for backward compatibility
-app.post('/api/quicktype/generate-from-files', quicktype_2.generateFromFiles);
-app.post('/api/quicktype/download-zip', quicktype_2.downloadZip);
-app.post('/api/quicktype/validate-schema', quicktype_2.validateSchema);
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Unhandled error:', err);
