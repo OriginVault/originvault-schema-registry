@@ -1,8 +1,9 @@
-import { Request, Response } from 'express';
-import fs from 'fs/promises';
-import path from 'path';
+import express from 'express';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
+import fs from 'fs';
+import path from 'path';
+import { Request, Response } from 'express';
 
 const ajv = new Ajv({ allErrors: true });
 addFormats(ajv);
@@ -11,9 +12,10 @@ interface VerifiableCredential {
   '@context': string[];
   type: string[];
   id?: string;
-  issuer: string | { id: string; [key: string]: any };
-  issuanceDate: string;
-  expirationDate?: string;
+  issuer: string | { id: string; name?: string };
+  issuanceDate?: string;
+  validFrom?: string;
+  validUntil?: string;
   credentialSubject: any;
   proof?: any;
 }
@@ -27,356 +29,354 @@ interface VerifiablePresentation {
   proof?: any;
 }
 
-// W3C VC Context URLs
-const W3C_VC_CONTEXT = 'https://www.w3.org/2018/credentials/v1';
-const ORIGINVAULT_CONTEXT = 'https://schema.originvault.io/context/v1';
+interface CredentialSchema {
+  id: string;
+  name: string;
+  description: string;
+  version: string;
+  schema: any;
+  examples?: any[];
+}
 
-// GET /api/vc/schemas - List all VC schemas
-export const getVCSchemas = async (req: Request, res: Response) => {
+interface ValidationResult {
+  valid: boolean;
+  errors?: string[];
+  warnings?: string[];
+}
+
+// W3C VC Context URLs
+const VALID_CONTEXTS = [
+  'https://www.w3.org/2018/credentials/v1',
+  'https://www.w3.org/ns/credentials/v2',
+  'https://schema.org',
+  'https://schemas.originvault.box/contexts/trust-chain-core.jsonld'
+];
+
+// Helper function to load schemas from filesystem
+function loadSchemasFromFilesystem(): CredentialSchema[] {
   try {
-    const schemaDir = path.join(process.cwd(), 'schemas', 'v1');
-    const files = await fs.readdir(schemaDir);
+    const schemasDir = path.join(process.cwd(), 'schemas', 'v1');
     
-    const vcSchemas = [];
-    
-    for (const file of files) {
-      if (file.endsWith('.schema.json') && file.includes('Credential')) {
-        const schemaPath = path.join(schemaDir, file);
-        const schemaContent = await fs.readFile(schemaPath, 'utf-8');
-        const schema = JSON.parse(schemaContent);
-        
-        vcSchemas.push({
-          id: file.replace('.schema.json', ''),
-          title: schema.title || file.replace('.schema.json', ''),
-          description: schema.description,
-          schema: schema,
-          category: determineVCCategory(file),
-          contexts: extractContexts(schema)
-        });
+    if (!fs.existsSync(schemasDir)) {
+      console.warn('Schemas directory not found:', schemasDir);
+      return [];
+    }
+
+    const schemaFiles = fs.readdirSync(schemasDir)
+      .filter(file => file.endsWith('.schema.json'));
+
+    const schemas: CredentialSchema[] = [];
+
+    for (const file of schemaFiles) {
+      try {
+        const filePath = path.join(schemasDir, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        const schemaData = JSON.parse(content);
+
+        // Extract relevant information from the schema
+        const schema: CredentialSchema = {
+          id: schemaData.$id || file.replace('.schema.json', ''),
+          name: schemaData.title || file.replace('.schema.json', '').replace(/([A-Z])/g, ' $1').trim(),
+          description: schemaData.description || 'No description available',
+          version: '1.0.0',
+          schema: schemaData,
+          examples: schemaData.examples || []
+        };
+
+        schemas.push(schema);
+      } catch (error: any) {
+        console.error(`Error parsing schema file ${file}:`, error?.message || error);
+        // Continue processing other files even if one fails
       }
     }
-    
-    res.json({
-      count: vcSchemas.length,
-      schemas: vcSchemas
+
+    // Sort schemas by name for better UX
+    schemas.sort((a, b) => a.name.localeCompare(b.name));
+
+    return schemas;
+  } catch (error: any) {
+    console.error('Error loading schemas:', error?.message || error);
+    return [];
+  }
+}
+
+// GET /api/vc/schemas - List all VC schemas
+export const getVCSchemas = (req: Request, res: Response) => {
+  try {
+    const schemas = loadSchemasFromFilesystem();
+    res.json({ 
+      schemas: schemas,
+      count: schemas.length 
     });
-  } catch (error) {
-    console.error('Error loading VC schemas:', error);
-    res.status(500).json({ error: 'Failed to load VC schemas' });
+  } catch (error: any) {
+    console.error('Error fetching schemas:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch schemas',
+      details: error?.message || 'Unknown error'
+    });
   }
 };
 
 // GET /api/vc/schemas/:id - Get specific VC schema
-export const getVCSchema = async (req: Request, res: Response) => {
+export const getVCSchema = (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const schemaPath = path.join(process.cwd(), 'schemas', 'v1', `${id}.schema.json`);
+    const schemas = loadSchemasFromFilesystem();
+    const schema = schemas.find(s => s.id.includes(id) || s.name.toLowerCase().includes(id.toLowerCase()));
     
-    const schemaContent = await fs.readFile(schemaPath, 'utf-8');
-    const schema = JSON.parse(schemaContent);
+    if (!schema) {
+      return res.status(404).json({ error: 'Schema not found' });
+    }
     
-    res.json({
-      id,
-      schema,
-      contexts: extractContexts(schema),
-      category: determineVCCategory(id)
+    res.json({ schema });
+  } catch (error: any) {
+    console.error('Error fetching schema:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch schema',
+      details: error?.message || 'Unknown error'
     });
-  } catch (error) {
-    res.status(404).json({ error: 'Schema not found' });
   }
 };
 
 // POST /api/vc/validate - Validate a Verifiable Credential
-export const validateVC = async (req: Request, res: Response) => {
+export const validateVC = (req: Request, res: Response) => {
   try {
-    const { credential, schemaId } = req.body;
-    
+    const { credential } = req.body;
+
     if (!credential) {
-      return res.status(400).json({ 
-        valid: false, 
-        errors: [{ message: 'Credential is required' }] 
+      return res.status(400).json({
+        error: 'Missing credential in request body'
       });
     }
-    
-    const validationResult: any = {
-      valid: true,
-      errors: [],
-      warnings: [],
-      debug: {
-        receivedFields: Object.keys(credential),
-        hasContext: !!credential['@context'],
-        hasType: !!credential.type,
-        hasIssuer: !!credential.issuer,
-        hasIssuanceDate: !!credential.issuanceDate,
-        hasValidFrom: !!credential.validFrom,
-        hasCredentialSubject: !!credential.credentialSubject
-      }
-    };
-    
-    // Basic W3C VC structure validation
-    const basicValidation = validateBasicVCStructure(credential);
-    if (!basicValidation.valid) {
-      validationResult.valid = false;
-      validationResult.errors.push(...basicValidation.errors);
-    }
-    
-    // Schema-specific validation if schemaId provided
-    if (schemaId) {
-      try {
-        const schemaPath = path.join(process.cwd(), 'schemas', 'v1', `${schemaId}.schema.json`);
-        const schemaContent = await fs.readFile(schemaPath, 'utf-8');
-        const schema = JSON.parse(schemaContent);
-        
-        const validate = ajv.compile(schema);
-        const schemaValid = validate(credential.credentialSubject);
-        
-        if (!schemaValid) {
-          validationResult.valid = false;
-          validationResult.errors.push(...(validate.errors || []).map(err => ({
-            message: `credentialSubject${err.instancePath}: ${err.message}`,
-            path: err.instancePath,
-            value: err.data
-          })));
-        }
-      } catch (schemaError) {
-        validationResult.warnings.push({ 
-          message: `Could not validate against schema ${schemaId}` 
-        });
-      }
-    }
-    
-    // JSON-LD context validation
-    const contextValidation = validateContexts(credential);
-    if (!contextValidation.valid) {
-      validationResult.warnings.push(...contextValidation.warnings);
-    }
-    
-    // Additional format checks
-    if (credential.validFrom && !credential.issuanceDate) {
-      validationResult.warnings.push({
-        message: 'Using validFrom instead of standard issuanceDate field'
+
+    // Parse credential if it's a string
+    let parsedCredential: any;
+    try {
+      parsedCredential = typeof credential === 'string' ? JSON.parse(credential) : credential;
+    } catch (parseError: any) {
+      return res.status(400).json({
+        error: 'Invalid JSON format',
+        details: parseError?.message || 'JSON parsing failed'
       });
     }
-    
-    if (credential.proof && credential.proof.jwt) {
-      validationResult.warnings.push({
-        message: 'JWT proof detected - signature verification not implemented yet'
-      });
-    }
-    
-    res.json(validationResult);
-  } catch (error) {
-    console.error('VC validation error:', error);
-    res.status(500).json({ error: 'Validation failed', details: error.message });
+
+    // Validate basic VC structure
+    const result = validateBasicVCStructure(parsedCredential);
+
+    res.json({
+      valid: result.valid,
+      errors: result.errors || [],
+      warnings: result.warnings || [],
+      credential: parsedCredential
+    });
+
+  } catch (error: any) {
+    console.error('Validation error:', error);
+    res.status(500).json({
+      error: 'Validation failed',
+      details: error?.message || 'Unknown error'
+    });
   }
 };
 
 // POST /api/vc/create-template - Create VC template
-export const createVCTemplate = async (req: Request, res: Response) => {
+export const createVCTemplate = (req: Request, res: Response) => {
   try {
     const { schemaId, issuer, subject } = req.body;
     
-    if (!schemaId || !issuer) {
-      return res.status(400).json({ 
-        error: 'schemaId and issuer are required' 
-      });
-    }
-    
     const template: VerifiableCredential = {
       '@context': [
-        W3C_VC_CONTEXT,
-        ORIGINVAULT_CONTEXT
+        'https://www.w3.org/ns/credentials/v2',
+        'https://schemas.originvault.box/contexts/trust-chain-core.jsonld'
       ],
-      type: ['VerifiableCredential', schemaId],
-      issuer: issuer,
-      issuanceDate: new Date().toISOString(),
+      type: ['VerifiableCredential', schemaId || 'BasicCredential'],
+      issuer: issuer || {
+        id: 'did:example:issuer',
+        name: 'Example Issuer'
+      },
+      validFrom: new Date().toISOString(),
+      validUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
       credentialSubject: subject || {
-        id: 'did:example:subject123',
-        // Add default fields based on schema
+        id: 'did:example:subject',
+        // Add schema-specific fields here based on schemaId
       }
     };
-    
-    // Load schema to provide better defaults
-    try {
-      const schemaPath = path.join(process.cwd(), 'schemas', 'v1', `${schemaId}.schema.json`);
-      const schemaContent = await fs.readFile(schemaPath, 'utf-8');
-      const schema = JSON.parse(schemaContent);
-      
-      if (schema.properties && !subject) {
-        template.credentialSubject = generateDefaults(schema.properties);
-      }
-    } catch (schemaError) {
-      // Continue with basic template
-    }
-    
-    res.json(template);
-  } catch (error) {
-    console.error('Template creation error:', error);
-    res.status(500).json({ error: 'Failed to create template' });
+
+    res.json({
+      template,
+      schemaId: schemaId || 'BasicCredential'
+    });
+
+  } catch (error: any) {
+    console.error('Template generation error:', error);
+    res.status(500).json({
+      error: 'Failed to generate template',
+      details: error?.message || 'Unknown error'
+    });
   }
 };
 
 // POST /api/vc/verify-presentation - Verify a Verifiable Presentation
-export const verifyPresentation = async (req: Request, res: Response) => {
+export const verifyPresentation = (req: Request, res: Response) => {
   try {
     const { presentation } = req.body;
-    
+
     if (!presentation) {
-      return res.status(400).json({ 
-        valid: false, 
-        errors: [{ message: 'Presentation is required' }] 
+      return res.status(400).json({
+        error: 'Missing presentation in request body'
       });
     }
-    
-    const validationResult: any = {
-      valid: true,
-      errors: [],
-      warnings: [],
-      credentialResults: []
-    };
-    
-    // Basic VP structure validation
-    const basicValidation = validateBasicVPStructure(presentation);
-    if (!basicValidation.valid) {
-      validationResult.valid = false;
-      validationResult.errors.push(...basicValidation.errors);
+
+    // Parse presentation if it's a string
+    let parsedPresentation: any;
+    try {
+      parsedPresentation = typeof presentation === 'string' ? JSON.parse(presentation) : presentation;
+    } catch (parseError: any) {
+      return res.status(400).json({
+        error: 'Invalid JSON format',
+        details: parseError?.message || 'JSON parsing failed'
+      });
     }
-    
-    // Validate each credential in the presentation
-    if (presentation.verifiableCredential && Array.isArray(presentation.verifiableCredential)) {
-      for (let i = 0; i < presentation.verifiableCredential.length; i++) {
-        const credential = presentation.verifiableCredential[i];
-        const vcValidation = validateBasicVCStructure(credential);
-        
-        validationResult.credentialResults.push({
-          index: i,
-          valid: vcValidation.valid,
-          errors: vcValidation.errors
-        });
-        
-        if (!vcValidation.valid) {
-          validationResult.valid = false;
-        }
-      }
+
+    // Basic presentation validation
+    const errors: string[] = [];
+    const warnings: string[] = [];
+
+    if (!parsedPresentation['@context']) {
+      errors.push('Missing required @context field');
     }
-    
-    res.json(validationResult);
-  } catch (error) {
-    console.error('VP verification error:', error);
-    res.status(500).json({ error: 'Verification failed' });
+
+    if (!parsedPresentation.type || !parsedPresentation.type.includes('VerifiablePresentation')) {
+      errors.push('Missing or invalid type field');
+    }
+
+    if (!parsedPresentation.verifiableCredential) {
+      errors.push('Missing verifiableCredential field');
+    }
+
+    const valid = errors.length === 0;
+
+    res.json({
+      valid,
+      errors,
+      warnings,
+      presentation: parsedPresentation
+    });
+
+  } catch (error: any) {
+    console.error('Presentation verification error:', error);
+    res.status(500).json({
+      error: 'Presentation verification failed',
+      details: error?.message || 'Unknown error'
+    });
   }
 };
 
 // GET /api/vc/contexts - Get JSON-LD contexts
-export const getContexts = async (req: Request, res: Response) => {
+export const getContexts = (req: Request, res: Response) => {
   try {
-    const contexts = {
-      originvault: {
-        '@context': {
-          '@version': 1.1,
-          '@protected': true,
-          'ov': 'https://schema.originvault.io/',
-          'xsd': 'http://www.w3.org/2001/XMLSchema#',
-          
-          // Identity types
-          'PersonCredential': 'ov:PersonCredential',
-          'OrganizationCredential': 'ov:OrganizationCredential',
-          'DeveloperCredential': 'ov:DeveloperCredential',
-          
-          // Business types
-          'ContractCredential': 'ov:ContractCredential',
-          'PaymentCredential': 'ov:PaymentCredential',
-          'WorkflowCredential': 'ov:WorkflowCredential',
-          
-          // Trust types
-          'EndorsementCredential': 'ov:EndorsementCredential',
-          'ReputationCredential': 'ov:ReputationCredential',
-          'VerificationCredential': 'ov:VerificationCredential',
-          
-          // Content types
-          'ContentCredential': 'ov:ContentCredential',
-          'ProvenanceCredential': 'ov:ProvenanceCredential',
-          
-          // Platform types
-          'VaultCredential': 'ov:VaultCredential',
-          'PluginCredential': 'ov:PluginCredential',
-          'APICredential': 'ov:APICredential'
-        }
-      }
-    };
-    
-    res.json(contexts);
-  } catch (error) {
-    console.error('Context loading error:', error);
-    res.status(500).json({ error: 'Failed to load contexts' });
+    const contexts = [
+      'https://www.w3.org/2018/credentials/v1',
+      'https://www.w3.org/ns/credentials/v2',
+      'https://schema.org',
+      'https://schemas.originvault.box/contexts/trust-chain-core.jsonld'
+    ];
+
+    res.json({ contexts });
+  } catch (error: any) {
+    console.error('Error fetching contexts:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch contexts',
+      details: error?.message || 'Unknown error'
+    });
   }
 };
 
 // Helper functions
-function validateBasicVCStructure(credential: any): { valid: boolean; errors: any[] } {
-  const errors = [];
-  
+function validateBasicVCStructure(credential: any): ValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
+  // Check required fields
   if (!credential['@context']) {
-    errors.push({ message: '@context is required' });
-  } else if (!Array.isArray(credential['@context']) || !credential['@context'].includes(W3C_VC_CONTEXT)) {
-    errors.push({ message: '@context must include W3C VC context' });
+    errors.push('Missing required @context field');
+  } else if (!Array.isArray(credential['@context'])) {
+    errors.push('@context must be an array');
+  } else if (!credential['@context'].includes('https://www.w3.org/2018/credentials/v1') && 
+            !credential['@context'].includes('https://www.w3.org/ns/credentials/v2')) {
+    errors.push('Missing required W3C VC context');
   }
-  
+
   if (!credential.type) {
-    errors.push({ message: 'type is required' });
-  } else if (!Array.isArray(credential.type) || !credential.type.includes('VerifiableCredential')) {
-    errors.push({ message: 'type must include VerifiableCredential' });
+    errors.push('Missing required type field');
+  } else if (!Array.isArray(credential.type)) {
+    errors.push('type must be an array');
+  } else if (!credential.type.includes('VerifiableCredential')) {
+    errors.push('type must include "VerifiableCredential"');
   }
-  
+
   if (!credential.issuer) {
-    errors.push({ message: 'issuer is required' });
+    errors.push('Missing required issuer field');
   }
-  
-  // Accept both issuanceDate and validFrom (common alternative)
-  if (!credential.issuanceDate && !credential.validFrom) {
-    errors.push({ message: 'issuanceDate or validFrom is required' });
-  }
-  
+
   if (!credential.credentialSubject) {
-    errors.push({ message: 'credentialSubject is required' });
+    errors.push('Missing required credentialSubject field');
   }
-  
-  return { valid: errors.length === 0, errors };
+
+  // Check for either issuanceDate or validFrom (both are valid in W3C VC spec)
+  if (!credential.issuanceDate && !credential.validFrom) {
+    warnings.push('Missing issuanceDate or validFrom field - this may be valid for some credential types');
+  }
+
+  // Check proof structure if present
+  if (credential.proof) {
+    if (typeof credential.proof === 'object' && credential.proof.type === 'JwtProof2020') {
+      // JWT proof format - just warn that we can't fully validate JWT without keys
+      warnings.push('JWT proof detected - full signature verification requires access to issuer keys');
+    }
+  }
+
+  return {
+    valid: errors.length === 0,
+    errors: errors.length > 0 ? errors : undefined,
+    warnings: warnings.length > 0 ? warnings : undefined
+  };
 }
 
-function validateBasicVPStructure(presentation: any): { valid: boolean; errors: any[] } {
-  const errors = [];
-  
+function validateBasicVPStructure(presentation: any): ValidationResult {
+  const errors: string[] = [];
+  const warnings: string[] = [];
+
   if (!presentation['@context']) {
-    errors.push({ message: '@context is required' });
+    errors.push('Missing required @context field');
   }
-  
-  if (!presentation.type) {
-    errors.push({ message: 'type is required' });
-  } else if (!Array.isArray(presentation.type) || !presentation.type.includes('VerifiablePresentation')) {
-    errors.push({ message: 'type must include VerifiablePresentation' });
+
+  if (!presentation.type || !presentation.type.includes('VerifiablePresentation')) {
+    errors.push('Missing or invalid type field');
   }
-  
+
   if (!presentation.verifiableCredential || !Array.isArray(presentation.verifiableCredential)) {
-    errors.push({ message: 'verifiableCredential array is required' });
+    errors.push('Missing or invalid verifiableCredential field');
   }
-  
-  return { valid: errors.length === 0, errors };
+
+  return {
+    valid: errors.length === 0,
+    errors: errors.length > 0 ? errors : undefined,
+    warnings: warnings.length > 0 ? warnings : undefined
+  };
 }
 
-function validateContexts(credential: any): { valid: boolean; warnings: any[] } {
-  const warnings = [];
+function validateContexts(credential: any): ValidationResult {
+  const warnings: string[] = [];
   
   if (credential['@context'] && Array.isArray(credential['@context'])) {
-    const hasOriginVaultContext = credential['@context'].includes(ORIGINVAULT_CONTEXT);
+    const hasOriginVaultContext = credential['@context'].includes('https://schema.originvault.io/context/v1');
     if (!hasOriginVaultContext) {
-      warnings.push({ 
-        message: 'Consider including OriginVault context for enhanced compatibility' 
-      });
+      warnings.push('Consider including OriginVault context for enhanced compatibility');
     }
   }
   
-  return { valid: true, warnings };
+  return { valid: true, warnings: warnings.length > 0 ? warnings : undefined };
 }
 
 function determineVCCategory(filename: string): string {
@@ -402,33 +402,62 @@ function determineVCCategory(filename: string): string {
 }
 
 function extractContexts(schema: any): string[] {
-  const contexts = [W3C_VC_CONTEXT];
+  const contexts = ['https://www.w3.org/2018/credentials/v1'];
   
   // Check if schema suggests additional contexts
   if (schema.properties && schema.properties['@context']) {
     // Extract from schema definition
   }
   
-  contexts.push(ORIGINVAULT_CONTEXT);
+  contexts.push('https://schema.originvault.io/context/v1');
   return contexts;
 }
 
-function generateDefaults(properties: any): any {
-  const defaults: any = {};
-  
-  for (const [key, prop] of Object.entries(properties as any)) {
-    if (prop.type === 'string') {
-      defaults[key] = prop.example || `example-${key}`;
-    } else if (prop.type === 'number') {
-      defaults[key] = prop.example || 0;
-    } else if (prop.type === 'boolean') {
-      defaults[key] = prop.example || false;
-    } else if (prop.type === 'array') {
-      defaults[key] = [];
-    } else if (prop.type === 'object') {
-      defaults[key] = {};
+function getAvailableSchemas(): CredentialSchema[] {
+  try {
+    const schemasDir = path.join(process.cwd(), 'schemas', 'v1');
+    
+    if (!fs.existsSync(schemasDir)) {
+      console.warn('Schemas directory not found:', schemasDir);
+      return [];
     }
+
+    const schemaFiles = fs.readdirSync(schemasDir)
+      .filter(file => file.endsWith('.schema.json'));
+
+    const schemas: CredentialSchema[] = [];
+
+    for (const file of schemaFiles) {
+      try {
+        const filePath = path.join(schemasDir, file);
+        const content = fs.readFileSync(filePath, 'utf8');
+        const schemaData = JSON.parse(content);
+
+        // Extract relevant information from the schema
+        const schema: CredentialSchema = {
+          id: schemaData.$id || file.replace('.schema.json', ''),
+          name: schemaData.title || file.replace('.schema.json', '').replace(/([A-Z])/g, ' $1').trim(),
+          description: schemaData.description || 'No description available',
+          version: '1.0.0',
+          schema: schemaData,
+          examples: schemaData.examples || []
+        };
+
+        schemas.push(schema);
+      } catch (error: any) {
+        console.error(`Error parsing schema file ${file}:`, error.message);
+        // Continue processing other files even if one fails
+      }
+    }
+
+    // Sort schemas by name for better UX
+    schemas.sort((a, b) => a.name.localeCompare(b.name));
+
+    return schemas;
+  } catch (error: any) {
+    console.error('Error loading schemas:', error.message);
+    return [];
   }
-  
-  return defaults;
-} 
+}
+
+ 
