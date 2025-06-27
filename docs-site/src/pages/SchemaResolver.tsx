@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
   Container,
   Typography,
@@ -9,18 +9,16 @@ import {
   Alert,
   Button,
   Chip,
-  Stack,
-  useTheme
+  Stack
 } from '@mui/material'
 import {
   ArrowBack as ArrowBackIcon,
   GetApp as DownloadIcon,
   Code as CodeIcon,
-  Schema as SchemaIcon,
-  GitHub as GitHubIcon
+  Schema as SchemaIcon
 } from '@mui/icons-material'
 import CodeEditor from '../components/CodeEditor'
-import { schemaService } from '../services/schemaService'
+// import { schemaService } from '../services/schemaService'
 
 interface SchemaData {
   content: any
@@ -38,189 +36,99 @@ interface SchemaData {
 }
 
 const SchemaResolver: React.FC = () => {
-  const { schemaPath, schemaId } = useParams<{ schemaPath: string; schemaId: string }>()
+  const { schemaPath } = useParams<{ schemaPath: string }>()
   const navigate = useNavigate()
-  const location = useLocation()
-  const theme = useTheme()
+  // const theme = useTheme()
   
-  const [schemaData, setSchemaData] = useState<SchemaData | null>(null)
+  const [schema, setSchema] = useState<SchemaData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Check if we're on the /TrustedIssuer route
-    if (location.pathname === '/TrustedIssuer') {
-      loadTrustedIssuerSchema()
-    } else if (schemaId && !schemaPath) {
-      // Handle generic schema ID route
-      loadSchemaById(schemaId)
-    } else if (!schemaPath) {
-      setError('No schema path provided')
-      setLoading(false)
-    } else {
-      loadSchema()
+    const loadSchema = async () => {
+      if (!schemaPath) {
+        setError('No schema path provided')
+        setLoading(false)
+        return
+      }
+
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Decode the schema path
+        const decodedPath = decodeURIComponent(schemaPath)
+        
+        // Generate GitHub URLs - fetch directly from raw.githubusercontent.com
+        const githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/schemas/v1/${decodedPath}`
+        const rawUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/schemas/v1/${decodedPath}`
+        
+        // Fetch the schema content
+        const response = await fetch(rawUrl)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch schema: ${response.status} ${response.statusText}`)
+        }
+        
+        const responseText = await response.text()
+        
+        // Check if we got HTML instead of JSON (common when server misconfiguration)
+        if (responseText.trim().startsWith('<!DOCTYPE') || responseText.trim().startsWith('<html')) {
+          throw new Error('Received HTML instead of JSON. Schema file may not exist at the specified path.')
+        }
+        
+        let content
+        try {
+          content = JSON.parse(responseText)
+        } catch (parseError) {
+          throw new Error(`Invalid JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown parsing error'}`)
+        }
+        
+        // Extract metadata from the schema
+        const metadata = {
+          name: content.title || decodedPath.split('/').pop()?.replace('.schema.json', '') || 'Unknown',
+          file: decodedPath,
+          description: content.description,
+          $id: content.$id,
+          $schema: content.$schema,
+          title: content.title,
+          version: content.version
+        }
+        
+        setSchema({
+          content,
+          metadata,
+          githubUrl,
+          rawUrl
+        })
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load schema')
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [schemaPath, schemaId, location.pathname])
 
-  const loadTrustedIssuerSchema = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-
-      // Load the TrustedIssuerCredential schema
-      const content = await schemaService.loadSchemaFile('trust/TrustedIssuerCredential.schema.json')
-      
-      // Construct GitHub URLs
-      const githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/schemas/v1/trust/TrustedIssuerCredential.schema.json`
-      const rawUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/schemas/v1/trust/TrustedIssuerCredential.schema.json`
-      
-      // Extract metadata from the schema
-      const metadata = {
-        name: content.title || content.$id || 'TrustedIssuer',
-        file: 'trust/TrustedIssuerCredential.schema.json',
-        description: content.description,
-        $id: content.$id,
-        $schema: content.$schema,
-        title: content.title,
-        version: content.version
-      }
-
-      setSchemaData({
-        content,
-        metadata,
-        githubUrl,
-        rawUrl
-      })
-    } catch (err) {
-      console.error('Error loading TrustedIssuer schema:', err)
-      setError(`Failed to load TrustedIssuer schema: ${(err as Error).message}`)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const loadSchemaById = async (id: string) => {
-    try {
-      setLoading(true)
-      setError(null)
-
-      // Map schema IDs to their file paths
-      const schemaIdMap: { [key: string]: string } = {
-        'TrustedIssuer': 'trust/TrustedIssuerCredential.schema.json',
-        // Add more mappings as needed
-      }
-
-      const filePath = schemaIdMap[id]
-      if (!filePath) {
-        throw new Error(`Schema ID '${id}' not found`)
-      }
-
-      // Load the schema content from GitHub
-      const content = await schemaService.loadSchemaFile(filePath)
-      
-      // Construct GitHub URLs
-      const githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/schemas/v1/${filePath}`
-      const rawUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/schemas/v1/${filePath}`
-      
-      // Extract metadata from the schema
-      const metadata = {
-        name: content.title || content.$id || id,
-        file: filePath,
-        description: content.description,
-        $id: content.$id,
-        $schema: content.$schema,
-        title: content.title,
-        version: content.version
-      }
-
-      setSchemaData({
-        content,
-        metadata,
-        githubUrl,
-        rawUrl
-      })
-    } catch (err) {
-      console.error(`Error loading schema with ID ${id}:`, err)
-      setError(`Failed to load schema with ID '${id}': ${(err as Error).message}`)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const loadSchema = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-
-      // Decode the schema path (it might be URL encoded)
-      const decodedPath = decodeURIComponent(schemaPath!)
-      
-      // Load the schema content from GitHub
-      const content = await schemaService.loadSchemaFile(decodedPath)
-      
-      // Construct GitHub URLs
-      const githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/schemas/v1/${decodedPath}`
-      const rawUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/schemas/v1/${decodedPath}`
-      
-      // Extract metadata from the schema
-      const metadata = {
-        name: content.title || content.$id || decodedPath.split('/').pop() || 'Unknown Schema',
-        file: decodedPath,
-        description: content.description,
-        $id: content.$id,
-        $schema: content.$schema,
-        title: content.title,
-        version: content.version
-      }
-
-      setSchemaData({
-        content,
-        metadata,
-        githubUrl,
-        rawUrl
-      })
-    } catch (err) {
-      console.error('Error loading schema:', err)
-      setError(`Failed to load schema: ${(err as Error).message}`)
-    } finally {
-      setLoading(false)
-    }
-  }
+    loadSchema()
+  }, [schemaPath])
 
   const handleDownload = () => {
-    if (!schemaData) return
+    if (!schema) return
     
-    const blob = new Blob([JSON.stringify(schemaData.content, null, 2)], { 
-      type: 'application/json' 
+    const blob = new Blob([JSON.stringify(schema.content, null, 2)], {
+      type: 'application/json'
     })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${schemaData.metadata.name}.schema.json`
+    a.download = schema.metadata.file
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
   }
 
-  const handleCopyToClipboard = async () => {
-    if (!schemaData) return
-    
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(schemaData.content, null, 2))
-      // Could add a toast notification here
-    } catch (err) {
-      console.error('Failed to copy to clipboard:', err)
-    }
-  }
-
-  const handleBackToExplorer = () => {
-    navigate('/schemas')
-  }
-
   if (loading) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
           <CircularProgress />
         </Box>
@@ -230,14 +138,14 @@ const SchemaResolver: React.FC = () => {
 
   if (error) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
         <Button
-          variant="outlined"
           startIcon={<ArrowBackIcon />}
-          onClick={handleBackToExplorer}
+          onClick={() => navigate('/schemas')}
+          variant="outlined"
         >
           Back to Schema Explorer
         </Button>
@@ -245,139 +153,110 @@ const SchemaResolver: React.FC = () => {
     )
   }
 
-  if (!schemaData) {
+  if (!schema) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="warning">
-          No schema data available
+          Schema not found
         </Alert>
       </Container>
     )
   }
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       {/* Header */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 3 }}>
         <Button
-          variant="outlined"
           startIcon={<ArrowBackIcon />}
-          onClick={handleBackToExplorer}
-          sx={{ mb: 2, fontFamily: 'Thiccboi' }}
+          onClick={() => navigate('/schemas')}
+          variant="outlined"
+          sx={{ mb: 2 }}
         >
           Back to Schema Explorer
         </Button>
         
-        <Typography variant="h4" component="h1" gutterBottom fontWeight="bold" fontFamily="Thiccboi">
-          {schemaData.metadata.title || schemaData.metadata.name}
-        </Typography>
+        <Box display="flex" alignItems="center" gap={2} mb={2}>
+          <SchemaIcon color="primary" />
+          <Typography variant="h4" component="h1">
+            {schema.metadata.name}
+          </Typography>
+        </Box>
         
-        {schemaData.metadata.description && (
-          <Typography variant="body1" color="text.secondary" paragraph fontFamily="Thiccboi">
-            {schemaData.metadata.description}
+        {schema.metadata.description && (
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+            {schema.metadata.description}
           </Typography>
         )}
         
-        {/* Metadata chips */}
-        <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
-          {schemaData.metadata.$id && (
-            <Chip 
-              label={`ID: ${schemaData.metadata.$id}`} 
-              size="small" 
-              variant="outlined"
-              sx={{ fontFamily: 'Thiccboi' }}
-            />
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          {schema.metadata.$schema && (
+            <Chip label={`Schema: ${schema.metadata.$schema}`} size="small" />
           )}
-          {schemaData.metadata.$schema && (
-            <Chip 
-              label={`Schema: ${schemaData.metadata.$schema}`} 
-              size="small" 
-              variant="outlined"
-              sx={{ fontFamily: 'Thiccboi' }}
-            />
+          {schema.metadata.version && (
+            <Chip label={`Version: ${schema.metadata.version}`} size="small" />
           )}
-          {schemaData.metadata.version && (
-            <Chip 
-              label={`v${schemaData.metadata.version}`} 
-              size="small" 
-              color="primary"
-              sx={{ fontFamily: 'Thiccboi' }}
-            />
-          )}
-          <Chip 
-            label={`File: ${schemaData.metadata.file}`} 
-            size="small" 
-            variant="outlined"
-            sx={{ fontFamily: 'Thiccboi' }}
-          />
+          <Chip label={schema.metadata.file} size="small" variant="outlined" />
         </Stack>
-        
-        {/* Action buttons */}
-        <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+      </Box>
+
+      {/* Actions */}
+      <Box sx={{ mb: 3 }}>
+        <Stack direction="row" spacing={2}>
           <Button
-            variant="outlined"
-            startIcon={<GitHubIcon />}
-            href={schemaData.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ fontFamily: 'Thiccboi' }}
-          >
-            View on GitHub
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<CodeIcon />}
-            onClick={handleCopyToClipboard}
-            sx={{ fontFamily: 'Thiccboi' }}
-          >
-            Copy JSON
-          </Button>
-          <Button
-            variant="outlined"
             startIcon={<DownloadIcon />}
             onClick={handleDownload}
-            sx={{ fontFamily: 'Thiccboi' }}
+            variant="contained"
           >
-            Download
+            Download Schema
+          </Button>
+          <Button
+            startIcon={<CodeIcon />}
+            href={schema.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="outlined"
+          >
+            View on GitHub
           </Button>
         </Stack>
       </Box>
 
-      {/* Schema content */}
-      <Paper 
-        variant="outlined" 
-        sx={{ 
-          borderRadius: 2,
-          overflow: 'hidden',
-          borderColor: theme.palette.divider,
-        }}
-      >
-        <Box sx={{ 
-          px: 2, py: 1.5, 
-          bgcolor: theme.palette.background.paper, 
-          borderBottom: 1, 
-          borderColor: theme.palette.divider,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
-        }}>
-          <SchemaIcon fontSize="small" color="primary" />
-          <Typography variant="subtitle2" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
-            JSON Schema Definition
-          </Typography>
+      {/* Schema Content */}
+      <Paper sx={{ p: 0, overflow: 'hidden' }}>
+        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
+          <Typography variant="h6">Schema Definition</Typography>
         </Box>
-        
-        <Box sx={{ height: '600px', position: 'relative' }}>
-          <CodeEditor
-            value={JSON.stringify(schemaData.content, null, 2)}
-            language="json"
-            readonly
-            height="100%"
-            title={`${schemaData.metadata.name} Schema`}
-          />
-        </Box>
+        <CodeEditor
+          value={JSON.stringify(schema.content, null, 2)}
+          language="json"
+          readonly
+          height="600px"
+        />
       </Paper>
+
+      {/* Metadata */}
+      {schema.metadata.$id && (
+        <Paper sx={{ mt: 3, p: 3 }}>
+          <Typography variant="h6" gutterBottom>
+            Schema Metadata
+          </Typography>
+          <Box>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Schema ID:</strong> {schema.metadata.$id}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              <strong>File Path:</strong> {schema.metadata.file}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              <strong>Raw URL:</strong>{' '}
+              <a href={schema.rawUrl} target="_blank" rel="noopener noreferrer">
+                {schema.rawUrl}
+              </a>
+            </Typography>
+          </Box>
+        </Paper>
+      )}
     </Container>
   )
 }

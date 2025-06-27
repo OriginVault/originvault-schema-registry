@@ -5,401 +5,359 @@
   "version": "1.0.0",
   "lastUpdated": "2025-01-14T10:00:00Z",
   "totalSchemas": 22,
-  "categories": {
-    "identity": {
-      "name": "Identity & Access Management",
-      "description": "Core identity and permission management schemas",
-      "count": 6,
-      "schemas": [
-        {
-          "name": "OriginVaultRootAuthority",
-          "file": "identity/OriginVaultRootAuthority.schema.json",
-          "description": "Platform root authority and governance",
-          "quicktype": "quicktype --src schemas/v1/identity/OriginVaultRootAuthority.schema.json --lang typescript",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:root-authority",
-              "authorityType": "PlatformRoot",
-              "governanceScope": "global"
-            }
-          }
-        },
-        {
-          "name": "PersonCredential",
-          "file": "identity/PersonCredential.schema.json",
-          "description": "Individual identity verification and management",
-          "quicktype": "quicktype --src schemas/v1/identity/PersonCredential.schema.json --lang python",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:person-123",
-              "givenName": "John",
-              "familyName": "Doe",
-              "email": "john.doe@example.com"
-            }
-          }
-        },
-        {
-          "name": "OrganizationCredential",
-          "file": "identity/OrganizationCredential.schema.json",
-          "description": "Business entity verification and authority delegation",
-          "quicktype": "quicktype --src schemas/v1/identity/OrganizationCredential.schema.json --lang go",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:acme-corp",
-              "legalName": "Acme Corporation",
-              "registrationNumber": "123456789"
-            }
-          }
-        },
-        {
-          "name": "VaultAccessCredential",
-          "file": "identity/VaultAccessCredential.schema.json",
-          "description": "Vault permission and access control management",
-          "quicktype": "quicktype --src schemas/v1/identity/VaultAccessCredential.schema.json --lang csharp",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:access-123",
-              "vaultId": "did:cheqd:mainnet:vault-456",
-              "userId": "did:cheqd:mainnet:user-789",
-              "permissions": ["read", "write"]
-            }
-          }
-        },
-        {
-          "name": "AdminCredential",
-          "file": "identity/AdminCredential.schema.json",
-          "description": "Administrative privileges and system access",
-          "quicktype": "quicktype --src schemas/v1/identity/AdminCredential.schema.json --lang java",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:admin-123",
-              "adminType": "SystemAdmin",
-              "permissions": ["user_management", "system_config"]
-            }
-          }
-        },
-        {
-          "name": "APIAccessCredential",
-          "file": "identity/APIAccessCredential.schema.json",
-          "description": "API access control and rate limiting",
-          "quicktype": "quicktype --src schemas/v1/identity/APIAccessCredential.schema.json --lang rust",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:api-access-123",
-              "apiKey": "api_key_456",
-              "rateLimit": 1000,
-              "endpoints": ["/v1/content", "/v1/credentials"]
-            }
+  "schemas": [
+    {
+      "name": "OriginVaultRootAuthority",
+      "file": "OriginVaultRootAuthority.schema.json",
+      "description": "Platform root authority and governance",
+      "quicktype": "quicktype --src schemas/v1/OriginVaultRootAuthority.schema.json --lang typescript",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:root-authority",
+          "authorityType": "PlatformRoot",
+          "governanceScope": "global"
+        }
+      }
+    },
+    {
+      "name": "PersonCredential",
+      "file": "PersonCredential.schema.json",
+      "description": "Individual identity verification and management",
+      "quicktype": "quicktype --src schemas/v1/PersonCredential.schema.json --lang python",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:person-123",
+          "givenName": "John",
+          "familyName": "Doe",
+          "email": "john.doe@example.com"
+        }
+      }
+    },
+    {
+      "name": "OrganizationCredential",
+      "file": "OrganizationCredential.schema.json",
+      "description": "Business entity verification and authority delegation",
+      "quicktype": "quicktype --src schemas/v1/OrganizationCredential.schema.json --lang go",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:acme-corp",
+          "legalName": "Acme Corporation",
+          "registrationNumber": "123456789"
+        }
+      }
+    },
+    {
+      "name": "VaultAccessCredential",
+      "file": "VaultAccessCredential.schema.json",
+      "description": "Vault permission and access control management",
+      "quicktype": "quicktype --src schemas/v1/VaultAccessCredential.schema.json --lang csharp",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:access-123",
+          "vaultId": "did:cheqd:mainnet:vault-456",
+          "userId": "did:cheqd:mainnet:user-789",
+          "permissions": ["read", "write"]
+        }
+      }
+    },
+    {
+      "name": "AdminCredential",
+      "file": "AdminCredential.schema.json",
+      "description": "Administrative privileges and system access",
+      "quicktype": "quicktype --src schemas/v1/AdminCredential.schema.json --lang java",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:admin-123",
+          "adminType": "SystemAdmin",
+          "permissions": ["user_management", "system_config"]
+        }
+      }
+    },
+    {
+      "name": "APIAccessCredential",
+      "file": "APIAccessCredential.schema.json",
+      "description": "API access control and rate limiting",
+      "quicktype": "quicktype --src schemas/v1/APIAccessCredential.schema.json --lang rust",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:api-access-123",
+          "apiKey": "api_key_456",
+          "rateLimit": 1000,
+          "endpoints": ["/v1/content", "/v1/credentials"]
+        }
+      }
+    },
+    {
+      "name": "ContractCredential",
+      "file": "ContractCredential.schema.json",
+      "description": "Legal contract execution and tracking",
+      "quicktype": "quicktype --src schemas/v1/ContractCredential.schema.json --lang typescript",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:contract-456",
+          "contractType": "ContentCreation",
+          "parties": ["did:cheqd:mainnet:acme-corp", "did:cheqd:mainnet:creator-789"],
+          "terms": "Exclusive content creation agreement...",
+          "compensation": {
+            "amount": 5000,
+            "currency": "USD",
+            "paymentSchedule": "monthly"
           }
         }
-      ]
+      }
     },
-    "business": {
-      "name": "Business Workflow Automation",
-      "description": "Complete business process automation schemas",
-      "count": 7,
-      "schemas": [
-        {
-          "name": "ContractCredential",
-          "file": "business/ContractCredential.schema.json",
-          "description": "Legal contract execution and tracking",
-          "quicktype": "quicktype --src schemas/v1/business/ContractCredential.schema.json --lang typescript",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:contract-456",
-              "contractType": "ContentCreation",
-              "parties": ["did:cheqd:mainnet:acme-corp", "did:cheqd:mainnet:creator-789"],
-              "terms": "Exclusive content creation agreement...",
-              "compensation": {
-                "amount": 5000,
-                "currency": "USD",
-                "paymentSchedule": "monthly"
-              }
-            }
+    {
+      "name": "EquityGrantCredential",
+      "file": "EquityGrantCredential.schema.json",
+      "description": "Equity compensation and vesting management",
+      "quicktype": "quicktype --src schemas/v1/EquityGrantCredential.schema.json --lang python",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:equity-grant-789",
+          "grantee": "did:cheqd:mainnet:creator-123",
+          "equityType": "RestrictedMembershipUnits",
+          "totalUnits": 2100,
+          "vestingSchedule": {
+            "type": "cliff",
+            "cliffPeriod": "12 months"
           }
-        },
-        {
-          "name": "EquityGrantCredential",
-          "file": "business/EquityGrantCredential.schema.json",
-          "description": "Equity compensation and vesting management",
-          "quicktype": "quicktype --src schemas/v1/business/EquityGrantCredential.schema.json --lang python",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:equity-grant-789",
-              "grantee": "did:cheqd:mainnet:creator-123",
-              "equityType": "RestrictedMembershipUnits",
-              "totalUnits": 2100,
-              "vestingSchedule": {
-                "type": "cliff",
-                "cliffPeriod": "12 months"
-              }
-            }
-          }
-        },
-        {
-          "name": "WorkflowExecutionCredential",
-          "file": "business/WorkflowExecutionCredential.schema.json",
-          "description": "Multi-step workflow orchestration and audit trails",
-          "quicktype": "quicktype --src schemas/v1/business/WorkflowExecutionCredential.schema.json --lang go",
-          "example": {
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:workflow-789",
-              "workflowType": "ContractIssuance",
+        }
+      }
+    },
+    {
+      "name": "WorkflowExecutionCredential",
+      "file": "WorkflowExecutionCredential.schema.json",
+      "description": "Multi-step workflow orchestration and audit trails",
+      "quicktype": "quicktype --src schemas/v1/WorkflowExecutionCredential.schema.json --lang go",
+      "example": {
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:workflow-789",
+          "workflowType": "ContractIssuance",
+          "status": "completed",
+          "steps": [
+            {
+              "step": "organization_verification",
               "status": "completed",
-              "steps": [
-                {
-                  "step": "organization_verification",
-                  "status": "completed",
-                  "timestamp": "2025-01-14T10:00:00Z"
-                }
-              ]
+              "timestamp": "2025-01-14T10:00:00Z"
             }
-          }
-        },
-        {
-          "name": "VerificationReportCredential",
-          "file": "VerificationReportCredential.schema.json",
-          "description": "Third-party verification and compliance reporting",
-          "quicktype": "quicktype --src schemas/v1/VerificationReportCredential.schema.json --lang csharp",
-          "example": {
-            "issuer": "did:cheqd:mainnet:verifier-456",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:verification-123",
-              "verificationType": "KYC",
-              "status": "verified",
-              "verificationDate": "2025-01-14T10:00:00Z"
-            }
-          }
-        },
-        {
-          "name": "CustomerOnboardingCredential",
-          "file": "CustomerOnboardingCredential.schema.json",
-          "description": "White-label workflow replication for customers",
-          "quicktype": "quicktype --src schemas/v1/CustomerOnboardingCredential.schema.json --lang java",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:onboarding-123",
-              "customerId": "customer-456",
-              "onboardingType": "Enterprise",
-              "status": "completed"
-            }
-          }
-        },
-        {
-          "name": "SustainabilityCredential",
-          "file": "SustainabilityCredential.schema.json",
-          "description": "Environmental impact tracking and reporting",
-          "quicktype": "quicktype --src schemas/v1/SustainabilityCredential.schema.json --lang rust",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:sustainability-123",
-              "organizationId": "did:cheqd:mainnet:acme-corp",
-              "carbonFootprint": 150.5,
-              "reportingPeriod": "2024-Q4"
-            }
-          }
-        },
-        {
-          "name": "RevocationService",
-          "file": "RevocationService.schema.json",
-          "description": "Credential revocation and status management",
-          "quicktype": "quicktype --src schemas/v1/RevocationService.schema.json --lang typescript",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:revocation-123",
-              "credentialId": "did:cheqd:mainnet:credential-456",
-              "revocationReason": "expired",
-              "revokedAt": "2025-01-14T10:00:00Z"
-            }
-          }
+          ]
         }
-      ]
+      }
     },
-    "content": {
-      "name": "Content & Creation Management",
-      "description": "Content authenticity and creation workflows",
-      "count": 3,
-      "schemas": [
-        {
-          "name": "CreativeWorkCredential",
-          "file": "content/CreativeWorkCredential.schema.json",
-          "description": "Content ownership and metadata management",
-          "quicktype": "quicktype --src schemas/v1/content/CreativeWorkCredential.schema.json --lang typescript",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:content-123",
-              "title": "Amazing Creative Work",
-              "creator": "did:cheqd:mainnet:creator-456",
-              "contentType": "video",
-              "license": "exclusive"
-            }
-          }
-        },
-        {
-          "name": "ContentAuthenticityCredential",
-          "file": "content/ContentAuthenticityCredential.schema.json",
-          "description": "Content integrity verification and C2PA compliance",
-          "quicktype": "quicktype --src schemas/v1/content/ContentAuthenticityCredential.schema.json --lang python",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:authenticity-456",
-              "contentId": "did:cheqd:mainnet:content-123",
-              "hashAlgorithm": "SHA-256",
-              "contentHash": "a1b2c3d4e5f6...",
-              "verifiedAt": "2025-01-14T10:00:00Z"
-            }
-          }
-        },
-        {
-          "name": "ContentAIPermissionCredential",
-          "file": "content/ContentAIPermissionCredential.schema.json",
-          "description": "AI usage permissions and licensing",
-          "quicktype": "quicktype --src schemas/v1/content/ContentAIPermissionCredential.schema.json --lang go",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:ai-permission-789",
-              "contentId": "did:cheqd:mainnet:content-123",
-              "aiUsageType": "training",
-              "permissionLevel": "exclusive",
-              "expiresAt": "2025-12-31T23:59:59Z"
-            }
-          }
+    {
+      "name": "VerificationReportCredential",
+      "file": "VerificationReportCredential.schema.json",
+      "description": "Third-party verification and compliance reporting",
+      "quicktype": "quicktype --src schemas/v1/VerificationReportCredential.schema.json --lang csharp",
+      "example": {
+        "issuer": "did:cheqd:mainnet:verifier-456",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:verification-123",
+          "verificationType": "KYC",
+          "status": "verified",
+          "verificationDate": "2025-01-14T10:00:00Z"
         }
-      ]
+      }
     },
-    "trust": {
-      "name": "Trust & Verification Systems",
-      "description": "Trust networks and reputation systems",
-      "count": 2,
-      "schemas": [
-        {
-          "name": "TrustedIssuerCredential",
-          "file": "trust/TrustedIssuerCredential.schema.json",
-          "description": "Trusted credential issuers and accreditation",
-          "quicktype": "quicktype --src schemas/v1/trust/TrustedIssuerCredential.schema.json --lang csharp",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:issuer-123",
-              "issuerName": "Trusted Verification Corp",
-              "issuerType": "KYCProvider",
-              "accreditationLevel": "Level2",
-              "trustScore": 95
-            }
-          }
-        },
-        {
-          "name": "ReputationCredential",
-          "file": "trust/ReputationCredential.schema.json",
-          "description": "Reputation scoring and trust history",
-          "quicktype": "quicktype --src schemas/v1/trust/ReputationCredential.schema.json --lang java",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:reputation-456",
-              "entityId": "did:cheqd:mainnet:creator-789",
-              "reputationScore": 85,
-              "trustLevel": "verified",
-              "lastUpdated": "2025-01-14T10:00:00Z"
-            }
-          }
+    {
+      "name": "CustomerOnboardingCredential",
+      "file": "CustomerOnboardingCredential.schema.json",
+      "description": "White-label workflow replication for customers",
+      "quicktype": "quicktype --src schemas/v1/CustomerOnboardingCredential.schema.json --lang java",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:onboarding-123",
+          "customerId": "customer-456",
+          "onboardingType": "Enterprise",
+          "status": "completed"
         }
-      ]
+      }
     },
-    "payments": {
-      "name": "Payments & Economics",
-      "description": "Financial and economic interactions",
-      "count": 2,
-      "schemas": [
-        {
-          "name": "PaymentCredential",
-          "file": "payments/PaymentCredential.schema.json",
-          "description": "Payment verification and transaction tracking",
-          "quicktype": "quicktype --src schemas/v1/payments/PaymentCredential.schema.json --lang rust",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:payment-789",
-              "payer": "did:cheqd:mainnet:acme-corp",
-              "payee": "did:cheqd:mainnet:creator-456",
-              "amount": 5000.00,
-              "currency": "USD",
-              "status": "completed"
-            }
-          }
-        },
-        {
-          "name": "StorageCredential",
-          "file": "payments/StorageCredential.schema.json",
-          "description": "Storage usage and billing verification",
-          "quicktype": "quicktype --src schemas/v1/payments/StorageCredential.schema.json --lang typescript",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:storage-123",
-              "vaultId": "did:cheqd:mainnet:vault-456",
-              "storageUsed": 1024,
-              "billingPeriod": "2025-01",
-              "cost": 25.50
-            }
-          }
+    {
+      "name": "SustainabilityCredential",
+      "file": "SustainabilityCredential.schema.json",
+      "description": "Environmental impact tracking and reporting",
+      "quicktype": "quicktype --src schemas/v1/SustainabilityCredential.schema.json --lang rust",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:sustainability-123",
+          "organizationId": "did:cheqd:mainnet:acme-corp",
+          "carbonFootprint": 150.5,
+          "reportingPeriod": "2024-Q4"
         }
-      ]
+      }
     },
-    "platform": {
-      "name": "Platform & Services",
-      "description": "Platform services and integrations",
-      "count": 2,
-      "schemas": [
-        {
-          "name": "PluginEndorsementCredential",
-          "file": "platform/PluginEndorsementCredential.schema.json",
-          "description": "Plugin verification and trust management",
-          "quicktype": "quicktype --src schemas/v1/platform/PluginEndorsementCredential.schema.json --lang python",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:plugin-endorsement-123",
-              "pluginId": "did:cheqd:mainnet:plugin-456",
-              "pluginName": "Advanced Content Editor",
-              "endorsementLevel": "verified",
-              "securityScore": 92
-            }
-          }
-        },
-        {
-          "name": "GemCredential",
-          "file": "platform/GemCredential.schema.json",
-          "description": "Platform reward and achievement system",
-          "quicktype": "quicktype --src schemas/v1/platform/GemCredential.schema.json --lang go",
-          "example": {
-            "issuer": "did:cheqd:mainnet:originvault",
-            "credentialSubject": {
-              "id": "did:cheqd:mainnet:gem-789",
-              "userId": "did:cheqd:mainnet:user-123",
-              "gemType": "ContentCreator",
-              "achievement": "First Video Published",
-              "earnedAt": "2025-01-14T10:00:00Z"
-            }
-          }
+    {
+      "name": "RevocationService",
+      "file": "RevocationService.schema.json",
+      "description": "Credential revocation and status management",
+      "quicktype": "quicktype --src schemas/v1/RevocationService.schema.json --lang typescript",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:revocation-123",
+          "credentialId": "did:cheqd:mainnet:credential-456",
+          "revocationReason": "expired",
+          "revokedAt": "2025-01-14T10:00:00Z"
         }
-      ]
+      }
+    },
+    {
+      "name": "CreativeWorkCredential",
+      "file": "CreativeWorkCredential.schema.json",
+      "description": "Content ownership and metadata management",
+      "quicktype": "quicktype --src schemas/v1/CreativeWorkCredential.schema.json --lang typescript",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:content-123",
+          "title": "Amazing Creative Work",
+          "creator": "did:cheqd:mainnet:creator-456",
+          "contentType": "video",
+          "license": "exclusive"
+        }
+      }
+    },
+    {
+      "name": "ContentAuthenticityCredential",
+      "file": "ContentAuthenticityCredential.schema.json",
+      "description": "Content integrity verification and C2PA compliance",
+      "quicktype": "quicktype --src schemas/v1/ContentAuthenticityCredential.schema.json --lang python",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:authenticity-456",
+          "contentId": "did:cheqd:mainnet:content-123",
+          "hashAlgorithm": "SHA-256",
+          "contentHash": "a1b2c3d4e5f6...",
+          "verifiedAt": "2025-01-14T10:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "ContentAIPermissionCredential",
+      "file": "ContentAIPermissionCredential.schema.json",
+      "description": "AI usage permissions and licensing",
+      "quicktype": "quicktype --src schemas/v1/ContentAIPermissionCredential.schema.json --lang go",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:ai-permission-789",
+          "contentId": "did:cheqd:mainnet:content-123",
+          "aiUsageType": "training",
+          "permissionLevel": "exclusive",
+          "expiresAt": "2025-12-31T23:59:59Z"
+        }
+      }
+    },
+    {
+      "name": "TrustedIssuerCredential",
+      "file": "TrustedIssuerCredential.schema.json",
+      "description": "Trusted credential issuers and accreditation",
+      "quicktype": "quicktype --src schemas/v1/TrustedIssuerCredential.schema.json --lang csharp",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:issuer-123",
+          "issuerName": "Trusted Verification Corp",
+          "issuerType": "KYCProvider",
+          "accreditationLevel": "Level2",
+          "trustScore": 95
+        }
+      }
+    },
+    {
+      "name": "ReputationCredential",
+      "file": "ReputationCredential.schema.json",
+      "description": "Reputation scoring and trust history",
+      "quicktype": "quicktype --src schemas/v1/ReputationCredential.schema.json --lang java",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:reputation-456",
+          "entityId": "did:cheqd:mainnet:creator-789",
+          "reputationScore": 85,
+          "trustLevel": "verified",
+          "lastUpdated": "2025-01-14T10:00:00Z"
+        }
+      }
+    },
+    {
+      "name": "PaymentCredential",
+      "file": "PaymentCredential.schema.json",
+      "description": "Payment verification and transaction tracking",
+      "quicktype": "quicktype --src schemas/v1/PaymentCredential.schema.json --lang rust",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:payment-789",
+          "payer": "did:cheqd:mainnet:acme-corp",
+          "payee": "did:cheqd:mainnet:creator-456",
+          "amount": 5000.00,
+          "currency": "USD",
+          "status": "completed"
+        }
+      }
+    },
+    {
+      "name": "StorageCredential",
+      "file": "StorageCredential.schema.json",
+      "description": "Storage usage and billing verification",
+      "quicktype": "quicktype --src schemas/v1/StorageCredential.schema.json --lang typescript",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:storage-123",
+          "vaultId": "did:cheqd:mainnet:vault-456",
+          "storageUsed": 1024,
+          "billingPeriod": "2025-01",
+          "cost": 25.50
+        }
+      }
+    },
+    {
+      "name": "PluginEndorsementCredential",
+      "file": "PluginEndorsementCredential.schema.json",
+      "description": "Plugin verification and trust management",
+      "quicktype": "quicktype --src schemas/v1/PluginEndorsementCredential.schema.json --lang python",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:plugin-endorsement-123",
+          "pluginId": "did:cheqd:mainnet:plugin-456",
+          "pluginName": "Advanced Content Editor",
+          "endorsementLevel": "verified",
+          "securityScore": 92
+        }
+      }
+    },
+    {
+      "name": "GemCredential",
+      "file": "GemCredential.schema.json",
+      "description": "Platform reward and achievement system",
+      "quicktype": "quicktype --src schemas/v1/GemCredential.schema.json --lang go",
+      "example": {
+        "issuer": "did:cheqd:mainnet:originvault",
+        "credentialSubject": {
+          "id": "did:cheqd:mainnet:gem-789",
+          "userId": "did:cheqd:mainnet:user-123",
+          "gemType": "ContentCreator",
+          "achievement": "First Video Published",
+          "earnedAt": "2025-01-14T10:00:00Z"
+        }
+      }
     }
-  },
+  ],
   "quicktypeExamples": {
     "batchGeneration": {
       "description": "Generate types for all schemas in one command",
@@ -412,19 +370,10 @@
         "rust": "quicktype --src schemas/v1/ --lang rust --out types/all_schemas.rs"
       }
     },
-    "categoryGeneration": {
-      "description": "Generate types for specific categories",
-      "commands": {
-        "business": "quicktype --src schemas/v1/business/ --lang typescript --out types/business.ts",
-        "identity": "quicktype --src schemas/v1/identity/ --lang python --out types/identity.py",
-        "content": "quicktype --src schemas/v1/content/ --lang go --out types/content.go"
-      }
-    },
     "urlGeneration": {
       "description": "Generate types directly from OriginVault schema registry",
       "commands": {
-        "single": "quicktype --src https://schemas.originvault.box/v1/business/ContractCredential.schema.json --lang typescript",
-        "category": "quicktype --src https://schemas.originvault.box/v1/business/ --lang python --out business_types.py",
+        "single": "quicktype --src https://schemas.originvault.box/v1/ContractCredential.schema.json --lang typescript",
         "all": "quicktype --src https://schemas.originvault.box/v1/ --lang go --out all_types.go"
       }
     }

@@ -6,7 +6,7 @@
   "devCommand": "npm run dev",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/(?!.well-known/)(?!assets/)(?!favicon\\.ico)(?!robots\\.txt)(?!sitemap\\.xml)(.*)",
       "destination": "/index.html"
     }
   ],
@@ -29,6 +29,23 @@
         {
           "key": "Referrer-Policy",
           "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/.well-known/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
         }
       ]
     },

@@ -9,8 +9,7 @@ import {
   Alert,
   Button,
   Chip,
-  Stack,
-  useTheme
+  Stack
 } from '@mui/material'
 import {
   ArrowBack as ArrowBackIcon,
@@ -35,143 +34,123 @@ interface WellKnownData {
 const WellKnownResolver: React.FC = () => {
   const { wellKnownPath } = useParams<{ wellKnownPath: string }>()
   const navigate = useNavigate()
-  const theme = useTheme()
+  // const theme = useTheme()
   
-  const [wellKnownData, setWellKnownData] = useState<WellKnownData | null>(null)
+  const [wellKnown, setWellKnown] = useState<WellKnownData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!wellKnownPath) {
-      setError('No .well-known path provided')
-      setLoading(false)
-      return
+    const loadWellKnown = async () => {
+      if (!wellKnownPath) {
+        setError('No .well-known path provided')
+        setLoading(false)
+        return
+      }
+
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Decode the path
+        const decodedPath = decodeURIComponent(wellKnownPath)
+        
+        let rawUrl: string
+        let githubUrl: string
+        
+        // Special handling for DID configuration
+        if (decodedPath === 'did-configuration.json') {
+          // Fetch directly from the live domain for domain verification
+          rawUrl = 'https://schemas.originvault.box/.well-known/did-configuration.json'
+          githubUrl = 'https://github.com/OriginVault/originvault-schema-registry/blob/main/.well-known/did-configuration.json'
+        } else {
+          // Fetch from GitHub for other .well-known files
+          githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/.well-known/${decodedPath}`
+          rawUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/.well-known/${decodedPath}`
+        }
+        
+        // Fetch the content
+        const response = await fetch(rawUrl)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch .well-known file: ${response.status} ${response.statusText}`)
+        }
+        
+        const responseText = await response.text()
+        
+        // Check if we got HTML instead of JSON (common when server misconfiguration redirects to app)
+        if (responseText.trim().startsWith('<!DOCTYPE') || responseText.trim().startsWith('<html')) {
+          throw new Error('Received HTML instead of JSON. This usually means the server is not configured to serve .well-known files as static assets. Please check your server configuration.')
+        }
+        
+        let content
+        try {
+          content = JSON.parse(responseText)
+        } catch (parseError) {
+          throw new Error(`Invalid JSON response: ${parseError instanceof Error ? parseError.message : 'Unknown parsing error'}`)
+        }
+        
+        // Determine the type of .well-known file
+        let type: 'did-configuration' | 'did-configuration-resource' | 'other' = 'other'
+        if (decodedPath === 'did-configuration.json') {
+          type = 'did-configuration'
+        } else if (decodedPath.includes('did-configuration')) {
+          type = 'did-configuration-resource'
+        }
+        
+        // Extract metadata
+        const metadata = {
+          name: decodedPath.replace('.json', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          file: decodedPath,
+          description: content.description || getDescriptionForType(type),
+          type
+        }
+        
+        setWellKnown({
+          content,
+          metadata,
+          githubUrl,
+          rawUrl
+        })
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load .well-known file')
+      } finally {
+        setLoading(false)
+      }
     }
 
-    loadWellKnownFile()
+    loadWellKnown()
   }, [wellKnownPath])
 
-  const loadWellKnownFile = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-
-      // Decode the path (it might be URL encoded)
-      const decodedPath = decodeURIComponent(wellKnownPath!)
-      
-      // Try to load from the external .well-known endpoint first
-      let content: any
-      let sourceUrl: string
-      
-      if (decodedPath === 'did-configuration.json') {
-        // Load from the external DID configuration endpoint
-        const response = await fetch('https://schemas.originvault.box/.well-known/did-configuration.json')
-        if (!response.ok) {
-          throw new Error(`Failed to load DID configuration: ${response.statusText}`)
-        }
-        content = await response.json()
-        sourceUrl = 'https://schemas.originvault.box/.well-known/did-configuration.json'
-      } else {
-        // For other .well-known files, try to load from GitHub
-        const response = await fetch(`https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/.well-known/${decodedPath}`)
-        if (!response.ok) {
-          throw new Error(`Failed to load .well-known file: ${response.statusText}`)
-        }
-        content = await response.json()
-        sourceUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/.well-known/${decodedPath}`
-      }
-      
-      // Determine the type of .well-known file
-      let fileType: 'did-configuration' | 'did-configuration-resource' | 'other' = 'other'
-      if (decodedPath === 'did-configuration.json') {
-        fileType = 'did-configuration'
-      } else if (decodedPath.includes('did-configuration')) {
-        fileType = 'did-configuration-resource'
-      }
-      
-      // Extract metadata
-      const metadata = {
-        name: content.title || content.name || decodedPath || 'Unknown .well-known file',
-        file: decodedPath,
-        description: content.description || getWellKnownDescription(decodedPath),
-        type: fileType
-      }
-
-      // Construct GitHub URLs (for reference)
-      const githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/.well-known/${decodedPath}`
-      const rawUrl = sourceUrl
-
-      setWellKnownData({
-        content,
-        metadata,
-        githubUrl,
-        rawUrl
-      })
-    } catch (err) {
-      console.error('Error loading .well-known file:', err)
-      setError(`Failed to load .well-known file: ${(err as Error).message}`)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const getWellKnownDescription = (path: string): string => {
-    switch (path) {
-      case 'did-configuration.json':
-        return 'DID Configuration file for OriginVault schema registry domain verification'
-      case 'did-configuration-resource.json':
-        return 'DID Configuration resource for additional DID-related configurations'
+  const getDescriptionForType = (type: string): string => {
+    switch (type) {
+      case 'did-configuration':
+        return 'DID Configuration for domain verification and trust establishment'
+      case 'did-configuration-resource':
+        return 'DID Configuration resource for decentralized identity verification'
       default:
-        return 'Well-known configuration file'
+        return 'Well-known resource for service discovery and configuration'
     }
   }
 
   const handleDownload = () => {
-    if (!wellKnownData) return
+    if (!wellKnown) return
     
-    const blob = new Blob([JSON.stringify(wellKnownData.content, null, 2)], { 
-      type: 'application/json' 
+    const blob = new Blob([JSON.stringify(wellKnown.content, null, 2)], {
+      type: 'application/json'
     })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = wellKnownData.metadata.file
+    a.download = wellKnown.metadata.file
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
   }
 
-  const handleCopyToClipboard = async () => {
-    if (!wellKnownData) return
-    
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(wellKnownData.content, null, 2))
-      // Could add a toast notification here
-    } catch (err) {
-      console.error('Failed to copy to clipboard:', err)
-    }
-  }
-
-  const handleBackToExplorer = () => {
-    navigate('/schemas')
-  }
-
-  const extractDidConfigurationInfo = (content: any): { domain: string; did: string; validFrom: string } | null => {
-    if (content && content.entries && Array.isArray(content.entries) && content.entries.length > 0) {
-      const entry = content.entries[0]
-      return {
-        domain: entry.domain || 'Unknown',
-        did: entry.did || 'Unknown',
-        validFrom: entry.validFrom || 'Unknown'
-      }
-    }
-    return null
-  }
-
   if (loading) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
           <CircularProgress />
         </Box>
@@ -181,14 +160,14 @@ const WellKnownResolver: React.FC = () => {
 
   if (error) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
         <Button
-          variant="outlined"
           startIcon={<ArrowBackIcon />}
-          onClick={handleBackToExplorer}
+          onClick={() => navigate('/schemas')}
+          variant="outlined"
         >
           Back to Schema Explorer
         </Button>
@@ -196,161 +175,118 @@ const WellKnownResolver: React.FC = () => {
     )
   }
 
-  if (!wellKnownData) {
+  if (!wellKnown) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="warning">
-          No .well-known file data available
+          .well-known file not found
         </Alert>
       </Container>
     )
   }
 
-  const didInfo = extractDidConfigurationInfo(wellKnownData.content)
-
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       {/* Header */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 3 }}>
         <Button
-          variant="outlined"
           startIcon={<ArrowBackIcon />}
-          onClick={handleBackToExplorer}
-          sx={{ mb: 2, fontFamily: 'Thiccboi' }}
+          onClick={() => navigate('/schemas')}
+          variant="outlined"
+          sx={{ mb: 2 }}
         >
           Back to Schema Explorer
         </Button>
         
-        <Typography variant="h4" component="h1" gutterBottom fontWeight="bold" fontFamily="Thiccboi">
-          {wellKnownData.metadata.name}
-        </Typography>
+        <Box display="flex" alignItems="center" gap={2} mb={2}>
+          <SecurityIcon color="primary" />
+          <Typography variant="h4" component="h1">
+            {wellKnown.metadata.name}
+          </Typography>
+        </Box>
         
-        {wellKnownData.metadata.description && (
-          <Typography variant="body1" color="text.secondary" paragraph fontFamily="Thiccboi">
-            {wellKnownData.metadata.description}
+        {wellKnown.metadata.description && (
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+            {wellKnown.metadata.description}
           </Typography>
         )}
         
-        {/* DID Configuration Info */}
-        {didInfo && (
-          <Paper variant="outlined" sx={{ 
-            mb: 3,
-            p: 2,
-            bgcolor: theme.palette.background.paper,
-            borderColor: theme.palette.divider,
-          }}>
-            <Typography variant="h6" gutterBottom color="text.primary" fontFamily="Thiccboi">
-              DID Configuration Details
-            </Typography>
-            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-              <Chip 
-                label={`Domain: ${didInfo.domain}`} 
-                size="small" 
-                variant="outlined"
-                sx={{ fontFamily: 'Thiccboi' }}
-              />
-              <Chip 
-                label={`DID: ${didInfo.did}`} 
-                size="small" 
-                variant="outlined"
-                sx={{ fontFamily: 'Thiccboi' }}
-              />
-              <Chip 
-                label={`Valid From: ${didInfo.validFrom}`} 
-                size="small" 
-                variant="outlined"
-                sx={{ fontFamily: 'Thiccboi' }}
-              />
-            </Stack>
-          </Paper>
-        )}
-        
-        {/* Metadata chips */}
-        <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
+        <Stack direction="row" spacing={1} flexWrap="wrap">
           <Chip 
-            label={`File: ${wellKnownData.metadata.file}`} 
+            label={wellKnown.metadata.type === 'did-configuration' ? 'DID Configuration' : 'Well-Known Resource'} 
             size="small" 
-            variant="outlined"
-            sx={{ fontFamily: 'Thiccboi' }}
+            color={wellKnown.metadata.type === 'did-configuration' ? 'primary' : 'default'}
           />
-          <Chip 
-            label={wellKnownData.metadata.type.replace('-', ' ').toUpperCase()} 
-            size="small" 
-            color="primary"
-            sx={{ fontFamily: 'Thiccboi' }}
-          />
-          <Chip 
-            label="Well-Known Configuration" 
-            size="small" 
-            variant="outlined"
-            sx={{ fontFamily: 'Thiccboi' }}
-          />
+          <Chip label={wellKnown.metadata.file} size="small" variant="outlined" />
+          {wellKnown.metadata.type === 'did-configuration' && (
+            <Chip label="Domain Verification" size="small" color="success" />
+          )}
         </Stack>
-        
-        {/* Action buttons */}
-        <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+      </Box>
+
+      {/* Actions */}
+      <Box sx={{ mb: 3 }}>
+        <Stack direction="row" spacing={2}>
           <Button
-            variant="outlined"
-            startIcon={<SecurityIcon />}
-            href={wellKnownData.rawUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ fontFamily: 'Thiccboi' }}
-          >
-            View Source
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<CodeIcon />}
-            onClick={handleCopyToClipboard}
-            sx={{ fontFamily: 'Thiccboi' }}
-          >
-            Copy JSON
-          </Button>
-          <Button
-            variant="outlined"
             startIcon={<DownloadIcon />}
             onClick={handleDownload}
-            sx={{ fontFamily: 'Thiccboi' }}
+            variant="contained"
           >
-            Download
+            Download File
+          </Button>
+          <Button
+            startIcon={<CodeIcon />}
+            href={wellKnown.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="outlined"
+          >
+            View on GitHub
           </Button>
         </Stack>
       </Box>
 
-      {/* .well-known file content */}
-      <Paper 
-        variant="outlined" 
-        sx={{ 
-          borderRadius: 2,
-          overflow: 'hidden',
-          borderColor: theme.palette.divider,
-        }}
-      >
-        <Box sx={{ 
-          px: 2, py: 1.5, 
-          bgcolor: theme.palette.background.paper, 
-          borderBottom: 1, 
-          borderColor: theme.palette.divider,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
-        }}>
-          <SecurityIcon fontSize="small" color="primary" />
-          <Typography variant="subtitle2" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
-            {wellKnownData.metadata.type.replace('-', ' ').toUpperCase()} Configuration
+      {/* Content */}
+      <Paper sx={{ p: 0, overflow: 'hidden' }}>
+        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
+          <Typography variant="h6">
+            {wellKnown.metadata.type === 'did-configuration' ? 'DID Configuration' : 'Well-Known Resource'}
           </Typography>
         </Box>
-        
-        <Box sx={{ height: '600px', position: 'relative' }}>
-          <CodeEditor
-            value={JSON.stringify(wellKnownData.content, null, 2)}
-            language="json"
-            readonly
-            height="100%"
-            title={`${wellKnownData.metadata.name} Configuration`}
-          />
+        <CodeEditor
+          value={JSON.stringify(wellKnown.content, null, 2)}
+          language="json"
+          readonly
+          height="600px"
+        />
+      </Paper>
+
+      {/* Metadata */}
+      <Paper sx={{ mt: 3, p: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Resource Information
+        </Typography>
+        <Box>
+          <Typography variant="body2" color="text.secondary">
+            <strong>File Path:</strong> /.well-known/{wellKnown.metadata.file}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            <strong>Resource URL:</strong>{' '}
+            <a href={wellKnown.rawUrl} target="_blank" rel="noopener noreferrer">
+              {wellKnown.rawUrl}
+            </a>
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            <strong>Type:</strong> {wellKnown.metadata.type}
+          </Typography>
+          {wellKnown.metadata.type === 'did-configuration' && (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                <strong>Purpose:</strong> This DID Configuration enables domain verification for 
+                schemas.originvault.box, establishing trust between the domain and associated DIDs.
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Paper>
     </Container>

@@ -9,15 +9,13 @@ import {
   Alert,
   Button,
   Chip,
-  Stack,
-  useTheme
+  Stack
 } from '@mui/material'
 import {
   ArrowBack as ArrowBackIcon,
   GetApp as DownloadIcon,
   Code as CodeIcon,
-  Language as LanguageIcon,
-  GitHub as GitHubIcon
+  Language as LanguageIcon
 } from '@mui/icons-material'
 import CodeEditor from '../components/CodeEditor'
 
@@ -36,124 +34,82 @@ interface ContextData {
 const ContextResolver: React.FC = () => {
   const { contextPath } = useParams<{ contextPath: string }>()
   const navigate = useNavigate()
-  const theme = useTheme()
+  // const theme = useTheme()
   
-  const [contextData, setContextData] = useState<ContextData | null>(null)
+  const [context, setContext] = useState<ContextData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!contextPath) {
-      setError('No context path provided')
-      setLoading(false)
-      return
+    const loadContext = async () => {
+      if (!contextPath) {
+        setError('No context path provided')
+        setLoading(false)
+        return
+      }
+
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Decode the context path
+        const decodedPath = decodeURIComponent(contextPath)
+        
+        // Generate GitHub URLs
+        const githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/contexts/${decodedPath}`
+        const rawUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/contexts/${decodedPath}`
+        
+        // Fetch the context content
+        const response = await fetch(rawUrl)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch context: ${response.status} ${response.statusText}`)
+        }
+        
+        const content = await response.json()
+        
+        // Extract metadata from the context
+        const metadata = {
+          name: decodedPath.split('/').pop()?.replace('.jsonld', '') || 'Unknown',
+          file: decodedPath,
+          description: content.description,
+          '@context': content['@context']
+        }
+        
+        setContext({
+          content,
+          metadata,
+          githubUrl,
+          rawUrl
+        })
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load context')
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadContext()
   }, [contextPath])
 
-  const loadContext = async () => {
-    try {
-      setLoading(true)
-      setError(null)
-
-      // Decode the context path (it might be URL encoded)
-      const decodedPath = decodeURIComponent(contextPath!)
-      
-      // Load the context content from GitHub
-      const response = await fetch(`https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/contexts/${decodedPath}`)
-      
-      if (!response.ok) {
-        throw new Error(`Failed to load context file: ${response.statusText}`)
-      }
-      
-      const content = await response.json()
-      
-      // Construct GitHub URLs
-      const githubUrl = `https://github.com/OriginVault/originvault-schema-registry/blob/main/contexts/${decodedPath}`
-      const rawUrl = `https://raw.githubusercontent.com/OriginVault/originvault-schema-registry/main/contexts/${decodedPath}`
-      
-      // Extract metadata from the context
-      const metadata = {
-        name: content.title || content.name || decodedPath.split('/').pop() || 'Unknown Context',
-        file: decodedPath,
-        description: content.description,
-        '@context': content['@context']
-      }
-
-      setContextData({
-        content,
-        metadata,
-        githubUrl,
-        rawUrl
-      })
-    } catch (err) {
-      console.error('Error loading context:', err)
-      setError(`Failed to load context: ${(err as Error).message}`)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleDownload = () => {
-    if (!contextData) return
+    if (!context) return
     
-    const blob = new Blob([JSON.stringify(contextData.content, null, 2)], { 
-      type: 'application/json' 
+    const blob = new Blob([JSON.stringify(context.content, null, 2)], {
+      type: 'application/ld+json'
     })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${contextData.metadata.name}.jsonld`
+    a.download = context.metadata.file
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
   }
 
-  const handleCopyToClipboard = async () => {
-    if (!contextData) return
-    
-    try {
-      await navigator.clipboard.writeText(JSON.stringify(contextData.content, null, 2))
-      // Could add a toast notification here
-    } catch (err) {
-      console.error('Failed to copy to clipboard:', err)
-    }
-  }
-
-  const handleBackToExplorer = () => {
-    navigate('/schemas')
-  }
-
-  const extractContextTerms = (context: any): string[] => {
-    if (!context || typeof context !== 'object') return []
-    
-    const terms: string[] = []
-    
-    // Handle different context formats
-    if (Array.isArray(context)) {
-      // Array format: ["term1", "term2"]
-      context.forEach(term => {
-        if (typeof term === 'string') {
-          terms.push(term)
-        }
-      })
-    } else {
-      // Object format: { "term1": "uri1", "term2": "uri2" }
-      Object.keys(context).forEach(term => {
-        if (term !== '@context' && term !== '@vocab') {
-          terms.push(term)
-        }
-      })
-    }
-    
-    return terms
-  }
-
   if (loading) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
           <CircularProgress />
         </Box>
@@ -163,14 +119,14 @@ const ContextResolver: React.FC = () => {
 
   if (error) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="error" sx={{ mb: 2 }}>
           {error}
         </Alert>
         <Button
-          variant="outlined"
           startIcon={<ArrowBackIcon />}
-          onClick={handleBackToExplorer}
+          onClick={() => navigate('/schemas')}
+          variant="outlined"
         >
           Back to Schema Explorer
         </Button>
@@ -178,179 +134,103 @@ const ContextResolver: React.FC = () => {
     )
   }
 
-  if (!contextData) {
+  if (!context) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="warning">
-          No context data available
+          Context not found
         </Alert>
       </Container>
     )
   }
 
-  const contextTerms = extractContextTerms(contextData.metadata['@context'])
-
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       {/* Header */}
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 3 }}>
         <Button
-          variant="outlined"
           startIcon={<ArrowBackIcon />}
-          onClick={handleBackToExplorer}
-          sx={{ mb: 2, fontFamily: 'Thiccboi' }}
+          onClick={() => navigate('/schemas')}
+          variant="outlined"
+          sx={{ mb: 2 }}
         >
           Back to Schema Explorer
         </Button>
         
-        <Typography variant="h4" component="h1" gutterBottom fontWeight="bold" fontFamily="Thiccboi">
-          {contextData.metadata.name}
-        </Typography>
+        <Box display="flex" alignItems="center" gap={2} mb={2}>
+          <LanguageIcon color="primary" />
+          <Typography variant="h4" component="h1">
+            {context.metadata.name}
+          </Typography>
+        </Box>
         
-        {contextData.metadata.description && (
-          <Typography variant="body1" color="text.secondary" paragraph fontFamily="Thiccboi">
-            {contextData.metadata.description}
+        {context.metadata.description && (
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+            {context.metadata.description}
           </Typography>
         )}
         
-        {/* Metadata chips */}
-        <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
-          <Chip 
-            label={`File: ${contextData.metadata.file}`} 
-            size="small" 
-            variant="outlined"
-            sx={{ fontFamily: 'Thiccboi' }}
-          />
-          {contextTerms.length > 0 && (
-            <Chip 
-              label={`${contextTerms.length} Terms`} 
-              size="small" 
-              color="primary"
-              sx={{ fontFamily: 'Thiccboi' }}
-            />
-          )}
-          <Chip 
-            label="JSON-LD Context" 
-            size="small" 
-            variant="outlined"
-            sx={{ fontFamily: 'Thiccboi' }}
-          />
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          <Chip label="JSON-LD Context" size="small" />
+          <Chip label={context.metadata.file} size="small" variant="outlined" />
         </Stack>
-        
-        {/* Action buttons */}
-        <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
+      </Box>
+
+      {/* Actions */}
+      <Box sx={{ mb: 3 }}>
+        <Stack direction="row" spacing={2}>
           <Button
-            variant="outlined"
-            startIcon={<GitHubIcon />}
-            href={contextData.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{ fontFamily: 'Thiccboi' }}
-          >
-            View on GitHub
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<CodeIcon />}
-            onClick={handleCopyToClipboard}
-            sx={{ fontFamily: 'Thiccboi' }}
-          >
-            Copy JSON
-          </Button>
-          <Button
-            variant="outlined"
             startIcon={<DownloadIcon />}
             onClick={handleDownload}
-            sx={{ fontFamily: 'Thiccboi' }}
+            variant="contained"
           >
-            Download
+            Download Context
+          </Button>
+          <Button
+            startIcon={<CodeIcon />}
+            href={context.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="outlined"
+          >
+            View on GitHub
           </Button>
         </Stack>
       </Box>
 
-      {/* Context terms preview */}
-      {contextTerms.length > 0 && (
-        <Paper 
-          variant="outlined" 
-          sx={{ 
-            mb: 3,
-            borderRadius: 2,
-            borderColor: theme.palette.divider,
-          }}
-        >
-          <Box sx={{ 
-            px: 2, py: 1.5, 
-            bgcolor: theme.palette.background.paper, 
-            borderBottom: 1, 
-            borderColor: theme.palette.divider,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
-          }}>
-            <LanguageIcon fontSize="small" color="primary" />
-            <Typography variant="subtitle2" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
-              Context Terms ({contextTerms.length})
-            </Typography>
-          </Box>
-          
-          <Box sx={{ p: 2 }}>
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-              {contextTerms.slice(0, 20).map((term, index) => (
-                <Chip
-                  key={index}
-                  label={term}
-                  size="small"
-                  variant="outlined"
-                  sx={{ fontFamily: 'Thiccboi' }}
-                />
-              ))}
-              {contextTerms.length > 20 && (
-                <Chip
-                  label={`+${contextTerms.length - 20} more`}
-                  size="small"
-                  variant="outlined"
-                  sx={{ fontFamily: 'Thiccboi' }}
-                />
-              )}
-            </Stack>
-          </Box>
-        </Paper>
-      )}
-
-      {/* Context content */}
-      <Paper 
-        variant="outlined" 
-        sx={{ 
-          borderRadius: 2,
-          overflow: 'hidden',
-          borderColor: theme.palette.divider,
-        }}
-      >
-        <Box sx={{ 
-          px: 2, py: 1.5, 
-          bgcolor: theme.palette.background.paper, 
-          borderBottom: 1, 
-          borderColor: theme.palette.divider,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
-        }}>
-          <LanguageIcon fontSize="small" color="primary" />
-          <Typography variant="subtitle2" fontWeight="medium" color="text.primary" fontFamily="Thiccboi">
-            JSON-LD Context Definition
-          </Typography>
+      {/* Context Content */}
+      <Paper sx={{ p: 0, overflow: 'hidden' }}>
+        <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
+          <Typography variant="h6">Context Definition</Typography>
         </Box>
-        
-        <Box sx={{ height: '600px', position: 'relative' }}>
-          <CodeEditor
-            value={JSON.stringify(contextData.content, null, 2)}
-            language="json"
-            readonly
-            height="100%"
-            title={`${contextData.metadata.name} Context`}
-          />
+        <CodeEditor
+          value={JSON.stringify(context.content, null, 2)}
+          language="json"
+          readonly
+          height="600px"
+        />
+      </Paper>
+
+      {/* Metadata */}
+      <Paper sx={{ mt: 3, p: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Context Metadata
+        </Typography>
+        <Box>
+          <Typography variant="body2" color="text.secondary">
+            <strong>File Path:</strong> {context.metadata.file}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            <strong>Raw URL:</strong>{' '}
+            <a href={context.rawUrl} target="_blank" rel="noopener noreferrer">
+              {context.rawUrl}
+            </a>
+          </Typography>
+          {context.metadata['@context'] && (
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              <strong>Context Type:</strong> {typeof context.metadata['@context']}
+            </Typography>
+          )}
         </Box>
       </Paper>
     </Container>
