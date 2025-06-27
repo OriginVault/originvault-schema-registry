@@ -164,31 +164,86 @@ const SchemaExplorer: React.FC = () => {
         const schemasArray: Schema[] = []
         const categoriesArray: { id: string; name: string; description: string; count: number }[] = []
         
-        for (const [categoryId, category] of Object.entries(registry.categories)) {
+        // Validate that registry exists
+        if (!registry) {
+          throw new Error('Invalid schema registry: missing registry data')
+        }
+        
+        // Handle both old categories structure and new flat schemas array
+        if (registry.categories && typeof registry.categories === 'object') {
+          // Process old categories structure
+          for (const [categoryId, category] of Object.entries(registry.categories)) {
+            // Validate category structure
+            if (!category || typeof category !== 'object' || !Array.isArray(category.schemas)) {
+              console.warn(`Invalid category structure for ${categoryId}:`, category)
+              continue
+            }
+            
+            categoriesArray.push({
+              id: categoryId,
+              name: category.name || categoryId,
+              description: category.description || '',
+              count: category.schemas.length
+            })
+            
+            for (const schema of category.schemas) {
+              // Validate schema structure
+              if (!schema || typeof schema !== 'object' || !schema.name) {
+                console.warn(`Invalid schema structure in category ${categoryId}:`, schema)
+                continue
+              }
+              
+              schemasArray.push({
+                id: schema.name,
+                title: schema.name,
+                description: schema.description || '',
+                category: categoryId,
+                content: null,
+                metadata: schema,
+                examples: schema.example ? [schema.example] : []
+              })
+            }
+          }
+        } else if (registry.schemas && Array.isArray(registry.schemas)) {
+          // Process new flat schemas array structure
+          // Create a default category for all schemas
           categoriesArray.push({
-            id: categoryId,
-            name: category.name,
-            description: category.description,
-            count: category.schemas.length
+            id: 'all',
+            name: 'All Schemas',
+            description: 'All available OriginVault schemas',
+            count: registry.schemas.length
           })
           
-          for (const schema of category.schemas) {
+          for (const schema of registry.schemas) {
+            // Validate schema structure
+            if (!schema || typeof schema !== 'object' || !schema.name) {
+              console.warn(`Invalid schema structure:`, schema)
+              continue
+            }
+            
             schemasArray.push({
               id: schema.name,
               title: schema.name,
-              description: schema.description,
-              category: categoryId,
+              description: schema.description || '',
+              category: 'all',
               content: null,
               metadata: schema,
               examples: schema.example ? [schema.example] : []
             })
           }
+        } else {
+          throw new Error('Invalid schema registry: missing both categories and schemas arrays')
         }
         
         setSchemas(schemasArray)
         setFilteredSchemas(schemasArray)
         setCategories(categoriesArray)
         setLanguages(schemaService.getLanguages())
+        
+        // If using flat structure, set default category to 'all'
+        if (registry.schemas && Array.isArray(registry.schemas) && !registry.categories) {
+          setSelectedCategory('all')
+        }
         
         // Initialize from URL after schemas are loaded
         initializeFromURL(schemasArray)

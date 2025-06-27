@@ -19,9 +19,10 @@ export interface SchemaRegistry {
   version: string
   lastUpdated: string
   totalSchemas: number
-  categories: {
+  categories?: {
     [key: string]: SchemaCategory
   }
+  schemas?: SchemaMetadata[]
 }
 
 export interface Schema {
@@ -75,7 +76,14 @@ class SchemaService {
       if (response.ok) {
         const registry = await response.json()
         console.log('Loaded schema registry from GitHub:', registry)
-        return registry
+        
+        // Validate the registry structure
+        if (this.isValidSchemaRegistry(registry)) {
+          return registry
+        } else {
+          console.warn('Invalid schema registry structure from GitHub, using fallback registry')
+          return this.getActualRegistry()
+        }
       } else {
         console.warn('Failed to load from GitHub, using fallback registry')
         return this.getActualRegistry()
@@ -85,6 +93,20 @@ class SchemaService {
       console.log('Using fallback registry')
       return this.getActualRegistry()
     }
+  }
+
+  private isValidSchemaRegistry(registry: any): registry is SchemaRegistry {
+    return registry && 
+           typeof registry === 'object' &&
+           typeof registry.version === 'string' &&
+           typeof registry.lastUpdated === 'string' &&
+           typeof registry.totalSchemas === 'number' &&
+           (
+             // Either has categories structure
+             (registry.categories && typeof registry.categories === 'object' && !Array.isArray(registry.categories)) ||
+             // Or has schemas array
+             (registry.schemas && Array.isArray(registry.schemas))
+           )
   }
 
   async loadSchemaFile(filePath: string): Promise<any> {
@@ -710,7 +732,7 @@ pub struct ${schema.title.replace(/\s+/g, '')} {
   }
 
   getCategories(): { id: string; name: string; description: string; count: number }[] {
-    if (!this.schemaRegistry) {
+    if (!this.schemaRegistry || !this.schemaRegistry.categories) {
       return []
     }
 
