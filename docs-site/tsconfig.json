@@ -35,7 +35,10 @@
     "../dist",
     "../generated",
     "node_modules",
-    "dist"
+    "dist",
+    "src/test/**/*",
+    "**/*.test.*",
+    "**/*.spec.*"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 } 

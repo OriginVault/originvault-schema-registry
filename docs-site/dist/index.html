@@ -74,6 +74,30 @@ MMMMMMMMMMMMMMMMMMMMMMMMM      MM        IIIIIIIIII  KKKKKKIKKKKIKKIKIKKK IIIIII
                                              Copyrighted 2025 by OriginVault, LLC. 
   -->
 <head>
+  <script>self["MonacoEnvironment"] = (function (paths) {
+          return {
+            globalAPI: false,
+            getWorkerUrl : function (moduleId, label) {
+              var result =  paths[label];
+              if (/^((http:)|(https:)|(file:)|(\/\/))/.test(result)) {
+                var currentUrl = String(window.location);
+                var currentOrigin = currentUrl.substr(0, currentUrl.length - window.location.hash.length - window.location.search.length - window.location.pathname.length);
+                if (result.substring(0, currentOrigin.length) !== currentOrigin) {
+                  var js = '/*' + label + '*/importScripts("' + result + '");';
+                  var blob = new Blob([js], { type: 'application/javascript' });
+                  return URL.createObjectURL(blob);
+                }
+              }
+              return result;
+            }
+          };
+        })({
+  "editorWorkerService": "/monacoeditorwork/editor.worker.bundle.js",
+  "typescript": "/monacoeditorwork/ts.worker.bundle.js",
+  "json": "/monacoeditorwork/json.worker.bundle.js",
+  "javascript": "/monacoeditorwork/ts.worker.bundle.js"
+});</script>
+
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -301,15 +325,19 @@ MMMMMMMMMMMMMMMMMMMMMMMMM      MM        IIIIIIIIII  KKKKKKIKKKKIKKIKIKKK IIIIII
   <meta name="plausible-domain" content="schemas.originvault.box" />
   
   <!-- Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'none'; object-src 'none';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'none'; object-src 'none';" />
   
   <!-- Feature Policy -->
   <meta http-equiv="Feature-Policy" content="camera 'none'; microphone 'none'; geolocation 'none'; payment 'none'; usb 'none'; magnetometer 'none'; gyroscope 'none'; accelerometer 'none';" />
   
   <!-- Permissions Policy -->
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()" />
-  <script type="module" crossorigin src="/assets/main-dIbjDV7t.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-CBzsMrhO.css">
+  <script type="module" crossorigin src="/assets/index-CpSqI6EE.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor-BzcaoGRV.js">
+  <link rel="modulepreload" crossorigin href="/assets/ui-CublPADG.js">
+  <link rel="modulepreload" crossorigin href="/assets/monaco-BPFuUjkh.js">
+  <link rel="stylesheet" crossorigin href="/assets/monaco-Bwtp0z3V.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-CJT8isRz.css">
 </head>
 <body>
   <div id="root"></div>

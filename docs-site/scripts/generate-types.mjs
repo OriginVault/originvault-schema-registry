@@ -19,7 +19,7 @@ async function generateTypes() {
     console.log('🚀 Generating TypeScript types from OriginVaultRootAuthority schema...');
     
     // Read the schema file
-    const schemaPath = path.resolve(__dirname, '../../schemas/v1/identity/OriginVaultRootAuthority.schema.json');
+    const schemaPath = path.resolve(__dirname, '../../schemas/v1/OriginVaultRootAuthority.schema.json');
     const schemaContent = fs.readFileSync(schemaPath, 'utf-8');
     const schema = JSON.parse(schemaContent);
     

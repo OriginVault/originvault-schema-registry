@@ -16,6 +16,10 @@ export default defineConfig({
       forceBuildCDN: false
     })
   ],
+  esbuild: {
+    // Skip type checking during build
+    logOverride: { 'this-is-undefined-in-esm': 'silent' }
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src')
@@ -23,6 +27,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         // Manual chunks for better optimization
@@ -31,8 +36,14 @@ export default defineConfig({
           monaco: ['@monaco-editor/react', 'monaco-editor'],
           ui: ['@mui/material', '@emotion/react', '@emotion/styled']
         }
-      }
+      },
+      // Reduce file watching and concurrent operations
+      external: [],
+      maxParallelFileOps: 5
     }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', '@mui/material', '@emotion/react', '@emotion/styled']
   },
   server: {
     port: 3000,

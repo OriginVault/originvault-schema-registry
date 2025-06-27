@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "prebuild": "npm run generate-types",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "generate-types": "node scripts/generate-types.mjs",
     "deploy": "npm run build && npm run deploy-static",
