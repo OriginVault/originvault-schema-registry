@@ -3,7 +3,7 @@
  * Schema: https://schemas.originvault.box/v1/OriginVaultRootAuthority
  * 
  * DO NOT EDIT MANUALLY - this file is auto-generated
- * Generated on: 2025-06-27T15:47:37.673Z
+ * Generated on: 2025-06-27T22:22:22.372Z
  * 
  * To regenerate, run: npm run generate-types
  */
