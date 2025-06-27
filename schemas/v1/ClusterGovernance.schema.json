@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/ClusterGovernance.schema.json",
+  "title": "Cluster Governance Schema",
+  "description": "Defines governance rules for an OV Cluster.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the cluster governance document."
+    },
+    "cluster": {
+      "type": "string",
+      "description": "The DID of the cluster this governance applies to."
+    },
+    "nodeManagement": {
+      "type": "object",
+      "properties": {
+        "verificationMethod": {
+          "type": "string",
+          "enum": [
+            "Open",
+            "Permissioned",
+            "Staked"
+          ],
+          "description": "The method used to verify new nodes joining the cluster."
+        },
+        "removalPolicy": {
+          "type": "string",
+          "description": "Conditions under which nodes can be removed from the cluster."
+        }
+      },
+      "description": "Rules for adding and removing nodes in the cluster."
+    },
+    "serviceManagement": {
+      "type": "object",
+      "properties": {
+        "allowedServices": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of service types permitted in this cluster (e.g., Storage, Verification, Payment)."
+        },
+        "serviceVerification": {
+          "type": "string",
+          "description": "Reference to a DID-Linked Resource explaining service verification requirements."
+        }
+      },
+      "description": "Governance rules for services running in the cluster."
+    },
+    "securityPolicies": {
+      "type": "object",
+      "properties": {
+        "auditFrequency": {
+          "type": "string",
+          "enum": [
+            "Daily",
+            "Weekly",
+            "Monthly"
+          ],
+          "description": "How frequently the cluster undergoes audits."
+        },
+        "complianceChecks": {
+          "type": "string",
+          "description": "Reference to a DID-Linked Resource detailing compliance requirements."
+        }
+      },
+      "description": "Security and compliance policies for the cluster."
+    },
+    "governanceModel": {
+      "type": "string",
+      "enum": [
+        "AdminControlled",
+        "MultiSig",
+        "TokenVoting"
+      ],
+      "description": "The governance model used to manage this cluster."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this governance document was issued."
+    }
+  },
+  "required": [
+    "id",
+    "cluster",
+    "nodeManagement",
+    "serviceManagement",
+    "securityPolicies",
+    "timestamp"
+  ]
+}

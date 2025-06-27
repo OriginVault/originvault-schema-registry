@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/VaultUserAgreement.schema.json",
+  "title": "Vault User Agreement",
+  "description": "Defines the terms for users accessing content within a Vault.",
+  "type": "object",
+  "properties": {
+    "agreementId": {
+      "type": "string",
+      "description": "DID of the agreement."
+    },
+    "vaultId": {
+      "type": "string",
+      "description": "DID of the Vault being accessed."
+    },
+    "userId": {
+      "type": "string",
+      "description": "DID of the user."
+    },
+    "accessPermissions": {
+      "type": "object",
+      "properties": {
+        "read": {
+          "type": "boolean",
+          "description": "Whether the user can view content."
+        },
+        "write": {
+          "type": "boolean",
+          "description": "Whether the user can contribute content."
+        },
+        "purchase": {
+          "type": "boolean",
+          "description": "Whether the user can buy content."
+        }
+      }
+    },
+    "usageRestrictions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "No Redistribution",
+          "No AI Training",
+          "No Commercial Use"
+        ]
+      },
+      "description": "Restrictions on how the user can use the content."
+    },
+    "revocationPolicy": {
+      "type": "string",
+      "description": "Conditions under which access can be revoked."
+    },
+    "agreementSigned": {
+      "type": "boolean",
+      "description": "Whether the user has accepted the agreement."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time of agreement acceptance."
+    }
+  },
+  "required": [
+    "agreementId",
+    "vaultId",
+    "userId",
+    "accessPermissions",
+    "usageRestrictions",
+    "revocationPolicy",
+    "agreementSigned",
+    "timestamp"
+  ]
+}

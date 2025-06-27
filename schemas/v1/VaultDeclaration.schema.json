@@ -1,0 +1,363 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://w3id.org/security/multikey/v1",
+    "https://schemas.originvault.box/contexts/v1"
+  ],
+  "$id": "https://schemas.originvault.box/v1/VaultDeclaration.schema.json",
+  "title": "Vault DID Declaration",
+  "description": "Defines an OV Vault's ownership, governance, and access policies with multi-root trust and BFF integration support.",
+  "type": "object",
+  "examples": [
+    {
+      "@type": "VaultDeclaration",
+      "id": "did:cheqd:mainnet:vault:alice-content-studio",
+      "type": "VaultDID",
+      "owner": "did:cheqd:mainnet:alice-creator-001",
+      "cluster": "did:cheqd:mainnet:cluster:us-east-primary",
+      "storageNodes": [
+        "did:cheqd:mainnet:storage:node-001",
+        "did:cheqd:mainnet:storage:node-002"
+      ],
+      "rootType": "delegated",
+      "governanceModel": "hierarchical",
+      "delegationChain": [
+        "did:cheqd:mainnet:root-authority",
+        "did:cheqd:mainnet:cluster:us-east-primary"
+      ],
+      "trustChainContext": "https://schemas.originvault.box/trust/v1",
+      "metadata": {
+        "version": "1.0.0",
+        "schemaVersion": "2024-06-25",
+        "category": "vault-infrastructure"
+      },
+      "createdAt": "2024-06-25T10:30:00Z",
+      "updatedAt": "2024-06-25T10:30:00Z",
+      "blockchainSync": {
+        "lastSyncAt": "2024-06-25T10:30:00Z",
+        "txHash": "0x1a2b3c4d5e6f...",
+        "blockNumber": 123456
+      },
+      "accessPolicies": {
+        "readAccess": [
+          "did:cheqd:mainnet:alice-creator-001"
+        ],
+        "writeAccess": [
+          "did:cheqd:mainnet:alice-creator-001"
+        ],
+        "publicAccess": false
+      },
+      "governance": {
+        "governedBy": "did:cheqd:mainnet:alice-creator-001",
+        "disputeResolution": "did:cheqd:mainnet:dispute-service-001"
+      },
+      "timestamp": "2024-06-25T10:30:00Z"
+    }
+  ],
+  "properties": {
+    "@type": {
+      "type": "string",
+      "const": "VaultDeclaration",
+      "description": "JSON-LD type identifier for semantic interoperability.",
+      "examples": [
+        "VaultDeclaration"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "The DID of the vault.",
+      "examples": [
+        "did:cheqd:mainnet:vault:alice-content-studio"
+      ]
+    },
+    "type": {
+      "const": "VaultDID",
+      "description": "Indicates this is a Vault DID declaration.",
+      "examples": [
+        "VaultDID"
+      ]
+    },
+    "rootType": {
+      "type": "string",
+      "enum": [
+        "self-sovereign",
+        "delegated",
+        "federated",
+        "hybrid"
+      ],
+      "description": "Multi-root trust pattern: how this vault establishes its root of trust.",
+      "examples": [
+        "delegated"
+      ]
+    },
+    "governanceModel": {
+      "type": "string",
+      "enum": [
+        "hierarchical",
+        "democratic",
+        "consensus",
+        "autonomous"
+      ],
+      "description": "Multi-root trust pattern: governance model for trust decisions.",
+      "examples": [
+        "hierarchical"
+      ]
+    },
+    "delegationChain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+"
+      },
+      "minItems": 1,
+      "maxItems": 10,
+      "description": "Multi-root trust pattern: chain of authority delegation from root to this vault.",
+      "examples": [
+        [
+          "did:cheqd:mainnet:root-authority",
+          "did:cheqd:mainnet:cluster:us-east-primary"
+        ]
+      ]
+    },
+    "trustChainContext": {
+      "type": "string",
+      "format": "uri",
+      "description": "Multi-root trust pattern: URI to the trust chain context document.",
+      "examples": [
+        "https://schemas.originvault.box/trust/v1"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "BFF Integration: Schema version for API compatibility.",
+          "examples": [
+            "1.0.0"
+          ]
+        },
+        "schemaVersion": {
+          "type": "string",
+          "format": "date",
+          "description": "BFF Integration: Schema release date for version tracking.",
+          "examples": [
+            "2024-06-25"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "vault-infrastructure",
+            "vault-content",
+            "vault-governance"
+          ],
+          "description": "BFF Integration: Category for API routing and filtering.",
+          "examples": [
+            "vault-infrastructure"
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "schemaVersion",
+        "category"
+      ],
+      "description": "BFF Integration: Metadata for API integration and versioning.",
+      "additionalProperties": false
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "BFF Integration: Creation timestamp for audit trails.",
+      "examples": [
+        "2024-06-25T10:30:00Z"
+      ]
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "BFF Integration: Last update timestamp for change tracking.",
+      "examples": [
+        "2024-06-25T10:30:00Z"
+      ]
+    },
+    "blockchainSync": {
+      "type": "object",
+      "properties": {
+        "lastSyncAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last successful blockchain synchronization timestamp.",
+          "examples": [
+            "2024-06-25T10:30:00Z"
+          ]
+        },
+        "txHash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$",
+          "description": "Transaction hash of the last blockchain update.",
+          "examples": [
+            "0x1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890"
+          ]
+        },
+        "blockNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Block number of the last blockchain update.",
+          "examples": [
+            123456
+          ]
+        }
+      },
+      "required": [
+        "lastSyncAt",
+        "txHash",
+        "blockNumber"
+      ],
+      "description": "BFF Integration: Blockchain synchronization status for distributed systems.",
+      "additionalProperties": false
+    },
+    "owner": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "The DID of the user or organization that owns this vault.",
+      "examples": [
+        "did:cheqd:mainnet:alice-creator-001"
+      ]
+    },
+    "cluster": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "The DID of the OV cluster managing this vault.",
+      "examples": [
+        "did:cheqd:mainnet:cluster:us-east-primary"
+      ]
+    },
+    "storageNodes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+        "minLength": 10,
+        "maxLength": 200
+      },
+      "minItems": 1,
+      "maxItems": 100,
+      "description": "List of Storage Node DIDs storing this vault's data.",
+      "examples": [
+        [
+          "did:cheqd:mainnet:storage:node-001",
+          "did:cheqd:mainnet:storage:node-002"
+        ]
+      ]
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The DID of the linked resource."
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of resource (e.g., Metadata, AccessLog, ContentManifest)."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the linked resource."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the linked resource."
+          },
+          "uri": {
+            "type": "string",
+            "description": "The uri of the linked resource."
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "name",
+          "description",
+          "uri"
+        ]
+      },
+      "description": "References to vault metadata, manifests, and access logs."
+    },
+    "accessPolicies": {
+      "type": "object",
+      "properties": {
+        "readAccess": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of DIDs that can read from this vault."
+        },
+        "writeAccess": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of DIDs that can write to this vault."
+        },
+        "publicAccess": {
+          "type": "boolean",
+          "description": "Whether the vault is publicly accessible."
+        }
+      },
+      "description": "Defines who can access and modify the vault."
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "governedBy": {
+          "type": "string",
+          "description": "DID of the governance body managing vault policies (e.g., a DAO or admin)."
+        },
+        "disputeResolution": {
+          "type": "string",
+          "description": "DID reference to a dispute resolution service."
+        }
+      },
+      "description": "Governance and compliance policies for the vault."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this vault declaration was issued."
+    }
+  },
+  "required": [
+    "@type",
+    "id",
+    "type",
+    "owner",
+    "cluster",
+    "storageNodes",
+    "rootType",
+    "governanceModel",
+    "delegationChain",
+    "trustChainContext",
+    "metadata",
+    "createdAt",
+    "updatedAt",
+    "blockchainSync",
+    "timestamp"
+  ],
+  "additionalProperties": false
+}

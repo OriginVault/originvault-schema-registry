@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/NamespacePluginDeclaration.schema.json",
+  "title": "Namespace Plugin Declaration",
+  "description": "Declares a plugin registered under a namespace.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the namespace plugin."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The DID of the namespace that owns this plugin."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the plugin."
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic versioning (e.g., 1.0.0)."
+    },
+    "author": {
+      "type": "string",
+      "description": "DID of the entity or user who created the plugin."
+    },
+    "compatibleNodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "enum": [
+        "IdentityNode",
+        "StorageNode",
+        "ComputeNode",
+        "VerificationNode"
+      ],
+      "description": "The node types this plugin is designed to run on."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id of the linked resource."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the linked resource."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the linked resource."
+          },
+          "uri": {
+            "type": "string",
+            "description": "The uri of the linked resource."
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of resource (e.g., governance, metadata, event log)."
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "description": "References to plugin documentation, code, or policies."
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "approvedBy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of governance bodies or validators that approved the plugin."
+        },
+        "complianceRules": {
+          "type": "string",
+          "description": "Reference to compliance policies stored in Ceramic."
+        }
+      },
+      "description": "Governance and compliance information for the plugin."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "deprecated",
+        "revoked"
+      ],
+      "description": "Current status of the plugin."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this plugin declaration was issued."
+    }
+  },
+  "required": [
+    "id",
+    "namespace",
+    "name",
+    "version",
+    "author",
+    "compatibleNodes",
+    "status",
+    "timestamp"
+  ]
+}

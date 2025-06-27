@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/ExternalDataAccess.schema.json",
+  "title": "External Data Access",
+  "description": "Defines how external stakeholders can purchase access to data in Vault Chambers.",
+  "type": "object",
+  "properties": {
+    "chamberId": {
+      "type": "string",
+      "description": "DID of the Data Chamber."
+    },
+    "buyer": {
+      "type": "string",
+      "description": "DID of the external entity purchasing access."
+    },
+    "accessTerms": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "Price of access."
+        },
+        "licenseDuration": {
+          "type": "string",
+          "description": "How long the data is accessible."
+        },
+        "usageRestrictions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "No AI Training",
+              "No Redistribution",
+              "Limited Commercial Use"
+            ]
+          },
+          "description": "Restrictions on how the data can be used."
+        }
+      },
+      "description": "Defines access pricing and restrictions."
+    },
+    "paymentProof": {
+      "type": "string",
+      "description": "Verifiable Credential proving payment."
+    }
+  },
+  "required": [
+    "chamberId",
+    "buyer",
+    "accessTerms",
+    "paymentProof"
+  ]
+}

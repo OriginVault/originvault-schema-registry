@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/VaultAdminAgreement.schema.json",
+  "title": "Vault Administrator Agreement",
+  "description": "Defines the responsibilities and permissions of a Vault administrator.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": [
+        "License",
+        "CreativeWork"
+      ],
+      "description": "Schema.org type"
+    },
+    "agreementId": {
+      "type": "string",
+      "description": "DID of the agreement."
+    },
+    "vaultId": {
+      "type": "string",
+      "description": "DID of the Vault."
+    },
+    "adminId": {
+      "type": "string",
+      "description": "DID of the administrator."
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "manageTags": {
+          "type": "boolean",
+          "description": "Can the admin control tagging policies?"
+        },
+        "approvePlugins": {
+          "type": "boolean",
+          "description": "Can the admin approve plugin installations?"
+        },
+        "controlAccess": {
+          "type": "boolean",
+          "description": "Can the admin manage user access?"
+        }
+      }
+    },
+    "governanceRules": {
+      "type": "string",
+      "description": "Link to the governance framework this admin follows."
+    },
+    "revocationPolicy": {
+      "type": "string",
+      "description": "Under what conditions an admin's privileges can be revoked."
+    },
+    "agreementSigned": {
+      "type": "boolean",
+      "description": "Whether the admin has accepted the agreement."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time of agreement acceptance."
+    }
+  },
+  "required": [
+    "agreementId",
+    "vaultId",
+    "adminId",
+    "permissions",
+    "governanceRules",
+    "revocationPolicy",
+    "agreementSigned",
+    "timestamp"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/VaultChamberTagging.schema.json",
+  "title": "Vault Chamber Tagging",
+  "description": "Defines the tagging system within a Vault, including permissions, allowed tags, and Data Chambers.",
+  "type": "object",
+  "properties": {
+    "vaultId": {
+      "type": "string",
+      "description": "DID of the Vault."
+    },
+    "admin": {
+      "type": "string",
+      "description": "DID of the Vault administrator."
+    },
+    "allowedTags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "The supported tag."
+          },
+          "restricted": {
+            "type": "boolean",
+            "description": "Whether this tag requires admin approval."
+          },
+          "linkedChamber": {
+            "type": "string",
+            "description": "DID of a Data Chamber if this tag represents a data pool."
+          }
+        }
+      },
+      "description": "List of supported tags and their access control settings."
+    },
+    "userTaggingPermissions": {
+      "type": "object",
+      "properties": {
+        "allowUserTagging": {
+          "type": "boolean",
+          "description": "Whether users can add their own tags."
+        },
+        "moderationRequired": {
+          "type": "boolean",
+          "description": "Whether admin approval is required for new user tags."
+        }
+      },
+      "description": "Defines user permissions for tagging."
+    }
+  },
+  "required": [
+    "vaultId",
+    "admin",
+    "allowedTags",
+    "userTaggingPermissions"
+  ]
+}

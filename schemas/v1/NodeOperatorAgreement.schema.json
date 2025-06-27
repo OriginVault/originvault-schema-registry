@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/NodeOperatorAgreement.schema.json",
+  "title": "Node Operator Agreement",
+  "description": "Defines the responsibilities of an OV Node operator within a Cluster.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": [
+        "License",
+        "CreativeWork"
+      ],
+      "description": "Schema.org type"
+    },
+    "agreementId": {
+      "type": "string",
+      "description": "DID of the agreement."
+    },
+    "nodeId": {
+      "type": "string",
+      "description": "DID of the Node."
+    },
+    "clusterId": {
+      "type": "string",
+      "description": "DID of the Cluster the Node is part of."
+    },
+    "nodeType": {
+      "type": "string",
+      "enum": [
+        "Identity",
+        "Storage",
+        "Compute",
+        "Verification"
+      ],
+      "description": "The role of the Node within the Cluster."
+    },
+    "performanceRequirements": {
+      "type": "object",
+      "properties": {
+        "uptime": {
+          "type": "number",
+          "description": "Minimum required uptime percentage."
+        },
+        "latency": {
+          "type": "number",
+          "description": "Maximum response latency allowed."
+        }
+      }
+    },
+    "dataHandlingRules": {
+      "type": "string",
+      "description": "Compliance requirements for handling data within the node."
+    },
+    "revocationPolicy": {
+      "type": "string",
+      "description": "Conditions under which the node can be removed from the Cluster."
+    },
+    "agreementSigned": {
+      "type": "boolean",
+      "description": "Whether the Node Operator has accepted the agreement."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time of agreement acceptance."
+    }
+  },
+  "required": [
+    "agreementId",
+    "nodeId",
+    "clusterId",
+    "nodeType",
+    "performanceRequirements",
+    "dataHandlingRules",
+    "revocationPolicy",
+    "agreementSigned",
+    "timestamp"
+  ]
+}

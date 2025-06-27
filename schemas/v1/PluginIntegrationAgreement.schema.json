@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/PluginIntegrationAgreement.schema.json",
+  "title": "Plugin Integration Agreement",
+  "description": "Defines the permissions and restrictions for a plugin installed in a Vault.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": [
+        "License",
+        "CreativeWork"
+      ],
+      "description": "Schema.org type"
+    },
+    "agreementId": {
+      "type": "string",
+      "description": "DID of the agreement."
+    },
+    "pluginId": {
+      "type": "string",
+      "description": "DID of the installed plugin."
+    },
+    "vaultId": {
+      "type": "string",
+      "description": "DID of the Vault where the plugin is installed."
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "storageAccess": {
+          "type": "boolean",
+          "description": "Can the plugin access storage?"
+        },
+        "computeAccess": {
+          "type": "boolean",
+          "description": "Can the plugin perform computations?"
+        }
+      }
+    },
+    "revocationPolicy": {
+      "type": "string",
+      "description": "Conditions under which the plugin may be removed."
+    },
+    "agreementSigned": {
+      "type": "boolean",
+      "description": "Whether the plugin provider has accepted the agreement."
+    }
+  },
+  "required": [
+    "agreementId",
+    "pluginId",
+    "vaultId",
+    "permissions",
+    "revocationPolicy",
+    "agreementSigned"
+  ]
+}

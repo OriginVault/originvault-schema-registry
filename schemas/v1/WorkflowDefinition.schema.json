@@ -1,0 +1,358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/WorkflowDefinition.schema.json",
+  "title": "Workflow Definition",
+  "description": "Schema for defining business process workflows and orchestration logic",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "version",
+    "triggers",
+    "steps"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique workflow identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable workflow name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the workflow purpose"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of the workflow"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^did:",
+      "description": "DID of the namespace owning this workflow"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "onboarding",
+        "verification",
+        "compliance",
+        "payment",
+        "content_management",
+        "identity_management",
+        "governance",
+        "integration",
+        "automation"
+      ],
+      "description": "Workflow category"
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "webhook",
+              "schedule",
+              "event",
+              "manual",
+              "api_call",
+              "credential_issued",
+              "vault_created",
+              "user_registered"
+            ]
+          },
+          "configuration": {
+            "type": "object",
+            "properties": {
+              "schedule": {
+                "type": "string",
+                "description": "Cron expression for scheduled triggers"
+              },
+              "eventType": {
+                "type": "string",
+                "description": "Event type to listen for"
+              },
+              "webhook": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": ["GET", "POST", "PUT", "DELETE"]
+                  },
+                  "headers": {
+                    "type": "object"
+                  },
+                  "authentication": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["none", "basic", "bearer", "api_key", "oauth2"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "description": "Trigger conditions that start the workflow"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique step identifier within the workflow"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable step name"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "api_call",
+              "credential_issue",
+              "vault_operation",
+              "validation",
+              "decision",
+              "parallel",
+              "wait",
+              "notification",
+              "transformation",
+              "plugin_invoke"
+            ]
+          },
+          "configuration": {
+            "type": "object",
+            "description": "Step-specific configuration"
+          },
+          "inputs": {
+            "type": "object",
+            "description": "Input parameters for the step"
+          },
+          "outputs": {
+            "type": "object",
+            "description": "Output parameters from the step"
+          },
+          "conditions": {
+            "type": "object",
+            "properties": {
+              "when": {
+                "type": "string",
+                "description": "Condition expression for step execution"
+              },
+              "unless": {
+                "type": "string",
+                "description": "Condition expression to skip step execution"
+              }
+            }
+          },
+          "retry": {
+            "type": "object",
+            "properties": {
+              "maxAttempts": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              },
+              "backoff": {
+                "type": "string",
+                "enum": ["fixed", "exponential", "linear"]
+              },
+              "delay": {
+                "type": "integer",
+                "description": "Delay in seconds between retries"
+              }
+            }
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "Step timeout in seconds"
+          },
+          "onSuccess": {
+            "type": "string",
+            "description": "Next step ID to execute on success"
+          },
+          "onFailure": {
+            "type": "string",
+            "description": "Next step ID to execute on failure"
+          },
+          "parallel": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Step IDs to execute in parallel"
+          }
+        }
+      },
+      "description": "Ordered sequence of workflow steps"
+    },
+    "variables": {
+      "type": "object",
+      "properties": {
+        "global": {
+          "type": "object",
+          "description": "Global variables accessible to all steps"
+        },
+        "secrets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Secret keys required by the workflow"
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Required permissions to execute this workflow"
+        },
+        "vaults": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Vault DIDs this workflow can access"
+        },
+        "credentials": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Credential types this workflow can issue or verify"
+        }
+      }
+    },
+    "errorHandling": {
+      "type": "object",
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["fail_fast", "continue_on_error", "rollback"]
+        },
+        "rollbackSteps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Steps to execute during rollback"
+        },
+        "notifications": {
+          "type": "object",
+          "properties": {
+            "onError": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["email", "webhook", "slack", "teams"]
+                  },
+                  "target": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "monitoring": {
+      "type": "object",
+      "properties": {
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Metrics to collect during workflow execution"
+        },
+        "alerts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "condition": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "properties": {
+        "auditTrail": {
+          "type": "boolean",
+          "description": "Whether to maintain detailed audit trail"
+        },
+        "regulations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["GDPR", "CCPA", "HIPAA", "SOX", "ISO27001"]
+          },
+          "description": "Regulatory compliance requirements"
+        },
+        "dataClassification": {
+          "type": "string",
+          "enum": ["public", "internal", "confidential", "restricted"]
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author": {
+          "type": "string",
+          "pattern": "^did:"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+} 

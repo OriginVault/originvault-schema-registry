@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/ContentExtendedMetadata.schema.json",
+  "title": "Content Extended Metadata Assertion Credential",
+  "description": "Verifiable Credential containing metadata such as licensing and usage restrictions.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "The unique identifier for the credential."
+    },
+    "type": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The type of the credential, typically including 'VerifiableCredential'."
+    },
+    "issuer": {
+      "type": "object",
+      "description": "The entity that issued the credential.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "description": "The unique identifier for the issuer."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "@context": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The context of the credential."
+    },
+    "expirationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The expiration date of the credential."
+    },
+    "credentialSubject": {
+      "type": "object",
+      "properties": {
+        "contentReference": {
+          "type": "object",
+          "description": "References to the content’s integrity details.",
+          "properties": {
+            "identifier": {
+              "type": "string",
+              "description": "DID of the content being referenced."
+            },
+            "contentHash": {
+              "type": "string",
+              "description": "SHA-256 or IPFS CID hash of the content."
+            },
+            "perceptualHash": {
+              "type": "string",
+              "description": "Perceptual hash for similarity detection."
+            }
+          }
+        },
+        "tags": {
+          "type": "string",
+          "title": "Tags (Comma-Separated)"
+        },
+        "licensing": {
+          "type": "string",
+          "title": "License Type",
+          "enum": [
+            "All Rights Reserved",
+            "Creative Commons",
+            "Public Domain"
+          ]
+        },
+        "usageRestrictions": {
+          "type": "array",
+          "title": "Usage Restrictions",
+          "items": {
+            "type": "string",
+            "enum": [
+              "No AI Training",
+              "No Redistribution",
+              "No Commercial Use"
+            ]
+          }
+        }
+      },
+      "required": [
+        "contentReference",
+        "tags",
+        "licensing",
+        "usageRestrictions"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "issuer",
+    "credentialSubject",
+    "expirationDate"
+  ]
+}

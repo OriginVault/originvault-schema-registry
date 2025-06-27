@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/NamespaceReputationRecord.schema.json",
+  "title": "Namespace Reputation Record",
+  "description": "Verifiable record of an entity's reputation within a namespace, including trust scores and endorsements.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "DID of the Reputation Record."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "DID of the namespace issuing the reputation record."
+    },
+    "entity": {
+      "type": "string",
+      "description": "DID of the entity whose reputation is being recorded."
+    },
+    "trustScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Numerical representation of the entity’s reputation within the namespace."
+    },
+    "contributions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Nature of contribution (e.g., governance vote, data contribution, content verification)."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of contribution."
+          },
+          "verifiedBy": {
+            "type": "string",
+            "description": "DID of entity that verified this contribution."
+          }
+        },
+        "required": [
+          "type",
+          "date",
+          "verifiedBy"
+        ]
+      },
+      "description": "List of contributions made by the entity."
+    },
+    "endorsements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "DID of the entity giving the endorsement."
+          },
+          "message": {
+            "type": "string",
+            "description": "Optional endorsement message."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of endorsement."
+          }
+        },
+        "required": [
+          "from",
+          "date"
+        ]
+      },
+      "description": "Endorsements received from other trusted entities."
+    },
+    "proof": {
+      "type": "object",
+      "description": "Cryptographic proof for this reputation record.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Proof type (e.g., JSON-LD Signature, EdDSA Signature, zk-SNARK Proof)."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of proof creation."
+        },
+        "verificationMethod": {
+          "type": "string",
+          "description": "DID or method used to verify this proof."
+        },
+        "signatureValue": {
+          "type": "string",
+          "description": "Base64 or hex-encoded signature."
+        }
+      },
+      "required": [
+        "type",
+        "created",
+        "verificationMethod",
+        "signatureValue"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "namespace",
+    "entity",
+    "trustScore",
+    "contributions",
+    "endorsements",
+    "proof"
+  ]
+}

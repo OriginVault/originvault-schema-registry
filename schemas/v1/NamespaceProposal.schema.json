@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/NamespaceProposal.schema.json",
+  "title": "Namespace Proposal",
+  "description": "Defines a proposal for governance, updates, or policy changes in an OV namespace.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "DID of the proposal."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "DID of the namespace where the proposal is made."
+    },
+    "proposer": {
+      "type": "string",
+      "description": "DID of the entity making the proposal."
+    },
+    "proposalType": {
+      "type": "string",
+      "enum": [
+        "governance-change",
+        "policy-update",
+        "feature-addition",
+        "plugin-approval",
+        "other"
+      ],
+      "description": "Type of proposal."
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed explanation of the proposal."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "executed"
+      ],
+      "description": "Current status of the proposal."
+    },
+    "votes": {
+      "type": "object",
+      "properties": {
+        "yes": {
+          "type": "number",
+          "description": "Number of votes in favor."
+        },
+        "no": {
+          "type": "number",
+          "description": "Number of votes against."
+        },
+        "abstain": {
+          "type": "number",
+          "description": "Number of abstentions."
+        }
+      },
+      "description": "Voting results for the proposal."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the proposal was created."
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expiration date for voting on the proposal."
+    },
+    "proof": {
+      "type": "object",
+      "description": "Cryptographic proof for the proposal.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Proof type (e.g., EdDSA Signature, zk-SNARK Proof)."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of proof creation."
+        },
+        "verificationMethod": {
+          "type": "string",
+          "description": "DID or method used to verify this proof."
+        },
+        "signatureValue": {
+          "type": "string",
+          "description": "Base64 or hex-encoded signature."
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "namespace",
+    "proposer",
+    "proposalType",
+    "description",
+    "status",
+    "votes",
+    "createdAt",
+    "expiresAt",
+    "proof"
+  ]
+}

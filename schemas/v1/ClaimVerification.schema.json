@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://schema.org",
+    "https://schemas.originvault.box"
+  ],
+  "$id": "https://schemas.originvault.box/v1/ClaimVerification.schema.json",
+  "title": "Claim Verification",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "type": "string",
+      "description": "DID of the claim."
+    },
+    "interpretedAsClaim": {
+      "type": "string",
+      "description": "The assertion made by this content (e.g., 'This image was created by AI')."
+    },
+    "claimInterpreter": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "DID of the verifying entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the interpreter (e.g., OriginVault AI Trust Validator)."
+        }
+      }
+    }
+  },
+  "required": [
+    "identifier",
+    "interpretedAsClaim",
+    "claimInterpreter"
+  ],
+  "description": "Schema for Claim Verification"
+}

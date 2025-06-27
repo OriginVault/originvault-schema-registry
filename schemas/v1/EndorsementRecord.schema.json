@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://schemas.originvault.box/contexts/v1"
+  ],
+  "$id": "https://schemas.originvault.box/v1/EndorsementRecord.schema.json",
+  "title": "Endorsement Record",
+  "description": "Represents an endorsement given by one DID to another, contributing to trust scoring.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the endorsement record"
+    },
+    "endorserDid": {
+      "type": "string",
+      "description": "DID of the user giving the endorsement",
+      "pattern": "^did:"
+    },
+    "endorsedDid": {
+      "type": "string",
+      "description": "DID of the user receiving the endorsement",
+      "pattern": "^did:"
+    },
+    "credentialType": {
+      "type": "string",
+      "description": "Type of credential being endorsed"
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Weight/strength of the endorsement (0-10)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the endorsement was given"
+    },
+    "endorsementReason": {
+      "type": "string",
+      "description": "Reason for the endorsement"
+    },
+    "endorsementType": {
+      "type": "string",
+      "enum": [
+        "verification",
+        "governance",
+        "community",
+        "development",
+        "trust"
+      ],
+      "description": "Category of the endorsement"
+    },
+    "linkedGem": {
+      "type": "string",
+      "description": "Gem that qualifies the endorser to give this endorsement"
+    },
+    "linkedCredential": {
+      "type": "string",
+      "description": "DID-Linked Resource to a Verifiable Credential supporting the endorsement"
+    },
+    "blockchainSync": {
+      "type": "object",
+      "properties": {
+        "lastSynced": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last time endorsement was synced with blockchain"
+        },
+        "pendingChanges": {
+          "type": "boolean",
+          "description": "Whether there are local changes not yet pushed to blockchain"
+        },
+        "blockchainResourceId": {
+          "type": "string",
+          "description": "Resource ID on blockchain for this endorsement"
+        }
+      },
+      "description": "Blockchain synchronization status"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata for the endorsement"
+    }
+  },
+  "required": [
+    "id",
+    "endorserDid",
+    "endorsedDid",
+    "credentialType",
+    "weight",
+    "timestamp"
+  ]
+}

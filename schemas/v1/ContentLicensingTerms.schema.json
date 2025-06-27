@@ -1,0 +1,263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://schema.org",
+    "https://schemas.originvault.box"
+  ],
+  "$id": "https://schemas.originvault.box/v1/ContentLicensingTerms.schema.json",
+  "title": "Content Licensing Terms",
+  "description": "Defines licensing conditions and monetization models for digital content in OriginVault.",
+  "type": "object",
+  "properties": {
+    "@type": {
+      "type": "string",
+      "enum": [
+        "CreativeWork",
+        "MediaObject",
+        "DigitalDocument",
+        "SoftwareApplication",
+        "License",
+        "Agreement"
+      ],
+      "description": "Defines the type of digital asset or contract."
+    },
+    "identifier": {
+      "type": "string",
+      "description": "DID of the licensed content."
+    },
+    "creator": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "DID of the creator."
+        },
+        "name": {
+          "type": "string",
+          "description": "Creator name."
+        }
+      },
+      "required": [
+        "identifier"
+      ]
+    },
+    "acquireLicensePage": {
+      "type": "string",
+      "description": "URL where the license can be obtained (e.g., smart contract, marketplace link)."
+    },
+    "licenseType": {
+      "type": "string",
+      "enum": [
+        "Exclusive",
+        "Non-Exclusive",
+        "Time-Limited",
+        "One-Time Use"
+      ],
+      "description": "Defines if the license is shared or restricted."
+    },
+    "licenseScope": {
+      "type": "object",
+      "properties": {
+        "geographicRestrictions": {
+          "type": "string",
+          "enum": [
+            "Global",
+            "Region-Specific",
+            "Country-Specific"
+          ],
+          "description": "Where the licensee is permitted to use the content."
+        },
+        "modificationRights": {
+          "type": "boolean",
+          "description": "Whether the licensee can modify or adapt the content."
+        },
+        "sublicensingAllowed": {
+          "type": "boolean",
+          "description": "Whether the licensee can sublicense the content."
+        },
+        "duration": {
+          "type": "string",
+          "description": "License duration (e.g., perpetual, 1 year, until 2030)."
+        }
+      }
+    },
+    "usageInfo": {
+      "type": "string",
+      "description": "URL linking to license terms & permitted uses."
+    },
+    "permittedUses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Personal Use",
+          "Commercial Use",
+          "AI Training",
+          "Resale",
+          "Public Display"
+        ]
+      },
+      "description": "Defines permitted usage rights."
+    },
+    "prohibitedUses": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "No AI Training",
+          "No Redistribution",
+          "No Commercial Use"
+        ]
+      },
+      "description": "Explicitly states forbidden use cases."
+    },
+    "monetizationModel": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "description": "Price in USD or crypto equivalent."
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": [
+            "Stripe",
+            "Crypto",
+            "NFT"
+          ]
+        },
+        "recurringFee": {
+          "type": "boolean",
+          "description": "Whether ongoing payments are required."
+        },
+        "paymentSchedule": {
+          "type": "string",
+          "description": "Schedule for payments (one-time, monthly, annually)."
+        },
+        "royaltyTerms": {
+          "type": "object",
+          "properties": {
+            "royaltyPercentage": {
+              "type": "number",
+              "description": "Percentage paid to the creator."
+            },
+            "paymentSchedule": {
+              "type": "string",
+              "description": "Schedule for royalty payments."
+            },
+            "distributionMethod": {
+              "type": "string",
+              "enum": [
+                "Stripe Connect",
+                "Crypto Split",
+                "Manual Payout"
+              ],
+              "description": "How royalties are distributed."
+            }
+          }
+        }
+      },
+      "description": "Defines how the license is monetized."
+    },
+    "verification": {
+      "type": "object",
+      "properties": {
+        "complianceTracking": {
+          "type": "string",
+          "enum": [
+            "DID-Linked Resource",
+            "On-Chain Record",
+            "Verifiable Credential"
+          ],
+          "description": "Method used to track compliance with licensing terms."
+        },
+        "verificationAuthority": {
+          "type": "string",
+          "description": "DID of the entity responsible for verifying compliance."
+        },
+        "auditFrequency": {
+          "type": "string",
+          "description": "How often compliance checks are conducted (e.g., quarterly, annually)."
+        }
+      },
+      "description": "Defines how licensing compliance is tracked and enforced."
+    },
+    "verifiableCredential": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "URI to the VC."
+        },
+        "issuer": {
+          "type": "object",
+          "properties": {
+            "identifier": {
+              "type": "string",
+              "description": "DID of the issuer."
+            },
+            "name": {
+              "type": "string",
+              "description": "Issuer name."
+            }
+          }
+        }
+      }
+    },
+    "revocationPolicy": {
+      "type": "object",
+      "properties": {
+        "misuseConditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Conditions under which the license is revoked."
+        },
+        "nonPaymentPenalty": {
+          "type": "boolean",
+          "description": "Whether failure to pay results in automatic revocation."
+        }
+      }
+    },
+    "disputeResolution": {
+      "type": "object",
+      "properties": {
+        "arbitrationMethod": {
+          "type": "string",
+          "enum": [
+            "DAO Voting",
+            "Legal Arbitration",
+            "Multi-Sig Review"
+          ],
+          "description": "How disputes over the license are handled."
+        },
+        "appealProcess": {
+          "type": "string",
+          "description": "How a licensee can challenge revocation or penalty."
+        }
+      },
+      "description": "Defines mechanisms for resolving disputes related to the agreement."
+    },
+    "agreementSigned": {
+      "type": "boolean",
+      "description": "Whether both parties have accepted the agreement."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time of agreement acceptance."
+    }
+  },
+  "required": [
+    "identifier",
+    "creator",
+    "licenseType",
+    "licenseScope",
+    "permittedUses",
+    "monetizationModel",
+    "verification",
+    "agreementSigned",
+    "timestamp"
+  ]
+}

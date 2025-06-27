@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/GovernanceProposal.schema.json",
+  "title": "Governance Proposal Schema",
+  "description": "Defines a governance proposal for namespaces and clusters.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the proposal."
+    },
+    "proposer": {
+      "type": "string",
+      "description": "DID of the entity submitting the proposal."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "DID of the namespace affected (if applicable)."
+    },
+    "cluster": {
+      "type": "string",
+      "description": "DID of the cluster affected (if applicable)."
+    },
+    "proposalType": {
+      "type": "string",
+      "enum": [
+        "AddNode",
+        "RemoveNode",
+        "UpdateGovernance",
+        "MonetizationPolicyChange"
+      ],
+      "description": "Type of governance action requested."
+    },
+    "details": {
+      "type": "string",
+      "description": "A description of the proposal, including motivations and expected impact."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "References to supporting documents or governance rules."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pending",
+        "Active",
+        "Accepted",
+        "Rejected",
+        "Executed"
+      ],
+      "description": "Current status of the proposal."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of proposal submission."
+    }
+  },
+  "required": [
+    "id",
+    "proposer",
+    "proposalType",
+    "details",
+    "status",
+    "timestamp"
+  ]
+}

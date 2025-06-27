@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/GemReputationScore.schema.json",
+  "title": "Gem Reputation Score",
+  "description": "Defines how a recipient's reputation is influenced by their Gems.",
+  "type": "object",
+  "properties": {
+    "recipient": {
+      "type": "string",
+      "description": "DID of the user holding the Gem."
+    },
+    "gemType": {
+      "type": "string",
+      "description": "The category of the Gem."
+    },
+    "reputationScore": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Numerical reputation score associated with the Gem."
+    },
+    "scoreLastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date when the reputation score was last updated."
+    },
+    "linkedCredentials": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of associated Verifiable Credentials that contribute to this reputation score."
+    }
+  },
+  "required": [
+    "recipient",
+    "gemType",
+    "reputationScore",
+    "scoreLastUpdated",
+    "linkedCredentials"
+  ]
+}

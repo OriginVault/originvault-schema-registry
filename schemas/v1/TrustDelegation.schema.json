@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/TrustDelegation.schema.json",
+  "title": "Trust Delegation",
+  "description": "Allows trusted users to endorse others, strengthening the trust economy.",
+  "type": "object",
+  "properties": {
+    "endorser": {
+      "type": "string",
+      "description": "DID of the user endorsing another user."
+    },
+    "recipient": {
+      "type": "string",
+      "description": "DID of the endorsed user."
+    },
+    "endorsementReason": {
+      "type": "string",
+      "description": "Why the user is being endorsed."
+    },
+    "endorsementType": {
+      "type": "string",
+      "enum": [
+        "verification",
+        "governance",
+        "community",
+        "development"
+      ],
+      "description": "Category of the endorsement."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time when the endorsement was given."
+    },
+    "linkedGem": {
+      "type": "string",
+      "description": "The Gem that qualifies the endorser to give this endorsement."
+    },
+    "linkedCredential": {
+      "type": "string",
+      "description": "DID-Linked Resource to a Verifiable Credential supporting the endorsement."
+    }
+  },
+  "required": [
+    "endorser",
+    "recipient",
+    "endorsementReason",
+    "endorsementType",
+    "timestamp",
+    "linkedGem",
+    "linkedCredential"
+  ]
+}

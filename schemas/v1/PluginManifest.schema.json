@@ -1,0 +1,372 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/PluginManifest.schema.json",
+  "title": "Plugin Manifest",
+  "description": "Manifest schema defining plugin metadata, capabilities, and integration requirements",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "apiVersion",
+    "kind",
+    "metadata",
+    "spec"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Plugin name in kebab-case format"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[a-zA-Z0-9]+)?$",
+      "description": "Semantic version of the plugin"
+    },
+    "apiVersion": {
+      "type": "string",
+      "enum": ["v1", "v2"],
+      "description": "OriginVault Plugin API version"
+    },
+    "kind": {
+      "type": "string",
+      "const": "Plugin",
+      "description": "Resource kind identifier"
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "title",
+        "description",
+        "author",
+        "license"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable plugin title"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of plugin functionality"
+        },
+        "author": {
+          "type": "object",
+          "required": ["name"],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "did": {
+              "type": "string",
+              "pattern": "^did:"
+            }
+          }
+        },
+        "license": {
+          "type": "string",
+          "description": "SPDX license identifier"
+        },
+        "homepage": {
+          "type": "string",
+          "format": "uri"
+        },
+        "repository": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["git", "svn", "mercurial"]
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tags for plugin categorization"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "content",
+            "authentication",
+            "storage",
+            "analytics",
+            "ai-ml",
+            "workflow",
+            "integration",
+            "security",
+            "monitoring",
+            "development"
+          ]
+        },
+        "icon": {
+          "type": "string",
+          "format": "uri",
+          "description": "Plugin icon URL"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "required": [
+        "entrypoint",
+        "runtime",
+        "permissions"
+      ],
+      "properties": {
+        "entrypoint": {
+          "type": "string",
+          "description": "Main execution file or endpoint"
+        },
+        "runtime": {
+          "type": "object",
+          "required": ["type", "version"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["javascript", "python", "go", "rust", "webassembly", "docker"]
+            },
+            "version": {
+              "type": "string",
+              "description": "Runtime version requirement"
+            },
+            "platform": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["linux", "windows", "macos", "browser"]
+              }
+            }
+          }
+        },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "vault": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "read",
+                  "write",
+                  "admin",
+                  "chamber.read",
+                  "chamber.write",
+                  "metadata.read",
+                  "metadata.write"
+                ]
+              }
+            },
+            "network": {
+              "type": "object",
+              "properties": {
+                "outbound": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                },
+                "inbound": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "filesystem": {
+              "type": "object",
+              "properties": {
+                "read": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "write": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "api": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required API endpoints"
+            }
+          }
+        },
+        "dependencies": {
+          "type": "object",
+          "properties": {
+            "plugins": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["name", "version"],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  },
+                  "optional": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "external": {
+              "type": "object",
+              "properties": {
+                "services": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "endpoint": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "required": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "schema": {
+              "type": "object",
+              "description": "JSON Schema for plugin configuration"
+            },
+            "ui": {
+              "type": "object",
+              "description": "UI generation schema for configuration"
+            }
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "properties": {
+            "install": {
+              "type": "string",
+              "description": "Installation script or command"
+            },
+            "uninstall": {
+              "type": "string",
+              "description": "Uninstallation script or command"
+            },
+            "start": {
+              "type": "string",
+              "description": "Start command"
+            },
+            "stop": {
+              "type": "string",
+              "description": "Stop command"
+            },
+            "healthcheck": {
+              "type": "string",
+              "description": "Health check endpoint or command"
+            }
+          }
+        },
+        "resources": {
+          "type": "object",
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "description": "CPU requirement (e.g., '100m', '1')"
+            },
+            "memory": {
+              "type": "string",
+              "description": "Memory requirement (e.g., '128Mi', '1Gi')"
+            },
+            "storage": {
+              "type": "string",
+              "description": "Storage requirement"
+            }
+          }
+        },
+        "security": {
+          "type": "object",
+          "properties": {
+            "sandbox": {
+              "type": "boolean",
+              "description": "Whether plugin runs in sandbox"
+            },
+            "signatures": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "algorithm": {
+                    "type": "string"
+                  },
+                  "signature": {
+                    "type": "string"
+                  },
+                  "publicKey": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "description": "Whether plugin has been verified"
+        },
+        "verifiedBy": {
+          "type": "string",
+          "pattern": "^did:",
+          "description": "DID of verifying authority"
+        },
+        "marketplaceApproved": {
+          "type": "boolean"
+        },
+        "downloads": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        }
+      }
+    }
+  }
+} 

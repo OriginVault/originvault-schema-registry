@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://schema.org",
+    "https://schemas.originvault.box"
+  ],
+  "$id": "https://schemas.originvault.box/v1/ContentLegalAccountability.schema.json",
+  "title": "Content Legal Accountability",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "type": "string",
+      "description": "DID of the content."
+    },
+    "accountablePerson": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "DID of the responsible entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the accountable entity."
+        }
+      }
+    },
+    "publisher": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "DID of the publisher."
+        },
+        "name": {
+          "type": "string",
+          "description": "Publisher name."
+        }
+      }
+    },
+    "legalJurisdiction": {
+      "type": "string",
+      "description": "Defines which legal system applies to the content."
+    },
+    "disputeResolution": {
+      "type": "string",
+      "description": "URL or DID for dispute resolution policies."
+    }
+  },
+  "required": [
+    "identifier",
+    "accountablePerson",
+    "legalJurisdiction"
+  ],
+  "description": "Schema for Content Legal Accountability"
+}

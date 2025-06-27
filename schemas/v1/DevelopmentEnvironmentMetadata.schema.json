@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/DevelopmentEnvironmentMetadata.schema.json",
+  "title": "Development Environment Metadata",
+  "type": "object",
+  "properties": {
+    "environment": {
+      "type": "string",
+      "description": "The development environment or platform used (e.g., 'Node.js v14.17.0')."
+    },
+    "packageJson": {
+      "$ref": "https://json.schemastore.org/package.json"
+    },
+    "buildTool": {
+      "type": "string",
+      "description": "The tool used for building or compiling the project (e.g., 'webpack v5.38.1')."
+    },
+    "commitHash": {
+      "type": "string",
+      "description": "The Git commit hash corresponding to the codebase at the time of credential issuance."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when the credential was generated."
+    },
+    "operatingSystem": {
+      "type": "string",
+      "description": "A generic description of the operating system used in the development environment (e.g., 'Linux-based OS')."
+    },
+    "hostname": {
+      "type": "string",
+      "description": "The hashed hostname of the machine running the development environment."
+    },
+    "ipAddress": {
+      "type": "string",
+      "description": "The hashed IP address of the machine running the development environment."
+    }
+  },
+  "required": [
+    "environment",
+    "packageJson",
+    "timestamp"
+  ],
+  "description": "Schema for Development Environment Metadata"
+}

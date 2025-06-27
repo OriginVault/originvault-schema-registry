@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/NamespaceRecognitionCertificate.schema.json",
+  "title": "Namespace Recognition Certificate",
+  "description": "A verifiable certificate that recognizes an entity’s role or contribution within a namespace.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "DID of the Recognition Certificate."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "DID of the namespace issuing the certificate."
+    },
+    "recipient": {
+      "type": "string",
+      "description": "DID of the recognized entity."
+    },
+    "recognitionType": {
+      "type": "string",
+      "enum": [
+        "trusted-verifier",
+        "major-contributor",
+        "governance-member",
+        "partner"
+      ],
+      "description": "Type of recognition granted."
+    },
+    "description": {
+      "type": "string",
+      "description": "Additional details on why this recognition was granted."
+    },
+    "validUntil": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional expiration date of the recognition certificate."
+    },
+    "proof": {
+      "type": "object",
+      "description": "Cryptographic proof for the certificate.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Proof type."
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of proof creation."
+        },
+        "verificationMethod": {
+          "type": "string",
+          "description": "DID or method used to verify this proof."
+        },
+        "signatureValue": {
+          "type": "string",
+          "description": "Base64 or hex-encoded signature."
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "namespace",
+    "recipient",
+    "recognitionType",
+    "proof"
+  ]
+}

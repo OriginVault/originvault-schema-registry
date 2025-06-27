@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/VaultChamberPlugin.schema.json",
+  "title": "Vault Chamber Plugin",
+  "description": "Tracks plugins installed within a Vault Chamber and their permissions.",
+  "type": "object",
+  "properties": {
+    "chamberId": {
+      "type": "string",
+      "description": "DID of the Vault Chamber."
+    },
+    "pluginId": {
+      "type": "string",
+      "description": "DID of the installed plugin."
+    },
+    "installedBy": {
+      "type": "string",
+      "description": "DID of the user who installed the plugin."
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "storageAccess": {
+          "type": "boolean",
+          "description": "Can the plugin access storage?"
+        },
+        "computeAccess": {
+          "type": "boolean",
+          "description": "Can the plugin use compute resources?"
+        },
+        "identityAccess": {
+          "type": "boolean",
+          "description": "Can the plugin interact with identity data?"
+        }
+      }
+    },
+    "installationDate": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the plugin was installed."
+    }
+  },
+  "required": [
+    "chamberId",
+    "pluginId",
+    "installedBy",
+    "permissions",
+    "installationDate"
+  ]
+}

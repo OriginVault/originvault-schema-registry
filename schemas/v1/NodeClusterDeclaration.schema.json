@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.originvault.box/v1/NodeClusterDeclaration.schema.json",
+  "title": "Node Cluster Declaration",
+  "description": "Defines an OV Cluster's structure, governance, and node configuration.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The DID of the OV Cluster."
+    },
+    "type": {
+      "const": "ClusterDeclaration",
+      "description": "Indicates that this is a Cluster DID declaration."
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The DID of the namespace this cluster belongs to."
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "managedBy": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "DIDs of entities responsible for managing this cluster."
+        },
+        "rules": {
+          "type": "string",
+          "description": "A reference to governance rules stored in Ceramic or DID-Linked Resources."
+        },
+        "disputeResolution": {
+          "type": "string",
+          "description": "A DID reference to a dispute resolution service."
+        }
+      },
+      "description": "Governance policies for this cluster."
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Node DID."
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "NamespaceNode",
+              "IdentityNode",
+              "StorageNode",
+              "ComputeNode",
+              "VerificationNode"
+            ],
+            "description": "The functional role of this node."
+          }
+        },
+        "required": [
+          "id",
+          "role"
+        ]
+      },
+      "description": "List of nodes in this cluster."
+    },
+    "services": {
+      "type": "object",
+      "properties": {
+        "verification": {
+          "type": "string",
+          "description": "The DID of the verification service."
+        },
+        "storage": {
+          "type": "string",
+          "description": "The DID of the storage service."
+        },
+        "payment": {
+          "type": "string",
+          "description": "The DID of the payment processing service."
+        }
+      },
+      "description": "Services available in this cluster."
+    },
+    "linkedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The id of the linked resource."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the linked resource."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the linked resource."
+          },
+          "uri": {
+            "type": "string",
+            "description": "The uri of the linked resource."
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of resource (e.g., governance, metadata, event log)."
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "description": "Linked resources associated with this cluster."
+    },
+    "verificationPolicies": {
+      "type": "object",
+      "properties": {
+        "nodeVerification": {
+          "type": "string",
+          "enum": [
+            "Open",
+            "Permissioned",
+            "Staked"
+          ],
+          "description": "Defines how new nodes are verified."
+        },
+        "revocationPolicy": {
+          "type": "string",
+          "description": "Conditions under which a node or vault can be revoked from the cluster."
+        }
+      },
+      "description": "Verification and security policies for the cluster."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of when this cluster declaration was issued."
+    }
+  },
+  "required": [
+    "id",
+    "namespace",
+    "nodes",
+    "services",
+    "verificationPolicies",
+    "timestamp"
+  ]
+}

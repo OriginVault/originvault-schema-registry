@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://schema.org",
+    "https://w3id.org/security/multikey/v1",
+    "https://schemas.originvault.box/contexts/v1"
+  ],
+  "$id": "https://schemas.originvault.box/v1/GemDeclaration.schema.json",
+  "title": "Gem Declaration",
+  "description": "Defines an OriginVault Gem awarded to users for contributions with multi-root trust and BFF integration support.",
+  "type": "object",
+  "examples": [
+    {
+      "@type": "GemDeclaration",
+      "id": "did:cheqd:mainnet:gem:founders-alice-001",
+      "type": "Founder's Gem",
+      "recipient": "did:cheqd:mainnet:alice-creator-001",
+      "issuer": "did:cheqd:mainnet:originvault-council",
+      "dateIssued": "2024-06-25T10:30:00Z",
+      "rootType": "delegated",
+      "governanceModel": "democratic",
+      "delegationChain": [
+        "did:cheqd:mainnet:root-authority",
+        "did:cheqd:mainnet:originvault-council"
+      ],
+      "trustChainContext": "https://schemas.originvault.box/trust/v1",
+      "metadata": {
+        "version": "1.0.0",
+        "schemaVersion": "2024-06-25",
+        "category": "credential-gem",
+        "video": "https://assets.originvault.box/gems/founders/animated.mp4",
+        "description": "Awarded for being a founding contributor to the OriginVault ecosystem."
+      },
+      "createdAt": "2024-06-25T10:30:00Z",
+      "updatedAt": "2024-06-25T10:30:00Z",
+      "blockchainSync": {
+        "lastSyncAt": "2024-06-25T10:30:00Z",
+        "txHash": "0x1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890",
+        "blockNumber": 123456
+      },
+      "verifiableCredential": "did:cheqd:mainnet:dlr:founders-gem-credential-001",
+      "revocationStatus": "valid"
+    }
+  ],
+  "properties": {
+    "@type": {
+      "type": "string",
+      "const": "GemDeclaration",
+      "description": "JSON-LD type identifier for semantic interoperability.",
+      "examples": [
+        "GemDeclaration"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "The unique DID of the Gem.",
+      "examples": [
+        "did:cheqd:mainnet:gem:founders-alice-001"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Founder's Gem",
+        "Verifier's Gem",
+        "Marker's Gem",
+        "Advocate's Gem",
+        "Builder's Gem",
+        "Curator's Gem",
+        "Trailblazer's Gem",
+        "Luminary's Gem"
+      ],
+      "description": "The category of the gem.",
+      "examples": [
+        "Founder's Gem"
+      ]
+    },
+    "recipient": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "DID of the user receiving the Gem.",
+      "examples": [
+        "did:cheqd:mainnet:alice-creator-001"
+      ]
+    },
+    "issuer": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "DID of the entity awarding the Gem.",
+      "examples": [
+        "did:cheqd:mainnet:originvault-council"
+      ]
+    },
+    "dateIssued": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date the Gem was issued.",
+      "examples": [
+        "2024-06-25T10:30:00Z"
+      ]
+    },
+    "rootType": {
+      "type": "string",
+      "enum": [
+        "self-sovereign",
+        "delegated",
+        "federated",
+        "hybrid"
+      ],
+      "description": "Multi-root trust pattern: how this gem establishes its root of trust.",
+      "examples": [
+        "delegated"
+      ]
+    },
+    "governanceModel": {
+      "type": "string",
+      "enum": [
+        "hierarchical",
+        "democratic",
+        "consensus",
+        "autonomous"
+      ],
+      "description": "Multi-root trust pattern: governance model for trust decisions.",
+      "examples": [
+        "democratic"
+      ]
+    },
+    "delegationChain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+"
+      },
+      "minItems": 1,
+      "maxItems": 10,
+      "description": "Multi-root trust pattern: chain of authority delegation from root to this gem.",
+      "examples": [
+        [
+          "did:cheqd:mainnet:root-authority",
+          "did:cheqd:mainnet:originvault-council"
+        ]
+      ]
+    },
+    "trustChainContext": {
+      "type": "string",
+      "format": "uri",
+      "description": "Multi-root trust pattern: URI to the trust chain context document.",
+      "examples": [
+        "https://schemas.originvault.box/trust/v1"
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "BFF Integration and Gem metadata.",
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "BFF Integration: Schema version for API compatibility.",
+          "examples": [
+            "1.0.0"
+          ]
+        },
+        "schemaVersion": {
+          "type": "string",
+          "format": "date",
+          "description": "BFF Integration: Schema release date for version tracking.",
+          "examples": [
+            "2024-06-25"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "credential-gem",
+            "credential-badge",
+            "credential-achievement"
+          ],
+          "description": "BFF Integration: Category for API routing and filtering.",
+          "examples": [
+            "credential-gem"
+          ]
+        },
+        "video": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the Gem's animated artwork.",
+          "examples": [
+            "https://assets.originvault.box/gems/founders/animated.mp4"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500,
+          "description": "Description of why the Gem was awarded.",
+          "examples": [
+            "Awarded for being a founding contributor to the OriginVault ecosystem."
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "schemaVersion",
+        "category",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "BFF Integration: Creation timestamp for audit trails.",
+      "examples": [
+        "2024-06-25T10:30:00Z"
+      ]
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "BFF Integration: Last update timestamp for change tracking.",
+      "examples": [
+        "2024-06-25T10:30:00Z"
+      ]
+    },
+    "blockchainSync": {
+      "type": "object",
+      "properties": {
+        "lastSyncAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last successful blockchain synchronization timestamp.",
+          "examples": [
+            "2024-06-25T10:30:00Z"
+          ]
+        },
+        "txHash": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{64}$",
+          "description": "Transaction hash of the last blockchain update.",
+          "examples": [
+            "0x1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890"
+          ]
+        },
+        "blockNumber": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Block number of the last blockchain update.",
+          "examples": [
+            123456
+          ]
+        }
+      },
+      "required": [
+        "lastSyncAt",
+        "txHash",
+        "blockNumber"
+      ],
+      "description": "BFF Integration: Blockchain synchronization status for distributed systems.",
+      "additionalProperties": false
+    },
+    "verifiableCredential": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[a-zA-Z0-9._-]+",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "DID-Linked Resource (DLR) to the Verifiable Credential proving eligibility for the Gem.",
+      "examples": [
+        "did:cheqd:mainnet:dlr:founders-gem-credential-001"
+      ]
+    },
+    "revocationStatus": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "revoked"
+      ],
+      "description": "Whether the Gem is still recognized as valid.",
+      "examples": [
+        "valid"
+      ]
+    }
+  },
+  "required": [
+    "@type",
+    "id",
+    "type",
+    "recipient",
+    "issuer",
+    "dateIssued",
+    "rootType",
+    "governanceModel",
+    "delegationChain",
+    "trustChainContext",
+    "metadata",
+    "createdAt",
+    "updatedAt",
+    "blockchainSync",
+    "verifiableCredential",
+    "revocationStatus"
+  ],
+  "additionalProperties": false
+}
