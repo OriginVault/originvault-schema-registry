@@ -1,16 +1,16 @@
 # OriginVault Schema Validation Report
 
-**Generated**: 2025-06-25T07:13:48.936099
+**Generated**: 2025-06-27T08:20:36.835303
 
 ## Summary
 
-- **Total Schemas**: 78
-- **Valid Schemas**: 78
-- **Average Quality Score**: 2.912/5.0
-- **Average Design Score**: 0.177/1.0
-- **BFF Compatibility**: 9.0%
-- **Multi-Root Support**: 10.3%
-- **JSON-LD Context Support**: 25.6%
+- **Total Schemas**: 23
+- **Valid Schemas**: 23
+- **Average Quality Score**: 3.0/5.0
+- **Average Design Score**: 0.339/1.0
+- **BFF Compatibility**: 0.0%
+- **Multi-Root Support**: 4.3%
+- **JSON-LD Context Support**: 87.0%
 
 ## Quality Scoring Methodology
 
@@ -32,7 +32,7 @@ Schemas are scored on 5 factors (1.0 point each, max 5.0):
 
 ## Detailed Results
 
-### 🟢 Admin
+### 🟢 AdminCredential.schema
 - **Quality Score**: 5.00/5.0
 - **Design Score**: 0.10/1.0
 - **BFF Compatible**: ❌
@@ -40,423 +40,103 @@ Schemas are scored on 5 factors (1.0 point each, max 5.0):
 - **JSON-LD Context**: ✅ (Score: 1.00)
 - **Schema Size**: 6.93 KB
 
-### 🟢 GemDeclaration
-- **Quality Score**: 5.00/5.0
-- **Design Score**: 0.65/1.0
-- **BFF Compatible**: ✅
-- **Multi-Root Support**: ✅
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 8.21 KB
-
-### 🟢 NodeDeclaration
-- **Quality Score**: 5.00/5.0
-- **Design Score**: 0.60/1.0
-- **BFF Compatible**: ✅
-- **Multi-Root Support**: ✅
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 8.29 KB
-
-### 🟢 VaultDeclaration
-- **Quality Score**: 5.00/5.0
-- **Design Score**: 0.60/1.0
-- **BFF Compatible**: ✅
-- **Multi-Root Support**: ✅
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 9.16 KB
-
-### 🟢 ComputeNode
-- **Quality Score**: 4.83/5.0
-- **Design Score**: 0.65/1.0
-- **BFF Compatible**: ✅
-- **Multi-Root Support**: ✅
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 16.86 KB
-
-### 🟢 DIDDeclaration
-- **Quality Score**: 4.79/5.0
-- **Design Score**: 0.65/1.0
-- **BFF Compatible**: ✅
-- **Multi-Root Support**: ✅
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 11.55 KB
-
-### 🟢 NamespaceDeclaration
-- **Quality Score**: 4.53/5.0
-- **Design Score**: 0.65/1.0
-- **BFF Compatible**: ✅
-- **Multi-Root Support**: ✅
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 16.58 KB
-
-### 🟢 RootAuthority
-- **Quality Score**: 4.39/5.0
-- **Design Score**: 0.75/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ✅
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 19.78 KB
-
-### 🟢 TrustedIssuer
-- **Quality Score**: 4.38/5.0
+### 🟢 TrustedIssuerCredential.schema
+- **Quality Score**: 4.42/5.0
 - **Design Score**: 0.70/1.0
 - **BFF Compatible**: ❌
 - **Multi-Root Support**: ✅
 - **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 16.77 KB
+- **Schema Size**: 18.28 KB
 
-### 🟢 EndorsementRecord
-- **Quality Score**: 4.00/5.0
-- **Design Score**: 0.40/1.0
-- **BFF Compatible**: ✅
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 2.66 KB
-
-### 🟢 TrustScore
-- **Quality Score**: 4.00/5.0
-- **Design Score**: 0.25/1.0
+### 🟡 VaultAccessCredential.schema
+- **Quality Score**: 3.89/5.0
+- **Design Score**: 0.35/1.0
 - **BFF Compatible**: ❌
 - **Multi-Root Support**: ❌
 - **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 2.89 KB
+- **Schema Size**: 9.3 KB
 
-### 🟡 DIDAssertionCredential
-- **Quality Score**: 3.50/5.0
+### 🟡 CreativeWorkCredential.schema
+- **Quality Score**: 3.88/5.0
+- **Design Score**: 0.35/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 11.17 KB
+
+### 🟡 PaymentCredential.schema
+- **Quality Score**: 3.88/5.0
+- **Design Score**: 0.35/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 12.13 KB
+
+### 🟡 CustomerOnboardingCredential.schema
+- **Quality Score**: 3.83/5.0
+- **Design Score**: 0.40/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 18.37 KB
+
+### 🟡 VerificationReportCredential.schema
+- **Quality Score**: 3.83/5.0
+- **Design Score**: 0.35/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 15.11 KB
+
+### 🟡 WorkflowExecutionCredential.schema
+- **Quality Score**: 3.83/5.0
 - **Design Score**: 0.30/1.0
 - **BFF Compatible**: ❌
 - **Multi-Root Support**: ❌
 - **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 2.61 KB
+- **Schema Size**: 14.0 KB
 
-### 🟡 DigitalDocument
-- **Quality Score**: 3.50/5.0
+### 🟡 APIAccessCredential.schema
+- **Quality Score**: 3.39/5.0
+- **Design Score**: 0.30/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 6.58 KB
+
+### 🟡 OriginVaultRootAuthority.schema
+- **Quality Score**: 3.38/5.0
+- **Design Score**: 0.50/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 10.78 KB
+
+### 🟡 PluginEndorsementCredential.schema
+- **Quality Score**: 3.17/5.0
+- **Design Score**: 0.40/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 11.81 KB
+
+### 🟡 SustainabilityCredential.schema
+- **Quality Score**: 3.00/5.0
+- **Design Score**: 0.30/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 11.57 KB
+
+### 🔴 RevocationService.schema
+- **Quality Score**: 2.75/5.0
 - **Design Score**: 0.20/1.0
 - **BFF Compatible**: ❌
 - **Multi-Root Support**: ❌
 - **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 2.81 KB
+- **Schema Size**: 6.86 KB
 
-### 🟡 PluginDeclaration
-- **Quality Score**: 3.43/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 4.04 KB
-
-### 🟡 ContentLicensingTerms
-- **Quality Score**: 3.25/5.0
-- **Design Score**: 0.25/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 6.42 KB
-
-### 🟡 Developer
-- **Quality Score**: 3.25/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 1.55 KB
-
-### 🟡 ContentLicensingAgreement
-- **Quality Score**: 3.23/5.0
-- **Design Score**: 0.20/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 5.61 KB
-
-### 🔴 GemReputationScore
-- **Quality Score**: 2.95/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.02 KB
-
-### 🔴 TrustGate
-- **Quality Score**: 2.95/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.1 KB
-
-### 🔴 Owner
-- **Quality Score**: 2.94/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 1.92 KB
-
-### 🔴 ClaimVerification
-- **Quality Score**: 2.92/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 0.88 KB
-
-### 🔴 ContentLegalAccountability
-- **Quality Score**: 2.85/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ✅ (Score: 1.00)
-- **Schema Size**: 1.21 KB
-
-### 🔴 NamespaceParticipationAgreement
-- **Quality Score**: 2.80/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 1.6 KB
-
-### 🔴 PluginDeveloperAgreement
-- **Quality Score**: 2.80/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 1.49 KB
-
-### 🔴 ClusterGovernance
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 2.5 KB
-
-### 🔴 ClusterRegistration
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.20/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.84 KB
-
-### 🔴 GemIssuanceRecord
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.20/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.19 KB
-
-### 🔴 GemRevocationRecord
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 0.91 KB
-
-### 🔴 GemTrustRegistry
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.5 KB
-
-### 🔴 GovernanceProposal
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.52 KB
-
-### 🔴 IdentityNodeDeclaration
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 2.01 KB
-
-### 🔴 NamespaceGovernance
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 2.31 KB
-
-### 🔴 NamespacePluginDeclaration
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 2.54 KB
-
-### 🔴 NamespaceProposal
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 2.34 KB
-
-### 🔴 NamespaceRecognitionCertificate
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.64 KB
-
-### 🔴 NamespaceReputationRecord
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 2.67 KB
-
-### 🔴 NodeClusterDeclaration
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 3.74 KB
-
-### 🔴 NodeOperatorAgreement
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 1.77 KB
-
-### 🔴 NodeVoting
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.59 KB
-
-### 🔴 PluginExectutionRequest
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.34 KB
-
-### 🔴 RevenuDistribution
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.04 KB
-
-### 🔴 Revocation
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.0 KB
-
-### 🔴 StorageNodeDeclaration
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.97 KB
-
-### 🔴 TrustDelegation
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.26 KB
-
-### 🔴 VaultChamberTransaction
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.05 KB
-
-### 🔴 VaultPluginInstallationLog
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.16 KB
-
-### 🔴 VerificationLog
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.06 KB
-
-### 🔴 VerificationNode
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 2.24 KB
-
-### 🔴 VotingSchema
-- **Quality Score**: 2.70/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 0.92 KB
-
-### 🔴 VaultAdminAgreement
-- **Quality Score**: 2.69/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 1.67 KB
-
-### 🔴 ExternalBuyerAgreement
-- **Quality Score**: 2.67/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 1.84 KB
-
-### 🔴 ReferalAgreement
-- **Quality Score**: 2.67/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 1.54 KB
-
-### 🔴 PluginIntegrationAgreement
-- **Quality Score**: 2.66/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 1.33 KB
-
-### 🔴 ContentAIPermissionAssertionCredential
+### 🔴 ContentAIPermissionCredential.schema
 - **Quality Score**: 2.63/5.0
 - **Design Score**: 0.25/1.0
 - **BFF Compatible**: ❌
@@ -464,7 +144,7 @@ Schemas are scored on 5 factors (1.0 point each, max 5.0):
 - **JSON-LD Context**: ❌ (Score: 0.30)
 - **Schema Size**: 5.36 KB
 
-### 🔴 ContentAuthenticityAssertionCredential
+### 🔴 ContentAuthenticityCredential.schema
 - **Quality Score**: 2.63/5.0
 - **Design Score**: 0.35/1.0
 - **BFF Compatible**: ❌
@@ -472,186 +152,66 @@ Schemas are scored on 5 factors (1.0 point each, max 5.0):
 - **JSON-LD Context**: ❌ (Score: 0.30)
 - **Schema Size**: 2.39 KB
 
-### 🔴 ContentExtendedMetadata
-- **Quality Score**: 2.63/5.0
-- **Design Score**: 0.25/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 2.45 KB
-
-### 🔴 Persona
-- **Quality Score**: 2.60/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 2.18 KB
-
-### 🔴 PackageJson
-- **Quality Score**: 2.58/5.0
-- **Design Score**: 0.00/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 39.6 KB
-
-### 🔴 DevelopmentEnvironmentMetadata
-- **Quality Score**: 2.58/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.48 KB
-
-### 🔴 VaultUserAgreement
-- **Quality Score**: 2.58/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.63 KB
-
-### 🔴 ServiceLevelAgreement
-- **Quality Score**: 2.55/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 4.56 KB
-
-### 🔴 VaultChamberPlugin
+### 🔴 GemCredential.schema
 - **Quality Score**: 2.50/5.0
-- **Design Score**: 0.05/1.0
+- **Design Score**: 0.30/1.0
 - **BFF Compatible**: ❌
 - **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.17 KB
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 2.13 KB
 
-### 🔴 DataChamberContributionAgreement
-- **Quality Score**: 2.47/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 2.03 KB
-
-### 🔴 AIConfig
-- **Quality Score**: 2.45/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 8.7 KB
-
-### 🔴 DataChamberEnrollment
-- **Quality Score**: 2.45/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.56 KB
-
-### 🔴 ExternalDataAccess
-- **Quality Score**: 2.45/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.26 KB
-
-### 🔴 VaultChamberTagging
-- **Quality Score**: 2.45/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.47 KB
-
-### 🔴 VaultOperator
-- **Quality Score**: 2.37/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.2 KB
-
-### 🔴 Verifier
-- **Quality Score**: 2.35/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 0.96 KB
-
-### 🔴 VaultChamberGovernance
-- **Quality Score**: 2.30/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.46 KB
-
-### 🔴 AIModelTrainingAgreement
-- **Quality Score**: 2.23/5.0
-- **Design Score**: 0.15/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.69 KB
-
-### 🔴 Creator
-- **Quality Score**: 2.20/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 1.49 KB
-
-### 🔴 LanguageConfiguration
-- **Quality Score**: 2.20/5.0
-- **Design Score**: 0.00/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 7.03 KB
-
-### 🔴 TrustChainDelegation
-- **Quality Score**: 2.17/5.0
-- **Design Score**: 0.25/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.30)
-- **Schema Size**: 7.04 KB
-
-### 🔴 CommunityMember
-- **Quality Score**: 1.95/5.0
-- **Design Score**: 0.05/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 0.92 KB
-
-### 🔴 IdentityClaimsAggregationCredential
-- **Quality Score**: 1.95/5.0
-- **Design Score**: 0.25/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.20)
-- **Schema Size**: 5.41 KB
-
-### 🔴 GlobalPrivacyControl
-- **Quality Score**: 1.92/5.0
-- **Design Score**: 0.10/1.0
-- **BFF Compatible**: ❌
-- **Multi-Root Support**: ❌
-- **JSON-LD Context**: ❌ (Score: 0.00)
-- **Schema Size**: 1.04 KB
-
-### 🔴 TsconfigJson
-- **Quality Score**: 0.50/5.0
+### 🔴 ReputationCredential.schema
+- **Quality Score**: 2.50/5.0
 - **Design Score**: 0.20/1.0
 - **BFF Compatible**: ❌
 - **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 2.75 KB
+
+### 🔴 StorageCredential.schema
+- **Quality Score**: 2.50/5.0
+- **Design Score**: 0.30/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 3.05 KB
+
+### 🔴 ContractCredential.schema
+- **Quality Score**: 2.00/5.0
+- **Design Score**: 0.35/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 17.81 KB
+
+### 🔴 EquityGrantCredential.schema
+- **Quality Score**: 2.00/5.0
+- **Design Score**: 0.35/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 19.57 KB
+
+### 🔴 OrganizationCredential.schema
+- **Quality Score**: 2.00/5.0
+- **Design Score**: 0.35/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 15.16 KB
+
+### 🔴 PersonCredential.schema
+- **Quality Score**: 2.00/5.0
+- **Design Score**: 0.40/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
+- **JSON-LD Context**: ✅ (Score: 1.00)
+- **Schema Size**: 5.37 KB
+
+### 🔴 index
+- **Quality Score**: 0.00/5.0
+- **Design Score**: 0.35/1.0
+- **BFF Compatible**: ❌
+- **Multi-Root Support**: ❌
 - **JSON-LD Context**: ❌ (Score: 0.00)
-- **Schema Size**: 91.88 KB
+- **Schema Size**: 15.14 KB

@@ -12,7 +12,7 @@ from typing import Dict, List, Set, Any, Optional
 import re
 
 class SchemaValidator:
-    def __init__(self, schema_directory: str = "drafts"):
+    def __init__(self, schema_directory: str = "schemas/v1"):
         self.schema_directory = Path(schema_directory)
         self.design_principles = {
             "multi_root_trust": {

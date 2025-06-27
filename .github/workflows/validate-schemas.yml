@@ -4,12 +4,12 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - 'drafts/**/*.json'
+      - 'schemas/v1/*.json'
       - 'schemas/**/*.json'
   pull_request:
     branches: [ main, develop ]
     paths:
-      - 'drafts/**/*.json'
+      - 'schemas/v1/*.json'
       - 'schemas/**/*.json'
   schedule:
     # Run weekly on Sundays at midnight UTC
@@ -37,7 +37,7 @@ jobs:
     - name: Validate Schema Syntax
       run: |
         echo "🔍 Validating JSON schema syntax..."
-        find drafts -name "*.json" -type f | while read file; do
+        find schemas/v1 -name "*.json" -type f | while read file; do
           echo "Validating $file"
           python -m json.tool "$file" > /dev/null || exit 1
         done
