@@ -162,7 +162,7 @@ const verifyTrust = async (req, res) => {
         verificationResult.verified =
             subjectRecord.status === 'active' &&
                 subjectRecord.trustScore >= minimum_score &&
-                (trustPath.length > 0 || verifierRecord?.trustScore >= minimum_score);
+                (trustPath.length > 0 || (verifierRecord?.trustScore ?? 0) >= minimum_score);
         res.json(verificationResult);
     }
     catch (error) {

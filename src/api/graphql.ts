@@ -221,7 +221,7 @@ export const graphqlHandler = async (req: Request, res: Response) => {
     console.error('GraphQL execution error:', error);
     res.status(500).json({
       data: null,
-      errors: [{ message: error.message || 'GraphQL execution failed' }]
+      errors: [{ message: (error as Error).message || 'GraphQL execution failed' }]
     });
   }
 };
@@ -347,7 +347,7 @@ function determineCategory(filename: string): string {
 }
 
 function getCategoryDescription(category: string): string {
-  const descriptions = {
+  const descriptions: { [key: string]: string } = {
     identity: 'Person, organization, and entity schemas for decentralized identity',
     business: 'Business processes, contracts, and workflow schemas',
     content: 'Content metadata, authenticity, and provenance schemas',

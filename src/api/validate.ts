@@ -38,7 +38,7 @@ export const validateData = async (req: Request, res: Response) => {
     } catch (error) {
       return res.status(400).json({
         valid: false,
-        errors: [{ message: `Invalid schema: ${error.message}` }]
+        errors: [{ message: `Invalid schema: ${(error as Error).message}` }]
       });
     }
 

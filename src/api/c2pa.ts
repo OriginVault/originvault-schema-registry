@@ -429,7 +429,7 @@ async function verifyProvenance(record: ProvenanceRecord): Promise<any> {
 }
 
 async function buildProvenanceChain(hash: string): Promise<any[]> {
-  const chain = [];
+  const chain: any[] = [];
   const visited = new Set<string>();
   
   async function traverse(currentHash: string) {

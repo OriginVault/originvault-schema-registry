@@ -11,7 +11,9 @@
     "server": "node dist/server.js",
     "dev:server": "tsc && npm run server",
     "start": "npm run build && npm run server",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "type-check": "tsc --noEmit",
+    "pre-push": "npm run type-check && npm run build"
   },
   "dependencies": {
     "@openverifiable/open-verifiable-types": "^0.0.1",

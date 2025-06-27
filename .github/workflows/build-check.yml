@@ -1,0 +1,52 @@
+name: Build Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: TypeScript type check
+      run: npm run type-check
+      
+    - name: Build project
+      run: npm run build
+      
+    - name: Verify build outputs
+      run: |
+        if [ ! -d "dist" ]; then
+          echo "❌ Build output directory 'dist' not found"
+          exit 1
+        fi
+        if [ ! -d "types" ]; then
+          echo "❌ Types output directory 'types' not found"
+          exit 1
+        fi
+        echo "✅ Build verification successful"
+      
+    - name: Build status summary
+      run: |
+        echo "## 🎉 Build Status: SUCCESS" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ TypeScript compilation: PASSED" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Type generation: PASSED" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Build verification: PASSED" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "🚀 Ready for deployment!"  >> $GITHUB_STEP_SUMMARY 
