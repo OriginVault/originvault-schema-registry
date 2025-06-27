@@ -7,11 +7,14 @@ import SchemaExplorer from './pages/SchemaExplorer'
 import SchemaResolver from './pages/SchemaResolver'
 import ContextResolver from './pages/ContextResolver'
 import WellKnownResolver from './pages/WellKnownResolver'
+import Documentation from './pages/Documentation'
+import QuickType from './pages/QuickType'
+import QuickTypeGuide from './pages/QuickTypeGuide'
+import VerifiableCredentials from './pages/VerifiableCredentials'
 import Footer from './components/Footer'
 import OpenGraphImage from './components/OpenGraphImage'
 import { lightTheme, darkTheme } from './theme'
 import './index.css'
-import QuickTypeGuide from './pages/QuickTypeGuide'
 import NotFound from './pages/NotFound'
 
 // Fullscreen context
@@ -144,6 +147,18 @@ const App: React.FC = () => {
                         <Button
                           color="inherit"
                           component={Link}
+                          to="/documentation"
+                          sx={{
+                            fontFamily: 'Thiccboi',
+                            color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1c2a35',
+                            mx: 1,
+                          }}
+                        >
+                          Documentation
+                        </Button>
+                        <Button
+                          color="inherit"
+                          component={Link}
                           to="/schemas"
                           sx={{
                             fontFamily: 'Thiccboi',
@@ -156,14 +171,26 @@ const App: React.FC = () => {
                         <Button
                           color="inherit"
                           component={Link}
-                          to="/quickType"
+                          to="/quicktype"
                           sx={{
                             fontFamily: 'Thiccboi',
                             color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1976d2',
                             mx: 1,
                           }}
                         >
-                          QuickType Guide
+                          QuickType
+                        </Button>
+                        <Button
+                          color="inherit"
+                          component={Link}
+                          to="/verifiable-credentials"
+                          sx={{
+                            fontFamily: 'Thiccboi',
+                            color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1c2a35',
+                            mx: 1,
+                          }}
+                        >
+                          Verifiable Credentials
                         </Button>
                         <Button
                           color="inherit"
@@ -188,12 +215,15 @@ const App: React.FC = () => {
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flex: 1 }}>
                       <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/documentation" element={<Documentation />} />
                         <Route path="/schemas" element={<SchemaExplorer />} />
                         <Route path="/schemas/:schemaId" element={<SchemaExplorer />} />
                         <Route path="/schemas/:schemaId/:tab" element={<SchemaExplorer />} />
                         <Route path="/schema/:schemaPath" element={<SchemaResolver />} />
                         <Route path="/context/:contextPath" element={<ContextResolver />} />
-                        <Route path="/quickType" element={<QuickTypeGuide />} />
+                        <Route path="/quicktype" element={<QuickType />} />
+                        <Route path="/quicktype-guide" element={<QuickTypeGuide />} />
+                        <Route path="/verifiable-credentials" element={<VerifiableCredentials />} />
                         <Route path="/explorer" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId/:tab" element={<SchemaExplorer />} />
@@ -204,12 +234,15 @@ const App: React.FC = () => {
                     <Box sx={{ flex: 1 }}>
                       <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/documentation" element={<Documentation />} />
                         <Route path="/schemas" element={<SchemaExplorer />} />
                         <Route path="/schemas/:schemaId" element={<SchemaExplorer />} />
                         <Route path="/schemas/:schemaId/:tab" element={<SchemaExplorer />} />
                         <Route path="/schema/:schemaPath" element={<SchemaResolver />} />
                         <Route path="/context/:contextPath" element={<ContextResolver />} />
-                        <Route path="/quickType" element={<QuickTypeGuide />} />
+                        <Route path="/quicktype" element={<QuickType />} />
+                        <Route path="/quicktype-guide" element={<QuickTypeGuide />} />
+                        <Route path="/verifiable-credentials" element={<VerifiableCredentials />} />
                         <Route path="/explorer" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId/:tab" element={<SchemaExplorer />} />

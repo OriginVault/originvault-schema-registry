@@ -3,6 +3,8 @@ import cors from 'cors';
 import { json, urlencoded } from 'body-parser';
 import quicktypeRouter from './routes/quicktype';
 import vcRouter from './routes/verifiable-credentials';
+import c2paRouter from './routes/c2pa';
+import trustRegistryRouter from './routes/trust-registry';
 import { generateFromFiles, downloadZip, validateSchema } from './api/quicktype';
 import { graphqlHandler, graphqlSchema } from './api/graphql';
 
@@ -26,6 +28,8 @@ app.get('/health', (req, res) => {
 // API Routes
 app.use('/api/quicktype', quicktypeRouter);
 app.use('/api/vc', vcRouter);
+app.use('/api/c2pa', c2paRouter);
+app.use('/api/trust', trustRegistryRouter);
 
 // GraphQL endpoint
 app.post('/api/graphql', graphqlHandler);
