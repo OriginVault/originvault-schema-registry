@@ -146,11 +146,14 @@ const QuickType: React.FC = () => {
         throw new Error(`Generation failed: ${response.statusText}`);
       }
 
-      const results = await response.json();
-      setResults(results);
+      const responseData = await response.json();
+      // Handle the new API response format that returns an object with a results property
+      const resultsArray = responseData.results || responseData;
+      setResults(Array.isArray(resultsArray) ? resultsArray : []);
       setActiveTab(1); // Switch to results tab
     } catch (error) {
       console.error('Code generation failed:', error);
+      setResults([]); // Reset results on error
     } finally {
       setGenerating(false);
     }
