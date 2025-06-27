@@ -94,14 +94,108 @@ function loadSchemasFromFilesystem(): CredentialSchema[] {
       }
     }
 
-    // Sort schemas by name for better UX
-    schemas.sort((a, b) => a.title.localeCompare(b.title));
+    // Deduplicate schemas - keep only the latest/preferred versions
+    const deduplicatedSchemas = deduplicateSchemas(schemas);
 
-    return schemas;
+    // Sort schemas by name for better UX
+    deduplicatedSchemas.sort((a, b) => a.title.localeCompare(b.title));
+
+    return deduplicatedSchemas;
   } catch (error: any) {
     console.error('Error loading schemas:', error?.message || error);
     return [];
   }
+}
+
+// Helper function to deduplicate schemas by keeping only the latest/preferred versions
+function deduplicateSchemas(schemas: CredentialSchema[]): CredentialSchema[] {
+  const schemaMap = new Map<string, CredentialSchema[]>();
+
+  // Group schemas by their base name (without suffixes like "Assertion", "Credential", etc.)
+  for (const schema of schemas) {
+    const baseName = getSchemaBaseName(schema.title);
+    if (!schemaMap.has(baseName)) {
+      schemaMap.set(baseName, []);
+    }
+    schemaMap.get(baseName)!.push(schema);
+  }
+
+  const deduplicatedSchemas: CredentialSchema[] = [];
+
+  // For each group, select the preferred version
+  for (const [baseName, schemaGroup] of schemaMap.entries()) {
+    if (schemaGroup.length === 1) {
+      // Only one schema in this group, keep it
+      deduplicatedSchemas.push(schemaGroup[0]);
+    } else {
+      // Multiple schemas, apply preference logic
+      const preferredSchema = selectPreferredSchema(schemaGroup);
+      deduplicatedSchemas.push(preferredSchema);
+      
+      console.log(`📋 Deduplicated ${baseName}: Selected "${preferredSchema.title}" from ${schemaGroup.length} variants`);
+    }
+  }
+
+  return deduplicatedSchemas;
+}
+
+// Helper function to extract base name from schema title
+function getSchemaBaseName(title: string): string {
+  // Remove common suffixes and normalize
+  return title
+    .replace(/\s*Assertion\s*Credential$/i, '')
+    .replace(/\s*Credential$/i, '')
+    .replace(/\s*Schema$/i, '')
+    .replace(/\s*Declaration$/i, '')
+    .replace(/\s*Agreement$/i, '')
+    .replace(/\s*Record$/i, '')
+    .replace(/\s*Registry$/i, '')
+    .replace(/\s*Metadata$/i, '')
+    .trim();
+}
+
+// Helper function to select the preferred schema from a group of similar schemas
+function selectPreferredSchema(schemas: CredentialSchema[]): CredentialSchema {
+  // Preference rules (in order of priority):
+  // 1. Prefer schemas with "Assertion" in the name (newer W3C VC format)
+  // 2. Prefer schemas with "Credential" in the name
+  // 3. Prefer longer, more descriptive names
+  // 4. Prefer alphabetically later names (usually newer)
+
+  return schemas.reduce((preferred, current) => {
+    // Rule 1: Prefer Assertion credentials
+    const preferredHasAssertion = preferred.title.includes('Assertion');
+    const currentHasAssertion = current.title.includes('Assertion');
+    
+    if (currentHasAssertion && !preferredHasAssertion) {
+      return current;
+    }
+    if (preferredHasAssertion && !currentHasAssertion) {
+      return preferred;
+    }
+
+    // Rule 2: Prefer schemas with "Credential" suffix
+    const preferredHasCredential = preferred.title.includes('Credential');
+    const currentHasCredential = current.title.includes('Credential');
+    
+    if (currentHasCredential && !preferredHasCredential) {
+      return current;
+    }
+    if (preferredHasCredential && !currentHasCredential) {
+      return preferred;
+    }
+
+    // Rule 3: Prefer longer, more descriptive names
+    if (current.title.length > preferred.title.length) {
+      return current;
+    }
+    if (preferred.title.length > current.title.length) {
+      return preferred;
+    }
+
+    // Rule 4: Prefer alphabetically later names
+    return current.title.localeCompare(preferred.title) > 0 ? current : preferred;
+  });
 }
 
 // GET /api/vc/schemas - List all VC schemas
@@ -466,10 +560,13 @@ function getAvailableSchemas(): CredentialSchema[] {
       }
     }
 
-    // Sort schemas by name for better UX
-    schemas.sort((a, b) => a.title.localeCompare(b.title));
+    // Deduplicate schemas - keep only the latest/preferred versions
+    const deduplicatedSchemas = deduplicateSchemas(schemas);
 
-    return schemas;
+    // Sort schemas by name for better UX
+    deduplicatedSchemas.sort((a, b) => a.title.localeCompare(b.title));
+
+    return deduplicatedSchemas;
   } catch (error: any) {
     console.error('Error loading schemas:', error.message);
     return [];
