@@ -67,5 +67,9 @@
   "overrides": {
     "character-entities-legacy": "^3.0.0",
     "refractor": "^4.8.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }

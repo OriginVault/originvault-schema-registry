@@ -1,8 +1,8 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm ci && npm run build",
   "outputDirectory": "dist",
-  "framework": "vite",
-  "installCommand": "npm install",
+  "framework": null,
+  "installCommand": "npm ci",
   "devCommand": "npm run dev",
   "rewrites": [
     {
@@ -61,6 +61,12 @@
   ],
   "env": {
     "VITE_APP_TITLE": "OriginVault Schema Registry",
-    "VITE_APP_VERSION": "1.0.0"
+    "VITE_APP_VERSION": "1.0.0",
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "app/api/**/*.js": {
+      "maxDuration": 30
+    }
   }
 } 
