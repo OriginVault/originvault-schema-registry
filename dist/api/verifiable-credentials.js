@@ -36,10 +36,12 @@ function loadSchemasFromFilesystem() {
                 // Extract relevant information from the schema
                 const schema = {
                     id: schemaData.$id || file.replace('.schema.json', ''),
-                    name: schemaData.title || file.replace('.schema.json', '').replace(/([A-Z])/g, ' $1').trim(),
+                    title: schemaData.title || file.replace('.schema.json', '').replace(/([A-Z])/g, ' $1').trim(),
                     description: schemaData.description || 'No description available',
+                    category: determineVCCategory(file),
                     version: '1.0.0',
                     schema: schemaData,
+                    contexts: extractContexts(schemaData),
                     examples: schemaData.examples || []
                 };
                 schemas.push(schema);
@@ -50,7 +52,7 @@ function loadSchemasFromFilesystem() {
             }
         }
         // Sort schemas by name for better UX
-        schemas.sort((a, b) => a.name.localeCompare(b.name));
+        schemas.sort((a, b) => a.title.localeCompare(b.title));
         return schemas;
     }
     catch (error) {
@@ -81,7 +83,7 @@ const getVCSchema = (req, res) => {
     try {
         const { id } = req.params;
         const schemas = loadSchemasFromFilesystem();
-        const schema = schemas.find(s => s.id.includes(id) || s.name.toLowerCase().includes(id.toLowerCase()));
+        const schema = schemas.find(s => s.id.includes(id) || s.title.toLowerCase().includes(id.toLowerCase()));
         if (!schema) {
             return res.status(404).json({ error: 'Schema not found' });
         }
@@ -315,30 +317,37 @@ function validateContexts(credential) {
 }
 function determineVCCategory(filename) {
     const name = filename.toLowerCase();
-    if (name.includes('person') || name.includes('identity') || name.includes('developer')) {
-        return 'identity';
+    if (name.includes('person') || name.includes('identity') || name.includes('developer') || name.includes('member') || name.includes('did')) {
+        return 'Identity';
     }
-    if (name.includes('contract') || name.includes('payment') || name.includes('workflow')) {
-        return 'business';
+    if (name.includes('contract') || name.includes('payment') || name.includes('workflow') || name.includes('agreement') || name.includes('governance') || name.includes('admin')) {
+        return 'Business';
     }
-    if (name.includes('content') || name.includes('provenance')) {
-        return 'content';
+    if (name.includes('content') || name.includes('creative') || name.includes('provenance') || name.includes('ai') || name.includes('licensing')) {
+        return 'Content';
     }
-    if (name.includes('trust') || name.includes('endorsement') || name.includes('reputation')) {
-        return 'trust';
+    if (name.includes('trust') || name.includes('endorsement') || name.includes('reputation') || name.includes('verification') || name.includes('gem')) {
+        return 'Trust';
     }
-    if (name.includes('vault') || name.includes('plugin') || name.includes('api')) {
-        return 'platform';
+    if (name.includes('vault') || name.includes('plugin') || name.includes('api') || name.includes('node') || name.includes('config')) {
+        return 'Platform';
     }
-    return 'other';
+    return 'Other';
 }
 function extractContexts(schema) {
-    const contexts = ['https://www.w3.org/2018/credentials/v1'];
+    const contexts = [
+        'https://www.w3.org/2018/credentials/v1',
+        'https://www.w3.org/ns/credentials/v2'
+    ];
     // Check if schema suggests additional contexts
     if (schema.properties && schema.properties['@context']) {
-        // Extract from schema definition
+        if (schema.properties['@context'].items && Array.isArray(schema.properties['@context'].items.enum)) {
+            // Add any additional contexts from the schema
+            contexts.push(...schema.properties['@context'].items.enum.filter((ctx) => !contexts.includes(ctx)));
+        }
     }
-    contexts.push('https://schema.originvault.io/context/v1');
+    // Add OriginVault context
+    contexts.push('https://schemas.originvault.box/contexts/trust-chain-core.jsonld');
     return contexts;
 }
 function getAvailableSchemas() {
@@ -359,10 +368,12 @@ function getAvailableSchemas() {
                 // Extract relevant information from the schema
                 const schema = {
                     id: schemaData.$id || file.replace('.schema.json', ''),
-                    name: schemaData.title || file.replace('.schema.json', '').replace(/([A-Z])/g, ' $1').trim(),
+                    title: schemaData.title || file.replace('.schema.json', '').replace(/([A-Z])/g, ' $1').trim(),
                     description: schemaData.description || 'No description available',
+                    category: determineVCCategory(file),
                     version: '1.0.0',
                     schema: schemaData,
+                    contexts: extractContexts(schemaData),
                     examples: schemaData.examples || []
                 };
                 schemas.push(schema);
@@ -373,7 +384,7 @@ function getAvailableSchemas() {
             }
         }
         // Sort schemas by name for better UX
-        schemas.sort((a, b) => a.name.localeCompare(b.name));
+        schemas.sort((a, b) => a.title.localeCompare(b.title));
         return schemas;
     }
     catch (error) {
