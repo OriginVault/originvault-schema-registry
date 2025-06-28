@@ -224,6 +224,7 @@ const App: React.FC = () => {
                         <Route path="/quicktype" element={<QuickType />} />
                         <Route path="/quicktype-guide" element={<QuickTypeGuide />} />
                         <Route path="/verifiable-credentials" element={<VerifiableCredentials />} />
+                        <Route path="/verifiable-credentials/:tab" element={<VerifiableCredentials />} />
                         <Route path="/explorer" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId/:tab" element={<SchemaExplorer />} />
@@ -243,6 +244,7 @@ const App: React.FC = () => {
                         <Route path="/quicktype" element={<QuickType />} />
                         <Route path="/quicktype-guide" element={<QuickTypeGuide />} />
                         <Route path="/verifiable-credentials" element={<VerifiableCredentials />} />
+                        <Route path="/verifiable-credentials/:tab" element={<VerifiableCredentials />} />
                         <Route path="/explorer" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId/:tab" element={<SchemaExplorer />} />

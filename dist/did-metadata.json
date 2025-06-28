@@ -7,7 +7,7 @@
     "wellKnownDID": "https://schemas.originvault.box/.well-known/did-configuration.json"
   },
   "build": {
-    "timestamp": "2025-06-27T23:26:29.224Z",
+    "timestamp": "2025-06-27T23:29:53.855Z",
     "gitCommit": "local-build",
     "gitRef": "refs/heads/main",
     "nodeVersion": "v20.8.0",

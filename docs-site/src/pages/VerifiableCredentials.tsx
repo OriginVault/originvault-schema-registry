@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import {
   Box,
   Grid,
@@ -57,8 +58,23 @@ interface ValidationResult {
   }>;
 }
 
+// Tab mapping for URL routing
+const TAB_ROUTES = {
+  'validate': 0,
+  'create': 1,
+  'verify': 2,
+  'browse': 3
+} as const;
+
+const TAB_PATHS = ['validate', 'create', 'verify', 'browse'] as const;
+
 const VerifiableCredentials: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState(0);
+  const navigate = useNavigate();
+  const { tab } = useParams<{ tab?: string }>();
+  
+  // Determine current tab from URL
+  const currentTab = tab ? (TAB_ROUTES[tab as keyof typeof TAB_ROUTES] ?? 0) : 0;
+  
   const [vcSchemas, setVcSchemas] = useState<VCSchema[]>([]);
   const [selectedSchema, setSelectedSchema] = useState<string>('');
   const [credential, setCredential] = useState<string>('');
@@ -71,6 +87,22 @@ const VerifiableCredentials: React.FC = () => {
   const [issuer, setIssuer] = useState('did:example:issuer123');
   const [subject, setSubject] = useState('{}');
   
+  // Handle tab navigation
+  const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+    const tabPath = TAB_PATHS[newValue];
+    navigate(`/verifiable-credentials/${tabPath}`);
+  };
+
+  // Redirect to default tab if no tab specified
+  if (!tab) {
+    return <Navigate to="/verifiable-credentials/validate" replace />;
+  }
+
+  // Redirect to validate tab if invalid tab
+  if (!(tab in TAB_ROUTES)) {
+    return <Navigate to="/verifiable-credentials/validate" replace />;
+  }
+
   useEffect(() => {
     loadVCSchemas();
   }, []);
@@ -296,7 +328,7 @@ const VerifiableCredentials: React.FC = () => {
       </Typography>
       
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
-        <Tabs value={currentTab} onChange={(_, newValue) => setCurrentTab(newValue)}>
+        <Tabs value={currentTab} onChange={handleTabChange}>
           <Tab label="Validate Credential" />
           <Tab label="Create Template" />
           <Tab label="Verify Presentation" />
@@ -589,7 +621,7 @@ const VerifiableCredentials: React.FC = () => {
                         size="small"
                         onClick={() => {
                           setSelectedSchema(schema.id);
-                          setCurrentTab(1);
+                          navigate('/verifiable-credentials/create');
                         }}
                       >
                         Create Template
