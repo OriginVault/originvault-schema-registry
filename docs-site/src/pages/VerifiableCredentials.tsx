@@ -178,7 +178,20 @@ const VerifiableCredentials: React.FC = () => {
     
     setLoading(true);
     try {
-      const subjectObj = subject ? JSON.parse(subject) : undefined;
+      // Only parse and send subject if it's meaningful (not empty, not just {}, not just whitespace)
+      let subjectObj = undefined;
+      if (subject && subject.trim() && subject.trim() !== '{}') {
+        try {
+          const parsed = JSON.parse(subject);
+          // Check if parsed object has meaningful content
+          if (typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+            subjectObj = parsed;
+          }
+        } catch (error) {
+          console.warn('Invalid JSON in subject field, using generated template instead');
+        }
+      }
+      
       const response = await fetch('/api/vc/create-template', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -192,6 +205,11 @@ const VerifiableCredentials: React.FC = () => {
       const templateData = await response.json();
       setTemplate(templateData);
       setCredential(JSON.stringify(templateData, null, 2));
+      
+      // Also populate the subject field with the generated credential subject for easy editing
+      if (templateData.template && templateData.template.credentialSubject) {
+        setSubject(JSON.stringify(templateData.template.credentialSubject, null, 2));
+      }
     } catch (error) {
       console.error('Failed to create template:', error);
     } finally {

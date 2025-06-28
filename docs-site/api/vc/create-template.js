@@ -310,8 +310,18 @@ export default function handler(req, res) {
   try {
     const { schemaId, issuer, subject } = req.body;
     
-    // Generate schema-specific credential subject if not provided
-    const credentialSubject = subject || generateCredentialSubject(schemaId);
+    // Check if subject is meaningful (not empty object, null, undefined, or empty string)
+    const isSubjectMeaningful = subject && 
+      typeof subject === 'object' && 
+      Object.keys(subject).length > 0 &&
+      !(Object.keys(subject).length === 1 && subject.id && !subject.id.trim());
+    
+    // Generate schema-specific credential subject if not provided or empty
+    const credentialSubject = isSubjectMeaningful ? subject : generateCredentialSubject(schemaId);
+    
+    console.log(`Schema: ${schemaId}, Subject provided: ${!!subject}, Subject meaningful: ${isSubjectMeaningful}`);
+    console.log(`Subject received:`, JSON.stringify(subject));
+    console.log(`Generated credential subject:`, JSON.stringify(credentialSubject));
     
     const template = {
       '@context': [
