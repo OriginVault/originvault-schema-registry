@@ -179,7 +179,9 @@ export default function handler(req, res) {
     }
     
     if (indexData) {
-      console.log('Loaded index data:', JSON.stringify(indexData, null, 2));
+      console.log('Loaded index data, checking structure...');
+      console.log('Has categories:', !!indexData.categories);
+      console.log('Categories type:', typeof indexData.categories);
       
       // Convert index.json format to our API format
       const schemas = [];
@@ -187,9 +189,10 @@ export default function handler(req, res) {
       // Check if categories exist and is an object
       if (indexData.categories && typeof indexData.categories === 'object') {
         for (const [categoryKey, categoryData] of Object.entries(indexData.categories)) {
-          console.log(`Processing category: ${categoryKey}`, categoryData);
+          console.log(`Processing category: ${categoryKey}`);
           
           if (categoryData && categoryData.schemas && Array.isArray(categoryData.schemas)) {
+            console.log(`Found ${categoryData.schemas.length} schemas in ${categoryKey}`);
             for (const schemaInfo of categoryData.schemas) {
               const schema = {
                 id: schemaInfo.name,
@@ -203,26 +206,33 @@ export default function handler(req, res) {
               };
               schemas.push(schema);
             }
+          } else {
+            console.log(`No valid schemas found in category: ${categoryKey}`);
           }
         }
       } else {
         console.warn('No categories found in index data or categories is not an object');
       }
       
-      console.log(`Processed ${schemas.length} schemas`);
+      console.log(`Processed ${schemas.length} schemas from index.json`);
       
-      // Sort schemas by title
-      schemas.sort((a, b) => a.title.localeCompare(b.title));
-      
-      res.status(200).json({
-        schemas: schemas,
-        count: schemas.length
-      });
-      return;
+      // If we successfully extracted schemas from index.json, return them
+      if (schemas.length > 0) {
+        // Sort schemas by title
+        schemas.sort((a, b) => a.title.localeCompare(b.title));
+        
+        res.status(200).json({
+          schemas: schemas,
+          count: schemas.length
+        });
+        return;
+      } else {
+        console.warn('No schemas extracted from index.json, falling back to hardcoded schemas');
+      }
     }
     
-    // Fallback: Return a comprehensive response if index.json is not found
-    console.warn('index.json not found, returning hardcoded schemas');
+    // Fallback: Return a comprehensive response if index.json is not found or has no valid schemas
+    console.warn('Using fallback schemas - either index.json not found or contains no valid schemas');
     const fallbackSchemas = [
       // Identity Schemas
       {
@@ -411,6 +421,8 @@ export default function handler(req, res) {
         examples: []
       }
     ];
+    
+    console.log(`Returning ${fallbackSchemas.length} fallback schemas`);
     
     res.status(200).json({
       schemas: fallbackSchemas,
