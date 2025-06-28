@@ -68,7 +68,7 @@
   ],
   "buildMetadata": {
     "repoDID": "did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55",
-    "buildTimestamp": "2025-06-28T04:18:08.373Z",
+    "buildTimestamp": "2025-06-28T04:23:40.585Z",
     "gitCommit": "local-build"
   }
 }

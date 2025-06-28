@@ -24,6 +24,9 @@ jobs:
         node-version: '18'
         cache: 'npm'
         
+    - name: Update npm to support lockfileVersion 3
+      run: npm install -g npm@latest
+        
     - name: Install root dependencies
       run: npm ci
       
