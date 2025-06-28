@@ -63,10 +63,10 @@ jobs:
         npm ci
         cd docs-site && npm ci
         
-    - name: Generate types and schemas
+    - name: Build root project and generate types
       run: |
-        echo "🔄 Generating types and preparing schemas..."
-        npm run generate-types
+        echo "🔄 Building root project and generating types..."
+        npm run build
         
     - name: Build docs-site
       run: |

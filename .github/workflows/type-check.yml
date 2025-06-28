@@ -27,6 +27,10 @@ jobs:
     - name: Install root dependencies
       run: npm ci
       
+    - name: Build root project
+      if: matrix.project == 'docs-site'
+      run: npm run build
+      
     - name: Install docs-site dependencies
       if: matrix.project == 'docs-site'
       run: |
