@@ -36,7 +36,7 @@ function getRepoDID() {
 }
 
 // Add DID to package.json metadata
-function addDIDToPackageJson(repoDID) {
+function addBuildMetadataToPackageJson(repoDID) {
   try {
     const packagePath = path.resolve(PACKAGE_JSON_PATH);
     const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
@@ -61,8 +61,7 @@ function addDIDToPackageJson(repoDID) {
 
     // Add build metadata
     packageJson.buildMetadata = {
-      ...packageJson.buildMetadata,
-      repoDID,
+      ...packageJson.did,
       buildTimestamp: new Date().toISOString(),
       gitCommit: process.env.GITHUB_SHA || 'local-build'
     };
@@ -174,7 +173,7 @@ function main() {
 
   // Add DID to various places
   const results = [
-    addDIDToPackageJson(repoDID),
+    addBuildMetadataToPackageJson(repoDID),
     createCommitTemplate(repoDID),
     generateDIDMetadata(repoDID)
   ];

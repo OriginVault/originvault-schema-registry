@@ -105,11 +105,7 @@ Adds DID metadata to npm package:
     "did": "did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55",
     "didResolutionUrl": "https://resolver.cheqd.net/1.0/identifiers/did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55"
   },
-  "buildMetadata": {
-    "repoDID": "did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55",
-    "buildTimestamp": "2025-06-27T22:34:22.587Z",
-    "gitCommit": "8bb2c30"
-  }
+  "did": "did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55"
 }
 ```
 
