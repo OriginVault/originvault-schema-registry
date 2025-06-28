@@ -815,39 +815,50 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
               bgcolor: theme.palette.background.default,
             }}>
               {filteredSchemas.map((schema) => (
-                <ListItem key={schema.id} disablePadding>
-                  <ListItemButton
-                    selected={selectedSchema?.id === schema.id}
-                    onClick={() => handleSchemaSelect(schema)}
-                    sx={{ 
-                      px: 3, 
-                      py: 2,
-                      fontFamily: 'Thiccboi',
-                      '&.Mui-selected': {
-                        bgcolor: theme.palette.primary.main + '20',
-                        '&:hover': {
-                          bgcolor: theme.palette.primary.main + '30',
+                <React.Fragment key={schema.id}>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      selected={selectedSchema?.id === schema.id}
+                      onClick={() => handleSchemaSelect(schema)}
+                      sx={{ 
+                        px: 3, 
+                        py: 2,
+                        fontFamily: 'Thiccboi',
+                        '&.Mui-selected': {
+                          bgcolor: theme.palette.mode === 'light' ? theme.palette.primary.light : theme.palette.primary.main + '20',
+                          color: theme.palette.mode === 'light' ? theme.palette.primary.contrastText : undefined,
+                          '&:hover': {
+                            bgcolor: theme.palette.mode === 'light' ? theme.palette.primary.light : theme.palette.primary.main + '30',
+                          }
                         }
-                      }
-                    }}
-                  >
-                    <ListItemText
-                      primary={schema.title}
-                      secondary={schema.description}
-                      primaryTypographyProps={{ 
-                        variant: 'body2', 
-                        fontWeight: 'medium',
-                        fontFamily: 'Thiccboi',
-                        color: 'text.primary'
                       }}
-                      secondaryTypographyProps={{ 
-                        variant: 'caption',
-                        fontFamily: 'Thiccboi',
-                        color: 'text.secondary'
-                      }}
-                    />
-                  </ListItemButton>
-                </ListItem>
+                    >
+                      <ListItemText
+                        primary={schema.title}
+                        secondary={schema.description}
+                        primaryTypographyProps={{ 
+                          variant: 'body2', 
+                          fontWeight: 'medium',
+                          fontFamily: 'Thiccboi',
+                          color: 'text.primary'
+                        }}
+                        secondaryTypographyProps={{ 
+                          variant: 'caption',
+                          fontFamily: 'Thiccboi',
+                          color: 'text.secondary'
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                  {/* Show schema JSON preview for selected schema */}
+                  {selectedSchema?.id === schema.id && selectedSchema.content && (
+                    <Box sx={{ px: 4, py: 1, bgcolor: theme.palette.mode === 'light' ? '#f5f5f5' : 'background.default', borderRadius: 1, mb: 1 }}>
+                      <pre style={{ fontSize: 12, maxHeight: 200, overflow: 'auto', margin: 0 }}>
+                        {JSON.stringify(selectedSchema.content, null, 2)}
+                      </pre>
+                    </Box>
+                  )}
+                </React.Fragment>
               ))}
             </List>
           </Paper>
@@ -924,7 +935,23 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                 flexShrink: 0,
                 bgcolor: theme.palette.background.paper,
               }}>
-                <Tabs value={tabValue} onChange={handleTabChange} sx={{ px: 3 }}>
+                <Tabs value={tabValue} onChange={handleTabChange} sx={{ px: 3,
+                  '& .MuiTab-root': {
+                    fontFamily: 'Thiccboi',
+                  },
+                  '& .Mui-selected': {
+                    bgcolor: (theme) => theme.palette.mode === 'light' ? theme.palette.primary.light : theme.palette.primary.dark,
+                    color: (theme) => theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.primary.contrastText,
+                    borderRadius: 2,
+                    fontWeight: 'bold',
+                    boxShadow: (theme) => theme.palette.mode === 'light' ? '0 2px 8px 0 rgba(0,0,0,0.04)' : undefined,
+                  },
+                  '& .MuiTabs-indicator': {
+                    backgroundColor: (theme) => theme.palette.mode === 'light' ? theme.palette.primary.main : theme.palette.primary.light,
+                    height: 4,
+                    borderRadius: 2,
+                  },
+                }}>
                   <Tab label="JSON Schema" sx={{ fontFamily: 'Thiccboi' }} />
                   <Tab label="Generated Code" sx={{ fontFamily: 'Thiccboi' }} />
                   <Tab label="Dynamic Generator" sx={{ fontFamily: 'Thiccboi' }} />
