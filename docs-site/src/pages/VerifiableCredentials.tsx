@@ -83,14 +83,39 @@ const VerifiableCredentials: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [template, setTemplate] = useState<any>(null);
   
-  // Form fields for template creation
+  // Form fields for template creation  
   const [issuer, setIssuer] = useState('did:example:issuer123');
   const [subject, setSubject] = useState('{}');
   
-  // Debug logging for subject state changes
+  // Safe subject setter that validates JSON
+  const setSafeSubject = (value: string) => {
+    // Prevent obvious corruption patterns
+    if (value.match(/^{f+}$/)) {
+      console.warn('Detected corrupted subject value, resetting to {}');
+      setSubject('{}');
+      return;
+    }
+    
+    // Try to validate JSON if not empty
+    if (value.trim() && value !== '{}') {
+      try {
+        JSON.parse(value);
+        setSubject(value);
+      } catch {
+        // If invalid JSON, keep the current value for editing
+        setSubject(value);
+      }
+    } else {
+      setSubject(value);
+    }
+  };
+  
+  // Reset subject field when schema changes to prevent corruption
   useEffect(() => {
-    console.log('Subject state changed:', subject);
-  }, [subject]);
+    if (selectedSchema && subject !== '{}') {
+      setSafeSubject('{}');
+    }
+  }, [selectedSchema, subject]);
   
   // Handle tab navigation
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
@@ -224,16 +249,23 @@ const VerifiableCredentials: React.FC = () => {
       if (templateData.template && templateData.template.credentialSubject) {
         const subjectJson = JSON.stringify(templateData.template.credentialSubject, null, 2);
         console.log('Setting subject to:', subjectJson);
-        setSubject(subjectJson);
+        // Only update if the value is different to prevent loops
+        if (subjectJson !== subject) {
+          setSafeSubject(subjectJson);
+        }
       } else {
         console.warn('No credentialSubject found in template data:', templateData);
         // Reset to default if template generation didn't work as expected
-        setSubject('{}');
+        if (subject !== '{}') {
+          setSafeSubject('{}');
+        }
       }
     } catch (error) {
       console.error('Failed to create template:', error);
-      // Reset to default on error
-      setSubject('{}');
+      // Reset to default on error only if different
+      if (subject !== '{}') {
+        setSafeSubject('{}');
+      }
     } finally {
       setLoading(false);
     }
@@ -507,7 +539,7 @@ const VerifiableCredentials: React.FC = () => {
                   multiline
                   rows={4}
                   value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
+                  onChange={(e) => setSafeSubject(e.target.value)}
                   label="Credential Subject (JSON)"
                   placeholder="{}"
                   sx={{ mb: 2, fontFamily: 'monospace' }}
