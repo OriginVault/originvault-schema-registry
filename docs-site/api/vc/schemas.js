@@ -148,6 +148,9 @@ export default function handler(req, res) {
   }
 
   try {
+    // Debug current working directory
+    console.log('Current working directory:', process.cwd());
+    
     // Try to load the pre-built index.json file
     const possibleIndexPaths = [
       path.join(process.cwd(), 'public', 'schemas', 'v1', 'index.json'),
@@ -157,35 +160,56 @@ export default function handler(req, res) {
     
     let indexData = null;
     for (const indexPath of possibleIndexPaths) {
+      console.log('Checking index path:', indexPath);
       if (fs.existsSync(indexPath)) {
         console.log('Found index.json at:', indexPath);
-        const indexContent = fs.readFileSync(indexPath, 'utf8');
-        indexData = JSON.parse(indexContent);
-        break;
+        try {
+          const indexContent = fs.readFileSync(indexPath, 'utf8');
+          console.log('Index file content length:', indexContent.length);
+          indexData = JSON.parse(indexContent);
+          console.log('Successfully parsed index.json');
+          break;
+        } catch (parseError) {
+          console.error('Error parsing index.json:', parseError.message);
+          continue;
+        }
+      } else {
+        console.log('Index file not found at:', indexPath);
       }
     }
     
     if (indexData) {
+      console.log('Loaded index data:', JSON.stringify(indexData, null, 2));
+      
       // Convert index.json format to our API format
       const schemas = [];
       
-      for (const [categoryKey, categoryData] of Object.entries(indexData.categories)) {
-        if (categoryData.schemas) {
-          for (const schemaInfo of categoryData.schemas) {
-            const schema = {
-              id: schemaInfo.name,
-              title: schemaInfo.name.replace(/([A-Z])/g, ' $1').trim(),
-              description: schemaInfo.description || 'No description available',
-              category: categoryData.name,
-              version: '1.0.0',
-              schema: null, // We don't include full schema in listing
-              contexts: extractContexts({}),
-              examples: schemaInfo.example ? [schemaInfo.example] : []
-            };
-            schemas.push(schema);
+      // Check if categories exist and is an object
+      if (indexData.categories && typeof indexData.categories === 'object') {
+        for (const [categoryKey, categoryData] of Object.entries(indexData.categories)) {
+          console.log(`Processing category: ${categoryKey}`, categoryData);
+          
+          if (categoryData && categoryData.schemas && Array.isArray(categoryData.schemas)) {
+            for (const schemaInfo of categoryData.schemas) {
+              const schema = {
+                id: schemaInfo.name,
+                title: schemaInfo.name.replace(/([A-Z])/g, ' $1').trim(),
+                description: schemaInfo.description || 'No description available',
+                category: categoryData.name || categoryKey,
+                version: '1.0.0',
+                schema: null, // We don't include full schema in listing
+                contexts: extractContexts({}),
+                examples: schemaInfo.example ? [schemaInfo.example] : []
+              };
+              schemas.push(schema);
+            }
           }
         }
+      } else {
+        console.warn('No categories found in index data or categories is not an object');
       }
+      
+      console.log(`Processed ${schemas.length} schemas`);
       
       // Sort schemas by title
       schemas.sort((a, b) => a.title.localeCompare(b.title));
@@ -197,14 +221,15 @@ export default function handler(req, res) {
       return;
     }
     
-    // Fallback: Return a minimal response if index.json is not found
+    // Fallback: Return a comprehensive response if index.json is not found
     console.warn('index.json not found, returning hardcoded schemas');
     const fallbackSchemas = [
+      // Identity Schemas
       {
         id: 'PersonCredential',
         title: 'Person Credential',
         description: 'Individual identity verification and management',
-        category: 'Identity',
+        category: 'Identity & Access Management',
         version: '1.0.0',
         schema: null,
         contexts: extractContexts({}),
@@ -214,17 +239,172 @@ export default function handler(req, res) {
         id: 'OrganizationCredential',
         title: 'Organization Credential', 
         description: 'Business entity verification and authority delegation',
-        category: 'Identity',
+        category: 'Identity & Access Management',
         version: '1.0.0',
         schema: null,
         contexts: extractContexts({}),
         examples: []
       },
       {
+        id: 'AdminCredential',
+        title: 'Admin Credential',
+        description: 'Administrative privileges and system access',
+        category: 'Identity & Access Management',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'VaultAccessCredential',
+        title: 'Vault Access Credential',
+        description: 'Vault permission and access control management',
+        category: 'Identity & Access Management',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'APIAccessCredential',
+        title: 'API Access Credential',
+        description: 'API access control and rate limiting',
+        category: 'Identity & Access Management',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'OriginVaultRootAuthority',
+        title: 'Origin Vault Root Authority',
+        description: 'Platform root authority and governance',
+        category: 'Identity & Access Management',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      // Business Schemas
+      {
         id: 'ContractCredential',
         title: 'Contract Credential',
         description: 'Legal contract execution and tracking',
-        category: 'Business',
+        category: 'Business Workflow Automation',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'EquityGrantCredential',
+        title: 'Equity Grant Credential',
+        description: 'Equity compensation and vesting management',
+        category: 'Business Workflow Automation',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'WorkflowExecutionCredential',
+        title: 'Workflow Execution Credential',
+        description: 'Multi-step workflow orchestration and audit trails',
+        category: 'Business Workflow Automation',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      // Content Schemas
+      {
+        id: 'CreativeWorkCredential',
+        title: 'Creative Work Credential',
+        description: 'Content ownership and metadata management',
+        category: 'Content & Creation Management',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'ContentAuthenticityCredential',
+        title: 'Content Authenticity Credential',
+        description: 'Content integrity verification and C2PA compliance',
+        category: 'Content & Creation Management',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'ContentAIPermissionCredential',
+        title: 'Content AI Permission Credential',
+        description: 'AI usage permissions and licensing',
+        category: 'Content & Creation Management',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      // Trust Schemas
+      {
+        id: 'TrustedIssuerCredential',
+        title: 'Trusted Issuer Credential',
+        description: 'Trusted credential issuers and accreditation',
+        category: 'Trust & Verification Systems',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'ReputationCredential',
+        title: 'Reputation Credential',
+        description: 'Reputation scoring and trust history',
+        category: 'Trust & Verification Systems',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      // Payment Schemas
+      {
+        id: 'PaymentCredential',
+        title: 'Payment Credential',
+        description: 'Payment verification and transaction tracking',
+        category: 'Payments & Economics',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'StorageCredential',
+        title: 'Storage Credential',
+        description: 'Storage usage and billing verification',
+        category: 'Payments & Economics',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      // Platform Schemas
+      {
+        id: 'PluginEndorsementCredential',
+        title: 'Plugin Endorsement Credential',
+        description: 'Plugin verification and trust management',
+        category: 'Platform & Services',
+        version: '1.0.0',
+        schema: null,
+        contexts: extractContexts({}),
+        examples: []
+      },
+      {
+        id: 'GemCredential',
+        title: 'Gem Credential',
+        description: 'Platform reward and achievement system',
+        category: 'Platform & Services',
         version: '1.0.0',
         schema: null,
         contexts: extractContexts({}),
