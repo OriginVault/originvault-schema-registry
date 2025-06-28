@@ -1,0 +1,93 @@
+name: Schema Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'schemas/**/*.json'
+      - 'drafts/**/*.json'
+      - 'contexts/**/*.jsonld'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'schemas/**/*.json' 
+      - 'drafts/**/*.json'
+      - 'contexts/**/*.jsonld'
+
+jobs:
+  validate-schemas:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Validate JSON Schema syntax
+      run: |
+        echo "🔍 Validating JSON schemas..."
+        find schemas drafts -name "*.json" -type f | while read file; do
+          echo "Validating: $file"
+          node -e "
+            const fs = require('fs');
+            try {
+              JSON.parse(fs.readFileSync('$file', 'utf8'));
+              console.log('✅ Valid JSON: $file');
+            } catch (e) {
+              console.error('❌ Invalid JSON: $file');
+              console.error(e.message);
+              process.exit(1);
+            }
+          "
+        done
+        
+    - name: Validate JSON-LD contexts
+      run: |
+        echo "🔍 Validating JSON-LD contexts..."
+        find contexts -name "*.jsonld" -type f | while read file; do
+          echo "Validating: $file"
+          node -e "
+            const fs = require('fs');
+            try {
+              JSON.parse(fs.readFileSync('$file', 'utf8'));
+              console.log('✅ Valid JSON-LD: $file');
+            } catch (e) {
+              console.error('❌ Invalid JSON-LD: $file');
+              console.error(e.message);
+              process.exit(1);
+            }
+          "
+        done
+        
+    - name: Run schema-specific validation
+      run: |
+        echo "🔍 Running schema-specific validation..."
+        if [ -f "scripts/validate-schemas.js" ]; then
+          node scripts/validate-schemas.js
+        else
+          echo "📝 No custom validation script found, skipping"
+        fi
+        
+    - name: Generate type definitions
+      run: |
+        echo "🔄 Testing type generation..."
+        npm run generate-types
+        
+    - name: Verify build artifacts
+      run: |
+        echo "🔍 Verifying generated types..."
+        if [ -d "types" ]; then
+          echo "✅ Types directory exists"
+          echo "📊 Generated $(find types -name "*.ts" | wc -l) TypeScript files"
+        else
+          echo "❌ Types directory not generated"
+          exit 1
+        fi 

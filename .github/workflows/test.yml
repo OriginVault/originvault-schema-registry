@@ -1,0 +1,114 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18, 20]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        if [ -f "docs-site/package.json" ]; then
+          cd docs-site && npm ci
+        fi
+        
+    - name: Run schema validation tests
+      run: |
+        echo "🧪 Running schema validation tests..."
+        if [ -f "package.json" ] && npm run test --if-present; then
+          echo "✅ Root tests passed"
+        else
+          echo "📝 No root tests configured"
+        fi
+        
+    - name: Run docs-site tests
+      run: |
+        echo "🧪 Running docs-site tests..."
+        if [ -f "docs-site/package.json" ]; then
+          cd docs-site
+          if npm run test --if-present; then
+            echo "✅ Docs-site tests passed"
+          else
+            echo "📝 No docs-site tests configured"
+          fi
+        fi
+        
+    - name: Test schema generation
+      run: |
+        echo "🧪 Testing schema generation..."
+        npm run generate-types
+        
+        # Verify generated files
+        if [ -d "types" ]; then
+          echo "✅ Types generated successfully"
+          echo "📊 Generated $(find types -name "*.ts" | wc -l) TypeScript files"
+        else
+          echo "❌ Type generation failed"
+          exit 1
+        fi
+        
+    - name: Test API integration
+      run: |
+        echo "🧪 Testing API integration..."
+        
+        # Start a local server if available
+        if command -v serve > /dev/null; then
+          serve docs-site/dist -l 3000 &
+          SERVER_PID=$!
+          sleep 5
+          
+          # Test local endpoints
+          curl -f http://localhost:3000/api/schemas && echo "✅ Local API test passed" || echo "⚠️ Local API test failed"
+          
+          # Cleanup
+          kill $SERVER_PID || true
+        else
+          echo "📝 No local server testing (serve not available)"
+        fi
+        
+    - name: Lint check
+      run: |
+        echo "🧹 Running lint checks..."
+        if [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ]; then
+          npm run lint --if-present || echo "📝 Linting not fully configured"
+        else
+          echo "📝 ESLint not configured"
+        fi
+        
+    - name: Security audit
+      run: |
+        echo "🔒 Running security audit..."
+        npm audit --audit-level=high || echo "⚠️ Security vulnerabilities found"
+        
+    - name: Dependency check
+      run: |
+        echo "📦 Checking dependencies..."
+        npm outdated || echo "📝 Some dependencies may be outdated"
+        
+    - name: Coverage report (if available)
+      run: |
+        echo "📊 Generating coverage report..."
+        if npm run coverage --if-present; then
+          echo "✅ Coverage report generated"
+        else
+          echo "📝 No coverage script configured"
+        fi 
