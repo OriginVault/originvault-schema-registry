@@ -87,6 +87,11 @@ const VerifiableCredentials: React.FC = () => {
   const [issuer, setIssuer] = useState('did:example:issuer123');
   const [subject, setSubject] = useState('{}');
   
+  // Debug logging for subject state changes
+  useEffect(() => {
+    console.log('Subject state changed:', subject);
+  }, [subject]);
+  
   // Handle tab navigation
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     const tabPath = TAB_PATHS[newValue];
@@ -202,16 +207,33 @@ const VerifiableCredentials: React.FC = () => {
         })
       });
       
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('API Error:', errorData);
+        throw new Error(errorData.error || 'Failed to create template');
+      }
+      
       const templateData = await response.json();
+      console.log('Template API Response:', templateData);
+      console.log('Template credentialSubject:', templateData?.template?.credentialSubject);
+      
       setTemplate(templateData);
       setCredential(JSON.stringify(templateData, null, 2));
       
       // Also populate the subject field with the generated credential subject for easy editing
       if (templateData.template && templateData.template.credentialSubject) {
-        setSubject(JSON.stringify(templateData.template.credentialSubject, null, 2));
+        const subjectJson = JSON.stringify(templateData.template.credentialSubject, null, 2);
+        console.log('Setting subject to:', subjectJson);
+        setSubject(subjectJson);
+      } else {
+        console.warn('No credentialSubject found in template data:', templateData);
+        // Reset to default if template generation didn't work as expected
+        setSubject('{}');
       }
     } catch (error) {
       console.error('Failed to create template:', error);
+      // Reset to default on error
+      setSubject('{}');
     } finally {
       setLoading(false);
     }
