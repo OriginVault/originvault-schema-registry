@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams, Navigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
   Grid,
@@ -93,15 +93,18 @@ const VerifiableCredentials: React.FC = () => {
     navigate(`/verifiable-credentials/${tabPath}`);
   };
 
-  // Redirect to default tab if no tab specified
-  if (!tab) {
-    return <Navigate to="/verifiable-credentials/validate" replace />;
-  }
-
-  // Redirect to validate tab if invalid tab
-  if (!(tab in TAB_ROUTES)) {
-    return <Navigate to="/verifiable-credentials/validate" replace />;
-  }
+  // Handle redirects in useEffect to avoid infinite render loops
+  useEffect(() => {
+    if (!tab) {
+      navigate('/verifiable-credentials/validate', { replace: true });
+      return;
+    }
+    
+    if (!(tab in TAB_ROUTES)) {
+      navigate('/verifiable-credentials/validate', { replace: true });
+      return;
+    }
+  }, [tab, navigate]);
 
   useEffect(() => {
     loadVCSchemas();
@@ -315,6 +318,11 @@ const VerifiableCredentials: React.FC = () => {
       </CardContent>
     </Card>
   );
+
+  // Don't render main content if we don't have a valid tab (during redirects)
+  if (!tab || !(tab in TAB_ROUTES)) {
+    return <Box sx={{ py: 4 }}><CircularProgress /></Box>;
+  }
   
   return (
     <Box sx={{ py: 4 }}>
