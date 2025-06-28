@@ -11,7 +11,6 @@ import {
   CircularProgress,
   Tabs,
   Tab,
-  Paper,
   Chip,
   FormControl,
   InputLabel,

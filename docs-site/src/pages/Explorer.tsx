@@ -8,16 +8,12 @@ import {
   TextField,
   Chip,
   Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Alert,
   CircularProgress,
   Tabs,
   Tab,
   Paper
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import CodeIcon from '@mui/icons-material/Code';
 import VerifiedIcon from '@mui/icons-material/Verified';

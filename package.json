@@ -13,7 +13,11 @@
     "start": "npm run build && npm run server",
     "prepare": "npm run build",
     "type-check": "tsc --noEmit",
-    "pre-push": "npm run type-check && npm run build",
+    "lint": "echo 'Linting not configured yet'",
+    "test": "echo 'Tests not configured yet'",
+    "pre-commit": "npm run type-check && npm run lint && npm run test",
+    "pre-push": "npm run pre-commit && npm run build",
+    "quality-check": "npm run pre-commit",
     "add-repo-did": "node scripts/add-repo-did.js",
     "did:footer": "node scripts/add-repo-did.js --footer",
     "did:metadata": "node scripts/add-repo-did.js --metadata",
@@ -64,7 +68,7 @@
   ],
   "buildMetadata": {
     "repoDID": "did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55",
-    "buildTimestamp": "2025-06-28T02:30:57.652Z",
+    "buildTimestamp": "2025-06-28T04:01:12.343Z",
     "gitCommit": "local-build"
   }
 }
