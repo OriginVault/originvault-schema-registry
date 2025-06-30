@@ -1,16 +1,16 @@
 import { Box, Link, useTheme } from '@mui/material';
 import { SocialIcon } from 'react-social-icons';
-// import { OVIdViewer } from '@originvault/ov-id-viewer';
+import { OVIdViewer } from '@originvault/ov-id-viewer';
 import DIDViewer from './DIDViewer';
 
-// interface OVIdViewerOptions {
-//   data?: {
-//     didDocument?: any;
-//     didDocumentMetadata?: any;
-//     [key: string]: any;
-//   };
-//   [key: string]: any;
-// }
+interface OVIdViewerOptions {
+  data?: {
+    didDocument?: any;
+    didDocumentMetadata?: any;
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
 
 const Footer = (props: { isDarkMode?: boolean }) => {
   const theme = useTheme();
@@ -70,14 +70,19 @@ const Footer = (props: { isDarkMode?: boolean }) => {
         marginBottom: '10px',
       }}>
         <Box sx={{ marginRight: "2px", marginTop: "1px" }}>
-                  <DIDViewer 
-          isDarkMode={isDark}
-          didDocument={undefined}
-          didDocumentMetadata={undefined}
-          backgroundColor={backgroundColor}
-          foregroundColor={foregroundColor}
-          textColor={textColor}
-        />
+          <OVIdViewer 
+            did="did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55" 
+            render={(options: OVIdViewerOptions) => (
+              <DIDViewer 
+                isDarkMode={isDark}
+                didDocument={options?.data?.didDocument}
+                didDocumentMetadata={options?.data?.didDocumentMetadata}
+                backgroundColor={backgroundColor}
+                foregroundColor={foregroundColor}
+                textColor={textColor}
+              />
+            )}
+          />
         </Box>
         <SocialIcon 
           fgColor={backgroundColor} 

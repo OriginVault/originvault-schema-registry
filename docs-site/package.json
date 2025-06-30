@@ -25,7 +25,7 @@
     "@monaco-editor/react": "^4.7.0",
     "@mui/icons-material": "^5.17.1",
     "@mui/material": "^5.15.0",
-    "@originvault/ov-id-viewer": "^0.0.7-alpha.1",
+    "@originvault/ov-id-viewer": "^0.0.7-alpha.2",
     "@rjsf/utils": "^5.0.0",
     "@rjsf/validator-ajv8": "^5.0.0",
     "@tailwindcss/typography": "^0.5.10",
