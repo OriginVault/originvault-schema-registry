@@ -26,11 +26,11 @@
     "pre-commit": "npm run type-check && npm run lint && npm run test",
     "pre-push": "npm run pre-commit && npm run build",
     "quality-check": "npm run pre-commit",
-    "add-repo-did": "node scripts/add-repo-did.js",
-    "did:footer": "node scripts/add-repo-did.js --footer",
-    "did:metadata": "node scripts/add-repo-did.js --metadata",
-    "did:template": "node scripts/add-repo-did.js --template",
-    "commit-with-did": "node scripts/add-repo-did.js --footer && git commit"
+    "add-repo-did": "npx ts-node scripts/add-repo-did.ts",
+    "did:footer": "npx ts-node scripts/add-repo-did.ts --footer",
+    "did:metadata": "npx ts-node scripts/add-repo-did.ts --metadata",
+    "did:template": "npx ts-node scripts/add-repo-did.ts --template",
+    "commit-with-did": "npx ts-node scripts/add-repo-did.ts --footer && git commit"
   },
   "dependencies": {
     "@openverifiable/open-verifiable-types": "^0.0.1",
