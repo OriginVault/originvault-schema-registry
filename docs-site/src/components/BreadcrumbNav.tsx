@@ -45,11 +45,7 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ className }) => {
         const breadcrumbName = breadcrumbNameMap[to] || value.charAt(0).toUpperCase() + value.slice(1);
 
         return last ? (
-          <Typography 
-            color="text.primary" 
-            key={to}
-            sx={{ fontFamily: 'Thiccboi' }}
-          >
+          <Typography variant="body2" color="text.secondary" key={to}>
             {breadcrumbName}
           </Typography>
         ) : (
@@ -65,7 +61,12 @@ const BreadcrumbNav: React.FC<BreadcrumbNavProps> = ({ className }) => {
               fontFamily: 'Thiccboi'
             }}
           >
-            {breadcrumbName}
+            <Typography
+              color="text.primary"
+              sx={{ '&:hover': { textDecoration: 'underline' } }}
+            >
+              {breadcrumbName}
+            </Typography>
           </Link>
         );
       })}

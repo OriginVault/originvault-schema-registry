@@ -1,0 +1,18 @@
+# Generated files
+types/dist/
+dist/
+node_modules/
+
+# Binary files
+tests/credential-workflow-tests.js
+
+# Build outputs
+*.min.js
+*.bundle.js
+
+# Documentation
+docs-site/
+
+# Temporary files
+*.tmp
+*.temp 

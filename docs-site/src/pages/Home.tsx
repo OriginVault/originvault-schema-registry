@@ -11,7 +11,7 @@ import {
   Stack,
   useTheme
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -34,13 +34,13 @@ const Home: React.FC = () => {
       title: 'Verifiable Credentials',
       description: 'Built-in support for W3C Verifiable Credentials and JSON-LD schemas with blockchain integration.',
       icon: '🔐',
-      path: '/schemas'
+      path: '/verifiable-credentials'
     },
     {
       title: 'C2PA Integration',
       description: 'Content authenticity and provenance tracking with C2PA manifest support for digital media.',
       icon: '📷',
-      path: '/schemas'
+      path: '/c2pa'
     }
   ];
 
@@ -61,26 +61,28 @@ const Home: React.FC = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Hero Section */}
       <Box sx={{ textAlign: 'center', mb: 6 }}>
-        <Typography variant="h2" component="h1" gutterBottom fontFamily="Thiccboi">
+        <Typography variant="h2" component="h1" gutterBottom>
           OriginVault Schema Registry
         </Typography>
-        <Typography variant="h5" color="text.secondary" paragraph fontFamily="Thiccboi">
-          Interactive JSON schema documentation with QuickType integration for verifiable credentials and decentralized identity
+        <Typography variant="h5" color="text.secondary" paragraph>
+          Interactive JSON Schema Documentation & QuickType Integration
         </Typography>
         <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 4 }}>
-          <Button 
-            variant="contained" 
+          <Button
+            variant="contained"
             size="large"
-            onClick={() => navigate('/schemas')}
-            sx={{ fontFamily: 'Thiccboi' }}
+            component={Link}
+            to="/schemas"
+            sx={{ minWidth: 200 }}
           >
-            Explore Schemas & Generate Types
+            Explore Schemas
           </Button>
-          <Button 
-            variant="outlined" 
+          <Button
+            variant="outlined"
             size="large"
-            onClick={() => navigate('/quicktype')}
-            sx={{ fontFamily: 'Thiccboi' }}
+            component={Link}
+            to="/quicktype"
+            sx={{ minWidth: 200 }}
           >
             QuickType Guide
           </Button>
@@ -88,8 +90,8 @@ const Home: React.FC = () => {
       </Box>
 
       {/* Features */}
-      <Typography variant="h4" gutterBottom sx={{ mb: 4 }} fontFamily="Thiccboi">
-        Features
+      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+        Key Features
       </Typography>
       <Grid container spacing={3} sx={{ mb: 6 }}>
         {features.map((feature, index) => (
@@ -98,25 +100,23 @@ const Home: React.FC = () => {
               height: '100%',
               bgcolor: theme.palette.background.paper,
               borderColor: theme.palette.divider,
-              fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
             }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <Typography variant="h3" sx={{ mr: 2 }}>
                     {feature.icon}
                   </Typography>
-                  <Typography variant="h6" fontFamily="Thiccboi">
+                  <Typography variant="h6" gutterBottom>
                     {feature.title}
                   </Typography>
                 </Box>
-                <Typography variant="body2" color="text.secondary" paragraph fontFamily="Thiccboi">
+                <Typography variant="body2" color="text.secondary" paragraph>
                   {feature.description}
                 </Typography>
                 <Button 
                   size="small" 
                   onClick={() => navigate(feature.path)}
                   variant="outlined"
-                  sx={{ fontFamily: 'Thiccboi' }}
                 >
                   Learn More
                 </Button>
@@ -127,7 +127,7 @@ const Home: React.FC = () => {
       </Grid>
 
       {/* Supported Languages */}
-      <Typography variant="h4" gutterBottom sx={{ mb: 4 }} fontFamily="Thiccboi">
+      <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
         Supported Languages
       </Typography>
       <Paper sx={{ 
@@ -135,7 +135,6 @@ const Home: React.FC = () => {
         mb: 6,
         bgcolor: theme.palette.background.paper,
         borderColor: theme.palette.divider,
-        fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
       }}>
         <Grid container spacing={2}>
           {languages.map((lang, index) => (
@@ -144,7 +143,7 @@ const Home: React.FC = () => {
                 <Typography variant="h4" sx={{ mb: 1 }}>
                   {lang.icon}
                 </Typography>
-                <Typography variant="body2" fontFamily="Thiccboi">
+                <Typography variant="body2">
                   {lang.name}
                 </Typography>
               </Box>
@@ -168,34 +167,21 @@ const Home: React.FC = () => {
             Explore our schemas, generate code, and integrate verifiable credentials into your applications.
           </Typography>
           <Stack direction="row" spacing={2} justifyContent="center">
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               size="large"
-              onClick={() => navigate('/schemas')}
-              sx={{ 
-                bgcolor: theme.palette.background.paper, 
-                color: theme.palette.primary.main,
-                fontFamily: 'Thiccboi',
-                '&:hover': {
-                  bgcolor: theme.palette.background.default,
-                }
-              }}
+              component={Link}
+              to="/schemas"
+              sx={{ minWidth: 200 }}
             >
               Explore Schemas
             </Button>
-            <Button 
-              variant="outlined" 
+            <Button
+              variant="outlined"
               size="large"
-              onClick={() => navigate('/quicktype')}
-              sx={{ 
-                borderColor: theme.palette.background.paper, 
-                color: theme.palette.background.paper,
-                fontFamily: 'Thiccboi',
-                '&:hover': {
-                  borderColor: theme.palette.background.default,
-                  bgcolor: theme.palette.background.default + '20',
-                }
-              }}
+              component={Link}
+              to="/quicktype"
+              sx={{ minWidth: 200 }}
             >
               QuickType Guide
             </Button>

@@ -1,4 +1,6 @@
-// // Using custom schema parser instead of QuickType for browser compatibility
+// Remove the local ImportMeta interface, use Vite's global type instead.
+
+// Using QuickType API with custom parser fallback for browser compatibility
 
 export interface SchemaMetadata {
   name: string
@@ -45,6 +47,13 @@ export interface QuickTypeResult {
 class SchemaService {
   private schemaRegistry: SchemaRegistry | null = null
   private cache: Map<string, QuickTypeResult> = new Map()
+  private apiBaseUrl: string
+
+  constructor() {
+    // Use Vite environment variable or default to relative path for proxy
+    this.apiBaseUrl = (import.meta as any).env.VITE_API_URL || '/api'
+
+  }
 
   async loadSchemaRegistry(): Promise<SchemaRegistry> {
     if (this.schemaRegistry) {
@@ -75,7 +84,7 @@ class SchemaService {
       
       if (response.ok) {
         const registry = await response.json()
-        console.log('Loaded schema registry from GitHub:', registry)
+
         
         // Validate the registry structure
         if (this.isValidSchemaRegistry(registry)) {
@@ -90,7 +99,7 @@ class SchemaService {
       }
     } catch (error) {
       console.error('Error loading schemas from GitHub:', error)
-      console.log('Using fallback registry')
+
       return this.getActualRegistry()
     }
   }
@@ -131,8 +140,8 @@ class SchemaService {
     }
 
     try {
-      // Use our improved schema parser to generate real code
-      const code = await this.generateRealCodeFromSchema(schema, language)
+      // First, try to use the QuickType API
+      const code = await this.generateCodeFromQuickTypeAPI(schema, language)
       const quickTypeResult: QuickTypeResult = {
         code,
         language,
@@ -144,7 +153,102 @@ class SchemaService {
       return code
     } catch (error) {
       console.error(`Error generating code for ${schema.title}:`, error)
-      return this.getFallbackCode(schema, language)
+
+      
+      // Fallback to custom parser
+      const fallbackCode = await this.generateRealCodeFromSchema(schema, language)
+      const quickTypeResult: QuickTypeResult = {
+        code: fallbackCode,
+        language,
+        schemaName: schema.title,
+        timestamp: new Date().toISOString()
+      }
+
+      this.cache.set(cacheKey, quickTypeResult)
+      return fallbackCode
+    }
+  }
+
+  private async generateCodeFromQuickTypeAPI(schema: Schema, language: string): Promise<string> {
+    try {
+      // Use the correct generate-from-registry endpoint
+      const url = `${this.apiBaseUrl}/quicktype/generate-from-registry`
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          schemaId: schema.id,
+          targetLanguage: language,
+          options: {
+            justTypes: true,
+            acronymStyle: 'original',
+            packageName: '',
+            namespace: ''
+          }
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error(`QuickType API error: ${response.statusText}`)
+      }
+
+      const result = await response.json()
+      
+      if (!result.success) {
+        throw new Error(result.error || 'QuickType API generation failed')
+      }
+
+      return result.result.code
+    } catch (error) {
+      console.error('QuickType API call failed:', error)
+      throw error
+    }
+  }
+
+  async getSupportedLanguages(): Promise<{ id: string; name: string; description: string }[]> {
+    try {
+      const url = `${this.apiBaseUrl}/quicktype/languages`
+
+      const response = await fetch(url)
+      if (response.ok) {
+        const result = await response.json()
+        return result.languages || []
+      }
+    } catch (error) {
+      console.error('Failed to fetch supported languages from API:', error)
+    }
+
+    // Fallback to hardcoded languages
+    return [
+      { id: 'typescript', name: 'TypeScript', description: 'TypeScript interfaces and types' },
+      { id: 'python', name: 'Python', description: 'Python dataclasses and type hints' },
+      { id: 'go', name: 'Go', description: 'Go structs and types' },
+      { id: 'csharp', name: 'C#', description: 'C# classes and properties' },
+      { id: 'java', name: 'Java', description: 'Java classes and annotations' },
+      { id: 'rust', name: 'Rust', description: 'Rust structs and derives' }
+    ]
+  }
+
+  async getGenerationOptions(): Promise<any> {
+    try {
+      const response = await fetch(`${this.apiBaseUrl}/quicktype/options`)
+      if (response.ok) {
+        const result = await response.json()
+        return result.options || {}
+      }
+    } catch (error) {
+      console.error('Failed to fetch generation options from API:', error)
+    }
+
+    // Fallback to default options
+    return {
+      justTypes: { type: 'boolean', default: true, description: 'Generate only type definitions' },
+      acronymStyle: { type: 'string', default: 'original', enum: ['original', 'pascal', 'camel', 'lower'] },
+      packageName: { type: 'string', description: 'Package name for supported languages' },
+      namespace: { type: 'string', description: 'Namespace for supported languages' }
     }
   }
 
@@ -744,15 +848,22 @@ pub struct ${schema.title.replace(/\s+/g, '')} {
     }))
   }
 
-  getLanguages(): { id: string; name: string }[] {
-    return [
-      { id: 'typescript', name: 'TypeScript' },
-      { id: 'python', name: 'Python' },
-      { id: 'go', name: 'Go' },
-      { id: 'csharp', name: 'C#' },
-      { id: 'java', name: 'Java' },
-      { id: 'rust', name: 'Rust' }
-    ]
+  async getLanguages(): Promise<{ id: string; name: string }[]> {
+    try {
+      const languages = await this.getSupportedLanguages()
+      return languages.map(lang => ({ id: lang.id, name: lang.name }))
+    } catch (error) {
+      console.error('Failed to get languages from API, using fallback:', error)
+      // Fallback to hardcoded languages
+      return [
+        { id: 'typescript', name: 'TypeScript' },
+        { id: 'python', name: 'Python' },
+        { id: 'go', name: 'Go' },
+        { id: 'csharp', name: 'C#' },
+        { id: 'java', name: 'Java' },
+        { id: 'rust', name: 'Rust' }
+      ]
+    }
   }
 
   private getActualRegistry(): SchemaRegistry {

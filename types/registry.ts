@@ -5,262 +5,6 @@
  */
 
 export const SCHEMA_REGISTRY = {
-  "Admin": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "@context": [
-        "https://schema.org",
-        "https://schemas.originvault.box"
-    ],
-    "$id": "https://schemas.originvault.box/Admin",
-    "title": "Admin",
-    "description": "Defines an administrator role within OriginVault, including governance and permissions.",
-    "type": "object",
-    "examples": [
-        {
-            "@type": "Person",
-            "adminId": "did:cheqd:mainnet:7f2b8c5e-4d1a-4b3c-9e8f-1a2b3c4d5e6f",
-            "governsVaults": [
-                "did:cheqd:mainnet:vault:content-studio-alpha",
-                "did:cheqd:mainnet:vault:creator-collective-beta"
-            ],
-            "managesNodes": [
-                "did:cheqd:mainnet:node:us-east-1-primary",
-                "did:cheqd:mainnet:node:eu-west-1-backup"
-            ],
-            "policyApprovals": [
-                "did:cheqd:mainnet:policy:content-moderation-v2",
-                "did:cheqd:mainnet:policy:privacy-framework-v1"
-            ],
-            "enforcementActions": [
-                {
-                    "actionId": "did:cheqd:mainnet:action:enforce-123",
-                    "targetEntity": "did:cheqd:mainnet:user:violator-456",
-                    "reason": "Violation of content authenticity policy",
-                    "timestamp": "2025-01-14T10:30:00Z"
-                }
-            ],
-            "trustedByNamespaces": [
-                "did:cheqd:mainnet:namespace:photography",
-                "did:cheqd:mainnet:namespace:journalism"
-            ],
-            "securityClearanceLevel": "high"
-        }
-    ],
-    "properties": {
-        "@type": {
-            "type": "string",
-            "enum": [
-                "Person",
-                "Organization"
-            ],
-            "description": "Schema.org type indicating whether this admin is a person or organization",
-            "examples": [
-                "Person",
-                "Organization"
-            ]
-        },
-        "adminId": {
-            "type": "string",
-            "description": "DID of the admin.",
-            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
-            "minLength": 20,
-            "maxLength": 200,
-            "examples": [
-                "did:cheqd:mainnet:7f2b8c5e-4d1a-4b3c-9e8f-1a2b3c4d5e6f",
-                "did:web:admin.originvault.box",
-                "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
-            ]
-        },
-        "governsVaults": {
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 100,
-            "items": {
-                "type": "string",
-                "description": "DIDs of vaults managed by this admin.",
-                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
-                "minLength": 20,
-                "maxLength": 200
-            },
-            "description": "Array of vault DIDs that this admin has governance authority over",
-            "examples": [
-                [
-                    "did:cheqd:mainnet:vault:content-studio-alpha"
-                ],
-                [
-                    "did:cheqd:mainnet:vault:creator-collective-beta",
-                    "did:cheqd:mainnet:vault:enterprise-vault-gamma"
-                ]
-            ]
-        },
-        "managesNodes": {
-            "type": "array",
-            "minItems": 0,
-            "maxItems": 50,
-            "items": {
-                "type": "string",
-                "description": "DIDs of nodes managed by this admin.",
-                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
-                "minLength": 20,
-                "maxLength": 200
-            },
-            "description": "Array of infrastructure node DIDs that this admin manages",
-            "examples": [
-                [],
-                [
-                    "did:cheqd:mainnet:node:us-east-1-primary"
-                ],
-                [
-                    "did:cheqd:mainnet:node:us-east-1-primary",
-                    "did:cheqd:mainnet:node:eu-west-1-backup"
-                ]
-            ]
-        },
-        "policyApprovals": {
-            "type": "array",
-            "minItems": 1,
-            "maxItems": 200,
-            "items": {
-                "type": "string",
-                "description": "DIDs of approved governance policies.",
-                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
-                "minLength": 20,
-                "maxLength": 200
-            },
-            "description": "Array of governance policy DIDs that this admin has approved",
-            "examples": [
-                [
-                    "did:cheqd:mainnet:policy:content-moderation-v2"
-                ],
-                [
-                    "did:cheqd:mainnet:policy:content-moderation-v2",
-                    "did:cheqd:mainnet:policy:privacy-framework-v1"
-                ]
-            ]
-        },
-        "enforcementActions": {
-            "type": "array",
-            "minItems": 0,
-            "maxItems": 1000,
-            "items": {
-                "type": "object",
-                "required": [
-                    "actionId",
-                    "targetEntity",
-                    "reason",
-                    "timestamp"
-                ],
-                "properties": {
-                    "actionId": {
-                        "type": "string",
-                        "description": "DID of the action taken.",
-                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
-                        "minLength": 20,
-                        "maxLength": 200,
-                        "examples": [
-                            "did:cheqd:mainnet:action:enforce-123"
-                        ]
-                    },
-                    "targetEntity": {
-                        "type": "string",
-                        "description": "DID of the entity affected by the action.",
-                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
-                        "minLength": 20,
-                        "maxLength": 200,
-                        "examples": [
-                            "did:cheqd:mainnet:user:violator-456"
-                        ]
-                    },
-                    "reason": {
-                        "type": "string",
-                        "description": "Reason for enforcement action.",
-                        "minLength": 10,
-                        "maxLength": 500,
-                        "examples": [
-                            "Violation of content authenticity policy",
-                            "Spam content detected",
-                            "Terms of service violation"
-                        ]
-                    },
-                    "timestamp": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "ISO 8601 timestamp of when the enforcement action was taken",
-                        "examples": [
-                            "2025-01-14T10:30:00Z",
-                            "2025-01-14T15:45:30.123Z"
-                        ]
-                    }
-                },
-                "examples": [
-                    {
-                        "actionId": "did:cheqd:mainnet:action:enforce-123",
-                        "targetEntity": "did:cheqd:mainnet:user:violator-456",
-                        "reason": "Violation of content authenticity policy",
-                        "timestamp": "2025-01-14T10:30:00Z"
-                    }
-                ]
-            },
-            "description": "Records enforcement actions taken by the admin",
-            "examples": [
-                [],
-                [
-                    {
-                        "actionId": "did:cheqd:mainnet:action:enforce-123",
-                        "targetEntity": "did:cheqd:mainnet:user:violator-456",
-                        "reason": "Violation of content authenticity policy",
-                        "timestamp": "2025-01-14T10:30:00Z"
-                    }
-                ]
-            ]
-        },
-        "trustedByNamespaces": {
-            "type": "array",
-            "minItems": 0,
-            "maxItems": 50,
-            "items": {
-                "type": "string",
-                "description": "DIDs of namespaces that trust this admin.",
-                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
-                "minLength": 20,
-                "maxLength": 200
-            },
-            "description": "Array of namespace DIDs that have granted trust to this admin",
-            "examples": [
-                [],
-                [
-                    "did:cheqd:mainnet:namespace:photography"
-                ],
-                [
-                    "did:cheqd:mainnet:namespace:photography",
-                    "did:cheqd:mainnet:namespace:journalism"
-                ]
-            ]
-        },
-        "securityClearanceLevel": {
-            "type": "string",
-            "enum": [
-                "low",
-                "medium",
-                "high"
-            ],
-            "description": "Level of security clearance granted to the admin",
-            "examples": [
-                "low",
-                "medium",
-                "high"
-            ],
-            "default": "low"
-        }
-    },
-    "required": [
-        "adminId",
-        "governsVaults",
-        "managesNodes",
-        "policyApprovals"
-    ],
-    "additionalProperties": false
-},
   "AIConfig": {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://json.schemastore.org/aiconfig-1.0.json",
@@ -607,6 +351,262 @@ export const SCHEMA_REGISTRY = {
         "paymentProof",
         "agreementSigned"
     ]
+},
+  "Admin": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://schema.org",
+        "https://schemas.originvault.box"
+    ],
+    "$id": "https://schemas.originvault.box/Admin",
+    "title": "Admin",
+    "description": "Defines an administrator role within OriginVault, including governance and permissions.",
+    "type": "object",
+    "examples": [
+        {
+            "@type": "Person",
+            "adminId": "did:cheqd:mainnet:7f2b8c5e-4d1a-4b3c-9e8f-1a2b3c4d5e6f",
+            "governsVaults": [
+                "did:cheqd:mainnet:vault:content-studio-alpha",
+                "did:cheqd:mainnet:vault:creator-collective-beta"
+            ],
+            "managesNodes": [
+                "did:cheqd:mainnet:node:us-east-1-primary",
+                "did:cheqd:mainnet:node:eu-west-1-backup"
+            ],
+            "policyApprovals": [
+                "did:cheqd:mainnet:policy:content-moderation-v2",
+                "did:cheqd:mainnet:policy:privacy-framework-v1"
+            ],
+            "enforcementActions": [
+                {
+                    "actionId": "did:cheqd:mainnet:action:enforce-123",
+                    "targetEntity": "did:cheqd:mainnet:user:violator-456",
+                    "reason": "Violation of content authenticity policy",
+                    "timestamp": "2025-01-14T10:30:00Z"
+                }
+            ],
+            "trustedByNamespaces": [
+                "did:cheqd:mainnet:namespace:photography",
+                "did:cheqd:mainnet:namespace:journalism"
+            ],
+            "securityClearanceLevel": "high"
+        }
+    ],
+    "properties": {
+        "@type": {
+            "type": "string",
+            "enum": [
+                "Person",
+                "Organization"
+            ],
+            "description": "Schema.org type indicating whether this admin is a person or organization",
+            "examples": [
+                "Person",
+                "Organization"
+            ]
+        },
+        "adminId": {
+            "type": "string",
+            "description": "DID of the admin.",
+            "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+            "minLength": 20,
+            "maxLength": 200,
+            "examples": [
+                "did:cheqd:mainnet:7f2b8c5e-4d1a-4b3c-9e8f-1a2b3c4d5e6f",
+                "did:web:admin.originvault.box",
+                "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK"
+            ]
+        },
+        "governsVaults": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+                "type": "string",
+                "description": "DIDs of vaults managed by this admin.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of vault DIDs that this admin has governance authority over",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:vault:content-studio-alpha"
+                ],
+                [
+                    "did:cheqd:mainnet:vault:creator-collective-beta",
+                    "did:cheqd:mainnet:vault:enterprise-vault-gamma"
+                ]
+            ]
+        },
+        "managesNodes": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 50,
+            "items": {
+                "type": "string",
+                "description": "DIDs of nodes managed by this admin.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of infrastructure node DIDs that this admin manages",
+            "examples": [
+                [],
+                [
+                    "did:cheqd:mainnet:node:us-east-1-primary"
+                ],
+                [
+                    "did:cheqd:mainnet:node:us-east-1-primary",
+                    "did:cheqd:mainnet:node:eu-west-1-backup"
+                ]
+            ]
+        },
+        "policyApprovals": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 200,
+            "items": {
+                "type": "string",
+                "description": "DIDs of approved governance policies.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of governance policy DIDs that this admin has approved",
+            "examples": [
+                [
+                    "did:cheqd:mainnet:policy:content-moderation-v2"
+                ],
+                [
+                    "did:cheqd:mainnet:policy:content-moderation-v2",
+                    "did:cheqd:mainnet:policy:privacy-framework-v1"
+                ]
+            ]
+        },
+        "enforcementActions": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 1000,
+            "items": {
+                "type": "object",
+                "required": [
+                    "actionId",
+                    "targetEntity",
+                    "reason",
+                    "timestamp"
+                ],
+                "properties": {
+                    "actionId": {
+                        "type": "string",
+                        "description": "DID of the action taken.",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                        "minLength": 20,
+                        "maxLength": 200,
+                        "examples": [
+                            "did:cheqd:mainnet:action:enforce-123"
+                        ]
+                    },
+                    "targetEntity": {
+                        "type": "string",
+                        "description": "DID of the entity affected by the action.",
+                        "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                        "minLength": 20,
+                        "maxLength": 200,
+                        "examples": [
+                            "did:cheqd:mainnet:user:violator-456"
+                        ]
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "Reason for enforcement action.",
+                        "minLength": 10,
+                        "maxLength": 500,
+                        "examples": [
+                            "Violation of content authenticity policy",
+                            "Spam content detected",
+                            "Terms of service violation"
+                        ]
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "ISO 8601 timestamp of when the enforcement action was taken",
+                        "examples": [
+                            "2025-01-14T10:30:00Z",
+                            "2025-01-14T15:45:30.123Z"
+                        ]
+                    }
+                },
+                "examples": [
+                    {
+                        "actionId": "did:cheqd:mainnet:action:enforce-123",
+                        "targetEntity": "did:cheqd:mainnet:user:violator-456",
+                        "reason": "Violation of content authenticity policy",
+                        "timestamp": "2025-01-14T10:30:00Z"
+                    }
+                ]
+            },
+            "description": "Records enforcement actions taken by the admin",
+            "examples": [
+                [],
+                [
+                    {
+                        "actionId": "did:cheqd:mainnet:action:enforce-123",
+                        "targetEntity": "did:cheqd:mainnet:user:violator-456",
+                        "reason": "Violation of content authenticity policy",
+                        "timestamp": "2025-01-14T10:30:00Z"
+                    }
+                ]
+            ]
+        },
+        "trustedByNamespaces": {
+            "type": "array",
+            "minItems": 0,
+            "maxItems": 50,
+            "items": {
+                "type": "string",
+                "description": "DIDs of namespaces that trust this admin.",
+                "pattern": "^did:(cheqd|key|web|ethr):[a-zA-Z0-9._:-]+$",
+                "minLength": 20,
+                "maxLength": 200
+            },
+            "description": "Array of namespace DIDs that have granted trust to this admin",
+            "examples": [
+                [],
+                [
+                    "did:cheqd:mainnet:namespace:photography"
+                ],
+                [
+                    "did:cheqd:mainnet:namespace:photography",
+                    "did:cheqd:mainnet:namespace:journalism"
+                ]
+            ]
+        },
+        "securityClearanceLevel": {
+            "type": "string",
+            "enum": [
+                "low",
+                "medium",
+                "high"
+            ],
+            "description": "Level of security clearance granted to the admin",
+            "examples": [
+                "low",
+                "medium",
+                "high"
+            ],
+            "default": "low"
+        }
+    },
+    "required": [
+        "adminId",
+        "governsVaults",
+        "managesNodes",
+        "policyApprovals"
+    ],
+    "additionalProperties": false
 },
   "ClaimVerification": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -2486,275 +2486,6 @@ export const SCHEMA_REGISTRY = {
         "aiUsagePolicies"
     ]
 },
-  "DataChamberContributionAgreement": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://schemas.originvault.box/DataChamberContributorAgreement",
-    "title": "Data Chamber Contributor Agreement",
-    "description": "Defines the terms under which a user contributes data to a Vault Chamber for potential monetization.",
-    "type": "object",
-    "properties": {
-        "@type": {
-            "type": "string",
-            "enum": [
-                "License",
-                "CreativeWork"
-            ],
-            "description": "Schema.org type"
-        },
-        "agreementId": {
-            "type": "string",
-            "description": "DID of the agreement."
-        },
-        "chamberId": {
-            "type": "string",
-            "description": "DID of the Data Chamber."
-        },
-        "userId": {
-            "type": "string",
-            "description": "DID of the contributor."
-        },
-        "dataUsageTerms": {
-            "type": "array",
-            "items": {
-                "type": "string",
-                "enum": [
-                    "AI Training",
-                    "Research",
-                    "Commercial Use",
-                    "Limited Redistribution"
-                ],
-                "description": "List of allowed uses for contributed data."
-            }
-        },
-        "optOutPolicy": {
-            "type": "object",
-            "properties": {
-                "optOutAllowed": {
-                    "type": "boolean",
-                    "description": "Whether users can opt out after contribution."
-                },
-                "dataRetentionPeriod": {
-                    "type": "string",
-                    "description": "How long data is stored after opt-out."
-                }
-            }
-        },
-        "compensationModel": {
-            "type": "object",
-            "properties": {
-                "revenueShare": {
-                    "type": "number",
-                    "description": "Percentage of revenue given to contributors."
-                },
-                "rewardMechanism": {
-                    "type": "string",
-                    "enum": [
-                        "Fiat Payout",
-                        "Gems",
-                        "Tokens"
-                    ],
-                    "description": "How users are rewarded for their data."
-                }
-            }
-        },
-        "agreementSigned": {
-            "type": "boolean",
-            "description": "Whether the user has accepted the agreement."
-        },
-        "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Time of agreement acceptance."
-        }
-    },
-    "required": [
-        "agreementId",
-        "chamberId",
-        "userId",
-        "dataUsageTerms",
-        "optOutPolicy",
-        "compensationModel",
-        "agreementSigned",
-        "timestamp"
-    ]
-},
-  "DataChamberEnrollment": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://schemas.originvault.box/DataChamberEnrollment",
-    "title": "Data Chamber Enrollment",
-    "description": "Defines how users enroll in data pools within Vault Chambers and the terms of participation.",
-    "type": "object",
-    "properties": {
-        "chamberId": {
-            "type": "string",
-            "description": "DID of the Data Chamber."
-        },
-        "userId": {
-            "type": "string",
-            "description": "DID of the user enrolling in the chamber."
-        },
-        "contributedData": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "dataId": {
-                        "type": "string",
-                        "description": "DID of the data contribution."
-                    },
-                    "timestamp": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "When the data was added."
-                    }
-                }
-            },
-            "description": "List of data contributions by this user."
-        },
-        "termsAccepted": {
-            "type": "boolean",
-            "description": "Whether the user has accepted the data-sharing terms."
-        },
-        "rewardEligibility": {
-            "type": "object",
-            "properties": {
-                "revenueSharePercentage": {
-                    "type": "number",
-                    "description": "The percentage of sales the user is eligible for."
-                },
-                "rewardMechanism": {
-                    "type": "string",
-                    "enum": [
-                        "Gems",
-                        "Tokens",
-                        "Fiat Payout"
-                    ],
-                    "description": "How users are rewarded."
-                }
-            },
-            "description": "Defines how rewards are distributed."
-        }
-    },
-    "required": [
-        "chamberId",
-        "userId",
-        "contributedData",
-        "termsAccepted",
-        "rewardEligibility"
-    ]
-},
-  "Developer": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "@context": [
-        "https://schema.org",
-        "https://schemas.originvault.box"
-    ],
-    "$id": "https://schemas.originvault.box/Developer",
-    "title": "Developer",
-    "description": "Defines a developer's identity, contributions, and repositories in OriginVault.",
-    "type": "object",
-    "properties": {
-        "@type": {
-            "type": "string",
-            "enum": [
-                "Person"
-            ],
-            "description": "Schema.org type"
-        },
-        "developerId": {
-            "type": "string",
-            "description": "DID of the developer."
-        },
-        "githubProfile": {
-            "type": "string",
-            "format": "uri",
-            "description": "Developer's GitHub or GitLab profile."
-        },
-        "publishedPlugins": {
-            "type": "array",
-            "items": {
-                "type": "string",
-                "description": "DIDs of plugins created by the developer."
-            },
-            "description": "List of plugins or software developed."
-        },
-        "signedCommits": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            },
-            "description": "List of cryptographically signed commits by the developer."
-        },
-        "trustedBy": {
-            "type": "array",
-            "items": {
-                "type": "string",
-                "description": "DIDs of other developers or organizations that trust this developer."
-            }
-        },
-        "reputationScore": {
-            "type": "number",
-            "description": "Reputation score based on trust metrics."
-        },
-        "certifications": {
-            "type": "array",
-            "items": {
-                "type": "string",
-                "description": "DIDs of certifications proving expertise."
-            }
-        }
-    },
-    "required": [
-        "developerId",
-        "publishedPlugins",
-        "signedCommits"
-    ]
-},
-  "DevelopmentEnvironmentMetadata": {
-    "$schema": "https://json-schema.org/draft-07/schema",
-    "$id": "https://schemas.originvault.box/DevelopmentEnvironmentMetadata.schema.json",
-    "title": "Development Environment Metadata",
-    "type": "object",
-    "properties": {
-        "environment": {
-            "type": "string",
-            "description": "The development environment or platform used (e.g., 'Node.js v14.17.0')."
-        },
-        "packageJson": {
-            "$ref": "https://json.schemastore.org/package.json"
-        },
-        "buildTool": {
-            "type": "string",
-            "description": "The tool used for building or compiling the project (e.g., 'webpack v5.38.1')."
-        },
-        "commitHash": {
-            "type": "string",
-            "description": "The Git commit hash corresponding to the codebase at the time of credential issuance."
-        },
-        "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The date and time when the credential was generated."
-        },
-        "operatingSystem": {
-            "type": "string",
-            "description": "A generic description of the operating system used in the development environment (e.g., 'Linux-based OS')."
-        },
-        "hostname": {
-            "type": "string",
-            "description": "The hashed hostname of the machine running the development environment."
-        },
-        "ipAddress": {
-            "type": "string",
-            "description": "The hashed IP address of the machine running the development environment."
-        }
-    },
-    "required": [
-        "environment",
-        "packageJson",
-        "timestamp"
-    ]
-},
   "DIDAssertionCredential": {
     "$schema": "https://json-schema.org/draft-07/schema",
     "@context": [
@@ -3275,6 +3006,275 @@ export const SCHEMA_REGISTRY = {
         "type"
     ],
     "additionalProperties": false
+},
+  "DataChamberContributionAgreement": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.originvault.box/DataChamberContributorAgreement",
+    "title": "Data Chamber Contributor Agreement",
+    "description": "Defines the terms under which a user contributes data to a Vault Chamber for potential monetization.",
+    "type": "object",
+    "properties": {
+        "@type": {
+            "type": "string",
+            "enum": [
+                "License",
+                "CreativeWork"
+            ],
+            "description": "Schema.org type"
+        },
+        "agreementId": {
+            "type": "string",
+            "description": "DID of the agreement."
+        },
+        "chamberId": {
+            "type": "string",
+            "description": "DID of the Data Chamber."
+        },
+        "userId": {
+            "type": "string",
+            "description": "DID of the contributor."
+        },
+        "dataUsageTerms": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "AI Training",
+                    "Research",
+                    "Commercial Use",
+                    "Limited Redistribution"
+                ],
+                "description": "List of allowed uses for contributed data."
+            }
+        },
+        "optOutPolicy": {
+            "type": "object",
+            "properties": {
+                "optOutAllowed": {
+                    "type": "boolean",
+                    "description": "Whether users can opt out after contribution."
+                },
+                "dataRetentionPeriod": {
+                    "type": "string",
+                    "description": "How long data is stored after opt-out."
+                }
+            }
+        },
+        "compensationModel": {
+            "type": "object",
+            "properties": {
+                "revenueShare": {
+                    "type": "number",
+                    "description": "Percentage of revenue given to contributors."
+                },
+                "rewardMechanism": {
+                    "type": "string",
+                    "enum": [
+                        "Fiat Payout",
+                        "Gems",
+                        "Tokens"
+                    ],
+                    "description": "How users are rewarded for their data."
+                }
+            }
+        },
+        "agreementSigned": {
+            "type": "boolean",
+            "description": "Whether the user has accepted the agreement."
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time of agreement acceptance."
+        }
+    },
+    "required": [
+        "agreementId",
+        "chamberId",
+        "userId",
+        "dataUsageTerms",
+        "optOutPolicy",
+        "compensationModel",
+        "agreementSigned",
+        "timestamp"
+    ]
+},
+  "DataChamberEnrollment": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.originvault.box/DataChamberEnrollment",
+    "title": "Data Chamber Enrollment",
+    "description": "Defines how users enroll in data pools within Vault Chambers and the terms of participation.",
+    "type": "object",
+    "properties": {
+        "chamberId": {
+            "type": "string",
+            "description": "DID of the Data Chamber."
+        },
+        "userId": {
+            "type": "string",
+            "description": "DID of the user enrolling in the chamber."
+        },
+        "contributedData": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "dataId": {
+                        "type": "string",
+                        "description": "DID of the data contribution."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "When the data was added."
+                    }
+                }
+            },
+            "description": "List of data contributions by this user."
+        },
+        "termsAccepted": {
+            "type": "boolean",
+            "description": "Whether the user has accepted the data-sharing terms."
+        },
+        "rewardEligibility": {
+            "type": "object",
+            "properties": {
+                "revenueSharePercentage": {
+                    "type": "number",
+                    "description": "The percentage of sales the user is eligible for."
+                },
+                "rewardMechanism": {
+                    "type": "string",
+                    "enum": [
+                        "Gems",
+                        "Tokens",
+                        "Fiat Payout"
+                    ],
+                    "description": "How users are rewarded."
+                }
+            },
+            "description": "Defines how rewards are distributed."
+        }
+    },
+    "required": [
+        "chamberId",
+        "userId",
+        "contributedData",
+        "termsAccepted",
+        "rewardEligibility"
+    ]
+},
+  "Developer": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://schema.org",
+        "https://schemas.originvault.box"
+    ],
+    "$id": "https://schemas.originvault.box/Developer",
+    "title": "Developer",
+    "description": "Defines a developer's identity, contributions, and repositories in OriginVault.",
+    "type": "object",
+    "properties": {
+        "@type": {
+            "type": "string",
+            "enum": [
+                "Person"
+            ],
+            "description": "Schema.org type"
+        },
+        "developerId": {
+            "type": "string",
+            "description": "DID of the developer."
+        },
+        "githubProfile": {
+            "type": "string",
+            "format": "uri",
+            "description": "Developer's GitHub or GitLab profile."
+        },
+        "publishedPlugins": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "description": "DIDs of plugins created by the developer."
+            },
+            "description": "List of plugins or software developed."
+        },
+        "signedCommits": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of cryptographically signed commits by the developer."
+        },
+        "trustedBy": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "description": "DIDs of other developers or organizations that trust this developer."
+            }
+        },
+        "reputationScore": {
+            "type": "number",
+            "description": "Reputation score based on trust metrics."
+        },
+        "certifications": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "description": "DIDs of certifications proving expertise."
+            }
+        }
+    },
+    "required": [
+        "developerId",
+        "publishedPlugins",
+        "signedCommits"
+    ]
+},
+  "DevelopmentEnvironmentMetadata": {
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "https://schemas.originvault.box/DevelopmentEnvironmentMetadata.schema.json",
+    "title": "Development Environment Metadata",
+    "type": "object",
+    "properties": {
+        "environment": {
+            "type": "string",
+            "description": "The development environment or platform used (e.g., 'Node.js v14.17.0')."
+        },
+        "packageJson": {
+            "$ref": "https://json.schemastore.org/package.json"
+        },
+        "buildTool": {
+            "type": "string",
+            "description": "The tool used for building or compiling the project (e.g., 'webpack v5.38.1')."
+        },
+        "commitHash": {
+            "type": "string",
+            "description": "The Git commit hash corresponding to the codebase at the time of credential issuance."
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the credential was generated."
+        },
+        "operatingSystem": {
+            "type": "string",
+            "description": "A generic description of the operating system used in the development environment (e.g., 'Linux-based OS')."
+        },
+        "hostname": {
+            "type": "string",
+            "description": "The hashed hostname of the machine running the development environment."
+        },
+        "ipAddress": {
+            "type": "string",
+            "description": "The hashed IP address of the machine running the development environment."
+        }
+    },
+    "required": [
+        "environment",
+        "packageJson",
+        "timestamp"
+    ]
 },
   "DigitalDocument": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -9851,6 +9851,158 @@ export const SCHEMA_REGISTRY = {
         "linkedCredential"
     ]
 },
+  "TrustGate": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.originvault.io/TrustGate",
+    "title": "Trust Gate",
+    "description": "Defines access rules based on Gems and Verifiable Credentials.",
+    "type": "object",
+    "properties": {
+        "resource": {
+            "type": "string",
+            "description": "The DID or URL of the resource being accessed."
+        },
+        "requiredTrustLevel": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Minimum trust score required for access."
+        },
+        "requiredGems": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of required Gems for access."
+        },
+        "requiredCredentials": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "List of required Verifiable Credentials for access."
+        },
+        "accessPolicy": {
+            "type": "string",
+            "enum": [
+                "public",
+                "restricted",
+                "private"
+            ],
+            "description": "Whether access is open, trust-restricted, or fully private."
+        }
+    },
+    "required": [
+        "resource",
+        "requiredTrustLevel",
+        "requiredGems",
+        "requiredCredentials",
+        "accessPolicy"
+    ]
+},
+  "TrustScore": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "@context": [
+        "https://www.w3.org/ns/credentials/v2",
+        "https://schema.org",
+        "https://schemas.originvault.box/contexts/v1"
+    ],
+    "$id": "https://schemas.originvault.box/TrustScore",
+    "title": "Trust Score",
+    "description": "Represents a calculated trust score for a DID based on blockchain accreditations and local endorsements.",
+    "type": "object",
+    "properties": {
+        "did": {
+            "type": "string",
+            "description": "DID of the entity being scored",
+            "pattern": "^did:"
+        },
+        "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Overall trust score (0-100)"
+        },
+        "factors": {
+            "type": "object",
+            "properties": {
+                "accreditations": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Score contribution from blockchain accreditations"
+                },
+                "endorsements": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Score contribution from local endorsements"
+                },
+                "timeWeighted": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Score contribution from recent activity"
+                },
+                "networkEffects": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Score contribution from network diversity"
+                },
+                "blockchainTrust": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Score contribution from blockchain-based trust indicators"
+                }
+            },
+            "required": [
+                "accreditations",
+                "endorsements",
+                "timeWeighted",
+                "networkEffects",
+                "blockchainTrust"
+            ],
+            "description": "Breakdown of trust score factors"
+        },
+        "lastCalculated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the score was last calculated"
+        },
+        "decay": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Score decay factor (0 = no decay, 1 = full decay)"
+        },
+        "blockchainSync": {
+            "type": "object",
+            "properties": {
+                "lastSynced": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Last time score was synced with blockchain"
+                },
+                "pendingChanges": {
+                    "type": "boolean",
+                    "description": "Whether there are local changes not yet pushed to blockchain"
+                },
+                "blockchainResourceId": {
+                    "type": "string",
+                    "description": "Resource ID on blockchain for this trust score"
+                }
+            },
+            "description": "Blockchain synchronization status"
+        },
+        "metadata": {
+            "type": "object",
+            "description": "Additional metadata for the trust score"
+        }
+    },
+    "required": [
+        "did",
+        "score",
+        "factors",
+        "lastCalculated",
+        "decay"
+    ]
+},
   "TrustedIssuer": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "@context": [
@@ -10508,158 +10660,6 @@ export const SCHEMA_REGISTRY = {
         }
     },
     "additionalProperties": false
-},
-  "TrustGate": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://schemas.originvault.io/TrustGate",
-    "title": "Trust Gate",
-    "description": "Defines access rules based on Gems and Verifiable Credentials.",
-    "type": "object",
-    "properties": {
-        "resource": {
-            "type": "string",
-            "description": "The DID or URL of the resource being accessed."
-        },
-        "requiredTrustLevel": {
-            "type": "number",
-            "minimum": 0,
-            "description": "Minimum trust score required for access."
-        },
-        "requiredGems": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            },
-            "description": "List of required Gems for access."
-        },
-        "requiredCredentials": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            },
-            "description": "List of required Verifiable Credentials for access."
-        },
-        "accessPolicy": {
-            "type": "string",
-            "enum": [
-                "public",
-                "restricted",
-                "private"
-            ],
-            "description": "Whether access is open, trust-restricted, or fully private."
-        }
-    },
-    "required": [
-        "resource",
-        "requiredTrustLevel",
-        "requiredGems",
-        "requiredCredentials",
-        "accessPolicy"
-    ]
-},
-  "TrustScore": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "@context": [
-        "https://www.w3.org/ns/credentials/v2",
-        "https://schema.org",
-        "https://schemas.originvault.box/contexts/v1"
-    ],
-    "$id": "https://schemas.originvault.box/TrustScore",
-    "title": "Trust Score",
-    "description": "Represents a calculated trust score for a DID based on blockchain accreditations and local endorsements.",
-    "type": "object",
-    "properties": {
-        "did": {
-            "type": "string",
-            "description": "DID of the entity being scored",
-            "pattern": "^did:"
-        },
-        "score": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 100,
-            "description": "Overall trust score (0-100)"
-        },
-        "factors": {
-            "type": "object",
-            "properties": {
-                "accreditations": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Score contribution from blockchain accreditations"
-                },
-                "endorsements": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Score contribution from local endorsements"
-                },
-                "timeWeighted": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Score contribution from recent activity"
-                },
-                "networkEffects": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Score contribution from network diversity"
-                },
-                "blockchainTrust": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Score contribution from blockchain-based trust indicators"
-                }
-            },
-            "required": [
-                "accreditations",
-                "endorsements",
-                "timeWeighted",
-                "networkEffects",
-                "blockchainTrust"
-            ],
-            "description": "Breakdown of trust score factors"
-        },
-        "lastCalculated": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the score was last calculated"
-        },
-        "decay": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 1,
-            "description": "Score decay factor (0 = no decay, 1 = full decay)"
-        },
-        "blockchainSync": {
-            "type": "object",
-            "properties": {
-                "lastSynced": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "Last time score was synced with blockchain"
-                },
-                "pendingChanges": {
-                    "type": "boolean",
-                    "description": "Whether there are local changes not yet pushed to blockchain"
-                },
-                "blockchainResourceId": {
-                    "type": "string",
-                    "description": "Resource ID on blockchain for this trust score"
-                }
-            },
-            "description": "Blockchain synchronization status"
-        },
-        "metadata": {
-            "type": "object",
-            "description": "Additional metadata for the trust score"
-        }
-    },
-    "required": [
-        "did",
-        "score",
-        "factors",
-        "lastCalculated",
-        "decay"
-    ]
 },
   "TsconfigJson": {
     "$schema": "http://json-schema.org/draft-04/schema#",
@@ -13793,9 +13793,9 @@ export const SCHEMA_REGISTRY = {
 } as const;
 
 export const SCHEMA_HASHES = {
-  "Admin": "1cff5468079ce2bd",
   "AIConfig": "5ef397ced24cdca3",
   "AIModelTrainingAgreement": "d70d5e16308ccf8d",
+  "Admin": "1cff5468079ce2bd",
   "ClaimVerification": "8c058d044fcd001f",
   "ClusterGovernance": "62c5014d52f68559",
   "ClusterRegistration": "5d8c277223ead6d4",
@@ -13808,12 +13808,12 @@ export const SCHEMA_HASHES = {
   "ContentLicensingAgreement": "488f3d178eac7df7",
   "ContentLicensingTerms": "9e765f16cf7aa92a",
   "Creator": "d1006cf7865ede74",
+  "DIDAssertionCredential": "81aa4db720cd413e",
+  "DIDDeclaration": "bdafb6c078563664",
   "DataChamberContributionAgreement": "a69e4e5a827fc3c9",
   "DataChamberEnrollment": "23f6d0638d0c8ac8",
   "Developer": "02974c14c63e11ad",
   "DevelopmentEnvironmentMetadata": "be04335e0377a54e",
-  "DIDAssertionCredential": "81aa4db720cd413e",
-  "DIDDeclaration": "bdafb6c078563664",
   "DigitalDocument": "ff51dfc7f5be546d",
   "EndorsementRecord": "b08263e684b31d80",
   "ExternalBuyerAgreement": "bcfdf4e67f303575",
@@ -13854,9 +13854,9 @@ export const SCHEMA_HASHES = {
   "StorageNodeDeclaration": "34956500c4e271f2",
   "TrustChainDelegation": "e9c92577cc2f726b",
   "TrustDelegation": "92e63377410eda91",
-  "TrustedIssuer": "ba5ee775787ccdb8",
   "TrustGate": "a98178988d66deb1",
   "TrustScore": "0db3ab66474f7c18",
+  "TrustedIssuer": "ba5ee775787ccdb8",
   "TsconfigJson": "e9adda821c2f0a17",
   "VaultAdminAgreement": "e5eae1428ba46fd5",
   "VaultChamberGovernance": "7cbdb4325892710d",
@@ -13874,12 +13874,6 @@ export const SCHEMA_HASHES = {
 } as const;
 
 export const SCHEMA_METADATA = {
-  "Admin": {
-    name: "Admin",
-    id: "https://schemas.originvault.box/Admin",
-    hash: "1cff5468079ce2bd",
-    version: "1.0.0"
-  },
   "AIConfig": {
     name: "AIConfig",
     id: "https://json.schemastore.org/aiconfig-1.0.json",
@@ -13890,6 +13884,12 @@ export const SCHEMA_METADATA = {
     name: "AIModelTrainingAgreement",
     id: "https://schemas.originvault.io/AITrainingAgreement",
     hash: "d70d5e16308ccf8d",
+    version: "1.0.0"
+  },
+  "Admin": {
+    name: "Admin",
+    id: "https://schemas.originvault.box/Admin",
+    hash: "1cff5468079ce2bd",
     version: "1.0.0"
   },
   "ClaimVerification": {
@@ -13964,6 +13964,18 @@ export const SCHEMA_METADATA = {
     hash: "d1006cf7865ede74",
     version: "1.0.0"
   },
+  "DIDAssertionCredential": {
+    name: "DIDAssertionCredential",
+    id: "https://schemas.originvault.box/DIDAssertionCredential.schema.json",
+    hash: "81aa4db720cd413e",
+    version: "1.0.0"
+  },
+  "DIDDeclaration": {
+    name: "DIDDeclaration",
+    id: "https://schemas.originvault.box/DIDDeclaration",
+    hash: "bdafb6c078563664",
+    version: "1.0.0"
+  },
   "DataChamberContributionAgreement": {
     name: "DataChamberContributionAgreement",
     id: "https://schemas.originvault.box/DataChamberContributorAgreement",
@@ -13986,18 +13998,6 @@ export const SCHEMA_METADATA = {
     name: "DevelopmentEnvironmentMetadata",
     id: "https://schemas.originvault.box/DevelopmentEnvironmentMetadata.schema.json",
     hash: "be04335e0377a54e",
-    version: "1.0.0"
-  },
-  "DIDAssertionCredential": {
-    name: "DIDAssertionCredential",
-    id: "https://schemas.originvault.box/DIDAssertionCredential.schema.json",
-    hash: "81aa4db720cd413e",
-    version: "1.0.0"
-  },
-  "DIDDeclaration": {
-    name: "DIDDeclaration",
-    id: "https://schemas.originvault.box/DIDDeclaration",
-    hash: "bdafb6c078563664",
     version: "1.0.0"
   },
   "DigitalDocument": {
@@ -14240,12 +14240,6 @@ export const SCHEMA_METADATA = {
     hash: "92e63377410eda91",
     version: "1.0.0"
   },
-  "TrustedIssuer": {
-    name: "TrustedIssuer",
-    id: "https://schemas.originvault.box/TrustedIssuer",
-    hash: "ba5ee775787ccdb8",
-    version: "1.0.0"
-  },
   "TrustGate": {
     name: "TrustGate",
     id: "https://schemas.originvault.io/TrustGate",
@@ -14256,6 +14250,12 @@ export const SCHEMA_METADATA = {
     name: "TrustScore",
     id: "https://schemas.originvault.box/TrustScore",
     hash: "0db3ab66474f7c18",
+    version: "1.0.0"
+  },
+  "TrustedIssuer": {
+    name: "TrustedIssuer",
+    id: "https://schemas.originvault.box/TrustedIssuer",
+    hash: "ba5ee775787ccdb8",
     version: "1.0.0"
   },
   "TsconfigJson": {

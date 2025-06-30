@@ -22,8 +22,8 @@ const SocialShare: React.FC<SocialShareProps> = ({
     try {
       await navigator.clipboard.writeText(url)
       if (onShare) onShare()
-    } catch (err) {
-      console.error('Failed to copy link:', err)
+    } catch (error) {
+      // console.error('Error copying to clipboard:', error);
     }
   }
 
@@ -54,10 +54,8 @@ const SocialShare: React.FC<SocialShareProps> = ({
           url
         })
         if (onShare) onShare()
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          console.error('Error sharing:', err)
-        }
+      } catch (error) {
+        // console.error('Error sharing:', error);
       }
     } else {
       // Fallback to copy link

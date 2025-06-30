@@ -7,7 +7,7 @@ import {
   searchTrust,
   getTrustChain,
   verifyTrust
-} from '../api/trust-registry';
+} from '../api/trust-registry.js';
 
 const router = express.Router();
 

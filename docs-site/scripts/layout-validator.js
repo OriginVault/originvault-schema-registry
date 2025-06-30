@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global require, module */
 
 const fs = require('fs');
 const path = require('path');
@@ -64,7 +65,7 @@ class LayoutValidator {
 
   detectColorContrastIssues(filePath, content) {
     // Check for multiple Chips with similar styling
-    const chipMatches = content.match(/Chip[\s\S]*?(?=Chip|\/\>|\/>)/g);
+    const chipMatches = content.match(/Chip[\s\S]*?(?=Chip|\/>|\/>)/g);
     if (chipMatches && chipMatches.length > 4) {
       // Check if they have distinct colors
       const hasDistinctColors = content.includes('color={') || content.includes('color=');

@@ -91,17 +91,17 @@ const QuickTypeGuide: React.FC = () => {
 
   return (
     <Box sx={{ py: 4 }}>
-      <Typography variant="h3" component="h1" gutterBottom fontFamily="Thiccboi">
+      <Typography variant="h3" component="h1" gutterBottom>
         QuickType Integration Guide
       </Typography>
       
-      <Typography variant="body1" color="text.secondary" paragraph fontFamily="Thiccboi">
+      <Typography variant="body1" color="text.secondary" paragraph>
         Learn how to use QuickType to generate type-safe code from JSON schemas in multiple programming languages.
       </Typography>
 
       {/* Installation Guide */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom fontFamily="Thiccboi">
+        <Typography variant="h4" gutterBottom>
           Installation & Setup
         </Typography>
         <Grid container spacing={3}>
@@ -111,7 +111,6 @@ const QuickTypeGuide: React.FC = () => {
                 p: 3,
                 bgcolor: theme.palette.background.paper,
                 borderColor: theme.palette.divider,
-                fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <Box
@@ -126,14 +125,13 @@ const QuickTypeGuide: React.FC = () => {
                       justifyContent: 'center',
                       mr: 2,
                       flexShrink: 0,
-                      fontFamily: 'Thiccboi',
                     }}
                   >
                     {step.step}
                   </Box>
-                  <Typography variant="h6" fontFamily="Thiccboi">{step.title}</Typography>
+                  <Typography variant="h6">{step.title}</Typography>
                 </Box>
-                <Typography variant="body2" color="text.secondary" paragraph fontFamily="Thiccboi">
+                <Typography variant="body2" color="text.secondary" paragraph>
                   {step.description}
                 </Typography>
                 <Box
@@ -160,7 +158,7 @@ const QuickTypeGuide: React.FC = () => {
 
       {/* Supported Languages */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom fontFamily="Thiccboi">
+        <Typography variant="h4" gutterBottom>
           Supported Languages
         </Typography>
         <Grid container spacing={2}>
@@ -170,14 +168,13 @@ const QuickTypeGuide: React.FC = () => {
                 <Typography variant="h4" sx={{ mb: 1 }}>
                   {lang.icon}
                 </Typography>
-                <Typography variant="body2" gutterBottom fontFamily="Thiccboi">
+                <Typography variant="body2" gutterBottom>
                   {lang.name}
                 </Typography>
                 <Chip 
                   label={lang.extension} 
                   size="small" 
-                  variant="outlined" 
-                  sx={{ fontFamily: 'Thiccboi' }}
+                  variant="outlined"
                 />
               </Box>
             </Grid>
@@ -187,7 +184,7 @@ const QuickTypeGuide: React.FC = () => {
 
       {/* Examples */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom fontFamily="Thiccboi">
+        <Typography variant="h4" gutterBottom>
           Usage Examples
         </Typography>
         <Grid container spacing={3}>
@@ -197,12 +194,11 @@ const QuickTypeGuide: React.FC = () => {
                 p: 3,
                 bgcolor: theme.palette.background.paper,
                 borderColor: theme.palette.divider,
-                fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
               }}>
-                <Typography variant="h6" gutterBottom fontFamily="Thiccboi">
+                <Typography variant="h6" gutterBottom>
                   {example.language}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" paragraph fontFamily="Thiccboi">
+                <Typography variant="body2" color="text.secondary" paragraph>
                   {example.description}
                 </Typography>
                 <Box
@@ -229,20 +225,20 @@ const QuickTypeGuide: React.FC = () => {
 
       {/* Best Practices */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" gutterBottom fontFamily="Thiccboi">
+        <Typography variant="h4" gutterBottom>
           Best Practices
         </Typography>
         <List>
           {bestPractices.map((practice, index) => (
             <ListItem key={index} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
               <ListItemText
-                primary={<Typography fontFamily="Thiccboi">{practice.title}</Typography>}
+                primary={<Typography>{practice.title}</Typography>}
                 secondary={
                   <Box>
-                    <Typography variant="body2" paragraph fontFamily="Thiccboi">
+                    <Typography variant="body2" paragraph>
                       {practice.description}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" fontFamily="Thiccboi">
+                    <Typography variant="body2" color="text.secondary">
                       💡 {practice.tip}
                     </Typography>
                   </Box>
@@ -260,12 +256,11 @@ const QuickTypeGuide: React.FC = () => {
         p: 4, 
         borderRadius: 2, 
         textAlign: 'center',
-        fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
       }}>
-        <Typography variant="h5" gutterBottom fontFamily="Thiccboi">
+        <Typography variant="h5" gutterBottom>
           Ready to Generate Types?
         </Typography>
-        <Typography variant="body1" paragraph fontFamily="Thiccboi">
+        <Typography variant="body1" paragraph>
           Explore our schemas and generate type-safe code for your preferred language.
         </Typography>
         <a 
@@ -276,7 +271,6 @@ const QuickTypeGuide: React.FC = () => {
             padding: '8px 16px',
             border: '1px solid currentColor',
             borderRadius: '4px',
-            fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
             display: 'inline-block',
             marginTop: '8px',
           }}

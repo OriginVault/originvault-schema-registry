@@ -156,7 +156,7 @@ afterAll(() => {
 export {};
 
 declare global {
-  // eslint-disable-next-line no-var
+   
   var testUtils: {
     mockSchema: any;
     mockSchemaContent: string;

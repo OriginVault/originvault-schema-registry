@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { Container, AppBar, Toolbar, Typography, Button, Box, ThemeProvider, CssBaseline } from '@mui/material'
 import { Brightness4, Brightness7 } from '@mui/icons-material'
+import { Analytics } from '@vercel/analytics/react'
 import Home from './pages/Home'
 import SchemaExplorer from './pages/SchemaExplorer'
 import SchemaResolver from './pages/SchemaResolver'
@@ -11,11 +12,13 @@ import Documentation from './pages/Documentation'
 import QuickType from './pages/QuickType'
 import QuickTypeGuide from './pages/QuickTypeGuide'
 import VerifiableCredentials from './pages/VerifiableCredentials'
+import VCGuide from './pages/VCGuide'
+import NotFound from './pages/NotFound'
+// import BreadcrumbNav from './components/BreadcrumbNav'
 import Footer from './components/Footer'
 import OpenGraphImage from './components/OpenGraphImage'
 import { lightTheme, darkTheme } from './theme'
-import './index.css'
-import NotFound from './pages/NotFound'
+// import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 // Fullscreen context
 interface FullscreenContextType {
@@ -81,7 +84,6 @@ const App: React.FC = () => {
                     ? 'linear-gradient(230deg, #1c2a35, black, #212831, #9c27b0, black)'
                     : 'linear-gradient(230deg, #c9b36d, #f5be6b, #ecadef, #add4ef, #5794b4, #5794b4)',
                   backgroundSize: '500% 500%',
-                  fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
                   color: currentTheme.palette.text.primary,
                 }}
               >
@@ -101,13 +103,12 @@ const App: React.FC = () => {
                         borderBottom: currentTheme.palette.mode === 'dark'
                           ? '1.5px solid #3a6278'
                           : '1.5px solid #c9b36d',
-                        fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
                         backgroundSize: '200% 200%',
                         backgroundPosition: '0% 50%',
                         transition: 'background-position 0.5s ease-in-out',
                       }}
                     >
-                      <Toolbar>
+                      <Toolbar sx={{ justifyContent: 'space-between' }}>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 1 }}> 
                           <Box sx={{ padding: '8px', backgroundColor: '#1c2a35', borderRadius: '10px' }}>
                             <img
@@ -122,7 +123,6 @@ const App: React.FC = () => {
                             component="div"
                             sx={{
                               flexGrow: 1,
-                              fontFamily: 'Thiccboi',
                               background: 'linear-gradient(45deg, #add4ef, #fe9334)',
                               backgroundClip: 'text',
                               WebkitBackgroundClip: 'text',
@@ -137,7 +137,6 @@ const App: React.FC = () => {
                           component={Link}
                           to="/"
                           sx={{
-                            fontFamily: 'Thiccboi',
                             color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1c2a35',
                             mx: 1,
                           }}
@@ -149,7 +148,6 @@ const App: React.FC = () => {
                           component={Link}
                           to="/documentation"
                           sx={{
-                            fontFamily: 'Thiccboi',
                             color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1c2a35',
                             mx: 1,
                           }}
@@ -161,7 +159,6 @@ const App: React.FC = () => {
                           component={Link}
                           to="/schemas"
                           sx={{
-                            fontFamily: 'Thiccboi',
                             color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1c2a35',
                             mx: 1,
                           }}
@@ -173,7 +170,6 @@ const App: React.FC = () => {
                           component={Link}
                           to="/quicktype"
                           sx={{
-                            fontFamily: 'Thiccboi',
                             color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1976d2',
                             mx: 1,
                           }}
@@ -185,7 +181,6 @@ const App: React.FC = () => {
                           component={Link}
                           to="/verifiable-credentials"
                           sx={{
-                            fontFamily: 'Thiccboi',
                             color: currentTheme.palette.mode === 'dark' ? '#add4ef' : '#1c2a35',
                             mx: 1,
                           }}
@@ -196,7 +191,6 @@ const App: React.FC = () => {
                           color="inherit"
                           onClick={toggleDarkMode}
                           sx={{
-                            fontFamily: 'Thiccboi',
                             color: '#fe9334',
                             ml: 2,
                             minWidth: 'auto',
@@ -223,7 +217,8 @@ const App: React.FC = () => {
                         <Route path="/context/:contextPath" element={<ContextResolver />} />
                         <Route path="/quicktype" element={<QuickType />} />
                         <Route path="/quicktype-guide" element={<QuickTypeGuide />} />
-                        <Route path="/verifiable-credentials" element={<VerifiableCredentials />} />
+                        <Route path="/verifiable-credentials" element={<VCGuide />} />
+                        <Route path="/verifiable-credentials/guide" element={<VCGuide />} />
                         <Route path="/verifiable-credentials/:tab" element={<VerifiableCredentials />} />
                         <Route path="/explorer" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
@@ -243,7 +238,8 @@ const App: React.FC = () => {
                         <Route path="/context/:contextPath" element={<ContextResolver />} />
                         <Route path="/quicktype" element={<QuickType />} />
                         <Route path="/quicktype-guide" element={<QuickTypeGuide />} />
-                        <Route path="/verifiable-credentials" element={<VerifiableCredentials />} />
+                        <Route path="/verifiable-credentials" element={<VCGuide />} />
+                        <Route path="/verifiable-credentials/guide" element={<VCGuide />} />
                         <Route path="/verifiable-credentials/:tab" element={<VerifiableCredentials />} />
                         <Route path="/explorer" element={<SchemaExplorer />} />
                         <Route path="/explorer/:schemaId" element={<SchemaExplorer />} />
@@ -259,6 +255,11 @@ const App: React.FC = () => {
               </div>
             } />
           </Routes>
+          
+          {/* Vercel Analytics - Only in production */}
+          {process.env.NODE_ENV === 'production' && (
+            <Analytics />
+          )}
         </Router>
       </FullscreenContext.Provider>
     </ThemeProvider>

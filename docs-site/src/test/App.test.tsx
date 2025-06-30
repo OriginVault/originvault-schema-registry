@@ -1,19 +1,21 @@
+import React from 'react';
+import '@testing-library/jest-dom';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
-import { createContext } from 'react';
 import App from '../App';
 import { lightTheme } from '../theme';
+import { BrowserRouter } from 'react-router-dom';
 
 // Create FullscreenContext for testing
 interface FullscreenContextType {
-  isFullscreen: boolean
-  setIsFullscreen: (value: boolean) => void
+  isFullscreen: boolean;
+  setIsFullscreen: (value: boolean) => void;
 }
 
-const FullscreenContext = createContext<FullscreenContextType | undefined>(undefined);
+const FullscreenContext = React.createContext<FullscreenContextType | undefined>(undefined);
 
 // Mock react-router-dom
 vi.mock('react-router-dom', () => ({

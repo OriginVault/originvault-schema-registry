@@ -27,12 +27,13 @@ import {
   Search as SearchIcon,
   GetApp as DownloadIcon,
   Code as CodeIcon,
-  Schema as SchemaIcon,
+  // Schema as SchemaIcon,
   PlayArrow as ValidateIcon,
   AutoFixHigh as GenerateIcon,
   Fullscreen as FullscreenIcon,
   FullscreenExit as FullscreenExitIcon,
-  Link as LinkIcon
+  Link as LinkIcon,
+  // Verified as VerifiedIcon
 } from '@mui/icons-material'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import CodeEditor from '../components/CodeEditor'
@@ -40,6 +41,8 @@ import SocialShare from '../components/SocialShare'
 import { schemaService, Schema } from '../services/schemaService'
 import { useFullscreen } from '../App'
 import { generateSchemaResolverUrl } from '../utils/urlUtils'
+
+/* global HTMLInputElement */
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -238,7 +241,22 @@ const SchemaExplorer: React.FC = () => {
         setSchemas(schemasArray)
         setFilteredSchemas(schemasArray)
         setCategories(categoriesArray)
-        setLanguages(schemaService.getLanguages())
+        
+        // Load languages with fallback
+        try {
+          const languagesArray = await schemaService.getLanguages()
+          setLanguages(languagesArray || [])
+        } catch (error) {
+          console.error('Failed to load languages, using fallback:', error)
+          setLanguages([
+            { id: 'typescript', name: 'TypeScript' },
+            { id: 'python', name: 'Python' },
+            { id: 'go', name: 'Go' },
+            { id: 'csharp', name: 'C#' },
+            { id: 'java', name: 'Java' },
+            { id: 'rust', name: 'Rust' }
+          ])
+        }
         
         // If using flat structure, set default category to 'all'
         if (registry.schemas && Array.isArray(registry.schemas) && !registry.categories) {
@@ -297,22 +315,17 @@ const SchemaExplorer: React.FC = () => {
   }
 
   const handleSchemaSelect = async (schema: Schema) => {
+    let needsLoad = !schema.content;
     try {
-      setLoading(true)
-      
+      if (needsLoad) setLoading(true);
       // Load the actual schema content if not already loaded
       if (!schema.content) {
         const schemaContent = await schemaService.loadSchemaFile(schema.metadata.file)
         schema.content = schemaContent
       }
-      
       setSelectedSchema(schema)
       setTabValue(0)
-      
-      // Update URL with selected schema
       updateURL({ schema: schema.id, tab: 0 })
-      
-      // Also update the dynamic type generator with this schema
       if (schema.content) {
         setSchemaInput(JSON.stringify(schema.content, null, 2))
         await generateTypesFromSchema(schema.content)
@@ -321,7 +334,7 @@ const SchemaExplorer: React.FC = () => {
       console.error('Error loading schema content:', error)
       setError('Failed to load schema content')
     } finally {
-      setLoading(false)
+      if (needsLoad) setLoading(false);
     }
   }
 
@@ -682,7 +695,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
           }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Typography variant="h6" component="h2" color="text.primary" fontFamily="Thiccboi">
+                <Typography variant="h6" component="h2" color="text.primary">
                   Schema Testing Tools
                 </Typography>
                 <Divider orientation="vertical" flexItem />
@@ -748,7 +761,13 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
             display: 'flex', 
             flexDirection: 'column',
             borderRadius: 2,
-            overflow: 'hidden'
+            overflow: 'hidden',
+            borderRight: { lg: '2px solid', xs: 'none' },
+            borderColor: theme.palette.divider,
+            bgcolor: theme.palette.mode === 'light'
+              ? theme.palette.grey[50]
+              : theme.palette.background.paper,
+            boxShadow: { lg: '2px 0 8px 0 rgba(0,0,0,0.04)', xs: 'none' }
           }}>
             {/* Fixed header */}
             <Box sx={{ 
@@ -850,14 +869,6 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                       />
                     </ListItemButton>
                   </ListItem>
-                  {/* Show schema JSON preview for selected schema */}
-                  {selectedSchema?.id === schema.id && selectedSchema.content && (
-                    <Box sx={{ px: 4, py: 1, bgcolor: theme.palette.mode === 'light' ? '#f5f5f5' : 'background.default', borderRadius: 1, mb: 1 }}>
-                      <pre style={{ fontSize: 12, maxHeight: 200, overflow: 'auto', margin: 0 }}>
-                        {JSON.stringify(selectedSchema.content, null, 2)}
-                      </pre>
-                    </Box>
-                  )}
                 </React.Fragment>
               ))}
             </List>
@@ -866,13 +877,20 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
 
         {/* Main Content Panel - Fixed height with proper structure */}
         <Grid item xs={12} lg={8}>
-          {selectedSchema ? (
+          {loading ? (
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+              <CircularProgress />
+            </Box>
+          ) : selectedSchema ? (
             <Paper sx={{ 
               height: isFullscreen ? '100%' : '700px', 
               display: 'flex', 
-              flexDirection: 'column',
-              borderRadius: 2,
-              overflow: 'hidden'
+              flexDirection: 'column', 
+              borderRadius: 2, 
+              overflow: 'hidden', 
+              boxShadow: 2, 
+              p: 3, 
+              bgcolor: 'background.paper' 
             }}>
               {/* Fixed header with schema info */}
               <Box sx={{ 
@@ -941,7 +959,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                   },
                   '& .Mui-selected': {
                     bgcolor: (theme) => theme.palette.mode === 'light' ? theme.palette.primary.light : theme.palette.primary.dark,
-                    color: (theme) => theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.primary.contrastText,
+                    color: (theme) => '#1c2a35 !important',
                     borderRadius: 2,
                     fontWeight: 'bold',
                     boxShadow: (theme) => theme.palette.mode === 'light' ? '0 2px 8px 0 rgba(0,0,0,0.04)' : undefined,
@@ -952,9 +970,9 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                     borderRadius: 2,
                   },
                 }}>
-                  <Tab label="JSON Schema" sx={{ fontFamily: 'Thiccboi' }} />
-                  <Tab label="Generated Code" sx={{ fontFamily: 'Thiccboi' }} />
-                  <Tab label="Dynamic Generator" sx={{ fontFamily: 'Thiccboi' }} />
+                  <Tab label="JSON Schema" />
+                  <Tab label="Generated Code" />
+                  <Tab label="Dynamic Generator" />
                 </Tabs>
               </Box>
 
@@ -997,16 +1015,17 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                     bgcolor: theme.palette.background.paper,
                   }}>
                     <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', flexWrap: 'wrap', mb: 2 }}>
-                      <Typography variant="subtitle2" sx={{ mr: 1 }} color="text.primary" fontFamily="Thiccboi">Language:</Typography>
+                      <Typography variant="subtitle2" sx={{ mr: 1 }} color="text.primary">
+                        Language:
+                      </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {languages.map((language) => (
+                        {Array.isArray(languages) && languages.map((language) => (
                           <Chip
                             key={language.id}
                             label={language.name}
                             color={selectedLanguage === language.id ? 'primary' : 'default'}
                             onClick={() => handleLanguageChange(language.id)}
                             size="small"
-                            sx={{ fontFamily: 'Thiccboi' }}
                           />
                         ))}
                       </Box>
@@ -1018,7 +1037,6 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                         size="small"
                         startIcon={<CodeIcon />}
                         onClick={handleCopyCode}
-                        sx={{ fontFamily: 'Thiccboi' }}
                       >
                         Copy
                       </Button>
@@ -1027,7 +1045,6 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                         size="small"
                         startIcon={<DownloadIcon />}
                         onClick={handleDownloadCode}
-                        sx={{ fontFamily: 'Thiccboi' }}
                       >
                         Download
                       </Button>
@@ -1272,32 +1289,7 @@ export function validate${interfaceName}(data: unknown): { valid: boolean; error
                 </TabPanel>
               </Box>
             </Paper>
-          ) : (
-            <Paper sx={{ 
-              height: isFullscreen ? '100%' : '700px', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              borderRadius: 2,
-              bgcolor: theme.palette.background.paper,
-              borderColor: theme.palette.divider,
-              fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
-            }}>
-              <Box textAlign="center" sx={{ maxWidth: 400, px: 4 }}>
-                <SchemaIcon sx={{ fontSize: 96, color: 'primary.main', mb: 3, opacity: 0.7 }} />
-                <Typography variant="h5" color="text.primary" gutterBottom fontWeight="medium" fontFamily="Thiccboi">
-                  Select a Schema to Get Started
-                </Typography>
-                <Typography variant="body1" color="text.secondary" paragraph fontFamily="Thiccboi">
-                  Choose a schema from the library to explore its structure, generate TypeScript types, 
-                  and test with sample data.
-                </Typography>
-                <Typography variant="body2" color="text.secondary" fontFamily="Thiccboi">
-                  💡 Use the search bar or category filters to find the schema you need
-                </Typography>
-              </Box>
-            </Paper>
-          )}
+          ) : null}
         </Grid>
       </Grid>
     </Box>

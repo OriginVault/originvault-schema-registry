@@ -1,3 +1,4 @@
+/* global MediaQueryListEvent, KeyboardEvent */
 import React, { useEffect, useState } from 'react';
 
 interface AccessibilityEnhancerProps {

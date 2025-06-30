@@ -12,11 +12,29 @@ import {
   CircularProgress,
   Tabs,
   Tab,
-  Paper
+  Paper,
+  // List,
+  // ListItem,
+  // ListItemText,
+  // ListItemSecondaryAction,
+  // IconButton,
+  // FormControlLabel,
+  // Switch
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import CodeIcon from '@mui/icons-material/Code';
-import VerifiedIcon from '@mui/icons-material/Verified';
+import {
+  Search as SearchIcon,
+  Verified as VerifiedIcon,
+  FileCopy as FileCopyIcon,
+  // Download as DownloadIcon,
+  // Delete as DeleteIcon
+} from '@mui/icons-material';
+import { schemaService } from '../services/schemaService';
+
+// Helper function to get API base URL
+const getApiBaseUrl = () => {
+
+  return (import.meta as any).env.VITE_API_URL || '/api';
+};
 
 const Explorer: React.FC = () => {
   const [schemas, setSchemas] = useState<any[]>([]);
@@ -33,11 +51,12 @@ const Explorer: React.FC = () => {
   useEffect(() => {
     const loadSchemas = async () => {
       try {
+        const apiBaseUrl = getApiBaseUrl();
         // Load from multiple sources as per ADR 0086
         const [originVaultSchemas, openVerifiableSchemas, difSchemas] = await Promise.all([
-          fetch('/api/schemas/originvault').then(r => r.json()),
-          fetch('/api/schemas/open-verifiable').then(r => r.json()),
-          fetch('/api/schemas/dif').then(r => r.json())
+          fetch(`${apiBaseUrl}/schemas/originvault`).then(r => r.json()),
+          fetch(`${apiBaseUrl}/schemas/open-verifiable`).then(r => r.json()),
+          fetch(`${apiBaseUrl}/schemas/dif`).then(r => r.json())
         ]);
 
         const allSchemas = [
@@ -80,7 +99,8 @@ const Explorer: React.FC = () => {
   // Real-time validation
   const validateTestData = async (schema: any, data: string) => {
     try {
-      const response = await fetch('/api/validate', {
+      const apiBaseUrl = getApiBaseUrl();
+      const response = await fetch(`${apiBaseUrl}/validate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ schema, data: JSON.parse(data) })
@@ -99,15 +119,9 @@ const Explorer: React.FC = () => {
   // Generate code using QuickType
   const generateCode = async (schema: any, language: string) => {
     try {
-      const response = await fetch('/api/quicktype/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ schema, language })
-      });
-      
-      const result = await response.json();
+      const code = await schemaService.generateQuickTypeCode(schema, language);
       // Open in new tab or download
-      const blob = new Blob([result.code], { type: 'text/plain' });
+      const blob = new Blob([code], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -318,7 +332,7 @@ const Explorer: React.FC = () => {
                         <Button
                           fullWidth
                           variant="outlined"
-                          startIcon={<CodeIcon />}
+                          startIcon={<FileCopyIcon />}
                           onClick={() => generateCode(selectedSchema, language.toLowerCase())}
                         >
                           {language}

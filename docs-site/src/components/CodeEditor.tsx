@@ -1,6 +1,20 @@
 import React, { useRef, useState } from 'react'
 import { Box, Typography, CircularProgress, Alert, useTheme } from '@mui/material'
-import Editor from '@monaco-editor/react'
+import Editor, { loader } from '@monaco-editor/react'
+
+// Disable Monaco workers to prevent CSP and worker errors
+loader.config({
+  'vs/nls': {
+    availableLanguages: {}
+  }
+})
+
+// Disable workers by setting them to null
+loader.config({
+  paths: {
+    vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs'
+  }
+})
 
 interface CodeEditorProps {
   value: string
@@ -114,6 +128,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         tabSize: 2,
         insertSpaces: true,
         detectIndentation: false,
+        // Disable workers to prevent CSP issues
+        workers: false,
         // Better scrolling behavior
         scrollbar: {
           vertical: 'visible',
@@ -129,7 +145,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       }, 100)
       
     } catch (error) {
-      console.error('Error configuring Monaco editor:', error)
+      // console.error('Error loading schema:', error);
       setMonacoError('Failed to configure editor')
     }
   }
@@ -151,7 +167,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         border: 1,
         borderColor: theme.palette.divider,
         borderRadius: 1,
-        fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
       }}>
         <CircularProgress size={24} />
       </Box>
@@ -163,7 +178,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       <Box sx={{ height, p: 2 }}>
         <Alert severity="error">
           {monacoError}
-          <Typography variant="body2" sx={{ mt: 1, fontFamily: 'Thiccboi' }}>
+          <Typography variant="body2" sx={{ mt: 1 }}>
             Falling back to simple text display...
           </Typography>
         </Alert>
@@ -194,7 +209,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       height, 
       width: '100%',
       position: 'relative',
-      fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
       '& .monaco-editor': {
         textAlign: 'left !important'
       },
@@ -215,7 +229,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
           fontSize: '12px',
           fontWeight: 'medium',
           color: theme.palette.text.secondary,
-          fontFamily: 'Thiccboi, Roboto, Helvetica, Arial, sans-serif',
         }}>
           {title}
         </Box>

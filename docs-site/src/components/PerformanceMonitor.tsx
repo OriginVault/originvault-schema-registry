@@ -22,24 +22,28 @@ export const PerformanceMonitor: React.FC<{ enabled?: boolean }> = ({ enabled = 
   useEffect(() => {
     if (!enabled) return
 
-    const now = Date.now()
-    const renderTime = now - lastRender.current
-    lastRender.current = now
+    try {
+      const now = Date.now()
+      const renderTime = now - lastRender.current
+      lastRender.current = now
 
-    renderTimes.current.push(renderTime)
-    if (renderTimes.current.length > 100) {
-      renderTimes.current.shift() // Keep only last 100 renders
+      renderTimes.current.push(renderTime)
+      if (renderTimes.current.length > 100) {
+        renderTimes.current.shift() // Keep only last 100 renders
+      }
+
+      const avgTime = renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length
+
+      setMetrics(prev => ({
+        renderCount: prev.renderCount + 1,
+        lastRenderTime: renderTime,
+        avgRenderTime: avgTime,
+        memoryUsage: (performance as any).memory?.usedJSHeapSize
+      }))
+    } catch (error) {
+      // console.error('Error measuring performance:', error);
     }
-
-    const avgTime = renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length
-
-    setMetrics(prev => ({
-      renderCount: prev.renderCount + 1,
-      lastRenderTime: renderTime,
-      avgRenderTime: avgTime,
-      memoryUsage: (performance as any).memory?.usedJSHeapSize
-    }))
-  })
+  }, [enabled])
 
   if (!enabled) return null
 
@@ -114,14 +118,12 @@ export const useRenderTracker = (componentName: string, props?: any) => {
     renderCount.current += 1
     
     if (process.env.NODE_ENV === 'development') {
-      console.log(`🔄 ${componentName} rendered ${renderCount.current} times`)
-      
       if (prevProps.current && props) {
         const changedProps = Object.keys(props).filter(
           key => prevProps.current[key] !== props[key]
         )
         if (changedProps.length > 0) {
-          console.log(`📝 Changed props:`, changedProps)
+          // Props changed, but no action needed
         }
       }
     }

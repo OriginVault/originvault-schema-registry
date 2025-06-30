@@ -1,3 +1,4 @@
+/* global ResizeObserver */
 import { useState, useEffect, useRef } from 'react'
 
 interface ElementSize {

@@ -1,16 +1,16 @@
 import { Box, Link, useTheme } from '@mui/material';
 import { SocialIcon } from 'react-social-icons';
-import { OVIdViewer } from '@originvault/ov-id-viewer';
+// import { OVIdViewer } from '@originvault/ov-id-viewer';
 import DIDViewer from './DIDViewer';
 
-interface OVIdViewerOptions {
-  data?: {
-    didDocument?: any;
-    didDocumentMetadata?: any;
-    [key: string]: any;
-  };
-  [key: string]: any;
-}
+// interface OVIdViewerOptions {
+//   data?: {
+//     didDocument?: any;
+//     didDocumentMetadata?: any;
+//     [key: string]: any;
+//   };
+//   [key: string]: any;
+// }
 
 const Footer = (props: { isDarkMode?: boolean }) => {
   const theme = useTheme();
@@ -70,19 +70,14 @@ const Footer = (props: { isDarkMode?: boolean }) => {
         marginBottom: '10px',
       }}>
         <Box sx={{ marginRight: "2px", marginTop: "1px" }}>
-          <OVIdViewer 
-            did="did:cheqd:mainnet:2b950252-b9cd-493f-98b8-fe417c466d55" 
-            render={(options: OVIdViewerOptions) => (
-              <DIDViewer 
-                isDarkMode={isDark}
-                didDocument={options?.data?.didDocument}
-                didDocumentMetadata={options?.data?.didDocumentMetadata}
-                backgroundColor={backgroundColor}
-                foregroundColor={foregroundColor}
-                textColor={textColor}
-              />
-            )}
-          />
+                  <DIDViewer 
+          isDarkMode={isDark}
+          didDocument={undefined}
+          didDocumentMetadata={undefined}
+          backgroundColor={backgroundColor}
+          foregroundColor={foregroundColor}
+          textColor={textColor}
+        />
         </Box>
         <SocialIcon 
           fgColor={backgroundColor} 
@@ -137,15 +132,19 @@ const Footer = (props: { isDarkMode?: boolean }) => {
           Privacy Policy
         </Link>
         <Link 
-          href='https://schemas.originvault.box' 
+          href='https://originvault.box' 
           sx={{ color: textColor, textDecoration: 'none', margin: '5px 10px 0 10px', '&:hover': { color: foregroundColor } }}
         >
-          Schema Registry
+          OriginVault.box
         </Link>
       </Box>
       
       <Box sx={{ padding: '16px 0', fontSize: '12px', color: textColor }}>
         &copy; 2025 OriginVault, LLC.
+      </Box>
+
+      <Box sx={{ padding: '16px 0', fontSize: '12px', color: textColor }}>
+        This project is open source. Contributions are welcome via pull requests on GitHub.
       </Box>
     </Box>
   );

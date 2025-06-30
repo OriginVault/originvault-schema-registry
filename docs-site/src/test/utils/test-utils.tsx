@@ -1,9 +1,10 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import '@testing-library/jest-dom';
 import React from 'react'
 import { render, RenderOptions, fireEvent } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import { vi } from 'vitest'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { expect } from 'vitest'
+import { lightTheme } from '../../theme'
 
 // Create a custom theme for testing
 const testTheme = createTheme({

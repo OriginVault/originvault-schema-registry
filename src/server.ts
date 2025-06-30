@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import { json, urlencoded } from 'body-parser';
-import quicktypeRouter from './routes/quicktype';
-import vcRouter from './routes/verifiable-credentials';
-import c2paRouter from './routes/c2pa';
-import trustRegistryRouter from './routes/trust-registry';
-import { graphqlHandler, graphqlSchema } from './api/graphql';
+import bodyParser from 'body-parser';
+import quicktypeRouter from './routes/quicktype.js';
+import vcRouter from './routes/verifiable-credentials.js';
+import c2paRouter from './routes/c2pa.js';
+import trustRegistryRouter from './routes/trust-registry.js';
+import { graphqlHandler, graphqlSchema } from './api/graphql.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,8 +16,8 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(json({ limit: '10mb' })); // Allow larger payloads for file uploads
-app.use(urlencoded({ extended: true, limit: '10mb' }));
+app.use(bodyParser.json({ limit: '10mb' })); // Allow larger payloads for file uploads
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -48,11 +48,11 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found' });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`OriginVault Schema Registry API server running on port ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
-  console.log(`QuickType API: http://localhost:${PORT}/api/quicktype`);
-});
+// Only start the server if this file is run directly (not imported)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  app.listen(PORT, () => {
+
+  });
+}
 
 export default app; 

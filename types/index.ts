@@ -3,9 +3,9 @@
  * Auto-generated from JSON schemas
  */
 
-export * from './Admin';
 export * from './AIConfig';
 export * from './AIModelTrainingAgreement';
+export * from './Admin';
 export * from './ClaimVerification';
 export * from './ClusterGovernance';
 export * from './ClusterRegistration';
@@ -18,12 +18,12 @@ export * from './ContentLegalAccountability';
 export * from './ContentLicensingAgreement';
 export * from './ContentLicensingTerms';
 export * from './Creator';
+export * from './DIDAssertionCredential';
+export * from './DIDDeclaration';
 export * from './DataChamberContributionAgreement';
 export * from './DataChamberEnrollment';
 export * from './Developer';
 export * from './DevelopmentEnvironmentMetadata';
-export * from './DIDAssertionCredential';
-export * from './DIDDeclaration';
 export * from './DigitalDocument';
 export * from './EndorsementRecord';
 export * from './ExternalBuyerAgreement';
@@ -64,9 +64,9 @@ export * from './ServiceLevelAgreement';
 export * from './StorageNodeDeclaration';
 export * from './TrustChainDelegation';
 export * from './TrustDelegation';
-export * from './TrustedIssuer';
 export * from './TrustGate';
 export * from './TrustScore';
+export * from './TrustedIssuer';
 export * from './TsconfigJson';
 export * from './VaultAdminAgreement';
 export * from './VaultChamberGovernance';

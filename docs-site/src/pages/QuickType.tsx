@@ -1,3 +1,4 @@
+/* global File, FileReader */
 import React, { useState, useCallback } from 'react';
 import {
   Box,
@@ -34,6 +35,7 @@ import {
   CheckCircle as CheckIcon
 } from '@mui/icons-material';
 import { useDropzone } from 'react-dropzone';
+import { schemaService } from '../services/schemaService';
 
 interface UploadedFile {
   name: string;
@@ -62,6 +64,7 @@ const QuickType: React.FC = () => {
   const [generating, setGenerating] = useState(false);
   const [results, setResults] = useState<GenerationResult[]>([]);
   const [activeTab, setActiveTab] = useState(0);
+  const [error, setError] = useState<string | null>(null);
 
   // File upload handling
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -122,9 +125,27 @@ const QuickType: React.FC = () => {
     setSelectedFiles(prev => prev.filter(fileId => fileId !== id));
   };
 
+  // Get file extension for target language
+  const getFileExtension = (language: string): string => {
+    const extensions: { [key: string]: string } = {
+      typescript: 'ts',
+      python: 'py',
+      go: 'go',
+      csharp: 'cs',
+      java: 'java',
+      rust: 'rs',
+      swift: 'swift',
+      kotlin: 'kt',
+      php: 'php',
+      ruby: 'rb'
+    };
+    return extensions[language] || 'txt';
+  };
+
   // Generate code using QuickType
   const generateCode = async () => {
     if (selectedFiles.length === 0) {
+      setError('Please select at least one file to process');
       return;
     }
 
@@ -132,24 +153,36 @@ const QuickType: React.FC = () => {
     try {
       const filesToProcess = uploadedFiles.filter(file => selectedFiles.includes(file.id));
       
-      const response = await fetch('/api/quicktype/generate-from-files', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          files: filesToProcess,
-          targetLanguage,
-          options: generateOptions
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Generation failed: ${response.statusText}`);
+      // Use schemaService for code generation
+      const results = [];
+      for (const file of filesToProcess) {
+        try {
+          // Handle different file types appropriately
+          let schema;
+          if (file.type === 'json-schema' || file.type === 'json') {
+            schema = JSON.parse(file.content);
+          } else {
+            // For TypeScript files, we need to extract the schema differently
+            // For now, skip TypeScript files that aren't valid JSON
+            throw new Error('TypeScript files need to be converted to JSON Schema first');
+          }
+          const code = await schemaService.generateQuickTypeCode(schema, targetLanguage);
+          results.push({
+            language: targetLanguage,
+            code: code,
+            filename: `${file.name.replace(/\.[^/.]+$/, '')}.${getFileExtension(targetLanguage)}`
+          });
+        } catch (error) {
+          console.error(`Failed to generate code for ${file.name}:`, error);
+          results.push({
+            language: targetLanguage,
+            code: `// Error generating code for ${file.name}: ${error}`,
+            filename: `${file.name.replace(/\.[^/.]+$/, '')}.${getFileExtension(targetLanguage)}`
+          });
+        }
       }
-
-      const responseData = await response.json();
-      // Handle the new API response format that returns an object with a results property
-      const resultsArray = responseData.results || responseData;
-      setResults(Array.isArray(resultsArray) ? resultsArray : []);
+      
+      setResults(results);
       setActiveTab(1); // Switch to results tab
     } catch (error) {
       console.error('Code generation failed:', error);
@@ -173,25 +206,22 @@ const QuickType: React.FC = () => {
   // Download all results as ZIP
   const downloadAllAsZip = async () => {
     try {
-      const response = await fetch('/api/quicktype/download-zip', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ results })
+      // Create a simple ZIP-like structure by combining all files
+      let combinedContent = '';
+      results.forEach(result => {
+        combinedContent += `\n\n// ${result.filename}\n`;
+        combinedContent += result.code;
       });
-
-      if (!response.ok) {
-        throw new Error('ZIP download failed');
-      }
-
-      const blob = await response.blob();
+      
+      const blob = new Blob([combinedContent], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `quicktype-generated-${Date.now()}.zip`;
+      a.download = `quicktype-generated-${Date.now()}.txt`;
       a.click();
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('ZIP download failed:', error);
+      console.error('Download failed:', error);
     }
   };
 
@@ -478,6 +508,8 @@ const QuickType: React.FC = () => {
           </Grid>
         </CardContent>
       </Card>
+
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
     </Box>
   );
 };

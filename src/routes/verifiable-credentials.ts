@@ -6,7 +6,7 @@ import {
   createVCTemplate,
   verifyPresentation,
   getContexts
-} from '../api/verifiable-credentials';
+} from '../api/verifiable-credentials.js';
 
 const router = express.Router();
 

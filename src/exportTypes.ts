@@ -27,7 +27,7 @@ async function exportSchemaTypes() {
   const schemas: SchemaExport[] = [];
   const files = fs.readdirSync(draftsDir).filter(f => f.endsWith('.json'));
 
-  console.log(`🔍 Found ${files.length} schema files in ${draftsDir}`);
+
 
   // Generate types for each schema
   for (const file of files) {
@@ -36,7 +36,7 @@ async function exportSchemaTypes() {
     const name = path.basename(file, '.json');
     const typeName = name.charAt(0).toUpperCase() + name.slice(1);
 
-    console.log(`📝 Processing ${file} -> ${typeName}`);
+
 
     try {
       // Generate TypeScript interface
@@ -204,9 +204,7 @@ export function isMultiRootEnabled(data: any): boolean {
 
   fs.writeFileSync(path.join(outputDir, 'bff-integration.ts'), bffIntegrationContent);
   
-  console.log(`✅ Exported ${schemas.length} schema types to ${outputDir}/`);
-  console.log('📋 Available schemas:', schemas.map(s => s.name).join(', '));
-  console.log('🔗 Generated BFF integration helpers');
+
 }
 
 function generateSchemaHash(schema: any): string {

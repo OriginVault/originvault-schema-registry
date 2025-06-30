@@ -132,7 +132,7 @@ function deduplicateSchemas(schemas: CredentialSchema[]): CredentialSchema[] {
       const preferredSchema = selectPreferredSchema(schemaGroup);
       deduplicatedSchemas.push(preferredSchema);
       
-      console.log(`📋 Deduplicated ${baseName}: Selected "${preferredSchema.title}" from ${schemaGroup.length} variants`);
+
     }
   }
 

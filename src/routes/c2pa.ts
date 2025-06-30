@@ -6,7 +6,7 @@ import {
   getProvenanceChain,
   getProvenance,
   createDerivative
-} from '../api/c2pa';
+} from '../api/c2pa.js';
 
 const router = express.Router();
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* global require, module */
 
 const fs = require('fs');
 const chalk = require('chalk');
